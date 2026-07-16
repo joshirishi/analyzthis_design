@@ -53,7 +53,7 @@ Read from `~/.cursor/skills/design-reference/` to name specific design values in
 
 | File | When to read |
 |---|---|
-| `styles.csv` | Always — match the product's visual style, then pull `Effects & Animation` timing and `Implementation Checklist` values |
+| `styles.csv` | Always — apply the filter below before reading; pull `Effects & Animation` timing and `Implementation Checklist` values from the matched rows only |
 | `colors.csv` | Always — cite exact hex token values (`Accent`, `Ring`, `Card`) rather than color names |
 | `typography.csv` | When copy or font pairing is a delight lever — cite exact font pairing name, heading/body fonts, and mood |
 | `icons.csv` | When an icon micro-interaction is the delight moment — cite exact `Import Code` and `Usage` from the Phosphor catalog |
@@ -61,4 +61,13 @@ Read from `~/.cursor/skills/design-reference/` to name specific design values in
 | `landing.csv` | When evaluating a landing or onboarding surface — cite `Recommended Effects` for that layout pattern |
 | `google-fonts.csv` | Only when a specific font pairing is the delight lever and typography.csv doesn't have a match |
 
+**styles.csv filter (apply before reading — do not read the full file):**
+1. Filter rows where `Best_For` contains the product type from session context (e.g. "SaaS", "B2B", "Analytics", "E-commerce")
+2. From that filtered set, keep only rows where `Performance` = "High" or "Very High"
+3. If the surface is high-frequency (daily use), additionally filter by `Accessibility` = "WCAG AA" or "WCAG AAA"
+4. Take the top 3 matching rows maximum — do not read beyond them
+5. Pull `Style_Name`, `Effects_Animation`, `Timing_ms`, and `Tailwind_Classes` from those rows
+
 **How to use:** After identifying the ONE delight moment, pull the exact animation timing (ms), token values, and component names from the relevant reference files. Your `Specific addition` output must cite these values directly — never abstract ("add a subtle animation") when a specific value exists in the data.
+
+**Citation format:** `[filename, row N: "exact quoted value"]` — e.g. `[styles.csv, row 14: "Glassmorphism — Effects: backdrop-blur(20px), Timing: 300ms ease-out"]`

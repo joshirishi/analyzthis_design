@@ -39,6 +39,22 @@ Each persona's SKILL.md specifies which files to read and when. Personas do NOT 
 
 **Reading rule:** Read the CSV, extract the rows relevant to the product type / stack / style in the session context, and use that data to ground your output in specific, named values rather than abstract advice.
 
+## Citation format (mandatory for all personas)
+
+Every time you cite a value from a reference file, use this format inline:
+
+```
+[filename, row N: "exact quoted value from the relevant column"]
+```
+
+**Examples:**
+- `[ux-guidelines.csv, row 22: "Minimum 44×44px touch targets — Severity: High"]`
+- `[ui-reasoning.csv, row 6: "Financial Dashboard — must_have: real-time-updates, must_have: high-contrast"]`
+- `[styles.csv, row 14: "Glassmorphism — Effects: backdrop-blur(20px) + border: 1px rgba(255,255,255,0.2)"]`
+- `[stacks/shadcn.csv, row 8: "DataTable — supports column visibility toggle and row selection"]`
+
+**Never cite abstractly.** "Add a 44px touch target" is wrong. `[ux-guidelines.csv, row 22: "Minimum 44×44px — Severity: High"]` is correct. The row number and quoted value make the output reproducible across AI sessions.
+
 ---
 
 ## Reference paths (after install)

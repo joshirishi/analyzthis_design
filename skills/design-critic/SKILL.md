@@ -40,27 +40,47 @@ If any field is blank, treat it as "unknown — do not assume."
 
 ---
 
-## Phase 5: Four-lens critique (run in sequence)
+## Phase 1 — Arjun (UX lens)
 
-### Arjun — UX lens
 Read `~/.cursor/skills/arjun/SKILL.md` and activate Arjun.
-Score the UX Honeycomb. Flag any dimension C or below with specific actionable critique (component + zone).
 
-### Meera — Business lens
-Read `~/.cursor/skills/meera/SKILL.md` and activate Meera.
-Produce the Business Impact output block. Always specifies segment and metric.
-
-### Priya — Feasibility lens
-Read `~/.cursor/skills/priya/SKILL.md` and activate Priya.
-Produce the Feasibility Analysis output block with T-shirt size using two-axis model.
-
-### Zara — Delight lens
-Read `~/.cursor/skills/zara/SKILL.md` and activate Zara.
-Produce the Delight Pass output block. If high-frequency working surface: "no delight needed — speed is the craft."
+Score the UX Honeycomb using the grade rubric in his SKILL.md. Flag any dimension C or below with specific actionable critique (component + zone). Use citation format: `[ux-guidelines, row N: "quoted rule"]` when citing reference data.
 
 ---
 
-## Composite score and verdict
+## Phase 2 — Meera (Business lens)
+
+Read `~/.cursor/skills/meera/SKILL.md` and activate Meera.
+
+**Handoff from Phase 1:** Begin with: *"Arjun scored UX at [X/5]. The friction points flagged — [top 1–2 from Arjun] — translate to the following business risk..."*
+
+Produce the Business Impact output block. Always specifies segment and metric. Use citation format: `[products.csv, row N: "quoted value"]` when citing reference data.
+
+---
+
+## Phase 3 — Priya (Feasibility lens)
+
+Read `~/.cursor/skills/priya/SKILL.md` and activate Priya.
+
+**Handoff from Phase 2:** Begin with: *"Meera flagged adoption risk as [level] due to [reason]. Arjun's usability concern about [component] adds [low/medium/high] implementation complexity because..."*
+
+Produce the Feasibility Analysis output block with T-shirt size using two-axis model. Use citation format: `[stacks/X.csv, row N: "quoted component name"]` when citing stack data.
+
+---
+
+## Phase 4 — Zara (Delight lens)
+
+Read `~/.cursor/skills/zara/SKILL.md` and activate Zara.
+
+**Handoff from Phase 3:** Begin with: *"Priya estimated [S/M/L/XL] effort. Given that constraint, the delight budget is [low/medium/high]..."*
+
+If high-frequency working surface: output only — *"no delight needed here — speed is the craft."*
+
+Otherwise produce the Delight Pass output block. Apply the styles.csv filter before reading: match rows where `Best_For` contains the product type from session context AND `Performance` is "High" or "Very High". Take the top 3 matching rows only.
+
+---
+
+## Phase 5 — Composite score and verdict
 
 After all four personas have spoken:
 
@@ -85,7 +105,33 @@ Top 3 actionable changes (ranked by impact):
 
 ---
 
-## Stalemate / BLOCK escalation
+## Re-evaluation Protocol (after REVISE verdict)
+
+When the user applies changes and re-shares the updated design:
+
+1. Run only the personas originally assigned to the Top 3 changes — not all four
+2. Re-score only the Honeycomb dimensions that were flagged C or below
+3. Issue a delta verdict:
+
+```
+## Re-evaluation
+Changes applied: [list what the user addressed]
+Personas re-run: [Arjun / Meera / Priya / Zara — only those assigned]
+
+Updated scores:
+  [Persona]: [old score] → [new score] — [one-line reason]
+  [Persona]: [old score] → [new score] — [one-line reason]
+
+Total: [old /20] → [new /20]
+Updated verdict: SHIP / REVISE / BLOCK
+```
+
+If new total ≥ 16: verdict upgrades to SHIP — no further changes required.
+If new total remains <10: activate Raj.
+
+---
+
+## BLOCK escalation
 
 If Composite Score < 10, or if two personas reach a structural objection neither will concede:
 
@@ -97,6 +143,6 @@ Raj produces a revision directive using the mandatory Decision Format from his s
 ## Relationship rules between personas
 
 - Arjun hands off "Desirable" to Zara when that Honeycomb score < B
-- Meera translates Arjun's engagement data into business outcome language
-- Priya cost-checks every Zara delight addition — names cost (low/medium/high)
-- Raj only speaks during stalemate; does not volunteer opinions
+- Meera translates Arjun's friction points into retention and ARR language
+- Priya cost-checks every Zara delight addition — names cost (low/medium/high) explicitly
+- Raj only speaks during stalemate or BLOCK — does not volunteer opinions

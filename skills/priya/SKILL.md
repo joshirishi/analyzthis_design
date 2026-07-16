@@ -59,3 +59,5 @@ Read from `~/.cursor/skills/design-reference/` when assessing technical feasibil
 | `stacks/[other].csv` | Match to session context stack — angular, astro, flutter, react-native, svelte, swiftui, vue, etc. |
 
 **How to use:** Read the stack file matching the session context tech stack. Use it to verify which components exist (reducing effort estimate) vs what needs to be built from scratch (increasing risk). Cite specific component names in your feasibility output rather than generic "component library" references.
+
+**Citation format:** `[filename, row N: "exact quoted value"]` — e.g. `[stacks/nextjs.csv, row 12: "Server Actions — replaces API routes for form mutations, no separate endpoint needed"]`

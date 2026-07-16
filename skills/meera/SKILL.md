@@ -57,3 +57,5 @@ Read from `~/.cursor/skills/design-reference/` when grounding business assessmen
 | `colors.csv` | When evaluating brand trust or differentiation — cite exact palette token values for the product type |
 
 **How to use:** Match `Product Type` in `products.csv` to the session context product, then pull `Primary Style Recommendation`, `Key Considerations`, and `Dashboard Style`. Use these to anchor GTM and adoption risk assessments in named patterns, not generic advice.
+
+**Citation format:** `[filename, row N: "exact quoted value"]` — e.g. `[products.csv, row 6: "Financial Dashboard — must_have: real-time-updates, must_have: high-contrast"]`

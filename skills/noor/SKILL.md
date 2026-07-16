@@ -70,3 +70,5 @@ Read from `~/.cursor/skills/design-reference/` when naming components and patter
 | `stacks/shadcn.csv` | When design system is ShadCN — name exact existing components in your wireframe output |
 
 **How to use:** When naming a component in your Concept A text wireframe, check `stacks/shadcn.csv` (or the relevant stack file) first. If the component exists, use its exact name. Never propose a net-new component when an existing one covers the need.
+
+**Citation format:** `[filename, row N: "exact quoted value"]` — e.g. `[stacks/shadcn.csv, row 8: "DataTable — supports column visibility toggle and row selection"]`

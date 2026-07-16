@@ -72,3 +72,5 @@ Read from `~/.cursor/skills/design-reference/` to ground power-user critique in 
 | `stacks/shadcn.csv` | When design system is ShadCN — confirm that DataTable, Command, and bulk-action components exist before specifying them |
 
 **How to use:** When auditing a surface for power-user gaps, read `ux-guidelines.csv` and filter by `Category` = "Navigation", "Interaction", or "Data Table". Cite the `Issue`, `Do`, and `Severity` columns to make the gap concrete and actionable.
+
+**Citation format:** `[filename, row N: "exact quoted value"]` — e.g. `[ux-guidelines.csv, row 22: "Minimum 44×44px touch targets — Severity: High"]`
