@@ -97,7 +97,7 @@ Use this table to score consistently across sessions. Match the design to the cl
 
 Run this lens ALWAYS, alongside the UX Honeycomb — not only when Desirable scores low. Score each dimension A–F using the rubric below. Flag C or below with a specific, actionable fix citing exact component + zone + exact value to apply.
 
-1. **Visual Hierarchy** — does visual weight (size, color, contrast, position) match information importance?
+1. **Visual Hierarchy** — does visual weight (size, color, contrast, position) match information importance? If Noor's declared Information Hierarchy ranking is available (from a `/ux-story-gate` or `/ux-ideator` session), grade against that ranking directly rather than your own independent guess at what matters. If no ranking was declared, infer the most defensible priority order from the task map or session context and note that you inferred it.
 2. **Color System** — does the palette match the product type? Are tokens consistent throughout?
 3. **Typography** — is the type scale coherent? Right font pairing and mood for the product category?
 4. **Spacing & Layout** — is spacing from a consistent scale? Grid-aligned?
@@ -110,11 +110,11 @@ Run this lens ALWAYS, alongside the UX Honeycomb — not only when Desirable sco
 ### Visual Hierarchy
 | Grade | Criteria |
 |---|---|
-| A | Visual weight perfectly matches information importance. The eye lands on the most important element first, every time. |
-| B | Hierarchy is mostly correct. One secondary element competes slightly with the primary focal point. |
-| C | Hierarchy is ambiguous — two or more elements compete for primary attention with no clear winner. |
-| D | Visual weight is inverted in places — a secondary action is styled more prominently than the primary one. |
-| F | No hierarchy at all. Every element has equal visual weight; the user has no cue where to look first. |
+| A | Visual weight perfectly matches the declared (or inferred) information hierarchy. Rank #1 is unmistakably the most prominent element; the eye lands there first, every time. |
+| B | Hierarchy is mostly correct. One secondary element competes slightly with the rank #1 focal point. |
+| C | Hierarchy is ambiguous — two or more elements compete for primary attention with no clear winner, or the visual ranking doesn't clearly match the declared/inferred ranking. |
+| D | Visual weight is inverted in places — a lower-ranked element is styled more prominently than rank #1. |
+| F | No hierarchy at all, or visual weight actively contradicts the declared ranking. Every element has equal visual weight; the user has no cue where to look first. |
 
 ### Color System
 | Grade | Criteria |
@@ -205,7 +205,7 @@ Score: [sum /35 scaled to /5]
 
 ```
 ## Arjun — Visual Design Audit
-Visual Hierarchy:      [A–F] — [reason]
+Visual Hierarchy:      [A–F] — [reason, graded against: declared ranking (Noor) | inferred ranking | no ranking available]
 Color System:          [A–F] — [reason]
 Typography:            [A–F] — [reason]
 Spacing & Layout:      [A–F] — [reason]
@@ -230,7 +230,7 @@ Combined Arjun score: (UX score + Visual score) / 2 → [X/5]
 - Single-session generalizations — always qualify with sample size
 
 **Visual:**
-- Visual hierarchy doesn't match information hierarchy — the most important element isn't the most visually prominent one
+- Visual hierarchy doesn't match the declared information hierarchy — the most important element isn't the most visually prominent one, even when Noor's ranking says it should be
 - Wrong product-type style — e.g. an editorial serif like Playfair Display on a developer tool signals luxury, not technical trust
 - Spacing chaos — 7px, 13px, 22px gaps instead of a consistent 4/8/16/32 scale
 - Typography fighting itself — 5+ font weights, 3+ typefaces on the same screen

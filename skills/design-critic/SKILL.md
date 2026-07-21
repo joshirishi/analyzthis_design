@@ -1,6 +1,6 @@
 ---
 name: design-critic
-description: Run a structured multi-persona design critique with 4 specialist agents — Arjun (UX), Meera (Business), Priya (Feasibility), Zara (Delight). Use when you want a rigorous, multi-dimensional review of a screen, flow, feature design, or UI mockup. Returns a Composite Score, verdict (SHIP/REVISE/BLOCK), and ranked action items.
+description: Run a structured multi-persona design critique with 4 specialist agents — Arjun (UX + Visual), Meera (Business), Priya (Feasibility), Zara (Delight). Includes an Information Hierarchy Gate that surfaces hierarchy failures regardless of composite score. Use when you want a rigorous, multi-dimensional review of a screen, flow, feature design, or UI mockup. Returns a Composite Score, verdict (SHIP/REVISE/BLOCK), and ranked action items.
 ---
 
 # Design Critic
@@ -105,6 +105,27 @@ Top 3 actionable changes (ranked by impact):
 
 ---
 
+## Information Hierarchy Gate
+
+Run this check immediately after Phase 5, before the re-evaluation protocol or BLOCK escalation. Information hierarchy failures are treated like accessibility failures — they bypass the composite score math because a screen that leads with the wrong thing is broken regardless of how well everything else scores.
+
+Check both signals:
+1. **Arjun's Visual Hierarchy dimension** (from the Visual Design Audit) — did it score C or below?
+2. **Meera's Hierarchy check line** (from the Business Impact block) — did rank #1 on screen fail to match the north-star driver?
+
+```
+## Information Hierarchy Gate
+Arjun's Visual Hierarchy grade: [A–F]
+Meera's Hierarchy check: [matches / does not match]
+Gate status: [PASS / FAIL]
+```
+
+**If either signal fails:** the hierarchy issue is inserted into the Top 3 actionable changes automatically, even if it would not otherwise have ranked in the top 3 by score impact. State explicitly: *"Inserted by the Information Hierarchy Gate — this bypasses normal ranking because [Arjun / Meera] flagged a hierarchy failure."*
+
+**If both signals pass:** no gate action needed, proceed normally.
+
+---
+
 ## Re-evaluation Protocol (after REVISE verdict)
 
 When the user applies changes and re-shares the updated design:
@@ -124,10 +145,11 @@ Updated scores:
 
 Total: [old /20] → [new /20]
 Updated verdict: SHIP / REVISE / BLOCK
+Information Hierarchy Gate: [PASS / FAIL — re-check if it was previously FAIL]
 ```
 
-If new total ≥ 16: verdict upgrades to SHIP — no further changes required.
-If new total remains <10: activate Raj.
+If new total ≥ 16 AND the Information Hierarchy Gate passes: verdict upgrades to SHIP — no further changes required.
+If new total remains <10, or the Information Hierarchy Gate still fails: activate Raj.
 
 ---
 
@@ -146,4 +168,5 @@ Raj produces a revision directive using the mandatory Decision Format from his s
 - Zara adds exactly ONE delight moment on top of Arjun's visual foundation — she does not re-audit visual quality
 - Meera translates Arjun's friction points into retention and ARR language
 - Priya cost-checks every Zara delight addition — names cost (low/medium/high) explicitly
-- Raj only speaks during stalemate or BLOCK — does not volunteer opinions
+- Raj only speaks during stalemate, BLOCK, or a persistent Information Hierarchy Gate failure — does not volunteer opinions
+- Information hierarchy is a cross-cutting priority, not a single persona's dimension — Arjun grades the visual execution of it, Meera checks it against the north-star metric, and the gate enforces that a failure on either signal cannot be outscored by strong performance elsewhere
