@@ -35,8 +35,25 @@
     },
     "verify_results": {
       "primary_task": "pass | fail | not_run",
-      "screenshots": ["string — file paths"]
+      "screenshots": ["string — file paths"],
+      "reason": "string — why not_run, when applicable (e.g. 'assess_only, no URL')"
     },
-    "mode": "assess_only | build_approved"
+    "mode": "assess_only | build_approved",
+    "digest": {
+      "task_map_summary": "string — short summary passed to persona calls instead of the full task_map/persona_outputs history",
+      "hierarchy_top3": ["string — top 3 ranked hierarchy items, if declared"],
+      "ds_at_risk": ["string — ds_checklist keys currently at risk"],
+      "experts": ["string — persona ids selected for this run"],
+      "prior_scores": { "<persona_id>": "number | string — last known score for delta re-evaluation" },
+      "mode": "assess_only | build_approved"
+    },
+    "metrics": {
+      "llm_calls": "number — persona calls made in the last run",
+      "experts_run": ["string — persona ids actually executed"],
+      "input_tokens_est": "number — estimated input tokens across the last run",
+      "output_tokens_est": "number — estimated output tokens across the last run",
+      "cache_hits": "number — retrieve/cache hits during the last run",
+      "mode": "lite | full"
+    }
   }
 }

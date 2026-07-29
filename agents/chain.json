@@ -1,27 +1,44 @@
 {
-  "description": "Default sequential graph for a full multi-persona critique (design-critic). The MoE router in router.json can select a subset of this chain for narrower asks instead of running it end to end.",
+  "description": "Default sequential graph for a full multi-persona critique (design-critic). The MoE router in router.json selects a smaller subset of this chain by default; only run this full chain for an explicit full-screen review.",
+  "default_expert_budget": 2,
   "default_chain": [
-    { "step": 1, "persona": "arjun",  "handoff_from": null,     "handoff_to": "meera" },
-    { "step": 2, "persona": "meera",  "handoff_from": "arjun",  "handoff_to": "priya" },
-    { "step": 3, "persona": "priya",  "handoff_from": "meera",  "handoff_to": "zara" },
-    { "step": 4, "persona": "zara",   "handoff_from": "priya",  "handoff_to": null }
+    { "step": 1, "persona": "arjun",  "handoff_from": null,     "handoff_to": "meera",  "parallel_safe_with": [] },
+    { "step": 2, "persona": "meera",  "handoff_from": "arjun",  "handoff_to": "priya",  "parallel_safe_with": ["priya"] },
+    { "step": 3, "persona": "priya",  "handoff_from": "meera",  "handoff_to": "zara",   "parallel_safe_with": ["meera"] },
+    { "step": 4, "persona": "zara",   "handoff_from": "priya",  "handoff_to": null,     "parallel_safe_with": [] }
   ],
   "ideation_chain": [
-    { "step": 1, "persona": "meera", "handoff_to": ["noor", "anuj"] },
-    { "step": 2, "persona": "noor",  "handoff_from": "meera", "handoff_to": "arjun" },
-    { "step": 2, "persona": "anuj",  "handoff_from": "meera", "handoff_to": "arjun" },
-    { "step": 3, "persona": "arjun", "handoff_from": ["noor", "anuj"], "handoff_to": "zara" },
-    { "step": 4, "persona": "zara",  "handoff_from": "arjun", "handoff_to": "priya" },
-    { "step": 5, "persona": "priya", "handoff_from": "zara",  "handoff_to": "raj" },
-    { "step": 6, "persona": "raj",   "handoff_from": "priya", "handoff_to": null }
+    { "step": 1, "persona": "meera", "handoff_to": ["noor", "anuj"], "parallel_safe_with": [] },
+    { "step": 2, "persona": "noor",  "handoff_from": "meera", "handoff_to": "arjun", "parallel_safe_with": ["anuj"] },
+    { "step": 2, "persona": "anuj",  "handoff_from": "meera", "handoff_to": "arjun", "parallel_safe_with": ["noor"] },
+    { "step": 3, "persona": "arjun", "handoff_from": ["noor", "anuj"], "handoff_to": "zara", "parallel_safe_with": [] },
+    { "step": 4, "persona": "zara",  "handoff_from": "arjun", "handoff_to": "priya", "parallel_safe_with": [] },
+    { "step": 5, "persona": "priya", "handoff_from": "zara",  "handoff_to": "raj", "parallel_safe_with": [] },
+    { "step": 6, "persona": "raj",   "handoff_from": "priya", "handoff_to": null, "parallel_safe_with": [] }
   ],
+  "tiers": {
+    "router": null,
+    "extract": { "provider": "openai", "model": "gpt-4o-mini" },
+    "structured": { "provider": "openai", "model": "gpt-4o-mini" },
+    "critique": { "provider": "anthropic", "model": "claude-sonnet-4-20250514" },
+    "arbitrate": { "provider": "anthropic", "model": "claude-sonnet-4-20250514" }
+  },
+  "max_output_tokens": {
+    "structured": 900,
+    "critique": 1800,
+    "arbitrate": 1200
+  },
   "gates": [
-    { "name": "ds_gate", "runs": "before persona chain (ux-story-gate Phase 0.5)" },
+    { "name": "ds_gate", "runs": "before persona chain (ux-story-gate Phase 0.5); on failure, chain stops after arjun_color_system_only" },
     { "name": "information_hierarchy_gate", "runs": "after persona chain, before re-evaluation/BLOCK escalation" },
-    { "name": "verify_gate", "runs": "after persona chain, before synthesis (ux-story-gate Phase 4.5)" }
+    { "name": "verify_gate", "runs": "after persona chain, before synthesis (ux-story-gate Phase 4.5); skipped (not_run) when assess_only with no URL" }
   ],
   "escalation": {
     "condition": "stalemate or BLOCK verdict from any persona",
     "route_to": "raj"
+  },
+  "re_evaluation": {
+    "mode": "delta_only",
+    "description": "On any follow-up after REVISE, re-run only the persona(s) assigned to the prior Top 3 actionable changes — never the full chain. See design-critic Re-evaluation Protocol."
   }
 }

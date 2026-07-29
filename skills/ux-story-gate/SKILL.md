@@ -159,7 +159,9 @@ Never assume a task map. Never infer tasks from the screen description alone. If
 
 > "Routing to **Arjun** — Task 2 has an unresolved contrast risk (DS Gate item 'at risk'). **Zara excluded** — delight is out of scope until the DS Gate clears."
 
-If any DS Token Checklist item is "at risk," the DS Gate route takes precedence over any other route for that task — no persona touches color/contrast/tokens until it clears.
+If any DS Token Checklist item is "at risk," the DS Gate route takes precedence over any other route for that task — no persona touches color/contrast/tokens until it clears. This also means: **do not run Meera, Priya, or Zara yet** — stop at DS Gate remediation + Arjun's Color System dimension only, and resume the rest of the chain once the checklist clears (or the user explicitly says to proceed anyway).
+
+**Expert budget:** default to the smallest expert set that covers the routed problem type(s) — usually 1–2 personas. Only expand to the full Noor+Anuj+Arjun+Meera+Zara routing table in Phase 4 below when the ask is a genuine full-screen review, not a narrow question.
 
 ---
 
@@ -271,6 +273,8 @@ Run this after the persona chain completes, before Phase 5 synthesis:
 If verification fails, loop back: flag the specific broken step, do not proceed to Phase 5 synthesis until it's fixed or explicitly deferred by the user.
 
 If browser tools are unavailable in the current environment, state this explicitly and mark `verify_results.primary_task: "not_run"` — do not silently skip the gate.
+
+**Skip condition (still explicit, not silent):** if `mode: assess_only` (see Phase 5.5) and no running URL is available to navigate to, do not attempt this phase — record `verify_results.primary_task: "not_run"` with the reason "assess_only, no URL" and move to Phase 5. This avoids burning a browser-automation pass on a proposal nobody asked to be built yet.
 
 ---
 

@@ -1,7 +1,7 @@
 {
   "name": "analyzthis_design",
-  "version": "1.8.0",
-  "description": "7 AI design personas with an agentic MoE orchestrator — UX critique, ideation, session state, and cross-platform skills for Cursor, Claude, and Codex.",
+  "version": "1.9.0",
+  "description": "7 AI design personas with an agentic MoE orchestrator — UX critique, ideation, session state, cost-efficient orchestration, and cross-platform skills for Cursor, Claude, and Codex.",
   "keywords": [
     "cursor",
     "cursor-skill",
@@ -14,7 +14,9 @@
     "design-critic",
     "ux-ideator",
     "persona-orchestrator",
-    "moe"
+    "moe",
+    "cost-optimization",
+    "lora"
   ],
   "author": "Rishikesh Joshi",
   "license": "MIT",

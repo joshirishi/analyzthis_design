@@ -2,6 +2,10 @@
   "id": "arjun",
   "role": "ux_visual",
   "system_skill": "skills/arjun/SKILL.md",
+  "system_card": "agents/cards/arjun.md",
+  "tier": "critique",
+  "max_output_tokens": 1800,
+  "parallel_safe_with": [],
   "inputs": ["task_map", "session_context", "ds_checklist", "figma_context", "information_hierarchy"],
   "outputs": ["ux_critique", "visual_audit", "combined_score"],
   "allowed_tools": ["design-reference", "browser_verify", "figma_mcp"],
@@ -21,5 +25,12 @@
   "handoff_from": ["noor"],
   "handoff_to": ["meera"],
   "requires_session_state": true,
-  "hard_gates": ["ds_gate", "information_hierarchy_gate"]
+  "hard_gates": ["ds_gate", "information_hierarchy_gate"],
+  "scoped_modes": {
+    "arjun_color_system_only": {
+      "description": "Restricted scope used on DS Gate early-exit: only Color System + Typography contrast dimensions from the Visual Design Audit run, not the full Honeycomb + Visual Audit.",
+      "dimensions": ["color_system", "typography_contrast"],
+      "max_output_tokens": 700
+    }
+  }
 }

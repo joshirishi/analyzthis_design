@@ -67,7 +67,7 @@ Invoke directly for targeted, already-grounded questions. For full screen evalua
 
 ---
 
-## Agentic system (v1.8)
+## Agentic system (v1.9)
 
 ```
 User ask / Figma URL
@@ -76,11 +76,11 @@ User ask / Figma URL
         ↓
   ux-story-gate Phases 0–1.5 (PRD + DS/Figma + MoE router)
         ↓
-  MoE subset OR design-critic / ideation chain
+  MoE subset (default, 1–2 experts) OR design-critic / ideation chain (explicit "full")
         ↓
-  Hard gates: DS tokens → Information Hierarchy → Browser verify
+  Hard gates: DS tokens → Information Hierarchy → Browser verify (skipped if assess_only + no URL)
         ↓
-  Session state persisted  →  SHIP / REVISE / BLOCK
+  Session state + cost metrics persisted  →  SHIP / REVISE / BLOCK
 ```
 
 **Shared session state** lives at `~/.analyzthis_design/sessions/{project-id}/session-state.json` so Ask→Agent turns do not re-derive the task map, DS checklist, or routing decision.
@@ -107,16 +107,30 @@ agents/
 # Print routing only (no API calls)
 npx analyzthis_design run --task "Fix contrast on landing page" --dry-run
 
-# Call Anthropic / OpenAI per persona step
+# Call Anthropic / OpenAI per persona step (MoE subset, lite schema — the default)
 export ANTHROPIC_API_KEY=sk-...
 npx analyzthis_design run --task "Review this screen" --figma https://figma.com/... --provider anthropic
+
+# Force the full design-critic chain, or bypass the router entirely
+npx analyzthis_design run --task "Full critique of onboarding" --full
+npx analyzthis_design run --task "Just check spacing" --experts arjun
 ```
 
 Provider defaults live in `~/.analyzthis_design/config.json`:
 
 ```json
 {
-  "orchestrator": { "provider": "anthropic", "model": "claude-sonnet-4-20250514" },
+  "orchestrator": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-20250514",
+    "mode": "lite",
+    "tiers": {
+      "structured": { "provider": "openai", "model": "gpt-4o-mini" },
+      "critique":   { "provider": "anthropic", "model": "claude-sonnet-4-20250514" },
+      "arbitrate":  { "provider": "anthropic", "model": "claude-sonnet-4-20250514" }
+    },
+    "max_tokens": { "structured": 900, "critique": 1800, "arbitrate": 1200 }
+  },
   "research": { "provider": "https://example.com/search?q={query}" }
 }
 ```
@@ -129,6 +143,43 @@ npx analyzthis_design research --query "EY design system tokens"
 ```
 
 Writes to `~/.analyzthis_design/sessions/{id}/web-context.md` and merges into the knowledge bank on `sync`.
+
+---
+
+## Efficiency & cost (v1.9)
+
+The orchestrator defaults to the cheapest path that still respects every gate — fewer expert calls, shorter prompts, cheaper models where judgment isn't required, and on-disk caching.
+
+```
+Ask → session digest → MoE router (1–2 experts, not 4) → persona cards (not full skills)
+    → retrieve-on-demand CSV rows (not whole files) → model tier by step → caches → cost metrics
+```
+
+| Lever | Default behavior |
+|---|---|
+| **Expert budget** | 1–2 personas per ask. Full `design-critic` chain only runs for an explicit "full critique" or `full_screen_review`. |
+| **Early DS exit** | Any "at risk" DS Token Checklist item stops the chain at `arjun_color_system_only` — Meera/Priya/Zara wait until it clears. |
+| **Delta re-evaluation** | A follow-up after REVISE re-runs only the personas assigned to the prior Top 3 changes, never the full chain. |
+| **Persona cards** | `agents/cards/<persona>.md` (~500 tokens) are the default system prompt; the full `skills/<persona>/SKILL.md` is only opened for a C-or-below rubric lookup or an explicit deep/full request. |
+| **Lite output schema** | Grades + Top 2 fixes + score, by default. Deep/full schema is opt-in. |
+| **Retrieve-on-demand** | `npx analyzthis_design retrieve --file colors.csv --column "Product Type" --keywords saas` returns only matching rows, pre-formatted for citation — never the whole CSV. |
+| **Model tiers** | `structured` steps can run on a cheaper model (e.g. `gpt-4o-mini`); `critique`/`arbitrate` steps use a stronger model. Configurable per tier in `~/.analyzthis_design/config.json`. |
+| **Caching** | `lib/cache.js` caches retrieve results (invalidated automatically when the source CSV changes) and knowledge-bank slices (invalidated on `sync` / `session reset`). |
+| **Cost metrics** | Every `run` records `metrics` (llm_calls, experts_run, estimated tokens, cache_hits) into session state. |
+
+```bash
+npx analyzthis_design metrics                 # last run's cost summary for this project
+npx analyzthis_design metrics --all           # across every project
+```
+
+**LoRA readiness (export hook only — no training in this release):**
+
+```bash
+npx analyzthis_design session accept --persona arjun     # mark the last output as a good example
+npx analyzthis_design export-training --persona arjun --all
+```
+
+Writes `{ system_card, digest, user, assistant }` JSONL pairs to `~/.analyzthis_design/training/<persona>.jsonl` from every session where that persona's output was explicitly accepted. Once a persona accumulates ~100–300 accepted pairs, that data is ready for a future fine-tuning pass on an open model — not part of this package yet.
 
 ---
 
@@ -187,13 +238,22 @@ npx analyzthis_design status
 
 # Session (agentic)
 npx analyzthis_design session init|show|reset [--project id] [--all]
+npx analyzthis_design session accept --persona <id> [--reject]
 
 # Research
 npx analyzthis_design research --url <url>
 npx analyzthis_design research --query <text>
 
+# Reference data (retrieve-on-demand)
+npx analyzthis_design retrieve --file <csv> --column <col> --keywords a,b [--limit N]
+
 # Standalone orchestrator
 npx analyzthis_design run --task "..." [--figma URL] [--provider anthropic|openai] [--dry-run] [--output path]
+npx analyzthis_design run --task "..." [--lite | --full] [--experts a,b]
+
+# Efficiency / cost
+npx analyzthis_design metrics [--project id] [--all]
+npx analyzthis_design export-training --persona <id> [--project id] [--all] [--output path]
 ```
 
 ---
@@ -202,13 +262,17 @@ npx analyzthis_design run --task "..." [--figma URL] [--provider anthropic|opena
 
 ```
 agents/                 Portable MoE graph (manifests, router, chain, session schema)
+  cards/                Short per-persona system prompts (~500 tokens each)
 bin/cli.js              CLI entry point
 lib/
   install.js            Skill installation
   knowledge.js          Vault sync + web-context merge
-  session.js            Shared session-state.json
+  session.js            Shared session-state.json (+ digest, metrics, accept flag)
   research.js           URL / query → web-context.md
-  orchestrator/run.js   Standalone LLM runtime (v2)
+  retrieve.js           Filtered, citation-ready CSV row retrieval
+  cache.js              On-disk cache for retrieve/kb slices
+  export.js             LoRA training-pair export hook
+  orchestrator/run.js   Standalone LLM runtime (v2) — MoE, tiers, caps, cache-aware
 scripts/obfuscate.js    Build step → dist/
 skills/
   persona-orchestrator/ Agentic entry point

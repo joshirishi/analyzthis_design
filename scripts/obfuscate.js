@@ -12,6 +12,9 @@ const FILES = [
   ['lib/knowledge.js',        'dist/lib/knowledge.js'],
   ['lib/session.js',          'dist/lib/session.js'],
   ['lib/research.js',         'dist/lib/research.js'],
+  ['lib/retrieve.js',         'dist/lib/retrieve.js'],
+  ['lib/cache.js',            'dist/lib/cache.js'],
+  ['lib/export.js',           'dist/lib/export.js'],
   ['lib/orchestrator/run.js', 'dist/lib/orchestrator/run.js'],
 ];
 
