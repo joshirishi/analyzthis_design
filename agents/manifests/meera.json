@@ -1,0 +1,23 @@
+{
+  "id": "meera",
+  "role": "business",
+  "system_skill": "skills/meera/SKILL.md",
+  "inputs": ["task_map", "session_context", "arjun_output", "information_hierarchy"],
+  "outputs": ["business_impact", "hierarchy_metric_check"],
+  "allowed_tools": ["design-reference"],
+  "allowed_jobs": [
+    "north-star metric impact assessment",
+    "segment / GTM / retention analysis",
+    "check that rank #1 on screen matches the actual business-critical driver"
+  ],
+  "forbidden_jobs": [
+    "visual or UX critique (route to Arjun)",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["business_priority", "pricing", "access_control", "monetization", "retention"],
+  "never_route_for": ["visual_quality", "ia_structure"],
+  "chain_position": 3,
+  "handoff_from": ["arjun"],
+  "handoff_to": ["priya"],
+  "requires_session_state": true
+}

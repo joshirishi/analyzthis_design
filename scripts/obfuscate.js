@@ -7,9 +7,12 @@ const path = require('path');
 
 // Files to obfuscate: [source, destination]
 const FILES = [
-  ['bin/cli.js',         'dist/bin/cli.js'],
-  ['lib/install.js',     'dist/lib/install.js'],
-  ['lib/knowledge.js',   'dist/lib/knowledge.js'],
+  ['bin/cli.js',              'dist/bin/cli.js'],
+  ['lib/install.js',          'dist/lib/install.js'],
+  ['lib/knowledge.js',        'dist/lib/knowledge.js'],
+  ['lib/session.js',          'dist/lib/session.js'],
+  ['lib/research.js',         'dist/lib/research.js'],
+  ['lib/orchestrator/run.js', 'dist/lib/orchestrator/run.js'],
 ];
 
 const OPTIONS = {

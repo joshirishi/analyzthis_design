@@ -126,6 +126,12 @@ Gate status: [PASS / FAIL]
 
 ---
 
+## Browser Verify Gate (post-phase)
+
+After the Information Hierarchy Gate and before declaring SHIP, if a running URL is available, run the same steps as `ux-story-gate` Phase 4.5: navigate → snapshot → click the primary task → screenshot at mobile + desktop. Record results in session state (`verify_results`). Do not declare SHIP if the primary interaction is broken. If browser tools are unavailable, mark `verify_results.primary_task: "not_run"` explicitly.
+
+---
+
 ## Re-evaluation Protocol (after REVISE verdict)
 
 When the user applies changes and re-shares the updated design:

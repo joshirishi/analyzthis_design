@@ -1,6 +1,6 @@
 ---
 name: ux-story-gate
-description: Task-first gate and router for screen evaluation. Discovers PRDs and user stories from your knowledge bank and repo before routing to Noor (IA), Anuj (power-user), and Arjun (UX). No task map = no critique. The right entry point for any screen review.
+description: Task-first gate and router for screen evaluation. Discovers PRDs and user stories from your knowledge bank and repo, runs a design-system/Figma discovery pass and an MoE routing decision, then routes to Noor (IA), Anuj (power-user), and Arjun (UX). Ends with a browser verify gate and an assess-only mode check. No task map = no critique. The right entry point for any screen review.
 ---
 
 # UX Story Gate
@@ -68,6 +68,44 @@ If the user has a vault but hasn't synced it:
 
 ---
 
+## Phase 0.5 — Design System & Figma Discovery (GATE)
+
+**Purpose:** No persona touches brand color, contrast, or component styling before the design system is on the table. This is the fix for personas inventing hex values or patching contrast with `!important`.
+
+### 0.5a — Figma discovery (if a Figma URL is present in the ask)
+
+If the user shared a `figma.com` URL, this is **mandatory before any persona speaks**:
+1. Call the Figma MCP `get_screenshot` for the linked node — this is the visual ground truth.
+2. Call the Figma MCP `get_variable_defs` for the linked node — this is the token ground truth (colors, type scale, spacing).
+3. Write both to session state (`figma_node.url`, `figma_node.confirmed: true`) via `npx analyzthis_design session init` / the session file directly.
+
+If no Figma URL is present, proceed without this step and note `figma_node.confirmed: false`.
+
+### 0.5b — Brand / design-system tokens
+
+Read the `## Brand & Design Guidelines` section of the knowledge bank (`~/.cursor/skills/knowledge-bank/SKILL.md` or platform equivalent).
+
+- **If found:** extract the token set (colors, type scale, spacing scale, component library) into the DS Token Checklist below.
+- **If missing:** flag it and ask the user directly:
+
+> "I don't see brand or design-system tokens in the knowledge bank. Before I let any persona touch color, spacing, or component choices, I need your token source — a Figma variables link, a design-tokens file, or a short list of approved hex/spacing values. Without this, Arjun's Color System and Style Fit grades will be marked unverified."
+
+### 0.5c — DS Token Checklist (exit criteria for this phase)
+
+Output before proceeding, and re-check it after any visual fix is proposed:
+
+```
+## DS Token Checklist
+No invented hex / no !important overrides:     [ ] confirmed / [ ] at risk
+Kit components preferred over custom CSS:      [ ] confirmed / [ ] at risk
+Light/dark surfaces sourced from tokens only:  [ ] confirmed / [ ] at risk
+Contrast checked against WCAG:                 [cite ux-guidelines row, or "not yet checked"]
+```
+
+Persist this to `session-state.json` (`ds_checklist`). Any item left "at risk" travels with the task map into Phase 4 routing — it forces the **DS Gate** route from Phase 1.5, not a direct Zara or Noor-alone pass.
+
+---
+
 ## Phase 1 — Task Map Intake (GATE)
 
 **Used when Phase 0 finds no context, or to supplement what was found.**
@@ -96,6 +134,32 @@ FAILS WHEN: [the user knows something went wrong because...]
 > Once I have these, I'll route to the right personas grounded in your tasks — not abstract principles."
 
 Never assume a task map. Never infer tasks from the screen description alone. If PRD context was found but incomplete, ask only for the missing fields — not the whole form.
+
+---
+
+## Phase 1.5 — Problem-Type Router (MoE)
+
+**Purpose:** Pick the right expert(s) for the problem, not the loudest persona for the screen type. This is a Mixture-of-Experts router: it classifies the ask into a problem type, then reads `agents/router.json` to select which personas run and which are explicitly excluded.
+
+1. Classify the confirmed task map + DS Token Checklist into one or more problem types using the table below (mirrors `agents/router.json`):
+
+| Problem signal | Route to | Never route to |
+|---|---|---|
+| Structure / IA / nested UI | **Noor** | Zara |
+| UX friction / accessibility / responsive | **Arjun** | Zara for contrast fixes |
+| Brand / tokens / contrast / DS compliance | **DS Gate** then Arjun Color System only | Zara, Noor alone |
+| Business priority / metric alignment | **Meera** | — |
+| Build size / modal vs wizard | **Priya** | — |
+| Delight / onboarding peak moment | **Zara** (only after DS Gate passes) | — |
+| Daily-use density / bulk actions | **Anuj** (only if Frequency = daily/weekly) | — |
+| Stalemate / BLOCK | **Raj** | — |
+
+2. Write the routing decision to `session-state.json` (`routing_decision: { problem_type, experts, reason }`) — e.g. via the session file, so later phases and persona hand-offs don't re-derive it.
+3. Announce the decision in one line per persona:
+
+> "Routing to **Arjun** — Task 2 has an unresolved contrast risk (DS Gate item 'at risk'). **Zara excluded** — delight is out of scope until the DS Gate clears."
+
+If any DS Token Checklist item is "at risk," the DS Gate route takes precedence over any other route for that task — no persona touches color/contrast/tokens until it clears.
 
 ---
 
@@ -158,7 +222,7 @@ Can proceed with undefined states, but mark them explicitly as gaps that will su
 
 ## Phase 4 — Persona Routing
 
-**Purpose:** Select the right personas for the task map, not for the screen type.
+**Purpose:** Select the right personas for the task map, not for the screen type. This refines the Phase 1.5 MoE decision down to per-task assignments.
 
 Read the confirmed task map and route based on task characteristics:
 
@@ -187,6 +251,29 @@ Each persona receives:
 
 ---
 
+## Phase 4.5 — Verify Gate (Browser Automation)
+
+**Purpose:** No screen is declared done on the strength of a critique alone. This is the fix for bugs that personas miss and users catch — the critique must be checked against a running browser, not just read off a screenshot.
+
+Run this after the persona chain completes, before Phase 5 synthesis:
+
+1. **Navigate** to the screen under review (`browser_navigate`).
+2. **Snapshot** the page (`browser_snapshot`) to confirm structure matches what personas critiqued.
+3. **Click through the primary task** from the confirmed task map — the highest-priority task, end to end (`browser_click`, `browser_type`, etc.).
+4. **Screenshot** at both mobile and desktop viewports.
+5. Record the result in `session-state.json` (`verify_results: { primary_task: "pass" | "fail", screenshots: [...] }`).
+
+**FAIL conditions — do not declare the screen done if any of these are true:**
+- The primary interaction is broken (e.g. state cycling incorrectly, stuck loading, dead click)
+- Modal/dialog roles are missing or focus is not trapped
+- Contrast visibly fails at either viewport despite the DS Gate marking it "confirmed"
+
+If verification fails, loop back: flag the specific broken step, do not proceed to Phase 5 synthesis until it's fixed or explicitly deferred by the user.
+
+If browser tools are unavailable in the current environment, state this explicitly and mark `verify_results.primary_task: "not_run"` — do not silently skip the gate.
+
+---
+
 ## Phase 5 — Synthesis Output
 
 After all routed personas complete their critiques, synthesise into a Task × Finding table:
@@ -212,6 +299,20 @@ End with a build-ready verdict:
 
 ---
 
+## Phase 5.5 — Assess-Only Mode
+
+**Purpose:** Fix the "Ask/Agent double spend" failure — a user who asked for an assessment should not wake up to code changes they didn't approve.
+
+Check the original ask for intent before writing or editing any code:
+
+- If the user's language was **assess / propose / critique / review / what's wrong / evaluate**: this is `assess_only` mode. Output stops at the Phase 5 synthesis and the proposed fixes. Set `session-state.json` (`mode: "assess_only"`). Do not touch code.
+- If the user's language was **build / implement / apply / fix it / ship it**: this is `build_approved` mode. Proceed to implement the P0/P1 fixes from the synthesis table. Set `mode: "build_approved"`.
+- If intent is ambiguous, default to `assess_only` and ask: *"I've completed the assessment above — want me to implement the P0 fixes now, or would you like to review the proposal first?"*
+
+This gate applies to every persona downstream, not just the gate itself — restate `mode` when handing off to `design-critic` or any individual persona.
+
+---
+
 ## Trigger phrases
 
 Use this skill when you see:
@@ -229,7 +330,7 @@ Use this skill when you see:
 - **Not a persona.** No design opinion of its own.
 - **Not a PRD generator.** Does not write stories. Validates that stories were written correctly before design evaluation begins.
 - **Not a replacement for the personas.** Noor, Anuj, and Arjun still run in full. This ensures they run on the right input.
-- **Not optional.** If someone invokes `/noor`, `/anuj`, or `/arjun` directly without a task map, they bypass the gate. Use this as the entry point for any screen evaluation.
+- **Not optional.** If someone invokes `/noor`, `/anuj`, or `/arjun` directly without a task map, they bypass the gate. Use this as the entry point for any screen evaluation. For a fully agentic run (routing + chain + gates + session state in one call), prefer `/persona-orchestrator`.
 
 ---
 
@@ -239,3 +340,10 @@ Use this skill when you see:
 - `~/.cursor/skills/anuj/SKILL.md`
 - `~/.cursor/skills/arjun/SKILL.md`
 - `~/.cursor/skills/knowledge-bank/SKILL.md` (for Phase 0 PRD discovery)
+
+## Agentic layer this depends on
+
+- `agents/router.json` — MoE routing table used in Phase 1.5
+- `agents/session-schema.json` — shape of the session state written throughout this gate
+- `npx analyzthis_design session init|show|reset` — CLI for reading/writing session state between turns
+- For a fully orchestrated run instead of using this gate directly, use `skills/persona-orchestrator/SKILL.md`

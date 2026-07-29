@@ -1,0 +1,21 @@
+{
+  "id": "design-critic",
+  "role": "orchestrator",
+  "system_skill": "skills/design-critic/SKILL.md",
+  "inputs": ["task_map", "session_context", "figma_context", "ds_checklist"],
+  "outputs": ["composite_score", "task_finding_table", "verdict"],
+  "allowed_tools": ["design-reference", "browser_verify", "figma_mcp"],
+  "allowed_jobs": [
+    "run the full persona chain (Arjun -> Meera -> Priya -> Zara) for a full screen review",
+    "enforce the Information Hierarchy Gate",
+    "escalate to Raj on stalemate/BLOCK"
+  ],
+  "forbidden_jobs": [
+    "run without a completed ux-story-gate pass",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["full_screen_review", "multi_persona_critique"],
+  "chain": ["arjun", "meera", "priya", "zara"],
+  "escalates_to": "raj",
+  "requires_session_state": true
+}

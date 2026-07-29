@@ -1,0 +1,24 @@
+{
+  "id": "noor",
+  "role": "information_architect",
+  "system_skill": "skills/noor/SKILL.md",
+  "inputs": ["task_map", "session_context", "figma_context"],
+  "outputs": ["concept_a_wireframe", "information_hierarchy"],
+  "allowed_tools": ["design-reference"],
+  "allowed_jobs": [
+    "declare ranked information hierarchy",
+    "propose minimalist IA / progressive disclosure structure",
+    "produce Concept A wireframe"
+  ],
+  "forbidden_jobs": [
+    "brand token recovery",
+    "contrast / accessibility fixes (route to Arjun)",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["structure", "ia", "navigation", "nested_ui", "wizard", "form"],
+  "never_route_for": ["brand", "contrast", "design_system_compliance"],
+  "chain_position": 1,
+  "handoff_from": [],
+  "handoff_to": ["arjun", "anuj"],
+  "requires_session_state": true
+}

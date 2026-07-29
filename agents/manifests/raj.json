@@ -1,0 +1,22 @@
+{
+  "id": "raj",
+  "role": "arbitrator",
+  "system_skill": "skills/raj/SKILL.md",
+  "inputs": ["session_context", "persona_outputs"],
+  "outputs": ["arbitration_verdict"],
+  "allowed_tools": ["design-reference"],
+  "allowed_jobs": [
+    "resolve stalemates between personas using the 5 product principles",
+    "issue final SHIP / REVISE / BLOCK when personas disagree"
+  ],
+  "forbidden_jobs": [
+    "run when there is no stalemate or BLOCK condition",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["stalemate", "block", "conflicting_verdicts"],
+  "never_route_for": ["routine_single_persona_critique"],
+  "chain_position": 6,
+  "handoff_from": ["zara", "arjun", "meera", "priya", "noor", "anuj"],
+  "handoff_to": [],
+  "requires_session_state": true
+}

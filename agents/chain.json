@@ -1,0 +1,27 @@
+{
+  "description": "Default sequential graph for a full multi-persona critique (design-critic). The MoE router in router.json can select a subset of this chain for narrower asks instead of running it end to end.",
+  "default_chain": [
+    { "step": 1, "persona": "arjun",  "handoff_from": null,     "handoff_to": "meera" },
+    { "step": 2, "persona": "meera",  "handoff_from": "arjun",  "handoff_to": "priya" },
+    { "step": 3, "persona": "priya",  "handoff_from": "meera",  "handoff_to": "zara" },
+    { "step": 4, "persona": "zara",   "handoff_from": "priya",  "handoff_to": null }
+  ],
+  "ideation_chain": [
+    { "step": 1, "persona": "meera", "handoff_to": ["noor", "anuj"] },
+    { "step": 2, "persona": "noor",  "handoff_from": "meera", "handoff_to": "arjun" },
+    { "step": 2, "persona": "anuj",  "handoff_from": "meera", "handoff_to": "arjun" },
+    { "step": 3, "persona": "arjun", "handoff_from": ["noor", "anuj"], "handoff_to": "zara" },
+    { "step": 4, "persona": "zara",  "handoff_from": "arjun", "handoff_to": "priya" },
+    { "step": 5, "persona": "priya", "handoff_from": "zara",  "handoff_to": "raj" },
+    { "step": 6, "persona": "raj",   "handoff_from": "priya", "handoff_to": null }
+  ],
+  "gates": [
+    { "name": "ds_gate", "runs": "before persona chain (ux-story-gate Phase 0.5)" },
+    { "name": "information_hierarchy_gate", "runs": "after persona chain, before re-evaluation/BLOCK escalation" },
+    { "name": "verify_gate", "runs": "after persona chain, before synthesis (ux-story-gate Phase 4.5)" }
+  ],
+  "escalation": {
+    "condition": "stalemate or BLOCK verdict from any persona",
+    "route_to": "raj"
+  }
+}

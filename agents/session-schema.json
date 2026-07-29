@@ -1,0 +1,42 @@
+{
+  "description": "Shape of session-state.json, persisted per project so Ask/Agent turns and persona hand-offs never re-derive context that was already gathered.",
+  "path": "~/.analyzthis_design/sessions/{project-id}/session-state.json",
+  "shape": {
+    "project_id": "string — derived from cwd or explicit --project flag",
+    "created_at": "ISO 8601 timestamp",
+    "updated_at": "ISO 8601 timestamp",
+    "task_map": [
+      {
+        "task": "string — primary user task",
+        "frequency": "daily | weekly | monthly | one_time",
+        "priority": "string"
+      }
+    ],
+    "figma_node": { "url": "string", "confirmed": "boolean" },
+    "content_sources": ["string — e.g. ppt, docx, prd, figma"],
+    "ds_checklist": {
+      "no_invented_hex": "boolean | null",
+      "no_important_overrides": "boolean | null",
+      "kit_components_preferred": "boolean | null",
+      "light_dark_from_tokens_only": "boolean | null",
+      "contrast_checked_against_wcag": "boolean | null"
+    },
+    "information_hierarchy": {
+      "declared_by": "noor | undeclared",
+      "ranking": ["string — rank #1 first"]
+    },
+    "routing_decision": {
+      "problem_type": "string — from agents/router.json",
+      "experts": ["string — persona ids"],
+      "reason": "string"
+    },
+    "persona_outputs": {
+      "<persona_id>": "object — structured output block per agents/manifests/<persona_id>.json"
+    },
+    "verify_results": {
+      "primary_task": "pass | fail | not_run",
+      "screenshots": ["string — file paths"]
+    },
+    "mode": "assess_only | build_approved"
+  }
+}

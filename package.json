@@ -1,7 +1,7 @@
 {
   "name": "analyzthis_design",
-  "version": "1.7.0",
-  "description": "7 AI design personas for Cursor — run structured UX critiques and ideation sessions with Arjun (UX), Meera (Business), Priya (Feasibility), Zara (Delight), Noor (IA), Anuj (Power-User), and Raj (Arbitrator).",
+  "version": "1.8.0",
+  "description": "7 AI design personas with an agentic MoE orchestrator — UX critique, ideation, session state, and cross-platform skills for Cursor, Claude, and Codex.",
   "keywords": [
     "cursor",
     "cursor-skill",
@@ -12,7 +12,9 @@
     "ux",
     "design",
     "design-critic",
-    "ux-ideator"
+    "ux-ideator",
+    "persona-orchestrator",
+    "moe"
   ],
   "author": "Rishikesh Joshi",
   "license": "MIT",
@@ -22,6 +24,7 @@
   "files": [
     "dist/",
     "skills/",
+    "agents/",
     "README.md"
   ],
   "scripts": {

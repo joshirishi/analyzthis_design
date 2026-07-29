@@ -1,0 +1,17 @@
+{
+  "id": "persona-orchestrator",
+  "role": "entry_point",
+  "system_skill": "skills/persona-orchestrator/SKILL.md",
+  "inputs": ["user_ask", "figma_url"],
+  "outputs": ["session_state", "task_finding_table", "verdict"],
+  "allowed_tools": ["design-reference", "figma_mcp", "browser_verify", "knowledge-bank"],
+  "allowed_jobs": [
+    "single entry point for agentic runs: load router + session, run ux-story-gate, execute chain or MoE subset, run gates, synthesize verdict"
+  ],
+  "forbidden_jobs": [
+    "bypass ux-story-gate phases 0-1.5",
+    "implement code without explicit build approval (respect assess-only mode)"
+  ],
+  "reads": ["agents/router.json", "agents/chain.json", "agents/session-schema.json"],
+  "requires_session_state": true
+}

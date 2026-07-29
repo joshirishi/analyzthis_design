@@ -6,6 +6,9 @@ const os   = require('os');
 const fs   = require('fs');
 const { install, remove, SKILLS, TARGET_DIRS } = require('../lib/install');
 const { connect, disconnect, sync, status }     = require('../lib/knowledge');
+const session = require('../lib/session');
+const research = require('../lib/research');
+const { run: orchestratorRun } = require('../lib/orchestrator/run');
 
 const HELP = `
 Analyzthis_Design — 7 AI design personas with a personal knowledge bank
@@ -24,12 +27,34 @@ Usage:
   disconnect Remove a source from the registry
   status     Show connected sources and last sync time
 
+── Session commands (agentic orchestrator) ──────────────────
+  session init    Create a fresh session-state.json for this project
+  session show    Print the current session-state.json
+  session reset   Delete the session state for this project (--all for every project)
+
+── Research commands ────────────────────────────────────────
+  research --url <url>       Fetch a URL and append to session web-context.md
+  research --query <text>    Search stub (or provider) appended to web-context.md
+
+── Orchestrator (standalone runtime) ────────────────────────
+  run --task <text>          MoE route + persona chain via LLM API (or --dry-run)
+
 ── Options ──────────────────────────────────────────────────
   --target   AI tool: cursor | claude | codex | all  (default: cursor)
   --force    Overwrite existing skills on install
   --vault    Path to Obsidian vault or markdown folder (connect command)
   --tags     Comma-separated tags to filter by, e.g. design,brand,ux
   --include  Comma-separated sub-folder names to include, e.g. Design,Brand
+  --project  Project id override for session/research/run commands (default: derived from cwd)
+  --all      With "session reset", clear every project's session state
+  --url      URL to fetch (research command)
+  --query    Search query (research command)
+  --task     Task description (run command)
+  --figma    Figma URL (run command)
+  --provider anthropic | openai (run command; default from config or anthropic)
+  --model    Model override (run command)
+  --dry-run  Print routing + chain without calling any LLM (run command)
+  --output   Write final session-state.json to this path (run command)
   --help     Show this help message
 
 ── Examples ─────────────────────────────────────────────────
@@ -43,6 +68,16 @@ Usage:
   npx analyzthis_design sync --target all                  # sync to all tools
   npx analyzthis_design status                             # show sources
   npx analyzthis_design disconnect --vault ~/Documents/MyVault
+
+  npx analyzthis_design session init                       # start a new session for this repo
+  npx analyzthis_design session show                       # inspect current session state
+  npx analyzthis_design session reset                       # clear session state for this repo
+
+  npx analyzthis_design research --url https://example.com/design-tokens
+  npx analyzthis_design research --query "EY design system tokens"
+
+  npx analyzthis_design run --task "Fix contrast on landing page" --dry-run
+  npx analyzthis_design run --task "Review this screen" --figma https://figma.com/... --provider anthropic
 
 ── Install paths ────────────────────────────────────────────
   Cursor  → ~/.cursor/skills/
@@ -73,6 +108,16 @@ const targetVal  = getFlag('target') || 'cursor';
 const vaultVal   = getFlag('vault');
 const tagsVal    = getFlag('tags');
 const includeVal = getFlag('include');
+const projectVal = getFlag('project');
+const allFlag    = flags.includes('--all');
+const urlVal     = getFlag('url');
+const queryVal   = getFlag('query');
+const taskVal    = getFlag('task');
+const figmaVal   = getFlag('figma');
+const providerVal = getFlag('provider');
+const modelVal   = getFlag('model');
+const outputVal  = getFlag('output');
+const dryRunFlag = flags.includes('--dry-run');
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 
@@ -169,6 +214,91 @@ switch (cmd) {
       if (cfg.lastSync) console.log(`\n  Last sync: ${cfg.lastSync}`);
       console.log('');
     }
+    break;
+  }
+
+  // ── Session (agentic orchestrator) ──────────────────────────────────────
+
+  case 'session': {
+    const sub = flags.find(f => !f.startsWith('--'));
+    switch (sub) {
+      case 'init': {
+        const { projectId, filePath } = session.init({ project: projectVal });
+        console.log(`\n✅ Session initialized for project "${projectId}"`);
+        console.log(`   ${filePath}\n`);
+        break;
+      }
+      case 'show': {
+        const state = session.show({ project: projectVal });
+        if (!state) {
+          console.log('\n  No session found. Run: npx analyzthis_design session init\n');
+        } else {
+          console.log(JSON.stringify(state, null, 2));
+        }
+        break;
+      }
+      case 'reset': {
+        const result = session.reset({ project: projectVal, all: allFlag });
+        console.log(`\n🗑  Session reset: ${result.removed}\n`);
+        break;
+      }
+      default:
+        console.error(`\nUnknown session subcommand: "${sub || ''}". Use: init | show | reset\n`);
+        process.exit(1);
+    }
+    break;
+  }
+
+  // ── Research ────────────────────────────────────────────────────────────
+
+  case 'research': {
+    (async () => {
+      try {
+        if (urlVal) {
+          console.log(`\n⏳ Fetching ${urlVal}...\n`);
+          const result = await research.researchUrl({ url: urlVal, project: projectVal });
+          console.log(`✅ Wrote ${result.chars} chars to ${result.filePath}\n`);
+        } else if (queryVal) {
+          console.log(`\n⏳ Researching "${queryVal}"...\n`);
+          const result = await research.researchQuery({ query: queryVal, project: projectVal });
+          if (result.mode === 'stub') {
+            console.log(`⚠  No research.provider configured — wrote a stub for the host IDE to fill.`);
+            console.log(`   ${result.filePath}`);
+            console.log(`   Tip: set research.provider in ~/.analyzthis_design/config.json, or use WebSearch in Cursor.\n`);
+          } else {
+            console.log(`✅ Wrote ${result.chars} chars to ${result.filePath}\n`);
+          }
+        } else {
+          console.error('\n  ✗  Provide --url <url> or --query <text>\n');
+          process.exit(1);
+        }
+      } catch (err) {
+        console.error(`\n  ✗  Research failed: ${err.message}\n`);
+        process.exit(1);
+      }
+    })();
+    break;
+  }
+
+  // ── Orchestrator run (standalone LLM runtime) ───────────────────────────
+
+  case 'run': {
+    if (!taskVal) {
+      console.error('\n  ✗  --task is required.  Example: npx analyzthis_design run --task "Fix contrast" --dry-run\n');
+      process.exit(1);
+    }
+    orchestratorRun({
+      task: taskVal,
+      figma: figmaVal || '',
+      provider: providerVal,
+      model: modelVal,
+      dryRun: dryRunFlag,
+      project: projectVal,
+      output: outputVal,
+    }).catch((err) => {
+      console.error(`\n  ✗  Run failed: ${err.message}\n`);
+      process.exit(1);
+    });
     break;
   }
 

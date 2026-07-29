@@ -1,0 +1,24 @@
+{
+  "id": "zara",
+  "role": "delight",
+  "system_skill": "skills/zara/SKILL.md",
+  "inputs": ["task_map", "session_context", "priya_output", "ds_checklist"],
+  "outputs": ["delight_pass"],
+  "allowed_tools": ["design-reference"],
+  "allowed_jobs": [
+    "identify exactly ONE structural or surface delight moment",
+    "add delight on top of an already DS-compliant, hierarchy-correct foundation"
+  ],
+  "forbidden_jobs": [
+    "contrast fixes, token drift correction, or any brand/design-system recovery — these are out of scope for Zara; refuse and route to the DS Gate + Arjun",
+    "run before the ds_gate has passed",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["delight_moment", "onboarding", "empty_state", "first_impression"],
+  "never_route_for": ["contrast", "brand_tokens", "design_system_compliance", "accessibility_fix"],
+  "requires_ds_gate_pass": true,
+  "chain_position": 5,
+  "handoff_from": ["priya"],
+  "handoff_to": [],
+  "requires_session_state": true
+}

@@ -1,0 +1,23 @@
+{
+  "id": "anuj",
+  "role": "power_user",
+  "system_skill": "skills/anuj/SKILL.md",
+  "inputs": ["task_map", "session_context", "information_hierarchy"],
+  "outputs": ["concept_b_wireframe"],
+  "allowed_tools": ["design-reference", "stacks"],
+  "allowed_jobs": [
+    "audit density, bulk actions, keyboard shortcuts for daily-use surfaces",
+    "produce Concept B wireframe",
+    "keep rank #1 of the declared information hierarchy prominent even at full density"
+  ],
+  "forbidden_jobs": [
+    "propose density audits for surfaces with task Frequency != daily/weekly",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["daily_use", "data_density", "bulk_actions", "keyboard_shortcuts"],
+  "never_route_for": ["one_time_use_surfaces", "learning_products_without_daily_frequency"],
+  "chain_position": 1,
+  "handoff_from": [],
+  "handoff_to": ["arjun"],
+  "requires_session_state": true
+}

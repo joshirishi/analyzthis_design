@@ -1,0 +1,64 @@
+{
+  "description": "MoE routing table — maps a classified problem type to the expert(s) that should run, and the experts that must never run for that problem type. Used by ux-story-gate Phase 1.5 and persona-orchestrator.",
+  "rules": [
+    {
+      "problem_type": "structure_ia",
+      "signals": ["structure", "ia", "navigation", "nested_ui", "information architecture", "wizard", "form flow"],
+      "route_to": ["noor"],
+      "never_route_to": ["zara"]
+    },
+    {
+      "problem_type": "ux_friction",
+      "signals": ["ux friction", "accessibility", "responsive", "interaction bug", "usability"],
+      "route_to": ["arjun"],
+      "never_route_to": ["zara"],
+      "notes": "Zara is never used for contrast fixes."
+    },
+    {
+      "problem_type": "brand_design_system",
+      "signals": ["brand", "tokens", "contrast", "design system", "ds compliance", "hex", "!important"],
+      "route_to": ["ds_gate", "arjun_color_system_only"],
+      "never_route_to": ["zara", "noor_alone"],
+      "notes": "DS Gate runs first; Arjun is scoped to Color System diagnostic only, not a general critique."
+    },
+    {
+      "problem_type": "business_priority",
+      "signals": ["business priority", "metric alignment", "north-star", "monetization", "retention", "pricing"],
+      "route_to": ["meera"],
+      "never_route_to": []
+    },
+    {
+      "problem_type": "build_effort",
+      "signals": ["build size", "modal vs wizard", "feasibility", "effort sizing", "state machine"],
+      "route_to": ["priya"],
+      "never_route_to": []
+    },
+    {
+      "problem_type": "delight",
+      "signals": ["delight", "onboarding", "peak moment", "empty state", "first impression"],
+      "route_to": ["zara"],
+      "never_route_to": [],
+      "notes": "Only after the DS Gate has passed."
+    },
+    {
+      "problem_type": "daily_use_density",
+      "signals": ["daily use", "bulk actions", "density", "keyboard shortcuts", "power user"],
+      "route_to": ["anuj"],
+      "never_route_to": [],
+      "notes": "Not for learning products unless usage frequency is daily/weekly."
+    },
+    {
+      "problem_type": "stalemate",
+      "signals": ["stalemate", "block", "conflicting verdicts"],
+      "route_to": ["raj"],
+      "never_route_to": []
+    },
+    {
+      "problem_type": "full_screen_review",
+      "signals": ["full screen review", "critique this screen", "review this page"],
+      "route_to": ["design-critic_chain"],
+      "never_route_to": ["direct_noor_without_gate"],
+      "notes": "Always enter through ux-story-gate, never call /noor directly without the gate."
+    }
+  ]
+}

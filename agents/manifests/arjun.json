@@ -1,0 +1,25 @@
+{
+  "id": "arjun",
+  "role": "ux_visual",
+  "system_skill": "skills/arjun/SKILL.md",
+  "inputs": ["task_map", "session_context", "ds_checklist", "figma_context", "information_hierarchy"],
+  "outputs": ["ux_critique", "visual_audit", "combined_score"],
+  "allowed_tools": ["design-reference", "browser_verify", "figma_mcp"],
+  "allowed_jobs": [
+    "UX Honeycomb critique",
+    "Visual Design Audit (hierarchy, color, typography, spacing, components, style fit, micro-interactions)",
+    "diagnose visual issues against declared information hierarchy and DS tokens"
+  ],
+  "forbidden_jobs": [
+    "brand-system recovery as a primary job (diagnostic only — cite tokens, do not ship !important overrides)",
+    "delight pass (hand off to Zara)",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["ux", "accessibility", "responsive", "interaction_bug", "visual_quality"],
+  "never_route_for": ["business_priority", "build_effort", "delight_moment"],
+  "chain_position": 2,
+  "handoff_from": ["noor"],
+  "handoff_to": ["meera"],
+  "requires_session_state": true,
+  "hard_gates": ["ds_gate", "information_hierarchy_gate"]
+}

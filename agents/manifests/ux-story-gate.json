@@ -1,0 +1,23 @@
+{
+  "id": "ux-story-gate",
+  "role": "orchestrator",
+  "system_skill": "skills/ux-story-gate/SKILL.md",
+  "inputs": ["user_ask", "prd_sources", "figma_context", "knowledge_bank"],
+  "outputs": ["task_map", "ds_checklist", "routing_decision", "session_state"],
+  "allowed_tools": ["design-reference", "figma_mcp", "browser_verify", "knowledge-bank"],
+  "allowed_jobs": [
+    "Phase 0: discover PRDs/user stories, build task map",
+    "Phase 0.5: DS/Figma discovery, DS token checklist",
+    "Phase 1: mental model of user personas",
+    "Phase 1.5: MoE routing decision",
+    "Phase 4.5: browser verify gate",
+    "Phase 5.5: assess-only mode gate"
+  ],
+  "forbidden_jobs": [
+    "skip phases 0-1.5 before handing off to persona chain"
+  ],
+  "routing_triggers": ["any_screen_or_flow_review"],
+  "hands_off_to": "persona-orchestrator",
+  "requires_session_state": true,
+  "mandatory_first_step": true
+}
