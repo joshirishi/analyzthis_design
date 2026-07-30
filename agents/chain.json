@@ -28,6 +28,17 @@
     "critique": 1800,
     "arbitrate": 1200
   },
+  "effort_matrix": {
+    "description": "Effort-graded model selection (v1.10). Each persona call is classified trivial|standard|hard and resolved against this matrix. Falls back to the legacy tiers map above when a persona manifest has no effort_overrides for the chosen effort.",
+    "trivial":  { "provider": "zai",      "model": "glm-4.5-flash",        "max_output_tokens": 500  },
+    "standard": { "provider": "google",    "model": "gemini-2.5-flash",    "max_output_tokens": 1200 },
+    "hard":     { "provider": "anthropic", "model": "claude-sonnet-5",     "max_output_tokens": 1800 }
+  },
+  "gate_override": {
+    "description": "Gates are safety nets — never run on a downgraded model. Any step whose gateName is listed here is pinned to use_effort regardless of the classified effort.",
+    "applies_to": ["ds_gate", "information_hierarchy_gate", "verify_gate"],
+    "use_effort": "hard"
+  },
   "gates": [
     { "name": "ds_gate", "runs": "before persona chain (ux-story-gate Phase 0.5); on failure, chain stops after arjun_color_system_only" },
     { "name": "information_hierarchy_gate", "runs": "after persona chain, before re-evaluation/BLOCK escalation" },

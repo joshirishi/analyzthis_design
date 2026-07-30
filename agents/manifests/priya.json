@@ -23,5 +23,9 @@
   "chain_position": 4,
   "handoff_from": ["meera"],
   "handoff_to": ["zara"],
-  "requires_session_state": true
+  "requires_session_state": true,
+  "effort_overrides": {
+    "trivial": { "when": "single feature T-shirt sizing (structured extract)", "max_output_tokens": 500 },
+    "hard": { "when": "architecture / state-machine risk", "max_output_tokens": 900 }
+  }
 }

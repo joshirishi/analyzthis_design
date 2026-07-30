@@ -15,6 +15,7 @@ const FILES = [
   ['lib/retrieve.js',         'dist/lib/retrieve.js'],
   ['lib/cache.js',            'dist/lib/cache.js'],
   ['lib/export.js',           'dist/lib/export.js'],
+  ['lib/cost.js',             'dist/lib/cost.js'],
   ['lib/orchestrator/run.js', 'dist/lib/orchestrator/run.js'],
 ];
 

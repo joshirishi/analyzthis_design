@@ -10,6 +10,7 @@ const session = require('../lib/session');
 const research = require('../lib/research');
 const retrieve = require('../lib/retrieve');
 const { exportTraining } = require('../lib/export');
+const cost = require('../lib/cost');
 const { run: orchestratorRun } = require('../lib/orchestrator/run');
 
 const HELP = `
@@ -38,6 +39,7 @@ Usage:
 
 ── Efficiency / cost commands ────────────────────────────────
   metrics             Print the last run's cost metrics (--all for every project)
+  cost                Print the last run's $ cost from config.pricing (--all for every project)
   export-training     Write accepted-output JSONL pairs for LoRA prep
                       (--persona <id>, --all, --output <path>)
 
@@ -66,7 +68,7 @@ Usage:
   --query    Search query (research command)
   --task     Task description (run command)
   --figma    Figma URL (run command)
-  --provider anthropic | openai (run command; default from config or anthropic)
+  --provider anthropic | openai | google | zai (run command; default from config or anthropic)
   --model    Model override (run command)
   --dry-run  Print routing + chain without calling any LLM (run command)
   --lite     Force MoE subset only, even for full_screen_review (run command; default)
@@ -106,6 +108,7 @@ Usage:
 
   npx analyzthis_design session accept --persona arjun
   npx analyzthis_design metrics
+  npx analyzthis_design cost
   npx analyzthis_design export-training --persona arjun --all
 
 ── Install paths ────────────────────────────────────────────
@@ -411,6 +414,13 @@ switch (cmd) {
       console.log(`    cache_hits:        ${m.cache_hits ?? 0}`);
       console.log('');
     }
+    break;
+  }
+
+  // ── $-cost report (v1.10) ────────────────────────────────────────────────
+
+  case 'cost': {
+    cost.report({ project: projectVal, all: allFlag });
     break;
   }
 

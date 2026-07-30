@@ -23,5 +23,9 @@
   "chain_position": 3,
   "handoff_from": ["arjun"],
   "handoff_to": ["priya"],
-  "requires_session_state": true
+  "requires_session_state": true,
+  "effort_overrides": {
+    "trivial": { "when": "single GTM lever / retention check", "max_output_tokens": 500 },
+    "hard": { "when": "north-star tradeoff or cross-metric conflict", "max_output_tokens": 1200 }
+  }
 }

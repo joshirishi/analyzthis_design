@@ -67,7 +67,7 @@ Invoke directly for targeted, already-grounded questions. For full screen evalua
 
 ---
 
-## Agentic system (v1.9)
+## Agentic system (v1.10)
 
 ```
 User ask / Figma URL
@@ -122,18 +122,26 @@ Provider defaults live in `~/.analyzthis_design/config.json`:
 {
   "orchestrator": {
     "provider": "anthropic",
-    "model": "claude-sonnet-4-20250514",
+    "model": "claude-sonnet-5",
     "mode": "lite",
     "tiers": {
       "structured": { "provider": "openai", "model": "gpt-4o-mini" },
-      "critique":   { "provider": "anthropic", "model": "claude-sonnet-4-20250514" },
-      "arbitrate":  { "provider": "anthropic", "model": "claude-sonnet-4-20250514" }
+      "critique":   { "provider": "anthropic", "model": "claude-sonnet-5" },
+      "arbitrate":  { "provider": "anthropic", "model": "claude-sonnet-5" }
     },
     "max_tokens": { "structured": 900, "critique": 1800, "arbitrate": 1200 }
+  },
+  "pricing": {
+    "glm-4.5-flash":     { "input_per_m": 0,    "output_per_m": 0 },
+    "gemini-2.5-flash":  { "input_per_m": 0.30, "output_per_m": 2.50 },
+    "claude-sonnet-5":   { "input_per_m": 2,    "output_per_m": 10 },
+    "gpt-4o":            { "input_per_m": 2.50, "output_per_m": 10 }
   },
   "research": { "provider": "https://example.com/search?q={query}" }
 }
 ```
+
+The `effort_matrix` and `gate_override` live in `agents/chain.json` (not the user config) so they ship with the package and stay in sync with the agent graph. `pricing` is user-configured so you control your own $-cost reporting.
 
 **Web research:**
 
@@ -146,9 +154,42 @@ Writes to `~/.analyzthis_design/sessions/{id}/web-context.md` and merges into th
 
 ---
 
-## Efficiency & cost (v1.9)
+## Efficiency & cost (v1.10)
 
-The orchestrator defaults to the cheapest path that still respects every gate — fewer expert calls, shorter prompts, cheaper models where judgment isn't required, and on-disk caching.
+The orchestrator defaults to the cheapest path that still respects every gate — fewer expert calls, shorter prompts, cheaper models where judgment isn't required, and on-disk caching. These savings apply to the **critique/audit** path (what this package does); see *What this actually saves* below for the honest scope.
+
+### Effort-graded model selection (v1.10)
+
+Each persona call is classified **trivial | standard | hard** from cheap signals already in the routing + session digest (no LLM call — a model call to pick a model would eat the savings). The classifier then resolves the model from an effort matrix, with persona-level overrides winning and the legacy `tiers` map as the final fallback so existing manifests keep working unchanged.
+
+```mermaid
+flowchart TB
+    Ask[User ask] --> Router[MoE router + effort classifier]
+    Router -->|effort| Resolve[resolveModel persona effort]
+    Resolve -->|gate? hard override| Matrix[effort_matrix in chain.json]
+    Resolve -->|persona| Overrides[manifest.effort_overrides]
+    Matrix --> Call[callLlm provider model maxTokens]
+    Overrides --> Call
+    Call --> Metrics[metrics.effort_log + cost_usd]
+    Metrics --> CostCmd[npx analyzthis_design cost]
+```
+
+Classifier rules (first match wins, safety rules before savings rules):
+- scoped mode active → **trivial** (single dimension by construction)
+- stalemate / any BLOCK / `full_chain` / `full_screen_review` → **hard**
+- `digest.ds_at_risk` non-empty → **hard**
+- REVISE delta follow-up → **trivial**
+- `manifest.tier == structured` → **trivial**, `arbitrate` → **standard**
+- default → **standard**
+
+**Gates never downgrade.** `ds_gate`, `information_hierarchy_gate`, and `verify_gate` are pinned to `hard` via `chain.gate_override` regardless of the classified effort — they're the safety net that makes downgrading persona work safe.
+
+Default effort matrix (in `agents/chain.json`):
+- trivial → `glm-4.5-flash` (free) or Gemini Flash-Lite, ~500-token cap
+- standard → `gemini-2.5-flash` or `gpt-4o-mini`, ~1200-token cap
+- hard → `claude-sonnet-5` or `gpt-5`, ~1800-token cap
+
+Per-persona `effort_overrides` in each manifest refine this (e.g. Arjun's `trivial` is the color-system-only scoped mode at 700 tokens; his `hard` is the full Honeycomb + Visual Audit at 1800).
 
 ```
 Ask → session digest → MoE router (1–2 experts, not 4) → persona cards (not full skills)
@@ -171,6 +212,31 @@ Ask → session digest → MoE router (1–2 experts, not 4) → persona cards (
 npx analyzthis_design metrics                 # last run's cost summary for this project
 npx analyzthis_design metrics --all           # across every project
 ```
+
+### What this actually saves (and what it doesn't)
+
+analyzthis_design is a design **critique** layer, not a design generator. The personas *review* UI; they don't produce a finished design end-to-end. So the savings show up on the **review** side of the loop, and across the **create → review → revise** loop when your host LLM uses the personas as a guided check — not on raw generation in isolation.
+
+**Honest, measurable savings on the critique path:**
+
+- ~50–75% fewer expert LLM calls on narrow asks (1–2 personas vs. 4).
+- ~50%+ fewer input tokens per `run` (persona cards vs. full SKILL.md).
+- Retrieve-on-demand sends only matching CSV rows, not whole files (`colors.csv` is 32 kB, `styles.csv` is 143 kB — we send ~5 rows).
+- Structured/extract steps can run on a cheaper model with a 900-token cap; only critique/arbitrate uses the strong model.
+- Repeat runs on the same file hit the cache instead of re-processing Figma screenshots, KB slices, and CSV packs.
+- Every saving above is **observable** via `npx analyzthis_design metrics` (`llm_calls`, `input_tokens_est`, `output_tokens_est`, `cache_hits`).
+
+**Where the savings come from across the whole loop** (when the host LLM routes a design through the personas):
+
+- Fewer revision rounds — DS / hierarchy / contrast failures are caught early instead of after a full review.
+- Data-driven citations ground the LLM so it doesn't hallucinate or re-derive design rules.
+- The host LLM gets a compact digest + targeted fixes, not a wall of prose.
+
+**What this is *not*:**
+
+- It does **not** generate end-to-end designs using fewer tokens — it critiques.
+- It does **not** save tokens vs. "using no AI at all" — it adds a review layer; it saves tokens vs. an *unstructured* review loop.
+- There is no hard percentage claim yet — v1.9 ships *targets* (full-chain rate <30%, median experts ≤2, ~50% fewer skill-prompt tokens), not proven production numbers. Run `metrics` on your own workload to see your actual savings.
 
 **LoRA readiness (export hook only — no training in this release):**
 
@@ -253,6 +319,7 @@ npx analyzthis_design run --task "..." [--lite | --full] [--experts a,b]
 
 # Efficiency / cost
 npx analyzthis_design metrics [--project id] [--all]
+npx analyzthis_design cost [--project id] [--all]
 npx analyzthis_design export-training --persona <id> [--project id] [--all] [--output path]
 ```
 
@@ -272,7 +339,8 @@ lib/
   retrieve.js           Filtered, citation-ready CSV row retrieval
   cache.js              On-disk cache for retrieve/kb slices
   export.js             LoRA training-pair export hook
-  orchestrator/run.js   Standalone LLM runtime (v2) — MoE, tiers, caps, cache-aware
+  cost.js               $-cost report from metrics × config.pricing
+  orchestrator/run.js   Standalone LLM runtime (v2) — MoE, effort-graded tiers, caps, cache-aware
 scripts/obfuscate.js    Build step → dist/
 skills/
   persona-orchestrator/ Agentic entry point

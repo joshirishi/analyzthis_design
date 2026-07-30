@@ -53,7 +53,9 @@
       "input_tokens_est": "number — estimated input tokens across the last run",
       "output_tokens_est": "number — estimated output tokens across the last run",
       "cache_hits": "number — retrieve/cache hits during the last run",
-      "mode": "lite | full"
+      "mode": "lite | full",
+      "effort_log": [{ "persona": "string", "effort": "trivial|standard|hard", "model": "string|null", "scoped_mode": "string|null" }],
+      "cost_usd": "number — estimated $ cost of the run from config.pricing (0 when pricing missing)"
     }
   }
 }

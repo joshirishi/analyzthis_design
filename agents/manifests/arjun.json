@@ -32,5 +32,15 @@
       "dimensions": ["color_system", "typography_contrast"],
       "max_output_tokens": 700
     }
+  },
+  "effort_overrides": {
+    "trivial": {
+      "when": "scoped_mode == arjun_color_system_only (single-dimension color/contrast diagnostic)",
+      "max_output_tokens": 700
+    },
+    "hard": {
+      "when": "full_chain == true || problem_type == full_screen_review (full Honeycomb + Visual Audit)",
+      "max_output_tokens": 1800
+    }
   }
 }
