@@ -1,0 +1,26 @@
+---
+description: GitHub commits and pushes must use joshirishi — never rishikeshjoshi-Morpheus
+alwaysApply: true
+---
+
+# GitHub — joshirishi only
+
+This repo belongs to **joshirishi**, not `rishikeshjoshi-Morpheus`.
+
+## Remotes
+
+- **origin:** `https://github.com/joshirishi/analyzthis_design.git`
+- Do **not** add, push to, or reference `rishikeshjoshi-Morpheus/analyzthis_design` unless the user explicitly asks.
+
+## Commits and pushes
+
+- **Author:** `joshirishi <joshi.rishikesh@gmail.com>` (local repo config — not onlinesales.ai)
+- Push with: `git push origin main` (or `git push -u origin HEAD`)
+- Before any push, verify: `git remote get-url origin` contains `joshirishi/`
+- Use **`gh`** as account **joshirishi** (`gh auth status` — active account must be joshirishi)
+- If push fails with 403 to Morpheus org, repoint origin to joshirishi — do not switch to the Morpheus account without explicit user request.
+
+## PRs and issues
+
+- Use `gh pr create`, `gh issue`, etc. against `joshirishi/analyzthis_design`
+- Repo URL: https://github.com/joshirishi/analyzthis_design

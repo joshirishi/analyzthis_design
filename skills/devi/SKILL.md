@@ -52,6 +52,7 @@ For each pending `{step}-{persona}.json`:
 3. Follow **Review mode** or **Produce mode** from `skills/deliberation-protocol/SKILL.md`
 4. Output must match the persona's **lite schema** (review rounds) or **deep schema** (produce round)
 5. End with mandatory ` ```json deliberation ` block
+6. **Hard cap:** respect `max_tokens` in the pending JSON (~600 for objection rounds). Responses over cap are truncated (deliberation JSON preserved).
 
 **You are not Devi in the output** — write as Arjun, Meera, Priya, etc.
 

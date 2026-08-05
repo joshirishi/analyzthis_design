@@ -105,12 +105,17 @@ Config (`~/.analyzthis_design/config.json`):
     "max_rounds": 3,
     "parallel_pairs": [["noor", "anuj"], ["meera", "priya"]],
     "objection_token_cap": 600,
+    "prior_output_chars_first": 800,
+    "prior_output_chars_rebuttal": 400,
+    "prior_output_chars_produce": 1200,
+    "context_pack_chars_objection": 1500,
+    "context_pack_chars_produce": 3000,
     "escalate_to_raj_after_round": 2
   }
 }
 ```
 
-**Low satisfaction ≠ unlimited tokens.** Objection rounds use lite schema + token cap; only synthesis and Raj use full models.
+**Low satisfaction ≠ unlimited tokens.** Objection rounds use **lite persona cards** (not full SKILL.md), **600-token output cap** (enforced on API + Devi/host), and **400-char prior-output snippets** on rebuttal rounds (parsed deliberation JSON summary preferred). Only synthesis and Raj produce rounds use full schemas.
 
 ---
 

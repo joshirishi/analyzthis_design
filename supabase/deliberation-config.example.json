@@ -4,6 +4,11 @@
     "max_rounds": 3,
     "parallel_pairs": [["noor", "anuj"], ["meera", "priya"]],
     "objection_token_cap": 600,
+    "prior_output_chars_first": 800,
+    "prior_output_chars_rebuttal": 400,
+    "prior_output_chars_produce": 1200,
+    "context_pack_chars_objection": 1500,
+    "context_pack_chars_produce": 3000,
     "escalate_to_raj_after_round": 2,
     "default_mode": "adversarial"
   }

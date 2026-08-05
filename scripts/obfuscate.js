@@ -25,6 +25,7 @@ const FILES = [
   ['lib/host-llm.js',          'dist/lib/host-llm.js'],
   ['lib/provider.js',          'dist/lib/provider.js'],
   ['lib/synthesis.js',         'dist/lib/synthesis.js'],
+  ['lib/token-gate.js',        'dist/lib/token-gate.js'],
   ['lib/platforms.js',        'dist/lib/platforms.js'],
   ['lib/orchestrator/run.js', 'dist/lib/orchestrator/run.js'],
 ];
