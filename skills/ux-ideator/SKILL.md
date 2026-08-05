@@ -91,7 +91,7 @@ Both concepts must:
 
 ## Phase 4 — Deliberation (Noor vs Anuj, Raj on standby) — ENFORCED (v1.19)
 
-Read `skills/deliberation-protocol/SKILL.md`. This is **multi-round adversarial review**, not a single paragraph summary.
+Read `deliberation-protocol` from your host skills dir (sibling preferred), e.g. `~/.cursor/skills/deliberation-protocol/SKILL.md`, `~/.claude/skills/deliberation-protocol/SKILL.md`, `~/.grok/skills/deliberation-protocol/SKILL.md`, `~/.agents/skills/deliberation-protocol/SKILL.md`, or legacy `~/.claude/commands/deliberation-protocol.md`. This is **multi-round adversarial review**, not a single paragraph summary.
 
 **Round 0:** Noor and Anuj produce wireframes (parallel).
 

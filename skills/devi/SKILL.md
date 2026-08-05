@@ -49,7 +49,7 @@ For each pending `{step}-{persona}.json`:
 
 1. Read `persona_id`, `system`, and `user` from the JSON file
 2. Load that persona's skill: `skills/{persona}/SKILL.md` and card `agents/cards/{persona}.md`
-3. Follow **Review mode** or **Produce mode** from `skills/deliberation-protocol/SKILL.md`
+3. Follow **Review mode** or **Produce mode** from `deliberation-protocol` in your host skills dir (e.g. `~/.claude/skills/deliberation-protocol/SKILL.md`)
 4. Output must match the persona's **lite schema** (review rounds) or **deep schema** (produce round)
 5. End with mandatory ` ```json deliberation ` block
 6. **Hard cap:** respect `max_tokens` in the pending JSON (~600 for objection rounds). Responses over cap are truncated (deliberation JSON preserved).

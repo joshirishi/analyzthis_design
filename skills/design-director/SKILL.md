@@ -81,7 +81,7 @@ Update session `design_spec` and `information_hierarchy.ranking` from the spec.
 
 ## Phase 4 — Spec gates + adversarial spec review (v1.19)
 
-Read `skills/deliberation-protocol/SKILL.md`. After DesignSpec draft, run **adversarial review loops** before `spec_verdict`:
+Read `deliberation-protocol` from your host skills dir (sibling preferred), e.g. `~/.cursor/skills/deliberation-protocol/SKILL.md`, `~/.claude/skills/deliberation-protocol/SKILL.md`, `~/.grok/skills/deliberation-protocol/SKILL.md`, `~/.agents/skills/deliberation-protocol/SKILL.md`, or legacy `~/.claude/commands/deliberation-protocol.md`. After DesignSpec draft, run **adversarial review loops** before `spec_verdict`:
 
 | Persona | Contests |
 |---------|----------|

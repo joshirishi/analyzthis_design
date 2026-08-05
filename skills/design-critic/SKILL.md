@@ -52,7 +52,7 @@ Arjun produces two output blocks: UX Critique (Honeycomb) and Visual Design Audi
 
 Read `~/.cursor/skills/meera/SKILL.md` and activate Meera.
 
-**Adversarial review (v1.19):** Read `skills/deliberation-protocol/SKILL.md`. Do NOT open with a generic handoff paragraph. Instead:
+**Adversarial review (v1.19):** Read `deliberation-protocol` from your host skills dir (sibling preferred), e.g. `~/.cursor/skills/deliberation-protocol/SKILL.md`, `~/.claude/skills/deliberation-protocol/SKILL.md`, `~/.grok/skills/deliberation-protocol/SKILL.md`, `~/.agents/skills/deliberation-protocol/SKILL.md`, or legacy `~/.claude/commands/deliberation-protocol.md`. Do NOT open with a generic handoff paragraph. Instead:
 - Read Arjun's output and **contest specific claims** with business evidence from task_map and knowledge bank
 - Default `accepts_prior: false` until hierarchy matches north-star metric
 - Meera runs **in parallel with Priya** in adversarial mode — each objects to the other's assumptions about adoption vs effort
@@ -85,7 +85,7 @@ Otherwise produce the Delight Pass output block after deliberation rounds close.
 
 ## Phase 4.5 — Deliberation synthesis (before composite score)
 
-Read `skills/deliberation-protocol/SKILL.md`.
+Read `deliberation-protocol` from your host skills dir (sibling preferred), e.g. `~/.cursor/skills/deliberation-protocol/SKILL.md`, `~/.claude/skills/deliberation-protocol/SKILL.md`, `~/.grok/skills/deliberation-protocol/SKILL.md`, `~/.agents/skills/deliberation-protocol/SKILL.md`, or legacy `~/.claude/commands/deliberation-protocol.md`.
 
 - Run objection rounds until `consensus_reached` or Raj escalates (2+ blocking objections, stalemate)
 - CLI: `npx analyzthis_design run --task "..." --full` enforces this in standalone runtime

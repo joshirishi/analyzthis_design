@@ -66,7 +66,7 @@ Announce the selected graph and why it's smaller than the full chain, one line: 
 
 ## Step 3 — Execute adversarial deliberation (v1.19)
 
-Read `skills/deliberation-protocol/SKILL.md` first. Personas **debate** — they do not pass generic handoff documents.
+Read `deliberation-protocol` from your host skills dir (sibling preferred), e.g. `~/.cursor/skills/deliberation-protocol/SKILL.md`, `~/.claude/skills/deliberation-protocol/SKILL.md`, `~/.grok/skills/deliberation-protocol/SKILL.md`, `~/.agents/skills/deliberation-protocol/SKILL.md`, or legacy `~/.claude/commands/deliberation-protocol.md` **first**. Personas **debate** — they do not pass generic handoff documents.
 
 **Preferred (CLI):** `npx analyzthis_design run --task "..." [--full] [--satisfaction 0.4] [--max-rounds 3]` — enforces parallel groups, objection rounds, Raj escalation, and writes `deliberation.round_log` to session.
 
@@ -169,7 +169,7 @@ List or export later: `feedback list`, `feedback export --persona arjun --all`.
 - `agents/router.json` — MoE routing rules
 - `agents/chain.json` — default and ideation chains, deliberation_groups, gate ordering, token caps
 - `agents/deliberation-schema.json` — objection/satisfaction output contract
-- `skills/deliberation-protocol/SKILL.md` — adversarial review rules (v1.19)
+- `deliberation-protocol` skill — adversarial review rules (v1.19); host path e.g. `~/.claude/skills/deliberation-protocol/SKILL.md`
 - `agents/session-schema.json` — session state shape, including `digest` and `metrics`
 - `agents/manifests/*.json` — per-persona allowed/forbidden jobs, hard gates, `system_card`, `tier`, `max_output_tokens`
 - `agents/cards/*.md` — short persona system prompts used by default instead of full SKILL.md
