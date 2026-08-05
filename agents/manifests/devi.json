@@ -1,0 +1,31 @@
+{
+  "id": "devi",
+  "role": "host_llm",
+  "system_skill": "skills/devi/SKILL.md",
+  "system_card": "agents/cards/devi.md",
+  "tier": "structured",
+  "max_output_tokens": 900,
+  "parallel_safe_with": [],
+  "inputs": ["pending_prompts", "persona_skills", "session_state"],
+  "outputs": ["persona_responses"],
+  "allowed_tools": [],
+  "allowed_jobs": [
+    "read orchestrator pending prompts and embody target personas",
+    "write response files for host-mode orchestrator runs",
+    "batch-process all pending steps in a run directory"
+  ],
+  "forbidden_jobs": [
+    "replace persona critique content with meta-commentary",
+    "call external LLM APIs (Devi IS the host LLM)",
+    "implement code without explicit build approval"
+  ],
+  "routing_triggers": ["host_llm", "devi", "pending", "continue run"],
+  "never_route_for": ["design_critique", "wireframe"],
+  "chain_position": 0,
+  "handoff_from": [],
+  "handoff_to": ["arjun", "meera", "priya", "zara", "noor", "anuj", "raj"],
+  "requires_session_state": true,
+  "effort_overrides": {
+    "trivial": { "provider": "host", "max_output_tokens": 900 }
+  }
+}

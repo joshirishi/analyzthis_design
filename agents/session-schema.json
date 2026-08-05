@@ -39,12 +39,72 @@
       "reason": "string — why not_run, when applicable (e.g. 'assess_only, no URL')"
     },
     "mode": "assess_only | build_approved",
+    "design_spec": {
+      "version": "1.0",
+      "screen_name": "string",
+      "status": "draft | spec_review | ship | revise",
+      "intent": "object — primary_user_task, primary_action, north_star_metric",
+      "information_hierarchy": ["string — rank #1 first"],
+      "layout": "object — grid, regions, nav_level",
+      "tokens": "object — colors, typography, spacing, source",
+      "components": "array — region, component, import_path, hierarchy_rank",
+      "states": "object — empty, loading, error, success",
+      "spec_verdict": "object — arjun_visual, ds_gate, hierarchy_gate, notes",
+      "updated_at": "ISO 8601"
+    },
+    "feedback_log": [
+      {
+        "id": "string — unique feedback entry id",
+        "at": "ISO 8601",
+        "persona": "string — persona id",
+        "satisfied": "boolean — true if user was happy",
+        "rating": "number | null — 1 (very unhappy) to 5 (very happy)",
+        "comment": "string — what was wrong or what they liked",
+        "correction": "string — how the user corrected or what they wanted instead",
+        "tags": ["string — e.g. wrong_hierarchy, invented_tokens, off_brief"],
+        "original_output": "string — snapshot of persona output at feedback time",
+        "submitted_at": "ISO 8601 | omitted — set when feedback submit succeeds",
+        "context": "object — task_map_summary, problem_type, mode"
+      }
+    ],
+    "vault_path": "string — Obsidian vault written by Kavi collect (empty until first collect)",
+    "last_collect_at": "ISO 8601 timestamp — last successful collect run",
+    "deliberation": {
+      "round": "number — current deliberation round",
+      "max_rounds": "number",
+      "satisfaction_threshold": "number 0.0–1.0",
+      "open_objections": ["object — unresolved blocking objections"],
+      "round_log": ["object — per-persona per-round parsed output"],
+      "consensus_reached": "boolean",
+      "raj_escalated": "boolean",
+      "mode": "adversarial | legacy"
+    },
+    "host_run": {
+      "run_id": "string — host LLM run directory id",
+      "run_dir": "string — absolute path to pending/responses queue",
+      "task": "string — task text for --continue",
+      "status": "in_progress | pending_devi | complete",
+      "last_pending": { "step_id": "string", "persona": "string" },
+      "checkpoint": "object | null — deliberation resume state",
+      "started_at": "ISO 8601",
+      "completed_at": "ISO 8601 | omitted"
+    },
+    "synthesis": {
+      "scores": "object — per-persona scores",
+      "total": "number",
+      "max_total": "number",
+      "verdict": "SHIP | REVISE | BLOCK",
+      "top3": ["object — ranked actionable changes"],
+      "hierarchy_gate": "object — gate status"
+    },
+    "synthesis_markdown": "string — Phase 5 composite block for display/export",
     "digest": {
       "task_map_summary": "string — short summary passed to persona calls instead of the full task_map/persona_outputs history",
       "hierarchy_top3": ["string — top 3 ranked hierarchy items, if declared"],
       "ds_at_risk": ["string — ds_checklist keys currently at risk"],
       "experts": ["string — persona ids selected for this run"],
       "prior_scores": { "<persona_id>": "number | string — last known score for delta re-evaluation" },
+      "design_spec_status": "draft | spec_review | ship | revise — shortcut from design_spec.status",
       "mode": "assess_only | build_approved"
     },
     "metrics": {
@@ -55,7 +115,11 @@
       "cache_hits": "number — retrieve/cache hits during the last run",
       "mode": "lite | full",
       "effort_log": [{ "persona": "string", "effort": "trivial|standard|hard", "model": "string|null", "scoped_mode": "string|null" }],
-      "cost_usd": "number — estimated $ cost of the run from config.pricing (0 when pricing missing)"
+      "cost_usd": "number — estimated $ cost of the run from config.pricing (0 when pricing missing)",
+      "deliberation_rounds": "number — adversarial rounds executed in last run",
+      "objections_raised": "number",
+      "objections_resolved": "number",
+      "raj_escalations": "number"
     }
   }
 }

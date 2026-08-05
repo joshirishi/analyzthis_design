@@ -1,19 +1,24 @@
 {
   "name": "analyzthis_design",
-  "version": "1.10.0",
-  "description": "7 AI design personas with an agentic MoE orchestrator — UX critique, ideation, session state, effort-graded model selection, $-cost reporting, and cross-platform skills for Cursor, Claude, and Codex.",
+  "version": "1.20.0",
+  "description": "8 AI design personas — adversarial deliberation loops, opt-in community feedback, Kavi knowledge collection, DesignSpec producer path, wireframe skills, UX critique, Agent Skills for Cursor, Claude, Codex, Grok, Windsurf.",
   "keywords": [
     "cursor",
     "cursor-skill",
     "claude",
     "claude-command",
     "codex",
+    "grok",
+    "windsurf",
+    "agent-skills",
     "ai-persona",
     "ux",
     "design",
     "design-critic",
     "ux-ideator",
     "persona-orchestrator",
+    "knowledge-archivist",
+    "obsidian",
     "moe",
     "cost-optimization",
     "effort-graded",
@@ -28,12 +33,14 @@
     "dist/",
     "skills/",
     "agents/",
+    "supabase/",
+    ".github/",
     "README.md"
   ],
   "scripts": {
     "build": "node scripts/obfuscate.js",
     "prepublishOnly": "npm run build",
-    "postinstall": "node dist/lib/install.js --silent"
+    "postinstall": "node dist/lib/install.js --silent --welcome"
   },
   "engines": {
     "node": ">=16"

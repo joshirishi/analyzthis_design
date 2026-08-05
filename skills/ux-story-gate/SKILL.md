@@ -17,7 +17,7 @@ Before asking the user for anything, scan for existing context in this order:
 
 ### 0a — Check the knowledge bank
 
-Read `~/.cursor/skills/knowledge-bank/SKILL.md` (or `~/.claude/commands/knowledge-bank.md` / `~/.codex/skills/knowledge-bank.md`).
+Read the knowledge-bank skill from your host's skills dir (sibling `knowledge-bank` preferred), e.g. `~/.cursor/skills/knowledge-bank/SKILL.md`, `~/.claude/skills/knowledge-bank/SKILL.md`, `~/.grok/skills/knowledge-bank/SKILL.md`, `~/.agents/skills/knowledge-bank/SKILL.md`, or legacy `~/.claude/commands/knowledge-bank.md`.
 
 Look for sections containing:
 - User stories (`As a [persona], I want to...`, `Given / When / Then`)

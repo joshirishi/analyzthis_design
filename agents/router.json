@@ -2,6 +2,20 @@
   "description": "MoE routing table — maps a classified problem type to the expert(s) that should run, and the experts that must never run for that problem type. Used by ux-story-gate Phase 1.5 and persona-orchestrator.",
   "rules": [
     {
+      "problem_type": "design_director",
+      "signals": ["design-director", "design director", "guide how to design", "design and build", "implement the spec", "design spec build", "producer path"],
+      "route_to": ["design-director"],
+      "never_route_to": ["design-critic_chain"],
+      "notes": "Producer path — ideation → DesignSpec → spec gates → build. Use /design-director skill, not critique chain."
+    },
+    {
+      "problem_type": "ideation_wireframe",
+      "signals": ["wireframe", "mockup", "new screen", "design from scratch", "layout", "ia concept", "ideation", "ux ideator", "text wireframe", "screen layout"],
+      "route_to": ["ideation_chain"],
+      "never_route_to": ["design-critic_chain", "zara"],
+      "notes": "Uses ideation_chain from chain.json — full text wireframes via Noor + Anuj. Never the critique lite chain."
+    },
+    {
       "problem_type": "structure_ia",
       "signals": ["structure", "ia", "navigation", "nested_ui", "information architecture", "wizard", "form flow"],
       "route_to": ["noor"],
@@ -59,6 +73,13 @@
       "route_to": ["design-critic_chain"],
       "never_route_to": ["direct_noor_without_gate"],
       "notes": "Always enter through ux-story-gate, never call /noor directly without the gate."
+    },
+    {
+      "problem_type": "collect_knowledge",
+      "signals": ["kavi", "/kavi", "collect knowledge", "scan codebase", "build vault", "knowledge archivist", "collect-knowledge"],
+      "route_to": ["kavi"],
+      "never_route_to": ["design-critic_chain", "zara", "arjun", "meera", "priya"],
+      "notes": "Producer only — run /kavi or `npx analyzthis_design collect`. Never part of a critique chain."
     }
   ]
 }

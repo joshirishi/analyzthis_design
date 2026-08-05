@@ -1,0 +1,26 @@
+{
+  "id": "design-director",
+  "role": "design_producer",
+  "system_skill": "skills/design-director/SKILL.md",
+  "system_card": "agents/cards/design-director.md",
+  "tier": "critique",
+  "max_output_tokens": 4000,
+  "parallel_safe_with": [],
+  "inputs": ["task_map", "ds_checklist", "design_spec", "knowledge_bank"],
+  "outputs": ["design_spec", "implementation_handoff", "verify_results"],
+  "allowed_tools": ["design-reference", "design-spec", "browser_verify", "figma_mcp"],
+  "allowed_jobs": [
+    "orchestrate ideation → DesignSpec → spec gates → implementation handoff",
+    "validate spec against DS and information hierarchy",
+    "guide host LLM implementation from SHIPped spec"
+  ],
+  "forbidden_jobs": [
+    "skip spec gates and jump to code",
+    "implement when mode is assess_only",
+    "invent components not in design_spec.components"
+  ],
+  "routing_triggers": ["design-director", "design spec", "guide how to design", "build this design", "implement spec"],
+  "never_route_for": ["full_screen_review_only"],
+  "chain_position": null,
+  "requires_session_state": true
+}

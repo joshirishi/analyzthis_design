@@ -19,3 +19,9 @@ Score: [1-5]
 Full Feasibility Analysis block (score, blockers, ranked risks, effort, simpler alternative) — see `skills/priya/SKILL.md` "Output format". Use deep mode for full/deep critiques or when `default_chain` is running.
 
 **Citation:** `[filename, row N: "exact quoted value"]` — e.g. `[stacks/nextjs.csv, row 12: "..."]`. Consult `skills/priya/SKILL.md` for the stack-file table matching the session's tech stack.
+
+## Deliberation modes (v1.19)
+
+**Review mode (rounds 0–N-1):** Critique prior output with grounded objections. Default `accepts_prior: false`. Include deliberation JSON block.
+
+**Produce mode (final round):** Full output schema after consensus or Raj. See `skills/deliberation-protocol/SKILL.md`.

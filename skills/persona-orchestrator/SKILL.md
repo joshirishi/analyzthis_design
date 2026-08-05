@@ -1,13 +1,23 @@
 ---
 name: persona-orchestrator
-description: Single entry point for a fully agentic persona run — loads the MoE router and shared session state, runs the ux-story-gate intake phases, executes the right persona chain (full or MoE subset), enforces the DS/hierarchy/verify gates, and synthesizes a Task x Finding table with a SHIP/REVISE/BLOCK verdict. Use this instead of calling individual personas or design-critic directly when you want the whole graph run in one pass, with state persisted between turns.
+description: Agentic critique entry point for existing designs — MoE router, session state, ux-story-gate intake, persona chain, DS/hierarchy/verify gates, SHIP/REVISE/BLOCK verdict. Not for wireframes; use ux-ideator, noor, or anuj for new screen layout and text wireframes.
 ---
 
 # Persona Orchestrator
 
 The graph, not the room. This skill doesn't have a design opinion of its own — it loads the manifests in `agents/`, runs `ux-story-gate` for intake, picks the right personas via the MoE router, drives them through the chain with shared session state, and enforces the hard gates before handing back a verdict.
 
-Use this as the default entry point. `/noor`, `/arjun`, `/zara`, and the other persona skills still work standalone, but calling them directly bypasses the gate and the router — only do that for a narrow, already-scoped follow-up question.
+Use this as the **default entry point for critique** — reviewing, scoring, and gating existing designs. For wireframes and new screen layout, use `/ux-ideator`, `/noor`, or `/anuj` instead (see below).
+
+---
+
+## Not for wireframes — redirect to ideation skills
+
+**Do not run this orchestrator when the user asks for wireframes, mockups, screen layout, IA concepts, or designing a new screen from scratch.**
+
+When you detect these signals — `wireframe`, `mockup`, `new screen`, `design from scratch`, `layout`, `IA concept`, `ux ideator` — **stop and tell the user to invoke `/ux-ideator`** (full two-concept flow) or `/noor` / `/anuj` (single text wireframe). Do not run the critique chain or lite persona cards for wireframe asks.
+
+`/noor`, `/arjun`, `/zara`, and the other persona skills still work standalone for targeted follow-ups after a wireframe or critique session.
 
 ---
 
@@ -44,7 +54,7 @@ Read `agents/router.json` and `agents/chain.json`.
 
 Otherwise:
 - **Narrower problem type:** run only the expert(s) listed in the matching `agents/router.json` rule's `route_to`, in the order their `chain_position` implies. Never include a persona listed under that rule's `never_route_to`.
-- **Ideation / concept-generation ask:** use `ideation_chain` from `agents/chain.json` instead (Meera → Noor + Anuj → Arjun → Zara → Priya → Raj), matching `skills/ux-ideator/SKILL.md`.
+- **Ideation / concept-generation ask:** use `ideation_chain` from `agents/chain.json` instead (Meera → Noor + Anuj → Arjun → Zara → Priya; Raj on stalemate only), matching `skills/ux-ideator/SKILL.md`.
 
 **Early DS exit (before running the chain):** if `ds_checklist` has any item marked "at risk" from Phase 0.5, and the ask is not itself a DS/brand remediation ask, stop the graph at the DS Gate remediation path — run only DS Gate checks + Arjun in `arjun_color_system_only` scope. Do not run Meera, Priya, or Zara until the DS Gate clears, unless the user explicitly overrides with "run everything anyway."
 
@@ -54,20 +64,27 @@ Announce the selected graph and why it's smaller than the full chain, one line: 
 
 ---
 
-## Step 3 — Execute the chain
+## Step 3 — Execute adversarial deliberation (v1.19)
 
-For each persona in the selected graph, in order (or in parallel where Step 2 identified `parallel_safe_with` pairs):
+Read `skills/deliberation-protocol/SKILL.md` first. Personas **debate** — they do not pass generic handoff documents.
 
-1. Load its manifest from `agents/manifests/<persona>.json` — respect `allowed_jobs`, `forbidden_jobs`, and `hard_gates`.
-2. Prefer the persona's short **card** (`agents/cards/<persona>.md`, ~400–800 tokens) as the system context instead of pasting the full `skills/<persona>/SKILL.md`. Only open the full SKILL.md when: scoring a dimension C or below and the rubric detail is needed, the user asked for a "deep dive" or "full critique," or the card itself says to consult it (e.g. Arjun's Grade Rubric tables).
-3. Use the **session digest** (`session-state.json` → `digest`) instead of the full `persona_outputs` history when passing prior context — the digest carries `task_map_summary`, `hierarchy_top3`, `ds_at_risk`, and `prior_scores`, which is enough for handoff without re-pasting every prior persona's full essay.
-4. Pass the confirmed task map, DS checklist, and information hierarchy from session state, plus the prior persona's output using the handoff line convention from `skills/design-critic/SKILL.md` (e.g. *"Arjun scored UX at [X/5]. The friction points flagged — [...] — translate to the following business risk..."*).
-   - For reference-data citations, prefer `npx analyzthis_design retrieve --file <csv> --column <col> --keywords <a,b>` over opening the full CSV — it returns only the matching rows for the active dimension (e.g. brand route → `colors.csv` + contrast rows from `ux-guidelines.csv`), pre-formatted for the mandatory citation line.
-5. Use the **lite output schema** by default (grades + Top 2 fixes + score only — see the persona's card). Use the **deep schema** (full blocks as in the persona's SKILL.md) only when the user asked for a full/deep critique, or `agents/chain.json`'s `default_chain` is running.
-6. Append the persona's structured output block to `persona_outputs` in session state, keyed by persona id, and update `digest.prior_scores[persona_id]`.
-7. If a persona's manifest lists `hard_gates` (e.g. Arjun's `ds_gate`, `information_hierarchy_gate`), do not let that persona's output stand until the referenced gate has been checked — see Step 4.
+**Preferred (CLI):** `npx analyzthis_design run --task "..." [--full] [--satisfaction 0.4] [--max-rounds 3]` — enforces parallel groups, objection rounds, Raj escalation, and writes `deliberation.round_log` to session.
 
-If a persona's manifest forbids the job being asked of it (e.g. asking Zara to fix contrast), refuse on that persona's behalf and re-route per `agents/router.json` instead of forcing the run.
+**Chat workflow** when not using CLI:
+
+1. Build **context pack** from session: `task_map`, `ds_checklist`, `information_hierarchy`, knowledge bank excerpts
+2. Run **deliberation groups** from `agents/chain.json` → `deliberation_groups` (critique / ideation / lite)
+3. **Review mode (rounds 0..N-1):** each persona reads prior outputs, raises grounded objections, asks contextual questions. Default `accepts_prior: false`. Output deliberation JSON block per `agents/deliberation-schema.json`
+4. **Parallel pairs:** Noor∥Anuj, Meera∥Priya — critique each other's claims in the same round
+5. **Produce mode (final round):** full output schema only after objections resolve or Raj rules
+6. After each persona: append to `persona_outputs`, update `digest.prior_scores`, append to `deliberation.round_log`
+7. **Raj** on stalemate: 2+ blocking objections, repeated claims, or round >= `escalate_to_raj_after_round`
+
+Forbidden in review rounds: generic handoff lines without citing a specific prior claim; rewriting full wireframes/critiques before deliberation closes.
+
+For reference data: `npx analyzthis_design retrieve --file <csv> --column <col> --keywords <a,b>`
+
+Legacy sequential mode: `npx analyzthis_design run --no-deliberate` or skip deliberation-protocol in chat (not recommended).
 
 ---
 
@@ -113,6 +130,32 @@ Run `ux-story-gate` Phase 5.5. If `mode: assess_only`, stop here — do not writ
 
 ---
 
+## Step 6.5 — Capture user corrections (v1.16)
+
+When the user is **unhappy** with a persona's output or **rewrites/corrects** it, record that signal so future training can learn from mistakes:
+
+```bash
+npx analyzthis_design feedback record --persona arjun --rating 2 \
+  --comment "What was wrong" \
+  --correction "What they wanted instead" \
+  --tags wrong_hierarchy,invented_tokens
+```
+
+Or in one step when rejecting:
+
+```bash
+npx analyzthis_design session accept --persona arjun --reject \
+  --comment "..." --correction "..." --rating 2 --tags off_brief
+```
+
+Suggest this when the user says things like *"that's not what I meant,"* *"use our tokens,"* or *"the hierarchy is wrong."* Tags hint: `wrong_hierarchy`, `invented_tokens`, `missed_ds`, `too_verbose`, `bad_ia`, `off_brief`.
+
+List or export later: `feedback list`, `feedback export --persona arjun --all`.
+
+**Share with maintainers (opt-in):** after recording, suggest `npx analyzthis_design feedback submit --yes` so anonymized corrections help improve personas for everyone. Preview first with `--dry-run`.
+
+---
+
 ## What this skill is not
 
 - **Not a persona.** It has no design opinion — it routes to the ones that do.
@@ -124,7 +167,9 @@ Run `ux-story-gate` Phase 5.5. If `mode: assess_only`, stop here — do not writ
 ## Files this depends on
 
 - `agents/router.json` — MoE routing rules
-- `agents/chain.json` — default and ideation chains, gate ordering, `parallel_safe_with`, tiers, token caps
+- `agents/chain.json` — default and ideation chains, deliberation_groups, gate ordering, token caps
+- `agents/deliberation-schema.json` — objection/satisfaction output contract
+- `skills/deliberation-protocol/SKILL.md` — adversarial review rules (v1.19)
 - `agents/session-schema.json` — session state shape, including `digest` and `metrics`
 - `agents/manifests/*.json` — per-persona allowed/forbidden jobs, hard gates, `system_card`, `tier`, `max_output_tokens`
 - `agents/cards/*.md` — short persona system prompts used by default instead of full SKILL.md

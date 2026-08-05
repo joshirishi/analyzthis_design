@@ -11,7 +11,7 @@ Four specialist personas evaluate a design independently across UX, business, fe
 
 ## Step -1: Load knowledge bank (highest priority)
 
-Before anything else, read `~/.cursor/skills/knowledge-bank/SKILL.md` (or `~/.claude/commands/knowledge-bank.md` / `~/.codex/skills/knowledge-bank.md` depending on your tool).
+Before anything else, read the knowledge-bank skill from your host (sibling preferred): `~/.cursor/skills/knowledge-bank/SKILL.md`, `~/.claude/skills/knowledge-bank/SKILL.md`, `~/.grok/skills/knowledge-bank/SKILL.md`, `~/.agents/skills/knowledge-bank/SKILL.md`, or legacy `~/.claude/commands/knowledge-bank.md`.
 
 If the knowledge bank has content (i.e. it is not the "No knowledge bank connected yet" placeholder):
 - Treat every section in the knowledge bank as **ground truth** for this project
@@ -52,9 +52,12 @@ Arjun produces two output blocks: UX Critique (Honeycomb) and Visual Design Audi
 
 Read `~/.cursor/skills/meera/SKILL.md` and activate Meera.
 
-**Handoff from Phase 1:** Begin with: *"Arjun scored UX at [X/5]. The friction points flagged — [top 1–2 from Arjun] — translate to the following business risk..."*
+**Adversarial review (v1.19):** Read `skills/deliberation-protocol/SKILL.md`. Do NOT open with a generic handoff paragraph. Instead:
+- Read Arjun's output and **contest specific claims** with business evidence from task_map and knowledge bank
+- Default `accepts_prior: false` until hierarchy matches north-star metric
+- Meera runs **in parallel with Priya** in adversarial mode — each objects to the other's assumptions about adoption vs effort
 
-Produce the Business Impact output block. Always specifies segment and metric. Use citation format: `[products.csv, row N: "quoted value"]` when citing reference data.
+Produce the Business Impact output block after review rounds. Use citation format: `[products.csv, row N: "quoted value"]`.
 
 ---
 
@@ -62,9 +65,9 @@ Produce the Business Impact output block. Always specifies segment and metric. U
 
 Read `~/.cursor/skills/priya/SKILL.md` and activate Priya.
 
-**Handoff from Phase 2:** Begin with: *"Meera flagged adoption risk as [level] due to [reason]. Arjun's usability concern about [component] adds [low/medium/high] implementation complexity because..."*
+**Adversarial review:** Challenge Meera's adoption assumptions and Arjun's UX fixes with **concrete implementation cost**. Cite real stack/components from knowledge bank. Parallel with Meera — object, do not summarize.
 
-Produce the Feasibility Analysis output block with T-shirt size using two-axis model. Use citation format: `[stacks/X.csv, row N: "quoted component name"]` when citing stack data.
+Produce the Feasibility Analysis output block with T-shirt size using two-axis model.
 
 ---
 
@@ -72,11 +75,21 @@ Produce the Feasibility Analysis output block with T-shirt size using two-axis m
 
 Read `~/.cursor/skills/zara/SKILL.md` and activate Zara.
 
-**Handoff from Phase 3:** Begin with: *"Priya estimated [S/M/L/XL] effort. Given that constraint, the delight budget is [low/medium/high]..."*
+**Adversarial review:** Given Priya's effort ceiling, **contest** whether delight budget exists. Object if delight would violate hierarchy or feasibility constraints.
 
 If high-frequency working surface: output only — *"no delight needed here — speed is the craft."*
 
-Otherwise produce the Delight Pass output block. Apply the styles.csv filter before reading: match rows where `Best_For` contains the product type from session context AND `Performance` is "High" or "Very High". Take the top 3 matching rows only.
+Otherwise produce the Delight Pass output block after deliberation rounds close.
+
+---
+
+## Phase 4.5 — Deliberation synthesis (before composite score)
+
+Read `skills/deliberation-protocol/SKILL.md`.
+
+- Run objection rounds until `consensus_reached` or Raj escalates (2+ blocking objections, stalemate)
+- CLI: `npx analyzthis_design run --task "..." --full` enforces this in standalone runtime
+- Phase 5 composite score runs **only after** deliberation closes — not after pass-the-parcel handoffs
 
 ---
 

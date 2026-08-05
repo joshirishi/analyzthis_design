@@ -1,0 +1,10 @@
+{
+  "deliberation": {
+    "satisfaction_threshold": 0.4,
+    "max_rounds": 3,
+    "parallel_pairs": [["noor", "anuj"], ["meera", "priya"]],
+    "objection_token_cap": 600,
+    "escalate_to_raj_after_round": 2,
+    "default_mode": "adversarial"
+  }
+}

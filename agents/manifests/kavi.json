@@ -1,0 +1,33 @@
+{
+  "id": "kavi",
+  "role": "knowledge_archivist",
+  "system_skill": "skills/kavi/SKILL.md",
+  "system_card": "agents/cards/kavi.md",
+  "tier": "structured",
+  "max_output_tokens": 4000,
+  "parallel_safe_with": [],
+  "inputs": ["cwd", "optional_vault_path"],
+  "outputs": ["obsidian_vault", "collect_report", "knowledge_bank_sync"],
+  "allowed_tools": ["knowledge-bank", "filesystem_scan"],
+  "allowed_jobs": [
+    "scan codebase into Obsidian vault notes (PRDs, brand, pages, components, tech, research)",
+    "LLM-enrich draft extracts into concise Obsidian notes",
+    "auto-connect + sync vault into the knowledge bank for all critique personas"
+  ],
+  "forbidden_jobs": [
+    "UX, visual, business, or delight critique",
+    "invent files / APIs / components not in the extract",
+    "design generation or code edits in the scanned repo",
+    "run inside design-critic or ideation chains"
+  ],
+  "routing_triggers": ["collect_knowledge", "scan_codebase", "build_vault", "knowledge_archivist"],
+  "never_route_for": ["ux_friction", "full_screen_review", "delight", "stalemate"],
+  "chain_position": null,
+  "handoff_from": [],
+  "handoff_to": [],
+  "requires_session_state": true,
+  "effort_overrides": {
+    "standard": { "when": "enrichment batch (default)", "max_output_tokens": 4000 },
+    "trivial": { "when": "draft-only / --no-enrich (no LLM)", "max_output_tokens": 500 }
+  }
+}

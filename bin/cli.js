@@ -4,17 +4,23 @@
 const path = require('path');
 const os   = require('os');
 const fs   = require('fs');
-const { install, remove, SKILLS, TARGET_DIRS } = require('../lib/install');
+const { install, remove, SKILLS, TARGET_DIRS, printWelcomeBanner } = require('../lib/install');
+const { resolveTargets, ALL_TARGET_IDS } = require('../lib/platforms');
 const { connect, disconnect, sync, status }     = require('../lib/knowledge');
 const session = require('../lib/session');
 const research = require('../lib/research');
 const retrieve = require('../lib/retrieve');
 const { exportTraining } = require('../lib/export');
+const feedback = require('../lib/feedback');
+const feedbackSubmit = require('../lib/feedback-submit');
 const cost = require('../lib/cost');
+const { collect } = require('../lib/collect');
+const designSpec = require('../lib/design-spec');
 const { run: orchestratorRun } = require('../lib/orchestrator/run');
+const hostLlm = require('../lib/host-llm');
 
 const HELP = `
-Analyzthis_Design — 7 AI design personas with a personal knowledge bank
+Analyzthis_Design — 8 AI design personas with a personal knowledge bank
 
 Usage:
   npx analyzthis_design [command] [options]
@@ -23,12 +29,22 @@ Usage:
   install    Copy all skills to the target AI tool's directory  (default)
   remove     Delete installed skills from the target AI tool's directory
   list       Show installed skills for a target
+  welcome    Print getting-started banner for your AI tool (--target)
 
 ── Knowledge bank commands ──────────────────────────────────
   connect    Register a vault or knowledge folder as a source
   sync       Read all sources and build the knowledge-bank skill
   disconnect Remove a source from the registry
   status     Show connected sources and last sync time
+  collect    Kavi: scan codebase → Obsidian vault → enrich → sync knowledge bank
+             (--vault path, --dry-run, --no-enrich, --no-web, --no-discover,
+              --web-limit N, --target cursor|claude|codex|grok|windsurf|agents|all)
+
+── Design spec commands ─────────────────────────────────────
+  spec show      Print design_spec from session state
+  spec validate  Validate a DesignSpec JSON file (--file) or session
+  spec save      Save DesignSpec JSON to session (--file required)
+  spec template  Print empty DesignSpec template block
 
 ── Session commands (agentic orchestrator) ──────────────────
   session init    Create a fresh session-state.json for this project
@@ -36,12 +52,25 @@ Usage:
   session reset   Delete the session state for this project (--all for every project)
   session accept  Mark a persona's last output accepted, for training export
                   (--persona <id>, optional --reject to unmark)
+                  Optional feedback: --comment, --correction, --rating 1-5, --tags a,b
+
+── Persona feedback commands ─────────────────────────────────
+  feedback record   Record unhappiness or a correction for a persona output
+                    (--persona <id>, --comment, --correction, --rating 1-5, --tags)
+  feedback list     List feedback entries for this project (--all for every project)
+  feedback export   Export rejected + correction JSONL pairs for training
+                    (--persona <id>, --all, --output <path>, --include-positive)
+  feedback submit   Opt-in: send anonymized corrections to community store (Supabase)
+                    (--yes skip prompt, --dry-run preview, --all unsent across projects)
+  feedback status   Show submit consent, endpoint config, unsent count
+  feedback revoke   Revoke opt-in consent for community submit
 
 ── Efficiency / cost commands ────────────────────────────────
   metrics             Print the last run's cost metrics (--all for every project)
   cost                Print the last run's $ cost from config.pricing (--all for every project)
   export-training     Write accepted-output JSONL pairs for LoRA prep
                       (--persona <id>, --all, --output <path>)
+  feedback export     Write rejected + correction JSONL pairs (DPO / negative examples)
 
 ── Research commands ────────────────────────────────────────
   research --url <url>       Fetch a URL and append to session web-context.md
@@ -52,12 +81,23 @@ Usage:
                               --limit N   (default 3)
 
 ── Orchestrator (standalone runtime) ────────────────────────
-  run --task <text>          MoE route + persona chain via LLM API (or --dry-run)
+  run --task <text>          MoE route + persona chain (host/Devi default, or API provider)
+                              --continue     resume after /devi fills pending responses
                               --lite (default) MoE subset only | --full allow full chain
                               --experts a,b    explicit override, skips the router entirely
+                              --deliberate     adversarial satisfaction loops (default on)
+                              --no-deliberate  legacy sequential pass-the-parcel mode
+                              --max-rounds N   cap deliberation rounds (default 3)
+                              --satisfaction X satisfaction threshold 0.0-1.0 (default 0.4)
+
+── Devi (host LLM — no API keys) ────────────────────────────
+  devi status                List pending persona prompts awaiting host LLM responses
+                              (--run path to a specific run directory)
+  devi respond               Submit a persona response file
+                              (--run path, --step 001-arjun, --file response.md)
 
 ── Options ──────────────────────────────────────────────────
-  --target   AI tool: cursor | claude | codex | all  (default: cursor)
+  --target   Platform: cursor | claude | codex | grok | windsurf | agents | all  (default: cursor)
   --force    Overwrite existing skills on install
   --vault    Path to Obsidian vault or markdown folder (connect command)
   --tags     Comma-separated tags to filter by, e.g. design,brand,ux
@@ -68,20 +108,43 @@ Usage:
   --query    Search query (research command)
   --task     Task description (run command)
   --figma    Figma URL (run command)
-  --provider anthropic | openai | google | zai (run command; default from config or anthropic)
+  --provider anthropic | openai | google | zai | host (default: auto — host when no API keys)
   --model    Model override (run command)
+  --continue With "run", resume host-mode run after devi respond
   --dry-run  Print routing + chain without calling any LLM (run command)
   --lite     Force MoE subset only, even for full_screen_review (run command; default)
   --full     Allow the full design-critic chain for full_screen_review (run command)
   --experts  Comma-separated persona ids, bypasses the router entirely (run command)
   --output   Write final session-state.json to this path (run command); or JSONL path (export-training)
-  --persona  Persona id (session accept command; export-training command)
+  --persona  Persona id (session accept; export-training; feedback commands)
   --reject   With "session accept", mark the output rejected instead of accepted
+  --comment  What was wrong or what you liked (session accept / feedback record)
+  --correction  How you fixed it or what you wanted instead (session accept / feedback record)
+  --rating   1 (very unhappy) to 5 (very happy) — feedback record / session accept
+  --include-positive  With "feedback export", include satisfied entries too
+  --yes      With "feedback submit", accept consent prompt without asking again
+  --deliberate  With "run", force adversarial deliberation loops
+  --no-deliberate  With "run", legacy sequential handoff (no objection rounds)
+  --max-rounds  With "run", cap deliberation rounds (default 3)
+  --satisfaction  With "run", satisfaction threshold 0.0-1.0 (default 0.4)
+  --no-enrich  With "collect", write draft vault + sync without LLM enrichment
+  --no-web     With "collect", skip fetching URLs from config/PRDs/README
+  --no-discover With "collect", skip Obsidian/vault/knowledge-graph discovery
+  --web-limit  Cap external URLs fetched during collect (default: 10)
+  --limit    Cap notes enriched (collect) or retrieve rows (retrieve)
   --help     Show this help message
 
 ── Examples ─────────────────────────────────────────────────
   npx analyzthis_design                                    # install for Cursor
   npx analyzthis_design --target all                       # install for all tools
+  npx analyzthis_design welcome                            # re-print getting-started help
+  npx analyzthis_design welcome --target claude
+
+  npx analyzthis_design collect                            # Kavi: scan → vault → enrich → sync
+  npx analyzthis_design collect --dry-run                  # preview classification + web URLs
+  npx analyzthis_design collect --no-enrich --limit 50
+  npx analyzthis_design collect --no-web                   # skip external URL fetch
+  npx analyzthis_design collect --vault ~/Documents/MyVault --target all
 
   npx analyzthis_design connect --vault ~/Documents/MyVault
   npx analyzthis_design connect --vault ~/docs --tags design,brand,product
@@ -102,19 +165,35 @@ Usage:
   npx analyzthis_design retrieve --file styles.csv --column "Best For" --keywords b2b --limit 3
 
   npx analyzthis_design run --task "Fix contrast on landing page" --dry-run
-  npx analyzthis_design run --task "Review this screen" --figma https://figma.com/... --provider anthropic
-  npx analyzthis_design run --task "Full critique of onboarding" --full
+  npx analyzthis_design run --task "Review this screen" --full
+  npx analyzthis_design run --continue --task "Review this screen" --full
+  npx analyzthis_design devi status
+  npx analyzthis_design devi respond --run ~/.analyzthis_design/runs/... --step 001-arjun --file out.md
+  npx analyzthis_design run --task "Review this screen" --provider anthropic
   npx analyzthis_design run --task "Just check spacing" --experts arjun
 
   npx analyzthis_design session accept --persona arjun
+  npx analyzthis_design session accept --persona arjun --reject \\
+    --comment "Invented tokens not in our DS" \\
+    --correction "Use --color-primary and spacing-4 from tokens.css" \\
+    --rating 2 --tags invented_tokens,missed_ds
+  npx analyzthis_design feedback record --persona arjun --rating 2 --comment "..." --correction "..."
+  npx analyzthis_design feedback list
+  npx analyzthis_design feedback export --persona arjun --all
+  npx analyzthis_design feedback submit --dry-run
+  npx analyzthis_design feedback submit --all --yes
+  npx analyzthis_design feedback status
   npx analyzthis_design metrics
   npx analyzthis_design cost
   npx analyzthis_design export-training --persona arjun --all
 
 ── Install paths ────────────────────────────────────────────
-  Cursor  → ~/.cursor/skills/
-  Claude  → ~/.claude/commands/
-  Codex   → ~/.codex/skills/
+  Cursor     → ~/.cursor/skills/
+  Claude     → ~/.claude/skills/ (+ legacy ~/.claude/commands/)
+  Codex      → ~/.codex/skills/
+  Grok       → ~/.grok/skills/
+  Windsurf   → ~/.codeium/windsurf/skills/
+  agents     → ~/.agents/skills/  (cross-tool discovery)
 
 ── Knowledge bank config ────────────────────────────────────
   Config  → ~/.analyzthis_design/config.json
@@ -133,6 +212,11 @@ function getFlag(name) {
   const idx = flags.indexOf(`--${name}`);
   if (idx !== -1 && flags[idx + 1] && !flags[idx + 1].startsWith('--')) return flags[idx + 1];
   return null;
+}
+
+function parseFeedbackTags(raw) {
+  if (!raw) return [];
+  return raw.split(',').map((t) => t.trim().toLowerCase()).filter(Boolean);
 }
 
 const force      = flags.includes('--force');
@@ -159,6 +243,22 @@ const keywordsVal = getFlag('keywords');
 const limitVal   = getFlag('limit');
 const personaVal = getFlag('persona');
 const rejectFlag = flags.includes('--reject');
+const commentVal = getFlag('comment');
+const correctionVal = getFlag('correction');
+const ratingVal = getFlag('rating');
+const includePositiveFlag = flags.includes('--include-positive');
+const yesFlag = flags.includes('--yes');
+const deliberateFlag = flags.includes('--deliberate');
+const noDeliberateFlag = flags.includes('--no-deliberate');
+const maxRoundsVal = getFlag('max-rounds');
+const satisfactionVal = getFlag('satisfaction');
+const continueFlag = flags.includes('--continue');
+const runDirVal = getFlag('run');
+const stepVal = getFlag('step');
+const noEnrichFlag = flags.includes('--no-enrich');
+const noWebFlag    = flags.includes('--no-web');
+const noDiscoverFlag = flags.includes('--no-discover');
+const webLimitVal  = getFlag('web-limit');
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 
@@ -173,15 +273,30 @@ switch (cmd) {
     remove({ target: targetVal });
     break;
 
+  case 'welcome': {
+    const targets = resolveTargets(targetVal) || ['cursor'];
+    for (const tId of targets) printWelcomeBanner(tId);
+    break;
+  }
+
   case 'list': {
-    const targets = targetVal === 'all' ? Object.keys(TARGET_DIRS) : [targetVal];
-    for (const t of targets) {
-      const dir = TARGET_DIRS[t];
-      console.log(`\nInstalled Analyzthis_Design skills [${t}] (${dir}):\n`);
+    const { TARGETS } = require('../lib/platforms');
+    const targets = resolveTargets(targetVal);
+    if (!targets) {
+      console.error(`\n  ✗  Unknown target "${targetVal}". Choose: ${ALL_TARGET_IDS.join(', ')}, all\n`);
+      process.exit(1);
+    }
+    for (const tId of targets) {
+      const t = TARGETS[tId];
+      console.log(`\nInstalled Analyzthis_Design skills [${t.label}] (${t.root}):\n`);
       for (const skill of SKILLS) {
-        const asDir  = path.join(dir, skill);
-        const asFile = path.join(dir, `${skill}.md`);
-        const exists = fs.existsSync(asDir) || fs.existsSync(asFile);
+        const asDir  = path.join(t.root, skill);
+        const asFile = path.join(t.root, `${skill}.md`);
+        let exists = fs.existsSync(asDir) || fs.existsSync(asFile);
+        if (!exists && t.also) {
+          exists = fs.existsSync(path.join(t.also.root, skill)) ||
+            fs.existsSync(path.join(t.also.root, `${skill}.md`));
+        }
         console.log(`  ${exists ? '✅' : '✗ '} ${skill}`);
       }
     }
@@ -222,7 +337,12 @@ switch (cmd) {
   }
 
   case 'sync': {
-    const targets = targetVal === 'all' ? Object.keys(TARGET_DIRS) : [targetVal];
+    const { resolveTargets, ALL_TARGET_IDS } = require('../lib/platforms');
+    const targets = resolveTargets(targetVal);
+    if (!targets) {
+      console.error(`\n  ✗  Unknown target "${targetVal}". Choose: ${ALL_TARGET_IDS.join(', ')}, all\n`);
+      process.exit(1);
+    }
     console.log('\n⏳ Syncing knowledge bank...\n');
     try {
       const result = sync({ targets });
@@ -288,11 +408,30 @@ switch (cmd) {
           console.error('\n  ✗  --persona is required.  Example: npx analyzthis_design session accept --persona arjun\n');
           process.exit(1);
         }
-        const result = session.markAccepted({ project: projectVal, persona: personaVal, accepted: !rejectFlag });
-        if (!result.updated) {
-          console.log(`\n  ⚠  ${result.reason}\n`);
+        if (commentVal || correctionVal || ratingVal) {
+          try {
+            const fb = feedback.recordFeedback({
+              project: projectVal,
+              persona: personaVal,
+              satisfied: !rejectFlag,
+              rating: ratingVal != null ? Number(ratingVal) : undefined,
+              comment: commentVal || '',
+              correction: correctionVal || '',
+              tags: parseFeedbackTags(tagsVal),
+              markRejected: true,
+            });
+            console.log(`\n✅ Marked "${personaVal}" as ${rejectFlag ? 'rejected' : 'accepted'} with feedback (${fb.entry.id}).\n`);
+          } catch (err) {
+            console.error(`\n  ✗  ${err.message}\n`);
+            process.exit(1);
+          }
         } else {
-          console.log(`\n✅ Marked "${personaVal}" output as ${rejectFlag ? 'rejected' : 'accepted'}.\n`);
+          const result = session.markAccepted({ project: projectVal, persona: personaVal, accepted: !rejectFlag });
+          if (!result.updated) {
+            console.log(`\n  ⚠  ${result.reason}\n`);
+          } else {
+            console.log(`\n✅ Marked "${personaVal}" output as ${rejectFlag ? 'rejected' : 'accepted'}.\n`);
+          }
         }
         break;
       }
@@ -300,6 +439,104 @@ switch (cmd) {
         console.error(`\nUnknown session subcommand: "${sub || ''}". Use: init | show | reset | accept\n`);
         process.exit(1);
     }
+    break;
+  }
+
+  // ── Design spec ─────────────────────────────────────────────────────────
+
+  case 'spec': {
+    const sub = flags[0] || 'show';
+    if (sub === 'template') {
+      console.log('\n' + designSpec.templateMarkdown() + '\n');
+      break;
+    }
+    if (sub === 'show') {
+      const row = designSpec.showFromSession({ project: projectVal });
+      if (!row) {
+        console.log('\n  No design_spec in session. Run /design-director or /ux-ideator Phase 7 first.\n');
+        break;
+      }
+      console.log('\n── design_spec ──────────────────────────────────────');
+      console.log(JSON.stringify(row.design_spec, null, 2));
+      console.log('');
+      break;
+    }
+    if (sub === 'save') {
+      if (!fileVal) {
+        console.error('\n  ✗  spec save requires --file <path.json>\n');
+        process.exit(1);
+      }
+      try {
+        const raw = fs.readFileSync(path.resolve(fileVal), 'utf8');
+        const spec = JSON.parse(raw);
+        const validation = designSpec.validateDesignSpec(spec);
+        if (!validation.valid) {
+          console.log('\n✗  Cannot save invalid spec:\n');
+          for (const e of validation.errors) console.log(`   • ${e}`);
+          console.log('');
+          process.exit(1);
+        }
+        const saved = designSpec.saveToSession(spec, { project: projectVal, merge: false });
+        console.log(`\n✅ Saved design_spec to session (${saved.projectId})\n`);
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (sub === 'validate') {
+      try {
+        let result;
+        if (fileVal) {
+          result = designSpec.validateFile(fileVal);
+        } else {
+          const row = designSpec.showFromSession({ project: projectVal });
+          if (!row) {
+            console.error('\n  ✗  No design_spec in session and no --file provided.\n');
+            process.exit(1);
+          }
+          result = { spec: row.design_spec, ...designSpec.validateDesignSpec(row.design_spec) };
+        }
+        if (result.valid) {
+          console.log('\n✅ DesignSpec is valid.\n');
+          if (result.spec && !fileVal) {
+            console.log(`   status: ${result.spec.status} | screen: ${result.spec.screen_name}\n`);
+          }
+        } else {
+          console.log('\n✗  DesignSpec validation failed:\n');
+          for (const e of result.errors) console.log(`   • ${e}`);
+          console.log('');
+          process.exit(1);
+        }
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    console.error('\n  ✗  Unknown spec subcommand. Use: spec show | validate | save | template\n');
+    process.exit(1);
+  }
+
+  // ── Collect knowledge (Kavi) ────────────────────────────────────────────
+
+  case 'collect': {
+    collect({
+      project: projectVal,
+      vault: vaultVal || undefined,
+      dryRun: dryRunFlag,
+      enrich: !noEnrichFlag,
+      web: !noWebFlag,
+      discoverSources: !noDiscoverFlag,
+      webLimit: webLimitVal ? parseInt(webLimitVal, 10) : null,
+      limit: limitVal ? parseInt(limitVal, 10) : null,
+      target: targetVal,
+      provider: providerVal,
+      model: modelVal,
+    }).catch((err) => {
+      console.error(`\n  ✗  Collect failed: ${err.message}\n`);
+      process.exit(1);
+    });
     break;
   }
 
@@ -370,25 +607,75 @@ switch (cmd) {
   // ── Orchestrator run (standalone LLM runtime) ───────────────────────────
 
   case 'run': {
-    if (!taskVal) {
+    let runTask = taskVal;
+    if (!runTask && continueFlag) {
+      const st = session.show({ project: projectVal });
+      runTask = st?.host_run?.task || hostLlm.loadManifest(st?.host_run?.run_dir || '')?.task || st?.digest?.task_map_summary;
+    }
+    if (!runTask) {
       console.error('\n  ✗  --task is required.  Example: npx analyzthis_design run --task "Fix contrast" --dry-run\n');
       process.exit(1);
     }
     orchestratorRun({
-      task: taskVal,
+      task: runTask,
       figma: figmaVal || '',
       provider: providerVal,
       model: modelVal,
       dryRun: dryRunFlag,
       lite: liteFlag,
       full: fullFlag,
+      deliberate: deliberateFlag ? true : null,
+      noDeliberate: noDeliberateFlag,
+      maxRounds: maxRoundsVal,
+      satisfaction: satisfactionVal,
+      continueRun: continueFlag,
       experts: expertsVal ? expertsVal.split(',').map((s) => s.trim()).filter(Boolean) : null,
       project: projectVal,
       output: outputVal,
     }).catch((err) => {
+      if (err.name === 'HostLlmPendingError') process.exit(2);
       console.error(`\n  ✗  Run failed: ${err.message}\n`);
       process.exit(1);
     });
+    break;
+  }
+
+  case 'devi': {
+    const sub = flags[0];
+    if (sub === 'status') {
+      let runDir = runDirVal;
+      if (!runDir) {
+        const st = session.show({ project: projectVal });
+        runDir = st?.host_run?.run_dir || hostLlm.findLatestRun(st?.project_id || session.getProjectId())?.runDir;
+      }
+      if (!runDir || !fs.existsSync(runDir)) {
+        console.log('\n  No host run found. Start one: npx analyzthis_design run --task "..." --full\n');
+        break;
+      }
+      const pending = hostLlm.listPending(runDir);
+      console.log(`\n📋 Devi — host run: ${runDir}\n`);
+      for (const p of pending) {
+        console.log(`  ${p.hasResponse ? '✅' : '⏳'} ${p.stepId} (${p.personaId})`);
+      }
+      const waiting = pending.filter((p) => !p.hasResponse);
+      if (waiting.length) {
+        console.log(`\n  ${waiting.length} pending — invoke /devi in Cursor or devi respond for each step.\n`);
+      } else {
+        console.log('\n  All responses present — run: npx analyzthis_design run --continue --task "..."\n');
+      }
+      break;
+    }
+    if (sub === 'respond') {
+      if (!runDirVal || !stepVal || !fileVal) {
+        console.error('\n  ✗  devi respond requires --run, --step, and --file\n');
+        process.exit(1);
+      }
+      const text = fs.readFileSync(path.resolve(fileVal), 'utf8');
+      hostLlm.submitResponse(path.resolve(runDirVal), stepVal, text);
+      console.log(`\n✅ Wrote response for ${stepVal}\n`);
+      break;
+    }
+    console.log('\n  Usage: devi status | devi respond --run <dir> --step <id> --file <path>\n');
     break;
   }
 
@@ -412,6 +699,14 @@ switch (cmd) {
       console.log(`    input_tokens_est:  ${m.input_tokens_est ?? 0}`);
       console.log(`    output_tokens_est: ${m.output_tokens_est ?? 0}`);
       console.log(`    cache_hits:        ${m.cache_hits ?? 0}`);
+      console.log(`    deliberation_rounds: ${m.deliberation_rounds ?? 0}`);
+      console.log(`    objections_raised: ${m.objections_raised ?? 0}`);
+      console.log(`    objections_resolved: ${m.objections_resolved ?? 0}`);
+      console.log(`    raj_escalations:   ${m.raj_escalations ?? 0}`);
+      const d = state.deliberation;
+      if (d?.mode) {
+        console.log(`    deliberation_mode: ${d.mode}, consensus=${d.consensus_reached}`);
+      }
       console.log('');
     }
     break;
@@ -422,6 +717,136 @@ switch (cmd) {
   case 'cost': {
     cost.report({ project: projectVal, all: allFlag });
     break;
+  }
+
+  // ── Persona feedback (v1.16) ────────────────────────────────────────────
+
+  case 'feedback': {
+    const sub = flags[0] || 'record';
+    if (sub === 'record') {
+      if (!personaVal) {
+        console.error('\n  ✗  --persona is required.\n');
+        console.error('  Example: npx analyzthis_design feedback record --persona arjun --rating 2 \\\n');
+        console.error('    --comment "Invented tokens" --correction "Use tokens.css primary + spacing-4"\n');
+        process.exit(1);
+      }
+      const ratingNum = ratingVal != null ? Number(ratingVal) : undefined;
+      const satisfied = ratingNum != null ? ratingNum >= 4 : false;
+      try {
+        const result = feedback.recordFeedback({
+          project: projectVal,
+          persona: personaVal,
+          satisfied,
+          rating: ratingNum,
+          comment: commentVal || '',
+          correction: correctionVal || '',
+          tags: parseFeedbackTags(tagsVal),
+          markRejected: !satisfied,
+        });
+        console.log(`\n📝 Feedback recorded for "${personaVal}" (${result.entry.id}).`);
+        console.log(`   Global log: ${result.globalFile}\n`);
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (sub === 'list') {
+      const items = feedback.listFeedback({ project: projectVal, all: allFlag });
+      if (!items.length) {
+        console.log('\n  No feedback entries yet.\n');
+        console.log('  Record one: npx analyzthis_design feedback record --persona arjun --rating 2 --comment "..."\n');
+        break;
+      }
+      console.log(`\n── Feedback (${items.length}) ───────────────────────────────`);
+      for (const e of items) {
+        const mood = e.satisfied ? '✅' : '⚠️';
+        const rating = e.rating != null ? ` rating=${e.rating}` : '';
+        const tags = e.tags?.length ? ` [${e.tags.join(', ')}]` : '';
+        const sent = e.submitted_at ? ' 📤' : '';
+        console.log(`${mood} ${e.at}  ${e.persona}${rating}${tags}${sent}`);
+        if (e.comment) console.log(`   comment: ${e.comment.slice(0, 120)}${e.comment.length > 120 ? '…' : ''}`);
+        if (e.correction) console.log(`   correction: ${e.correction.slice(0, 120)}${e.correction.length > 120 ? '…' : ''}`);
+      }
+      console.log('');
+      break;
+    }
+    if (sub === 'export') {
+      try {
+        const result = feedback.exportCorrections({
+          persona: personaVal,
+          project: projectVal,
+          all: allFlag,
+          output: outputVal,
+          includePositive: includePositiveFlag,
+        });
+        console.log(`\n✅ Wrote ${result.pairs} correction pair(s) to ${result.filePath}`);
+        if (!result.pairs) {
+          console.log('   No entries with comment/correction found. Record feedback first.');
+          console.log(`   Tags hint: ${feedback.ISSUE_TAG_HINTS.slice(0, 6).join(', ')}, …`);
+        }
+        console.log('');
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (sub === 'submit') {
+      (async () => {
+        try {
+          const result = await feedbackSubmit.submitFeedback({
+            project: projectVal,
+            all: allFlag,
+            persona: personaVal,
+            includePositive: includePositiveFlag,
+            dryRun: dryRunFlag,
+            yes: yesFlag,
+            limit: limitVal,
+          });
+          if (result.cancelled) {
+            console.log(`\n  ${result.message}\n`);
+            process.exit(0);
+          }
+          if (result.dryRun && result.payloads) {
+            console.log(`\n── Dry run: ${result.payloads.length} row(s) ─────────────────`);
+            console.log(`   Endpoint: ${result.endpoint}`);
+            console.log(JSON.stringify(result.payloads[0], null, 2));
+            if (result.payloads.length > 1) {
+              console.log(`   … and ${result.payloads.length - 1} more`);
+            }
+            console.log('');
+            return;
+          }
+          console.log(`\n✅ ${result.message}`);
+          if (result.endpoint) console.log(`   Endpoint: ${result.endpoint}`);
+          console.log('');
+        } catch (err) {
+          console.error(`\n  ✗  ${err.message}\n`);
+          process.exit(1);
+        }
+      })();
+      break;
+    }
+    if (sub === 'status') {
+      const st = feedbackSubmit.submitStatus();
+      console.log('\n── Feedback submit status ───────────────────────────');
+      console.log(`  Consent:     ${st.consent}`);
+      console.log(`  Endpoint:    ${st.endpoint}`);
+      console.log(`  Anon key:    ${st.anonKey}`);
+      console.log(`  Unsent:      ${st.unsentCount} entr${st.unsentCount === 1 ? 'y' : 'ies'}`);
+      console.log(`  Install id:  ${st.installId} (anonymous)`);
+      console.log(`  Package:     ${st.packageVersion}`);
+      console.log('');
+      break;
+    }
+    if (sub === 'revoke') {
+      feedbackSubmit.revokeConsent();
+      console.log('\n🛑 Opt-in consent revoked. Run feedback submit again to re-consent.\n');
+      break;
+    }
+    console.error(`\nUnknown feedback subcommand: "${sub}". Use: record | list | export | submit | status | revoke\n`);
+    process.exit(1);
   }
 
   // ── LoRA readiness: training-pair export (Phase 5, hook only) ──────────

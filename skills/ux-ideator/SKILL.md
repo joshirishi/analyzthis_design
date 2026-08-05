@@ -1,6 +1,6 @@
 ---
 name: ux-ideator
-description: Run a full multi-persona UX ideation workflow that generates two competing IA concepts (minimalist vs dense), deliberates between them, applies a delight pass, performs a feasibility sanity check, and produces implementation-ready wireframes. Use when designing a new feature, screen, or flow from scratch.
+description: Wireframe a new feature, screen, or flow from scratch — full text wireframes, two competing IA concepts (minimalist vs dense), deliberation, delight pass, and feasibility check. Use for mockups, screen layout, IA concepts, and design-from-scratch asks.
 ---
 
 # UX Ideator
@@ -11,7 +11,7 @@ Seven personas collaborate across 6 phases to produce a single, deliberated, imp
 
 ## Step -1: Load knowledge bank (highest priority)
 
-Before anything else, read `~/.cursor/skills/knowledge-bank/SKILL.md` (or `~/.claude/commands/knowledge-bank.md` / `~/.codex/skills/knowledge-bank.md` depending on your tool).
+Before anything else, read the knowledge-bank skill from your host (sibling preferred): `~/.cursor/skills/knowledge-bank/SKILL.md`, `~/.claude/skills/knowledge-bank/SKILL.md`, `~/.grok/skills/knowledge-bank/SKILL.md`, `~/.agents/skills/knowledge-bank/SKILL.md`, or legacy `~/.claude/commands/knowledge-bank.md`.
 
 If the knowledge bank has content (i.e. it is not the "No knowledge bank connected yet" placeholder):
 - Treat every section as **ground truth** — brand guidelines, product decisions, research insights, and technical constraints override built-in persona defaults
@@ -71,33 +71,44 @@ Output: A list of IA gaps and opportunities, attributed to each persona.
 
 ## Phase 3 — Two competing concepts (Noor vs Anuj)
 
+**Mandatory: use the DEEP / full wireframe format from each persona's SKILL.md — never the lite card schema (grades-only summary).**
+
+Individual `/noor` and `/anuj` invocations must also use the full Concept A / Concept B text wireframe blocks, not the lite schema.
+
 ### Concept A — Noor
-Read `~/.cursor/skills/noor/SKILL.md`. Noor produces a minimalist, progressive-disclosure wireframe using her text wireframe format.
+Read `~/.cursor/skills/noor/SKILL.md` (or sibling install path). Noor produces a **full** minimalist, progressive-disclosure text wireframe using the complete "Output — Concept A" block.
 
 ### Concept B — Anuj
-Read `~/.cursor/skills/anuj/SKILL.md`. Anuj produces a dense, expert-optimized wireframe using his text wireframe format.
+Read `~/.cursor/skills/anuj/SKILL.md` (or sibling install path). Anuj produces a **full** dense, expert-optimized text wireframe using the complete "Output — Concept B" block.
 
 Both concepts must:
+- Use the full wireframe template (hierarchy, primary action, nav level, visible-on-load, progressive disclosure, nav path, rationale)
 - Name components from the design system (not abstract descriptions)
 - Respect the navigation level constraint (≤3 levels, Noor's rule)
 - Address the business framing from Phase 1
 
 ---
 
-## Phase 4 — Deliberation (Noor vs Anuj, Raj on standby)
+## Phase 4 — Deliberation (Noor vs Anuj, Raj on standby) — ENFORCED (v1.19)
 
-Noor and Anuj each critique the other's concept on 5 dimensions:
+Read `skills/deliberation-protocol/SKILL.md`. This is **multi-round adversarial review**, not a single paragraph summary.
+
+**Round 0:** Noor and Anuj produce wireframes (parallel).
+
+**Rounds 1..N:** Each critiques the other's concept on 5 dimensions:
 1. Task completion speed for primary persona
 2. Learnability for first-time users
 3. Information density match for expert users
 4. Navigation depth
 5. Design system feasibility (component availability)
 
-**Stalemate Protocol:** If 2+ structural objections are unresolved after one full round, or the same argument repeats without new evidence, activate Raj.
+Each round: grounded objections + deliberation JSON. Default `accepts_prior: false`. Ask contextual questions tied to `task_map` and Meera's business framing.
 
-Read `~/.cursor/skills/raj/SKILL.md` and activate Raj. Raj uses his mandatory Decision Format to resolve each contested dimension.
+**CLI enforcement:** `npx analyzthis_design run --task "wireframe ..."` runs Noor∥Anuj objection loops automatically.
 
-Output: One synthesized concept with explicit record of what each persona won and gave up.
+**Stalemate Protocol:** If 2+ structural objections are unresolved after configured rounds, or the same argument repeats without new evidence, activate Raj.
+
+Output: One synthesized concept with explicit record of what each persona won and gave up — **only after** deliberation closes.
 
 ---
 
@@ -152,3 +163,25 @@ Key deliberation decisions:
 
 Ready to implement: [yes / revise first — list changes]
 ```
+
+---
+
+## Phase 7 — DesignSpec (mandatory before build)
+
+Read `skills/design-spec/SKILL.md`.
+
+Convert the synthesized concept into a **machine-readable DesignSpec** — layout regions, token classes, real component mapping (`import_path` from repo), all four states, do/don't.
+
+- Set `"status": "spec_review"` on first pass
+- Run spec gates (DS, hierarchy, Arjun visual on spec) per design-spec skill
+- Only set `"status": "ship"` when all gates pass
+
+Emit the spec as:
+
+```design-spec
+{ ... full JSON per agents/design-spec-schema.json ... }
+```
+
+For full **design → build** orchestration (spec gates + implementation), use `/design-director` instead of stopping here.
+
+**Individual `/noor` and `/anuj` runs:** after a single wireframe, produce a minimal DesignSpec if the user asked to implement — otherwise wireframe only.

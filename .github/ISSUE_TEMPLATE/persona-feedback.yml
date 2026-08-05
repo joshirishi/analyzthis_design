@@ -1,0 +1,75 @@
+name: Persona feedback
+description: Report when a design persona got it wrong or you had to correct it
+title: "[feedback] "
+labels: ["persona-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help improve analyzthis_design personas. Prefer CLI submit when possible:
+        `npx analyzthis_design feedback record ...` then `npx analyzthis_design feedback submit --yes`
+
+  - type: dropdown
+    id: persona
+    attributes:
+      label: Persona
+      options:
+        - arjun
+        - meera
+        - priya
+        - zara
+        - raj
+        - noor
+        - anuj
+        - design-director
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: rating
+    attributes:
+      label: How happy were you with the output?
+      options:
+        - "1 — very unhappy"
+        - "2 — unhappy"
+        - "3 — okay"
+        - "4 — good"
+        - "5 — great"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: tags
+    attributes:
+      label: What went wrong?
+      options:
+        - label: wrong_hierarchy
+        - label: invented_tokens
+        - label: missed_ds
+        - label: too_verbose
+        - label: bad_ia
+        - label: off_brief
+        - label: other
+
+  - type: textarea
+    id: comment
+    attributes:
+      label: What was wrong?
+      placeholder: The persona suggested colors that aren't in our design system...
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What did you want instead? (how you corrected it)
+      placeholder: Use --color-primary from tokens.css; primary CTA should be top-right...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version (optional)
+      placeholder: "1.17.0"

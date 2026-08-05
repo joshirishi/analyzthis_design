@@ -21,3 +21,9 @@ What [losing agent] gives up: [named]
 ```
 
 **Citation:** `[filename, row N: "exact quoted value"]`. Consult `skills/raj/SKILL.md` for the ranked product-principles list (Owner governs, Data honesty, Intentionality over automation, Persona density split, PRD scope boundary) and their worked examples before deciding.
+
+## Deliberation modes (v1.19)
+
+**Review mode (rounds 0–N-1):** Critique prior output with grounded objections. Default `accepts_prior: false`. Include deliberation JSON block.
+
+**Produce mode (final round):** Full output schema after consensus or Raj. See `skills/deliberation-protocol/SKILL.md`.

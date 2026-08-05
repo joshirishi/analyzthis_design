@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DesignSpec",
+  "description": "Machine-readable design contract produced after ideation. Guides WHAT to design and HOW (tokens, components, layout, states). Personas and the host LLM must not drift from a SHIPped spec.",
+  "type": "object",
+  "required": ["version", "screen_name", "status", "intent", "information_hierarchy", "layout", "tokens", "components", "states"],
+  "properties": {
+    "version": { "type": "string", "const": "1.0" },
+    "screen_name": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["draft", "spec_review", "ship", "revise"] },
+    "intent": {
+      "type": "object",
+      "required": ["primary_user_task", "primary_action"],
+      "properties": {
+        "primary_user_task": { "type": "string" },
+        "north_star_metric": { "type": "string" },
+        "primary_action": { "type": "string" },
+        "business_framing": { "type": "string" }
+      }
+    },
+    "information_hierarchy": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "layout": {
+      "type": "object",
+      "required": ["grid", "regions"],
+      "properties": {
+        "grid": { "type": "string", "description": "e.g. 12-col, single-column" },
+        "max_width": { "type": "string", "description": "Tailwind or token, e.g. max-w-7xl" },
+        "breakpoints": { "type": "array", "items": { "type": "string" } },
+        "nav_level": { "type": "string", "enum": ["L1", "L2", "L3"] },
+        "regions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "content"],
+            "properties": {
+              "name": { "type": "string" },
+              "span": { "type": "string" },
+              "content": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "required": ["colors", "typography", "spacing"],
+      "properties": {
+        "colors": { "type": "object", "additionalProperties": { "type": "string" } },
+        "typography": { "type": "object", "additionalProperties": { "type": "string" } },
+        "spacing": { "type": "object", "additionalProperties": { "type": "string" } },
+        "source": { "type": "string", "description": "tailwind.config | css-vars | figma | knowledge-bank" }
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["region", "component"],
+        "properties": {
+          "region": { "type": "string" },
+          "component": { "type": "string" },
+          "import_path": { "type": "string" },
+          "variant": { "type": "string" },
+          "props": { "type": "object" },
+          "hierarchy_rank": { "type": "number", "minimum": 1 }
+        }
+      }
+    },
+    "states": {
+      "type": "object",
+      "required": ["empty", "loading", "error", "success"],
+      "properties": {
+        "empty": { "type": "string" },
+        "loading": { "type": "string" },
+        "error": { "type": "string" },
+        "success": { "type": "string" }
+      }
+    },
+    "motion": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    },
+    "do": { "type": "array", "items": { "type": "string" } },
+    "dont": { "type": "array", "items": { "type": "string" } },
+    "wireframe_ref": { "type": "string" },
+    "delight_moment": { "type": "string" },
+    "effort_estimate": { "type": "string" },
+    "citations": {
+      "type": "array",
+      "items": { "type": "string", "description": "[filename, row N: \"value\"] format" }
+    },
+    "spec_verdict": {
+      "type": "object",
+      "properties": {
+        "arjun_visual": { "enum": ["pass", "revise", "pending"] },
+        "ds_gate": { "enum": ["pass", "fail", "pending"] },
+        "hierarchy_gate": { "enum": ["pass", "fail", "pending"] },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

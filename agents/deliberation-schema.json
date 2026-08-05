@@ -1,0 +1,44 @@
+{
+  "description": "Structured output every persona emits during adversarial deliberation rounds (v1.19).",
+  "persona_output_block": {
+    "grounding": [
+      {
+        "type": "task_map | prd | ui_region | ds_token | figma",
+        "ref": "string — e.g. task_map[0], PRD line, header/CTA, --color-primary",
+        "note": "string — why this citation matters"
+      }
+    ],
+    "satisfaction_with_prior": "number 0.0–1.0 — how satisfied with prior persona output",
+    "accepts_prior": "boolean — true only if satisfaction >= threshold",
+    "objections": [
+      {
+        "target_persona": "string — persona id being challenged",
+        "claim": "string — specific claim being contested",
+        "evidence_required": "string — what would resolve this",
+        "blocking": "boolean — must resolve before synthesis",
+        "grounded_in": "string — citation to task/PRD/UI"
+      }
+    ],
+    "questions": ["string — contextual questions about UI, PRD, task, JTBD"],
+    "revisions": ["string — concrete changes required in prior output"],
+    "verdict": "SHIP | REVISE | BLOCK | CONTEST | ACCEPT",
+    "synthesis": "string — optional; full produce-mode output on final round only"
+  },
+  "session_deliberation": {
+    "round": "number — current round index",
+    "max_rounds": "number",
+    "satisfaction_threshold": "number 0.0–1.0",
+    "open_objections": ["object — unresolved objections from round_log"],
+    "round_log": [
+      {
+        "round": "number",
+        "persona": "string",
+        "parsed": "object — parsed deliberation block",
+        "raw_length": "number"
+      }
+    ],
+    "consensus_reached": "boolean",
+    "raj_escalated": "boolean",
+    "mode": "adversarial | legacy"
+  }
+}

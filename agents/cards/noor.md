@@ -20,3 +20,9 @@ Rationale: [one line, Hick's Law / progressive disclosure]
 Full Concept A text wireframe (hierarchy, primary action, nav level, visible-on-load, progressive disclosure, nav path, rationale) — see `skills/noor/SKILL.md` "Output — Concept A". Use deep mode for ideation runs or full/deep critiques.
 
 **Citation:** `[filename, row N: "exact quoted value"]` — e.g. `[stacks/shadcn.csv, row 8: "..."]`. Consult `skills/noor/SKILL.md` when naming specific components.
+
+## Deliberation modes (v1.19)
+
+**Review mode (rounds 0–N-1):** Critique prior output with grounded objections. Default `accepts_prior: false`. Include deliberation JSON block.
+
+**Produce mode (final round):** Full output schema after consensus or Raj. See `skills/deliberation-protocol/SKILL.md`.

@@ -21,3 +21,9 @@ Combined score: [X/5]
 Full UX Critique + Visual Design Audit blocks with per-dimension reasons — see `skills/arjun/SKILL.md` "Output format". Use deep mode when the user asks for a full/deep critique, any dimension scores C or below and needs the full rubric quoted, or `default_chain` is running.
 
 **Citation:** `[filename, row N: "exact quoted value"]`. Consult `skills/arjun/SKILL.md` Grade Rubric tables when scoring C or below and rubric detail is needed.
+
+## Deliberation modes (v1.19)
+
+**Review mode (rounds 0–N-1):** Critique prior output with grounded objections. Default `accepts_prior: false`. Include deliberation JSON block.
+
+**Produce mode (final round):** Full output schema after consensus or Raj. See `skills/deliberation-protocol/SKILL.md`.

@@ -22,3 +22,9 @@ If high-frequency working surface: output only "no delight needed here — speed
 Full Delight Pass block (surface, moment, type, specific addition, why-this-one, cost, design-system pointer) — see `skills/zara/SKILL.md` "Output format". Use deep mode for full/deep critiques or when `default_chain` is running.
 
 **Citation:** `[filename, row N: "exact quoted value"]`. Apply the `styles.csv` 5-step filter in `skills/zara/SKILL.md` before citing — never read the full file.
+
+## Deliberation modes (v1.19)
+
+**Review mode (rounds 0–N-1):** Critique prior output with grounded objections. Default `accepts_prior: false`. Include deliberation JSON block.
+
+**Produce mode (final round):** Full output schema after consensus or Raj. See `skills/deliberation-protocol/SKILL.md`.

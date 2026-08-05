@@ -16,6 +16,16 @@ const FILES = [
   ['lib/cache.js',            'dist/lib/cache.js'],
   ['lib/export.js',           'dist/lib/export.js'],
   ['lib/cost.js',             'dist/lib/cost.js'],
+  ['lib/collect.js',          'dist/lib/collect.js'],
+  ['lib/source-discovery.js', 'dist/lib/source-discovery.js'],
+  ['lib/design-spec.js',      'dist/lib/design-spec.js'],
+  ['lib/feedback.js',         'dist/lib/feedback.js'],
+  ['lib/feedback-submit.js', 'dist/lib/feedback-submit.js'],
+  ['lib/deliberation.js',      'dist/lib/deliberation.js'],
+  ['lib/host-llm.js',          'dist/lib/host-llm.js'],
+  ['lib/provider.js',          'dist/lib/provider.js'],
+  ['lib/synthesis.js',         'dist/lib/synthesis.js'],
+  ['lib/platforms.js',        'dist/lib/platforms.js'],
   ['lib/orchestrator/run.js', 'dist/lib/orchestrator/run.js'],
 ];
 
