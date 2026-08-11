@@ -80,6 +80,13 @@
       "route_to": ["kavi"],
       "never_route_to": ["design-critic_chain", "zara", "arjun", "meera", "priya"],
       "notes": "Producer only — run /kavi or `npx analyzthis_design collect`. Never part of a critique chain."
+    },
+    {
+      "problem_type": "mood_board",
+      "signals": ["mood board", "mood-board", "/mood-board", "visual direction", "references", "inspiration", "style direction", "design direction"],
+      "route_to": ["mood-board"],
+      "never_route_to": ["design-critic_chain", "zara", "noor_alone"],
+      "notes": "Visual direction setting — collect references, tag them, pull DS patterns, run team deliberation. Not a screen critique."
     }
   ]
 }

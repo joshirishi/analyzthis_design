@@ -159,6 +159,15 @@ npx analyzthis_design outcome --confirm --persona arjun --result shipped
 # or: revised, blocked_correctly, missed
 ```
 
+**Set visual direction with the team.** Use `/mood-board` when the user wants references and a team-deliberated direction:
+
+```bash
+npx analyzthis_design moodboard create --task "B2B fintech dashboard, trustworthy, high-contrast" --auto
+npx analyzthis_design moodboard critique --board <boardId>
+```
+
+References are tagged, design-system patterns are pulled, and Arjun/Meera/Priya/Zara/Noor deliberate with Honeycomb scoring until consensus.
+
 **Evolve the team.** Periodically (e.g., weekly), run:
 
 ```bash

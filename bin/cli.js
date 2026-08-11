@@ -18,6 +18,7 @@ const { collect } = require('../lib/collect');
 const designSpec = require('../lib/design-spec');
 const { run: orchestratorRun } = require('../lib/orchestrator/run');
 const hostLlm = require('../lib/host-llm');
+const moodboard = require('../lib/moodboard');
 
 const HELP = `
 Analyzthis_Design — 8 AI design personas with a personal knowledge bank
@@ -76,6 +77,15 @@ Usage:
   research --url <url>       Fetch a URL and append to session web-context.md
   research --query <text>    Search stub (or provider) appended to web-context.md
 
+── Mood board commands ─────────────────────────────────────
+  moodboard create --task <text>   Build a mood board from web + DS references
+                                    [--url <url> ...] [--auto]
+  moodboard critique --board <id>  Run team deliberation over a board
+  moodboard add --board <id>       Add a user reference and rerun critique
+                                    [--url <url>] [--title <t>] [--desc <d>]
+                                    [--tags a,b] [--note <text>]
+  moodboard list                   List mood boards for this project
+
 ── Reference data (retrieve-on-demand) ───────────────────────
   retrieve --file <csv> --column <col> --keywords a,b   Filtered, citation-ready rows
                               --limit N   (default 3)
@@ -132,6 +142,10 @@ Usage:
   --no-discover With "collect", skip Obsidian/vault/knowledge-graph discovery
   --web-limit  Cap external URLs fetched during collect (default: 10)
   --limit    Cap notes enriched (collect) or retrieve rows (retrieve)
+  --board    Mood board id (moodboard critique / add)
+  --title    Reference title (moodboard add)
+  --desc     Reference description (moodboard add)
+  --auto     With moodboard create, discover references without explicit URLs
   --help     Show this help message
 
 ── Examples ─────────────────────────────────────────────────
@@ -160,6 +174,10 @@ Usage:
 
   npx analyzthis_design research --url https://example.com/design-tokens
   npx analyzthis_design research --query "EY design system tokens"
+
+  npx analyzthis_design moodboard create --task "B2B fintech dashboard, trustworthy, high-contrast" --auto
+  npx analyzthis_design moodboard critique --board <boardId>
+  npx analyzthis_design moodboard add --board <boardId> --url https://dribbble.com/shots/example --title "Alt hero" --tags "landing,trust"
 
   npx analyzthis_design retrieve --file colors.csv --column "Product Type" --keywords saas,dashboard
   npx analyzthis_design retrieve --file styles.csv --column "Best For" --keywords b2b --limit 3
@@ -259,6 +277,10 @@ const noEnrichFlag = flags.includes('--no-enrich');
 const noWebFlag    = flags.includes('--no-web');
 const noDiscoverFlag = flags.includes('--no-discover');
 const webLimitVal  = getFlag('web-limit');
+const boardVal     = getFlag('board');
+const titleVal     = getFlag('title');
+const descVal      = getFlag('desc');
+const autoFlag     = flags.includes('--auto');
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 
@@ -569,6 +591,132 @@ switch (cmd) {
       }
     })();
     break;
+  }
+
+  // ── Mood board ───────────────────────────────────────────────────────────
+
+  case 'moodboard': {
+    const msub = flags.find((f) => !f.startsWith('--')) || 'create';
+    if (msub === 'create') {
+      if (!taskVal) {
+        console.error('\n  ✗  --task is required.  Example: npx analyzthis_design moodboard create --task "B2B fintech dashboard" --auto\n');
+        process.exit(1);
+      }
+      (async () => {
+        try {
+          const urls = [];
+          const raw = flags.filter((f) => f.startsWith('--url=')).map((f) => f.split('=').slice(1).join('='));
+          for (let i = 0; i < flags.length; i++) {
+            if (flags[i] === '--url' && flags[i + 1] && !flags[i + 1].startsWith('--')) urls.push(flags[i + 1]);
+          }
+          for (const u of raw) if (urls.indexOf(u) === -1) urls.push(u);
+          const result = await moodboard.buildMoodBoard({
+            project: projectVal,
+            task: taskVal,
+            urls: urls,
+            discover: autoFlag || urls.length > 0,
+            dryRun: dryRunFlag,
+          });
+          console.log(`\n✅ Mood board created: ${result.board.board_id}`);
+          console.log(`   References: ${result.board.references.length}`);
+          console.log(`   Board dir:  ${result.boardDir}`);
+          console.log(`   Workspace:  ${result.workspacePath}\n`);
+          if (dryRunFlag) {
+            console.log(JSON.stringify(result.board, null, 2).slice(0, 2000));
+            console.log('');
+          }
+        } catch (err) {
+          console.error(`\n  ✗  Mood board create failed: ${err.message}\n`);
+          process.exit(1);
+        }
+      })();
+      break;
+    }
+    if (msub === 'critique') {
+      if (!boardVal) {
+        console.error('\n  ✗  --board is required.  Example: npx analyzthis_design moodboard critique --board <id>\n');
+        process.exit(1);
+      }
+      (async () => {
+        try {
+          const result = await moodboard.critiqueMoodBoard({
+            project: projectVal,
+            boardId: boardVal,
+            provider: providerVal,
+            model: modelVal,
+            dryRun: dryRunFlag,
+            noDeliberate: noDeliberateFlag,
+            maxRounds: maxRoundsVal,
+            satisfaction: satisfactionVal,
+          });
+          console.log(`\n✅ Mood board critique complete: ${result.board.board_id}`);
+          console.log(`   Verdict: ${result.board.synthesis?.verdict || 'n/a'}`);
+          console.log(`   Rounds:  ${result.board.deliberation?.round || 0}`);
+          console.log(`   Board:   ${result.boardDir || path.join(session.sessionDir(projectVal || session.getProjectId()), 'moodboard', boardVal)}`);
+          console.log(`   Workspace: ${result.workspacePath}\n`);
+        } catch (err) {
+          if (err.name === 'HostLlmPendingError') {
+            hostLlm.printDeviInstructions(err);
+            process.exit(2);
+          }
+          console.error(`\n  ✗  Mood board critique failed: ${err.message}\n`);
+          process.exit(1);
+        }
+      })();
+      break;
+    }
+    if (msub === 'add') {
+      if (!boardVal) {
+        console.error('\n  ✗  --board is required.  Example: npx analyzthis_design moodboard add --board <id> --url <url>\n');
+        process.exit(1);
+      }
+      (async () => {
+        try {
+          const tags = tagsVal ? tagsVal.split(',').map((t) => t.trim()).filter(Boolean) : [];
+          const result = await moodboard.addUserReferenceAndRerun({
+            project: projectVal,
+            boardId: boardVal,
+            reference: {
+              url: urlVal || '',
+              title: titleVal || '',
+              description: descVal || '',
+              tags: tags,
+              note: commentVal || '',
+            },
+            provider: providerVal,
+            model: modelVal,
+            dryRun: dryRunFlag,
+            noDeliberate: noDeliberateFlag,
+            maxRounds: maxRoundsVal,
+            satisfaction: satisfactionVal,
+          });
+          console.log(`\n✅ Added reference to board ${result.board.board_id}: ${result.added.id}`);
+          console.log(`   Total references: ${result.board.references.length}`);
+          console.log(`   Verdict: ${result.board.synthesis?.verdict || 'n/a'}\n`);
+        } catch (err) {
+          if (err.name === 'HostLlmPendingError') {
+            hostLlm.printDeviInstructions(err);
+            process.exit(2);
+          }
+          console.error(`\n  ✗  Mood board add failed: ${err.message}\n`);
+          process.exit(1);
+        }
+      })();
+      break;
+    }
+    if (msub === 'list') {
+      const boards = moodboard.listBoards(projectVal);
+      if (!boards.length) {
+        console.log('\n  No mood boards found for this project.\n');
+      } else {
+        console.log(`\n── Mood boards (${boards.length}) ──`);
+        for (const b of boards) console.log(`  • ${b}`);
+        console.log('');
+      }
+      break;
+    }
+    console.error('\n  Unknown moodboard subcommand. Use: create | critique | add | list\n');
+    process.exit(1);
   }
 
   // ── Retrieve-on-demand reference rows ───────────────────────────────────

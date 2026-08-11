@@ -31,6 +31,7 @@ This runs **Kavi** — scans your repo, builds an Obsidian vault, and syncs a **
 | Review against PRDs and user stories | `/ux-story-gate` | Task map + routing before critique |
 | Index my codebase for personas | `/kavi` | Kavi → knowledge bank |
 | Run CLI orchestrator without API keys | `/devi` | Host LLM — voices personas from pending prompts |
+| Set visual direction with references + team debate | `/mood-board` | Collect web/DS references, tag, deliberate, converge |
 | Make the team learn from accepted outputs | `npx analyzthis_design evolve --extract` | Harvests lessons + proposes prompt/reference/router patches |
 | Track whether a persona's advice actually shipped | `npx analyzthis_design outcome --confirm` | Labels outcome: shipped / revised / blocked / missed |
 
@@ -107,6 +108,7 @@ Assess only — do not implement changes.
 | `/anuj` | Power-user wireframe |
 | `/design-director` | Full producer — ideation → DesignSpec → build |
 | `/design-spec` | DesignSpec format + validation rules |
+| `/mood-board` | Visual direction setting — references + team deliberation |
 | `/persona-orchestrator` | Agentic critique (not wireframes) |
 | `/design-critic` | 4-persona critique |
 | `/ux-story-gate` | Task-first gate + router |

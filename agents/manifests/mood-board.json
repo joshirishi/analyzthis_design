@@ -1,0 +1,23 @@
+{
+  "id": "mood-board",
+  "name": "Mood Board",
+  "tier": "structured",
+  "max_output_tokens": 1800,
+  "system_card": "agents/cards/mood-board.md",
+  "system_skill": "skills/mood-board/SKILL.md",
+  "allowed_jobs": [
+    "collect web references for visual direction",
+    "tag references with style, mood, surface",
+    "retrieve design-system patterns for the task",
+    "orchestrate team deliberation over references",
+    "write board.json artifacts",
+    "accept user-contributed references and rerun"
+  ],
+  "forbidden_jobs": [
+    "produce final wireframes or code",
+    "replace the design-critic chain for screen review",
+    "auto-apply design system changes"
+  ],
+  "hard_gates": [],
+  "parallel_safe_with": []
+}

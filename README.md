@@ -703,7 +703,13 @@ npx analyzthis_design evolve --extract [--window N] [--dry-run]
 npx analyzthis_design evolve --apply <patchId> [--dry-run]
 npx analyzthis_design outcome --infer [--window N]
 npx analyzthis_design outcome --pending
-npx analyzthis_design outcome --confirm --persona <id> --result shipped|revised|blocked_correctly|missed
+npx analyzthis_design outcome --confirm --persona <id> --result shipped|revised|blocked|missed
+
+# Mood board (v1.22)
+npx analyzthis_design moodboard create --task "..." [--auto] [--url <url> ...]
+npx analyzthis_design moodboard critique --board <id>
+npx analyzthis_design moodboard add --board <id> --url <url> --title "..." --tags a,b
+npx analyzthis_design moodboard list
 
 # Devi — host LLM queue (v1.20)
 npx analyzthis_design devi status [--run path]
@@ -734,6 +740,7 @@ lib/
   research.js           URL / query → web-context.md
   retrieve.js           Filtered, citation-ready CSV row retrieval
   cache.js              On-disk cache for retrieve/kb slices
+  moodboard.js          Mood-board engine: collect web/DS references, tag, deliberate
   dedup.js              Cross-persona redundancy detection
   lessons.js            Self-evolving lessons store (extract/retrieve/inject)
   outcome.js            Infer + confirm persona outcome labels
@@ -777,6 +784,15 @@ skills/
 - **Kavi `collect` enrichment:** optional — same keys as above; without keys, draft vault + sync still run
 
 ---
+
+## What's new in v1.22
+
+| Feature | Description |
+|---------|-------------|
+| **Mood boards** | `/mood-board` collects web references + design-system patterns, tags them, and runs team deliberation |
+| **User-contributed references** | User can add URLs/notes to a board and rerun the critique loop |
+| **Visual direction setting** | Arjun, Meera, Priya, Zara, Noor score references via the UX Honeycomb rigor matrix |
+| **Workspace artifacts** | `moodboard/{boardId}.json` is written into the project for the user to inspect |
 
 ## What's new in v1.21
 
