@@ -4,7 +4,7 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 1.21.0
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 1.22.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -30,7 +30,7 @@ npx analyzthis_design --target windsurf
 npx analyzthis_design --target all --force
 ```
 
-**After install:** type `/getting-started` in Cursor or Claude Code (or `@getting-started` in Windsurf). Re-print CLI help anytime with `npx analyzthis_design welcome`.
+**After install:** type `/getting-started` in Cursor or Claude Code (or `@getting-started` in Windsurf). For a complete walkthrough, see [HOW-TO-USE.md](./HOW-TO-USE.md). Re-print CLI help anytime with `npx analyzthis_design welcome`.
 
 | Tool | Skills installed to | Invoke |
 |---|---|---|

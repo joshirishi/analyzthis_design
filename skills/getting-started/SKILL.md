@@ -134,3 +134,5 @@ npx analyzthis_design welcome --target claude
 ```
 
 Docs: https://www.npmjs.com/package/analyzthis_design
+
+**Full step-by-step guide:** [HOW-TO-USE.md](https://github.com/rishikeshjoshi/analyzthis_design/blob/main/HOW-TO-USE.md)
