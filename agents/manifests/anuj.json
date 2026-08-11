@@ -24,6 +24,7 @@
   "handoff_from": [],
   "handoff_to": ["arjun"],
   "requires_session_state": true,
+  "knowledge_categories": ["design", "tech"],
   "effort_overrides": {
     "trivial": { "when": "shortcuts-only audit", "max_output_tokens": 700 },
     "hard": { "when": "bulk-action state design", "max_output_tokens": 1500 }

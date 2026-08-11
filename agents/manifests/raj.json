@@ -23,6 +23,7 @@
   "handoff_from": ["zara", "arjun", "meera", "priya", "noor", "anuj"],
   "handoff_to": [],
   "requires_session_state": true,
+  "knowledge_categories": ["prd", "product", "design"],
   "effort_overrides": {
     "standard": { "when": "principle ranking (one verdict, never first)", "max_output_tokens": 1200 },
     "hard": { "when": "cross-persona stalemate", "max_output_tokens": 1200 }

@@ -25,6 +25,7 @@
   "handoff_from": ["priya"],
   "handoff_to": [],
   "requires_session_state": true,
+  "knowledge_categories": ["brand", "design"],
   "effort_overrides": {
     "standard": { "when": "delight pass (one peak moment)", "max_output_tokens": 1200 },
     "hard": { "when": "novel interaction design", "max_output_tokens": 1200 }

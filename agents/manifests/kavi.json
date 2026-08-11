@@ -26,6 +26,7 @@
   "handoff_from": [],
   "handoff_to": [],
   "requires_session_state": true,
+  "knowledge_categories": ["prd", "brand", "product", "design", "research", "tech", "web"],
   "effort_overrides": {
     "standard": { "when": "enrichment batch (default)", "max_output_tokens": 4000 },
     "trivial": { "when": "draft-only / --no-enrich (no LLM)", "max_output_tokens": 500 }

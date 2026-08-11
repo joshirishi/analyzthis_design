@@ -130,7 +130,7 @@ Run `ux-story-gate` Phase 5.5. If `mode: assess_only`, stop here — do not writ
 
 ---
 
-## Step 6.5 — Capture user corrections (v1.16)
+## Step 6.5 — Capture user corrections and outcomes (v1.16 / v1.21)
 
 When the user is **unhappy** with a persona's output or **rewrites/corrects** it, record that signal so future training can learn from mistakes:
 
@@ -151,6 +151,29 @@ npx analyzthis_design session accept --persona arjun --reject \
 Suggest this when the user says things like *"that's not what I meant,"* *"use our tokens,"* or *"the hierarchy is wrong."* Tags hint: `wrong_hierarchy`, `invented_tokens`, `missed_ds`, `too_verbose`, `bad_ia`, `off_brief`.
 
 List or export later: `feedback list`, `feedback export --persona arjun --all`.
+
+**Track whether the advice actually shipped.** After the user implements changes, confirm the outcome so the evolution loop can learn:
+
+```bash
+npx analyzthis_design outcome --confirm --persona arjun --result shipped
+# or: revised, blocked_correctly, missed
+```
+
+**Evolve the team.** Periodically (e.g., weekly), run:
+
+```bash
+npx analyzthis_design evolve --extract --dry-run   # preview proposed patches
+npx analyzthis_design evolve --extract             # write patch files for review
+npx analyzthis_design evolve --apply <patchId> --dry-run   # preview a patch
+npx analyzthis_design evolve --apply <patchId>    # apply after review
+```
+
+This harvests accepted outputs + confirmed outcomes, extracts lessons into `~/.analyzthis_design/lessons/`, and proposes patches to:
+- persona SKILL.md / cards (new canonical failure patterns),
+- `skills/design-reference/*.csv` rows (new product-type guidance),
+- `agents/router.json` rules (task_type → best-performing expert).
+
+Patches are **dry-run by default** and require human review before apply.
 
 **Share with maintainers (opt-in):** after recording, suggest `npx analyzthis_design feedback submit --yes` so anonymized corrections help improve personas for everyone. Preview first with `--dry-run`.
 

@@ -33,6 +33,16 @@
     "persona_outputs": {
       "<persona_id>": "object — structured output block per agents/manifests/<persona_id>.json"
     },
+    "full_prompts": {
+      "<persona_id>": "object — { system: string, user: string } exact prompts sent to LLM for training"
+    },
+    "structured_outputs": {
+      "<persona_id>": "object — { grades: object, score: number, top_fixes: string[] } parsed from persona output"
+    },
+    "covered_points": [
+      "object — { persona: string, claim: string, category: string, key: string } deduplicated findings across personas"
+    ],
+    "task_type": "string — canonical task type (contrast_fix, ia_redesign, onboarding_flow, etc.)",
     "verify_results": {
       "primary_task": "pass | fail | not_run",
       "screenshots": ["string — file paths"],
@@ -67,6 +77,10 @@
         "context": "object — task_map_summary, problem_type, mode"
       }
     ],
+    "outcome": {
+      "inferred": { "<persona_id>": "object — { value: string, confidence: number, reason: string, at: string } auto-inferred from next session" },
+      "confirmed": { "<persona_id>": "object — { value: string, at: string } user-confirmed outcome" }
+    },
     "vault_path": "string — Obsidian vault written by Kavi collect (empty until first collect)",
     "last_collect_at": "ISO 8601 timestamp — last successful collect run",
     "deliberation": {

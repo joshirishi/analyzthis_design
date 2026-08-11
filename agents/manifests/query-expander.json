@@ -1,0 +1,13 @@
+{
+  "id": "query-expander",
+  "role": "retrieval_assistant",
+  "system_card": "agents/cards/query-expander.md",
+  "tier": "structured",
+  "max_output_tokens": 200,
+  "parallel_safe_with": [],
+  "allowed_jobs": ["query expansion for reference retrieval"],
+  "forbidden_jobs": ["critique", "wireframe", "design generation"],
+  "effort_overrides": {
+    "trivial": { "when": "always", "max_output_tokens": 200 }
+  }
+}

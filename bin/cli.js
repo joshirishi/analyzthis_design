@@ -870,6 +870,115 @@ switch (cmd) {
     break;
   }
 
+  case 'evolve': {
+    const evolve = require('../lib/evolve');
+    const windowArg = getFlag('window');
+    const windowDays = windowArg ? parseInt(windowArg, 10) : 7;
+    if (flags.includes('--extract')) {
+      (async () => {
+        try {
+          const report = await evolve.runEvolution({ windowDays, dryRun: dryRunFlag });
+          console.log('\n── Evolution report ' + (dryRunFlag ? '(dry run)' : '') + ' ──');
+          console.log('  Lessons extracted:  ' + report.extracted_lessons);
+          console.log('  Outcomes inferred:  ' + report.inferred_outcomes);
+          console.log('  Prompt patches:     ' + report.prompt_patches.length);
+          console.log('  Reference proposals:' + report.reference_proposals.length);
+          console.log('  Router patches:     ' + report.router_patches.length);
+          for (const p of report.prompt_patches) {
+            console.log('\n  Patch: ' + p.id + ' — ' + p.persona + ' — ' + p.description);
+          }
+          for (const p of report.reference_proposals) {
+            console.log('\n  Reference: ' + p.id + ' — ' + p.persona + ' — ' + p.description);
+          }
+          for (const p of report.router_patches) {
+            console.log('\n  Router: ' + p.id + ' — ' + p.task_type + ' → ' + p.suggested_route_to.join(', '));
+          }
+          console.log('');
+        } catch (err) {
+          console.error(`\n  ✗  ${err.message}\n`);
+          process.exit(1);
+        }
+      })();
+      break;
+    }
+    if (flags.includes('--apply')) {
+      const applyId = getFlag('apply');
+      if (!applyId) {
+        console.error('\n  ✗  --apply requires a patch id\n');
+        process.exit(1);
+      }
+      try {
+        const result = evolve.applyPatch({ patchId: applyId, dryRun: dryRunFlag });
+        if (result.preview) {
+          console.log('\n── Dry-run patch preview ──');
+          console.log('  Target: ' + result.targetFile);
+          console.log('  Preview:\n' + result.preview.slice(0, 1200));
+        } else {
+          console.log('\n✅ Patch ' + (result.applied ? 'applied' : 'previewed') + ': ' + applyId);
+          if (result.targetFile) console.log('   Target: ' + result.targetFile);
+          if (result.message) console.log('   Note: ' + result.message);
+        }
+        console.log('');
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    console.log('\n  Usage: evolve --extract [--window N] [--dry-run] | evolve --apply <patchId> [--dry-run]\n');
+    break;
+  }
+
+  case 'outcome': {
+    const outcome = require('../lib/outcome');
+    if (flags.includes('--infer')) {
+      const windowArg2 = getFlag('window');
+      const wd = windowArg2 ? parseInt(windowArg2, 10) : 7;
+      try {
+        const result = outcome.inferAllOutcomes({ windowDays: wd });
+        console.log('\n✅ Inferred ' + result.inferred + ' outcome(s), ' + result.confirmed + ' confirmed, ' + result.unknown + ' unknown.\n');
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (flags.includes('--pending')) {
+      const pending = outcome.listPendingConfirmations();
+      if (!pending.length) {
+        console.log('\n  No pending outcome confirmations.\n');
+      } else {
+        console.log('\n── Pending outcome confirmations (' + pending.length + ') ──');
+        for (const p of pending) {
+          console.log('  ' + p.project + ' / ' + p.persona + ': ' + p.inferred + ' (' + p.reason + ')');
+        }
+        console.log('');
+      }
+      break;
+    }
+    if (flags.includes('--confirm')) {
+      if (!personaVal) {
+        console.error('\n  ✗  --persona is required for --confirm\n');
+        process.exit(1);
+      }
+      const resultVal = getFlag('result');
+      if (!resultVal) {
+        console.error('\n  ✗  --result is required (shipped | revised | blocked_correctly | missed)\n');
+        process.exit(1);
+      }
+      try {
+        outcome.confirmOutcome({ project: projectVal, persona: personaVal, outcome: resultVal });
+        console.log('\n✅ Outcome confirmed: ' + personaVal + ' = ' + resultVal + '\n');
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    console.log('\n  Usage: outcome --infer [--window N] | outcome --pending | outcome --confirm --persona X --result Y\n');
+    break;
+  }
+
   case '--help':
   case 'help':
   case '-h':

@@ -1,0 +1,13 @@
+{
+  "id": "ranker",
+  "role": "retrieval_assistant",
+  "system_card": "agents/cards/ranker.md",
+  "tier": "structured",
+  "max_output_tokens": 200,
+  "parallel_safe_with": [],
+  "allowed_jobs": ["rank reference candidates for persona relevance"],
+  "forbidden_jobs": ["critique", "wireframe", "design generation"],
+  "effort_overrides": {
+    "trivial": { "when": "always", "max_output_tokens": 200 }
+  }
+}

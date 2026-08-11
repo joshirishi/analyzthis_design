@@ -4,7 +4,7 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 1.20.1
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 1.21.0
 
 ---
 
@@ -205,9 +205,14 @@ Key fields after a run:
 | Field | Contents |
 |---|---|
 | `persona_outputs` | Each persona's text + parsed deliberation JSON |
+| `full_prompts` | Exact `{ system, user }` prompts sent to the LLM (for training / auditing) |
+| `structured_outputs` | Parsed grades, score, top fixes per persona |
+| `covered_points` | Deduplicated findings across personas (redundancy suppression) |
+| `task_type` | Canonical problem type from the router |
 | `deliberation` | `round_log`, `open_objections`, `consensus_reached`, `raj_escalated` |
 | `synthesis` | Composite scores, verdict, top 3, hierarchy gate |
 | `synthesis_markdown` | Phase 5 block for display / export |
+| `outcome` | `inferred` + `confirmed` outcome per persona (for the evolution loop) |
 | `host_run` | Host-mode checkpoint when paused for Devi (`run_dir`, `checkpoint`) |
 | `metrics` | `llm_calls`, `deliberation_rounds`, `objections_raised`, token estimates |
 
@@ -412,11 +417,67 @@ npx analyzthis_design feedback list
 npx analyzthis_design feedback export --persona arjun --all
 ```
 
-Writes `{ system_card, digest, user, assistant }` JSONL pairs to `~/.analyzthis_design/training/<persona>.jsonl` from every session where that persona's output was explicitly accepted.
+`export-training` now emits richer training pairs: `{ system_card, system_prompt_full, user_prompt_full, digest, user, assistant, structured_output, outcome, task_type }`. The full prompts are captured automatically on every `run`, so fine-tuning datasets include the exact context the persona saw.
 
 **Correction export** writes `{ assistant_rejected, assistant_preferred, user_comment, tags }` to `~/.analyzthis_design/feedback/<persona>-corrections.jsonl` — useful when users were unhappy or had to rewrite persona output. Every entry is also appended to a global `corrections.jsonl` across projects.
 
 Once a persona accumulates ~100–300 accepted pairs (and optionally correction pairs), that data is ready for a future fine-tuning pass on an open model — not part of this package yet.
+
+---
+
+## Self-evolving persona team (v1.21)
+
+The system now captures every run, learns from accepted outputs + confirmed outcomes, and proposes improvements to its own prompts, reference data, and routing — **dry-run by default**, human review before any apply.
+
+```
+Run → full prompts + structured output + outcome captured
+        ↓
+Lessons extracted (accepted outputs) → ~/.analyzthis_design/lessons/<persona>.jsonl
+        ↓
+Outcome confirmed (shipped / revised / blocked / missed)
+        ↓
+evolve --extract → proposes:
+  - prompt patches (new canonical failure patterns per persona)
+  - reference-data rows (new product-type patterns)
+  - router patches (task_type → best-performing expert)
+        ↓
+evolve --apply <patchId> (human review) → skill/CSV/router updated
+        ↓
+Next run retrieves:
+  - per-persona knowledge slices (priority + fallback)
+  - past lessons for similar tasks
+  - query-expanded + ranked reference rows
+```
+
+### Retrieval stack
+
+| Layer | What it does | Files |
+|---|---|---|
+| **Query expansion** | One cheap LLM call per run expands the task into search terms (product type, design domain, component, persona lens) | `lib/query-expander.js`, `agents/cards/query-expander.md` |
+| **Per-persona ranking** | A second cheap LLM call per persona ranks the top 5 reference rows + knowledge notes for that persona's lens | `lib/ranker.js`, `agents/cards/ranker.md` |
+| **Lessons retrieval** | Top-3 lessons from past accepted sessions, keyword-matched to the current task | `lib/lessons.js` |
+| **Redundancy suppression** | Before each persona produces, it sees what prior personas already covered and is told to only add NEW insights | `lib/dedup.js`, `lib/deliberation.js` |
+| **Per-persona KB slices** | `sync` now builds a filtered slice per persona (priority categories first, small fallback context at the end) | `lib/knowledge.js` |
+
+### Commands
+
+```bash
+# Extract lessons + infer outcomes + propose patches (dry-run by default)
+npx analyzthis_design evolve --extract [--window N] [--dry-run]
+
+# Review a patch before applying
+npx analyzthis_design evolve --apply <patchId> --dry-run
+
+# Apply a patch after review (prompt / reference rows only; router patches need manual edit)
+npx analyzthis_design evolve --apply <patchId>
+
+# Outcome tracking
+npx analyzthis_design outcome --infer [--window N]      # auto-infer from next session
+npx analyzthis_design outcome --pending                  # list inferred outcomes awaiting confirmation
+npx analyzthis_design outcome --confirm --persona arjun --result shipped
+```
+
+Config in `agents/chain.json` → `evolution` block: `extraction_window_days`, `min_lessons_for_patch`, `min_outcomes_for_router_patch`.
 
 ---
 
@@ -637,6 +698,13 @@ npx analyzthis_design run --task "..." [--lite | --full] [--experts a,b]
 npx analyzthis_design run --task "..." [--deliberate | --no-deliberate] [--max-rounds N] [--satisfaction 0.4]
 npx analyzthis_design run --continue --task "..."   # resume host-mode run after /devi
 
+# Self-evolving team (v1.21)
+npx analyzthis_design evolve --extract [--window N] [--dry-run]
+npx analyzthis_design evolve --apply <patchId> [--dry-run]
+npx analyzthis_design outcome --infer [--window N]
+npx analyzthis_design outcome --pending
+npx analyzthis_design outcome --confirm --persona <id> --result shipped|revised|blocked_correctly|missed
+
 # Devi — host LLM queue (v1.20)
 npx analyzthis_design devi status [--run path]
 npx analyzthis_design devi respond --run <run-dir> --step 001-arjun --file response.md
@@ -666,6 +734,12 @@ lib/
   research.js           URL / query → web-context.md
   retrieve.js           Filtered, citation-ready CSV row retrieval
   cache.js              On-disk cache for retrieve/kb slices
+  dedup.js              Cross-persona redundancy detection
+  lessons.js            Self-evolving lessons store (extract/retrieve/inject)
+  outcome.js            Infer + confirm persona outcome labels
+  query-expander.js     LLM task → search terms for retrieval
+  ranker.js             LLM per-persona ranking of reference/knowledge candidates
+  evolve.js             Evolution engine: prompt/reference/router patch proposals
   export.js             LoRA training-pair export hook
   feedback.js           Persona unhappiness + correction logging (session + global JSONL)
   feedback-submit.js    Opt-in anonymized submit to Supabase (community feedback)
@@ -703,6 +777,18 @@ skills/
 - **Kavi `collect` enrichment:** optional — same keys as above; without keys, draft vault + sync still run
 
 ---
+
+## What's new in v1.21
+
+| Feature | Description |
+|---------|-------------|
+| **Self-evolving team** | `evolve --extract` harvests lessons + outcomes; proposes prompt/CSV/router patches |
+| **Per-persona knowledge slices** | `sync` builds filtered context per persona (priority categories + fallback) |
+| **Query expansion + ranking** | Cheap LLM calls broaden retrieval and rank references per persona lens |
+| **Lessons store** | Past accepted fixes are retrieved for similar future tasks |
+| **Outcome tracking** | `outcome --confirm` / `--infer` labels whether a persona's output actually shipped |
+| **Full-prompt training export** | `export-training` now emits the exact `{ system, user }` prompts + structured output |
+| **Redundancy suppression** | Personas see what prior personas already covered and add only new insights |
 
 ## What's new in v1.20
 

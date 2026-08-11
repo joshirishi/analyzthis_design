@@ -25,6 +25,7 @@
   "handoff_from": [],
   "handoff_to": ["arjun", "anuj"],
   "requires_session_state": true,
+  "knowledge_categories": ["design", "product"],
   "effort_overrides": {
     "trivial": { "when": "hierarchy-only declaration", "max_output_tokens": 700 },
     "hard": { "when": "multi-screen IA", "max_output_tokens": 1500 }

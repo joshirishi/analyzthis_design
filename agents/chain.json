@@ -57,5 +57,12 @@
   "re_evaluation": {
     "mode": "delta_only",
     "description": "On any follow-up after REVISE, re-run only the persona(s) assigned to the prior Top 3 actionable changes — never the full chain. See design-critic Re-evaluation Protocol."
+  },
+  "evolution": {
+    "lessons_dir": "~/.analyzthis_design/lessons",
+    "extraction_window_days": 7,
+    "min_lessons_for_patch": 5,
+    "min_outcomes_for_router_patch": 10,
+    "dry_run_default": true
   }
 }

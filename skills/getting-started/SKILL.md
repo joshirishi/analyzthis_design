@@ -31,6 +31,8 @@ This runs **Kavi** — scans your repo, builds an Obsidian vault, and syncs a **
 | Review against PRDs and user stories | `/ux-story-gate` | Task map + routing before critique |
 | Index my codebase for personas | `/kavi` | Kavi → knowledge bank |
 | Run CLI orchestrator without API keys | `/devi` | Host LLM — voices personas from pending prompts |
+| Make the team learn from accepted outputs | `npx analyzthis_design evolve --extract` | Harvests lessons + proposes prompt/reference/router patches |
+| Track whether a persona's advice actually shipped | `npx analyzthis_design outcome --confirm` | Labels outcome: shipped / revised / blocked / missed |
 
 ---
 

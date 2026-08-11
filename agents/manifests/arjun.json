@@ -25,6 +25,7 @@
   "handoff_from": ["noor"],
   "handoff_to": ["meera"],
   "requires_session_state": true,
+  "knowledge_categories": ["brand", "design", "research"],
   "hard_gates": ["ds_gate", "information_hierarchy_gate"],
   "scoped_modes": {
     "arjun_color_system_only": {
