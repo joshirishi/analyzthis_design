@@ -43,6 +43,7 @@ const FILES = [
   ['lib/query-expander.js',   'dist/lib/query-expander.js'],
   ['lib/ranker.js',           'dist/lib/ranker.js'],
   ['lib/evolve.js',           'dist/lib/evolve.js'],
+  ['lib/reference-pack.js',   'dist/lib/reference-pack.js'],
   // v2.0 chunked execution
   ['lib/chunk-models.js',     'dist/lib/chunk-models.js'],
   ['lib/chunk-planner.js',    'dist/lib/chunk-planner.js'],
