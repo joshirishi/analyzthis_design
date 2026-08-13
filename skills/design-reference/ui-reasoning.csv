@@ -1,4 +1,4 @@
-No,UI_Category,Recommended_Pattern,Style_Priority,Color_Mood,Typography_Mood,Key_Effects,Decision_Rules,Anti_Patterns,Severity
+No,UI Category,Recommended Pattern,Style Priority,Color Mood,Typography Mood,Key Effects,Decision Rules,Anti Patterns,Severity
 1,SaaS (General),Hero + Features + CTA,Glassmorphism + Flat Design,Trust blue + Accent contrast,Professional + Hierarchy,Subtle hover (200-250ms) + Smooth transitions,"{""if_ux_focused"": ""prioritize-minimalism"", ""if_data_heavy"": ""add-glassmorphism""}",Excessive animation + Dark mode by default,HIGH
 2,Micro SaaS,Hero-Centric + Trust,Motion-Driven + Vibrant & Block,Bold primaries + Accent contrast,Modern + Energetic typography,Scroll-triggered animations + Parallax,"{""if_pre_launch"": ""use-waitlist-pattern"", ""if_video_ready"": ""add-hero-video""}",Static design + No video + Poor mobile,HIGH
 3,E-commerce,Feature-Rich Showcase,Vibrant & Block-based,Brand primary + Success green,Engaging + Clear hierarchy,Card hover lift (200ms) + Scale effect,"{""if_luxury"": ""switch-to-liquid-glass"", ""if_conversion_focused"": ""add-urgency-colors""}",Flat design without depth + Text-heavy pages,HIGH
