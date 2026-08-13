@@ -15,7 +15,7 @@ Install once. Run structured UX critiques, multi-phase ideation, and task-ground
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.0.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.0.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
