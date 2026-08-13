@@ -68,6 +68,13 @@
       "never_route_to": []
     },
     {
+      "problem_type": "chunked_run",
+      "signals": ["chunked", "chunk planner", "run-chunked", "cheap models", "free models", "ollama"],
+      "route_to": ["chunk-planner"],
+      "never_route_to": ["design-critic_chain"],
+      "notes": "Explain or inspect the v2.0 chunked execution planner."
+    },
+    {
       "problem_type": "full_screen_review",
       "signals": ["full screen review", "critique this screen", "review this page"],
       "route_to": ["design-critic_chain"],

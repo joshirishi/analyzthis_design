@@ -7,6 +7,8 @@ description: First-run guide for Analyzthis Design — which slash command to us
 
 Welcome. This package gives you **8 design personas** as slash commands in Cursor, Claude Code, Grok, Windsurf, and Codex.
 
+> **v2.0 change:** the default `run` command now uses **chunked execution** — a frontier planner breaks your task into small chunks, and the cheapest capable model executes each chunk. Use `/run-unchunked` for the legacy single-pass orchestrator.
+
 ---
 
 ## 60-second setup (recommended once per project)
@@ -32,6 +34,8 @@ This runs **Kavi** — scans your repo, builds an Obsidian vault, and syncs a **
 | Index my codebase for personas | `/kavi` | Kavi → knowledge bank |
 | Run CLI orchestrator without API keys | `/devi` | Host LLM — voices personas from pending prompts |
 | Set visual direction with references + team debate | `/mood-board` | Collect web/DS references, tag, deliberate, converge |
+| Inspect the chunked execution planner | `/chunk-planner` | See how tasks are split into model-routed chunks |
+| Run legacy single-pass orchestrator | `/run-unchunked` | Skip planner overhead for quick single-expert tasks |
 | Make the team learn from accepted outputs | `npx analyzthis_design evolve --extract` | Harvests lessons + proposes prompt/reference/router patches |
 | Track whether a persona's advice actually shipped | `npx analyzthis_design outcome --confirm` | Labels outcome: shipped / revised / blocked / missed |
 
@@ -109,6 +113,8 @@ Assess only — do not implement changes.
 | `/design-director` | Full producer — ideation → DesignSpec → build |
 | `/design-spec` | DesignSpec format + validation rules |
 | `/mood-board` | Visual direction setting — references + team deliberation |
+| `/chunk-planner` | Chunked execution planner explained |
+| `/run-unchunked` | Legacy single-pass orchestrator (skip chunked planner) |
 | `/persona-orchestrator` | Agentic critique (not wireframes) |
 | `/design-critic` | 4-persona critique |
 | `/ux-story-gate` | Task-first gate + router |

@@ -1,7 +1,7 @@
 {
   "name": "analyzthis_design",
-  "version": "1.22.0",
-  "description": "8 AI design personas — adversarial deliberation loops, opt-in community feedback, Kavi knowledge collection, DesignSpec producer path, wireframe skills, UX critique, Agent Skills for Cursor, Claude, Codex, Grok, Windsurf.",
+  "version": "2.0.0",
+  "description": "8 AI design personas — v2.0 chunked execution with frontier planner + free/cheap chunk models, adversarial deliberation loops, opt-in community feedback, Kavi knowledge collection, DesignSpec producer path, wireframe skills, UX critique, Agent Skills for Cursor, Claude, Codex, Grok, Windsurf.",
   "keywords": [
     "cursor",
     "cursor-skill",

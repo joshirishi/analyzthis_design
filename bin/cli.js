@@ -91,14 +91,22 @@ Usage:
                               --limit N   (default 3)
 
 ── Orchestrator (standalone runtime) ────────────────────────
-  run --task <text>          MoE route + persona chain (host/Devi default, or API provider)
-                              --continue     resume after /devi fills pending responses
-                              --lite (default) MoE subset only | --full allow full chain
-                              --experts a,b    explicit override, skips the router entirely
-                              --deliberate     adversarial satisfaction loops (default on)
-                              --no-deliberate  legacy sequential pass-the-parcel mode
-                              --max-rounds N   cap deliberation rounds (default 3)
-                              --satisfaction X satisfaction threshold 0.0-1.0 (default 0.4)
+  run --task <text>          DEFAULT v2.0: frontier planner → cheap chunk models → synthesis
+                               --budget free    only zero-cost models (Ollama, free APIs)
+                               --budget cheap   include cheap cloud models with user keys
+                               --sequential     run chunks sequentially (default)
+                               --max-chunks N   cap chunks (default 6)
+                               --dry-run        show planner output without executing chunks
+                               --unchunked      use the legacy single-pass orchestrator
+
+  run-unchunked --task <text>  Legacy non-chunked orchestrator
+                               --continue     resume after /devi fills pending responses
+                               --lite (default) MoE subset only | --full allow full chain
+                               --experts a,b    explicit override, skips the router entirely
+                               --deliberate     adversarial satisfaction loops (default on)
+                               --no-deliberate  legacy sequential pass-the-parcel mode
+                               --max-rounds N   cap deliberation rounds (default 3)
+                               --satisfaction X satisfaction threshold 0.0-1.0 (default 0.4)
 
 ── Devi (host LLM — no API keys) ────────────────────────────
   devi status                List pending persona prompts awaiting host LLM responses
@@ -118,14 +126,18 @@ Usage:
   --query    Search query (research command)
   --task     Task description (run command)
   --figma    Figma URL (run command)
-  --provider anthropic | openai | google | zai | host (default: auto — host when no API keys)
-  --model    Model override (run command)
-  --continue With "run", resume host-mode run after devi respond
-  --dry-run  Print routing + chain without calling any LLM (run command)
-  --lite     Force MoE subset only, even for full_screen_review (run command; default)
-  --full     Allow the full design-critic chain for full_screen_review (run command)
-  --experts  Comma-separated persona ids, bypasses the router entirely (run command)
-  --output   Write final session-state.json to this path (run command); or JSONL path (export-training)
+  --provider anthropic | openai | google | zai | ollama | groq | together | openrouter | deepseek | host (default: auto)
+  --model    Model override (run / run-unchunked command)
+  --continue With "run-unchunked", resume host-mode run after devi respond
+  --dry-run  Print routing + chain without calling any LLM (run / run-unchunked command); or show planner output
+  --lite     Force MoE subset only, even for full_screen_review (run-unchunked command; default)
+  --full     Allow the full design-critic chain for full_screen_review (run-unchunked command)
+  --experts  Comma-separated persona ids, bypasses the router entirely (run-unchunked command)
+  --budget   free | cheap | auto — chunk model budget (run command; default: auto)
+  --sequential  Run chunks sequentially (run command; default on)
+  --max-chunks  Cap number of planner chunks (run command; default 6)
+  --unchunked   Force legacy single-pass orchestrator (run command)
+  --output   Write final session-state.json to this path (run / run-unchunked command); or JSONL path (export-training)
   --persona  Persona id (session accept; export-training; feedback commands)
   --reject   With "session accept", mark the output rejected instead of accepted
   --comment  What was wrong or what you liked (session accept / feedback record)
@@ -183,12 +195,12 @@ Usage:
   npx analyzthis_design retrieve --file styles.csv --column "Best For" --keywords b2b --limit 3
 
   npx analyzthis_design run --task "Fix contrast on landing page" --dry-run
-  npx analyzthis_design run --task "Review this screen" --full
-  npx analyzthis_design run --continue --task "Review this screen" --full
+  npx analyzthis_design run --task "Review this screen" --budget free
+  npx analyzthis_design run --task "Review this screen" --budget cheap --sequential
+  npx analyzthis_design run-unchunked --task "Just check spacing" --experts arjun
   npx analyzthis_design devi status
   npx analyzthis_design devi respond --run ~/.analyzthis_design/runs/... --step 001-arjun --file out.md
-  npx analyzthis_design run --task "Review this screen" --provider anthropic
-  npx analyzthis_design run --task "Just check spacing" --experts arjun
+  npx analyzthis_design run-unchunked --task "Review this screen" --provider anthropic
 
   npx analyzthis_design session accept --persona arjun
   npx analyzthis_design session accept --persona arjun --reject \\
@@ -281,6 +293,10 @@ const boardVal     = getFlag('board');
 const titleVal     = getFlag('title');
 const descVal      = getFlag('desc');
 const autoFlag     = flags.includes('--auto');
+const budgetVal    = getFlag('budget');
+const sequentialFlag = flags.includes('--sequential');
+const maxChunksVal = getFlag('max-chunks');
+const unchunkedFlag = flags.includes('--unchunked');
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 
@@ -752,16 +768,71 @@ switch (cmd) {
     break;
   }
 
-  // ── Orchestrator run (standalone LLM runtime) ───────────────────────────
+  // ── Orchestrator run (chunked by default, v2.0) ───────────────────────────
 
   case 'run': {
+    if (!taskVal) {
+      console.error('\n  ✗  --task is required.  Example: npx analyzthis_design run --task "Review onboarding flow" --budget free\n');
+      process.exit(1);
+    }
+    (async () => {
+      try {
+        const result = await orchestratorRun({
+          task: taskVal,
+          figma: figmaVal || '',
+          project: projectVal,
+          provider: providerVal,
+          model: modelVal,
+          dryRun: dryRunFlag,
+          budget: budgetVal || 'auto',
+          sequential: sequentialFlag || !flags.includes('--parallel'),
+          maxChunks: maxChunksVal ? parseInt(maxChunksVal, 10) : null,
+          unchunked: unchunkedFlag,
+          output: outputVal,
+          continueRun: continueFlag,
+        });
+        if (dryRunFlag) {
+          console.log('\n── Chunk plan (dry run) ──');
+          console.log(JSON.stringify(result.plan || result, null, 2).slice(0, 3000));
+          console.log('');
+          return;
+        }
+        if (result.mode === 'host_pending' || result.host_pending) {
+          const pending = result.host_pending;
+          console.log('\n╔══════════════════════════════════════════════════════════════════════╗');
+          console.log('║  DEVI — Host LLM pending (chunk planner)                             ║');
+          console.log('╚══════════════════════════════════════════════════════════════════════╝\n');
+          console.log(`  Step:             ${pending.step_id}`);
+          console.log(`  Prompt file:      ${path.join(pending.run_dir, 'pending', pending.step_id + '.json')}`);
+          console.log(`  Run directory:    ${pending.run_dir}`);
+          console.log('\n  In Cursor, invoke:  /devi');
+          console.log('  Or submit response:');
+          console.log(`    npx analyzthis_design devi respond --run ${pending.run_dir} --step ${pending.step_id} --file response.md`);
+          console.log('  Then continue:');
+          console.log(`    npx analyzthis_design run --continue --task "${taskVal}"\n`);
+          process.exit(2);
+          return;
+        }
+      } catch (err) {
+        if (err.name === 'HostLlmPendingError') {
+          hostLlm.printDeviInstructions(err);
+          process.exit(2);
+        }
+        console.error(`\n  ✗  Run failed: ${err.message}\n`);
+        process.exit(1);
+      }
+    })();
+    break;
+  }
+
+  case 'run-unchunked': {
     let runTask = taskVal;
     if (!runTask && continueFlag) {
       const st = session.show({ project: projectVal });
       runTask = st?.host_run?.task || hostLlm.loadManifest(st?.host_run?.run_dir || '')?.task || st?.digest?.task_map_summary;
     }
     if (!runTask) {
-      console.error('\n  ✗  --task is required.  Example: npx analyzthis_design run --task "Fix contrast" --dry-run\n');
+      console.error('\n  ✗  --task is required.  Example: npx analyzthis_design run-unchunked --task "Fix contrast" --dry-run\n');
       process.exit(1);
     }
     orchestratorRun({
@@ -780,6 +851,7 @@ switch (cmd) {
       experts: expertsVal ? expertsVal.split(',').map((s) => s.trim()).filter(Boolean) : null,
       project: projectVal,
       output: outputVal,
+      unchunked: true,
     }).catch((err) => {
       if (err.name === 'HostLlmPendingError') process.exit(2);
       console.error(`\n  ✗  Run failed: ${err.message}\n`);

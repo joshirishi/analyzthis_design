@@ -2,6 +2,8 @@
 
 A practical guide for Cursor, Claude Code, Codex CLI, Grok Build, Windsurf Cascade, and any Agent Skills–compatible IDE.
 
+> **Updated for v2.0.0:** `npx analyzthis_design run` now uses **chunked execution** by default (frontier planner → free/cheap chunk models → synthesis). Legacy single-pass is available as `npx analyzthis_design run-unchunked`.
+
 ---
 
 ## 1. What this package gives you
@@ -214,21 +216,37 @@ npx analyzthis_design moodboard add --board <boardId> \
 
 ---
 
-### 5.5 Run the standalone CLI orchestrator (no API keys)
+### 5.5 Run the standalone CLI orchestrator
+
+**v2.0 default — chunked execution (no API keys required):**
 
 ```bash
-# Start a run — it pauses and waits for the host LLM
-npx analyzthis_design run --task "Review my invoice screen" --full
+# Frontier planner + free/cheap chunk models
+npx analyzthis_design run --task "Review my invoice screen"
 
-# In Cursor, respond with /devi
-# Then continue
-npx analyzthis_design run --continue --task "Review my invoice screen" --full
+# Prefer free models only (Ollama, Groq/Gemini/OpenRouter free endpoints)
+npx analyzthis_design run --task "Review my invoice screen" --budget free
 
-# Quick single-expert run
-npx analyzthis_design run --task "Just check spacing" --experts arjun
+# Use your paid keys for cheap, capable models
+npx analyzthis_design run --task "Review my invoice screen" --budget cheap --provider together
+
+# Sequential is default; explicit parallel
+npx analyzthis_design run --task "..." --parallel --max-chunks 6
 ```
 
-The CLI writes pending prompts to:
+**Legacy single-pass orchestrator (host mode, no API keys):**
+
+```bash
+# Start a run — it pauses and waits for the host LLM /devi
+npx analyzthis_design run-unchunked --task "Review my invoice screen" --full
+npx analyzthis_design devi status
+npx analyzthis_design run-unchunked --continue --task "Review my invoice screen" --full
+
+# Quick single-expert run
+npx analyzthis_design run-unchunked --task "Just check spacing" --experts arjun
+```
+
+In host mode, the CLI writes pending prompts to:
 
 ```
 ~/.analyzthis_design/runs/{projectId}/{runId}/pending/

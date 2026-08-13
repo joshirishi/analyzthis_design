@@ -64,5 +64,13 @@
     "min_lessons_for_patch": 5,
     "min_outcomes_for_router_patch": 10,
     "dry_run_default": true
+  },
+  "chunk_models": {
+    "description": "v2.0 chunked execution model pool. Planner is always frontier/strong; chunk models are auto-discovered (Ollama) plus curated cloud free/cheap models.",
+    "planner": { "provider": "anthropic", "model": "claude-sonnet-4-20250514" },
+    "max_chunks": 6,
+    "default_budget": "auto",
+    "default_mode": "sequential",
+    "allow_cheap_paid": true
   }
 }

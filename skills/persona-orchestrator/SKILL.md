@@ -159,6 +159,8 @@ npx analyzthis_design outcome --confirm --persona arjun --result shipped
 # or: revised, blocked_correctly, missed
 ```
 
+**Default execution is chunked (v2.0).** `npx analyzthis_design run --task "..."` now uses a frontier planner + cheap chunk models. Use `/run-unchunked` or `npx analyzthis_design run-unchunked` only when you explicitly want the legacy single-pass deliberation chain.
+
 **Set visual direction with the team.** Use `/mood-board` when the user wants references and a team-deliberated direction:
 
 ```bash

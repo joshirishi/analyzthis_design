@@ -103,6 +103,19 @@
       "started_at": "ISO 8601",
       "completed_at": "ISO 8601 | omitted"
     },
+    "chunk_run": {
+      "plan": "object — chunk plan from the frontier planner",
+      "planner_model": "object — { provider, model } used for planning",
+      "planner_warning": "string | null — warning if planner fell back to host model",
+      "results": "array — per-chunk execution results",
+      "synthesis": "object — final merged verdict",
+      "total_cost": "number — estimated USD cost",
+      "total_tokens": "object — { input, output }",
+      "models_used": "array — model names used across chunks",
+      "failed_chunks": "array — chunks that could not complete",
+      "budget": "free | cheap | auto",
+      "mode": "sequential | parallel"
+    },
     "synthesis": {
       "scores": "object — per-persona scores",
       "total": "number",

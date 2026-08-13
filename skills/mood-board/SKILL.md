@@ -35,7 +35,14 @@ npx analyzthis_design moodboard add --board <boardId> \
   --note "I like the white space and the trust badge placement"
 
 npx analyzthis_design moodboard list
-n```
+```
+
+## v2.0 chunked execution
+
+`/mood-board` now runs internally through the v2.0 chunked executor:
+- Frontier planner scopes the board (personas, references, DS lookups).
+- Cheap/free models tag references, retrieve design-system rows, and run the deliberation loop.
+- Result is the same `board.json` artifact, but at lower average token cost.
 
 ## How the personas use it
 

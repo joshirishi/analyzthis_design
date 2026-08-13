@@ -4,29 +4,41 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 1.22.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+## v2.0 — chunked execution by default
+
+`npx analyzthis_design run --task "..."` now uses a **frontier planner + cheap chunk models**:
+
+1. Frontier/strong model plans the task into small chunks.
+2. Each chunk runs on the cheapest capable model: local Ollama, free cloud APIs (Groq, Gemini, OpenRouter), or cheap cloud APIs with your keys.
+3. Outputs are merged into a final verdict.
+4. Telemetry learns which models work best for each chunk type.
+
+Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
+
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.0.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
-## Install
+## Quick start
 
 ```bash
-# Cursor (default) + cross-agent path on postinstall
+# 1. Install slash commands (Cursor/Claude/Codex/Grok/Windsurf)
 npx analyzthis_design
 
-# Claude Code (skills dir + legacy commands)
+# 2. Run a task in v2.0 chunked mode (free/cheap models)
+npx analyzthis_design run --task "Review invoice approval screen"
+
+# 3. Or use legacy single-pass orchestrator
+npx analyzthis_design run-unchunked --task "Review invoice approval screen" --provider host
+```
+
+### Install by target IDE
+
+```bash
 npx analyzthis_design --target claude
-
-# Codex CLI
 npx analyzthis_design --target codex
-
-# Grok Build (xAI)
 npx analyzthis_design --target grok
-
-# Windsurf Cascade
 npx analyzthis_design --target windsurf
-
-# All supported hosts at once
 npx analyzthis_design --target all --force
 ```
 
@@ -232,31 +244,36 @@ agents/
   session-schema.json
 ```
 
-**Standalone runtime (v2):**
+**v2.0 chunked runtime (default for `run`):**
 
 ```bash
-# Print routing + deliberation groups (no LLM calls)
-npx analyzthis_design run --task "Fix contrast on landing page" --dry-run
+# Default: frontier planner + sequential chunk execution on free/cheap models
+npx analyzthis_design run --task "Review invoice approval screen"
 
-# Host mode (default when no API keys) — Devi voices personas
-npx analyzthis_design run --task "Review invoice screen" --full
+# Auto-detect local Ollama, otherwise use free cloud models
+npx analyzthis_design run --task "Review invoice approval screen" --budget free
+
+# Use your paid keys for cheap cloud models
+npx analyzthis_design run --task "..." --budget cheap --provider together
+
+# Limit parallelism / chunk count (sequential is default)
+npx analyzthis_design run --task "..." --sequential --max-chunks 4
+npx analyzthis_design run --task "..." --parallel --max-chunks 6
+
+# Legacy single-pass orchestrator (unchunked)
+npx analyzthis_design run-unchunked --task "Review invoice approval screen" --full
+
+# Host mode (no API keys) — Devi voices personas via prompt queue
+npx analyzthis_design run-unchunked --task "Review invoice screen" --full
 npx analyzthis_design devi status
-npx analyzthis_design run --continue --task "Review invoice screen" --full
-
-# External API providers (optional)
-export ANTHROPIC_API_KEY=sk-...
-npx analyzthis_design run --task "Review this screen" --figma https://figma.com/... --provider anthropic
-
-# Force full chain, bypass router, tune deliberation
-npx analyzthis_design run --task "Full critique of onboarding" --full
-npx analyzthis_design run --task "Just check spacing" --experts arjun
-npx analyzthis_design run --task "..." --max-rounds 2 --satisfaction 0.5
-npx analyzthis_design run --task "..." --no-deliberate   # legacy sequential handoff
+npx analyzthis_design run-unchunked --continue --task "Review invoice screen" --full
 ```
 
-**Provider resolution order:** explicit `--provider` → config → first available API key → **`host`** (Devi).
+**Chunk model selection:** Ollama auto-discovered → free cloud (Groq/Gemini/OpenRouter free endpoints) → cheap cloud with user keys. The **planner always runs on a frontier/strong model** and never on a cheap model; if no frontier provider is available, it falls back to the host model with a warning.
 
-Supported providers: `host` | `anthropic` | `openai` | `google` | `zai`
+**Provider resolution order:** explicit `--provider` → config → first available API key → **`host`** (Devi) for unchunked; chunked mode also considers Ollama and free endpoints before paid.
+
+Supported providers: `host` | `anthropic` | `openai` | `google` | `zai` | `ollama` | `groq` | `together` | `openrouter` | `deepseek`
 
 Provider defaults live in `~/.analyzthis_design/config.json`:
 
@@ -740,6 +757,13 @@ lib/
   research.js           URL / query → web-context.md
   retrieve.js           Filtered, citation-ready CSV row retrieval
   cache.js              On-disk cache for retrieve/kb slices
+  chunk-models.js       Curated free/cheap model pool + Ollama auto-discovery
+  chunk-planner.js      Frontier/strong model chunk planner
+  chunk-router.js       Cheapest capable model per chunk
+  chunk-executor.js     Chunk execution with retry + fallback
+  chunk-synthesis.js    Merge chunk outputs into final verdict
+  chunk-telemetry.js    Per-chunk model quality tracking
+  chunk-run.js          Top-level chunked execution coordinator
   moodboard.js          Mood-board engine: collect web/DS references, tag, deliberate
   dedup.js              Cross-persona redundancy detection
   lessons.js            Self-evolving lessons store (extract/retrieve/inject)
@@ -784,6 +808,16 @@ skills/
 - **Kavi `collect` enrichment:** optional — same keys as above; without keys, draft vault + sync still run
 
 ---
+
+## What's new in v2.0
+
+| Feature | Description |
+|---------|-------------|
+| **Chunked execution by default** | Frontier planner → cheap chunk models (Ollama, free/cheap cloud) → synthesis |
+| **Model router** | Auto-discovers Ollama + uses curated free/cheap cloud model pool |
+| **Chunk telemetry** | Tracks per-model success rate so router improves over time |
+| **Legacy mode preserved** | `npx analyzthis_design run-unchunked` for the original single-pass orchestrator |
+| **Planner never cheap** | Planner always uses frontier/host; chunk models are cost-optimized |
 
 ## What's new in v1.22
 

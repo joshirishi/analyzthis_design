@@ -1,0 +1,19 @@
+{
+  "id": "run-unchunked",
+  "name": "Run Unchunked",
+  "tier": "structured",
+  "max_output_tokens": 900,
+  "system_card": "agents/cards/run-unchunked.md",
+  "system_skill": "skills/run-unchunked/SKILL.md",
+  "allowed_jobs": [
+    "Run the legacy non-chunked orchestrator",
+    "Execute a single-pass persona chain",
+    "Compare against chunked output"
+  ],
+  "forbidden_jobs": [
+    "Replace the default chunked orchestrator",
+    "Run the chunk planner"
+  ],
+  "hard_gates": [],
+  "parallel_safe_with": []
+}

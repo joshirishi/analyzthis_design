@@ -1,0 +1,18 @@
+{
+  "id": "chunk-planner",
+  "name": "Chunk Planner",
+  "tier": "router",
+  "max_output_tokens": 2500,
+  "system_card": "agents/cards/chunk-planner.md",
+  "system_skill": "skills/chunk-planner/SKILL.md",
+  "allowed_jobs": [
+    "Explain the chunked execution planner",
+    "Inspect chunk plans from session state"
+  ],
+  "forbidden_jobs": [
+    "Replace the router or chain",
+    "Execute chunks directly"
+  ],
+  "hard_gates": [],
+  "parallel_safe_with": []
+}
