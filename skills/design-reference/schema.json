@@ -1,0 +1,159 @@
+{
+  "description": "Schema definitions for all design-reference CSV files. Used by evolve.js (row generation), reference-pack.js (filtering), and validate-csvs.js (integrity checks).",
+  "files": {
+    "styles.csv": {
+      "header": ["No", "Style Category", "Type", "Keywords", "Primary Colors", "Secondary Colors", "Effects & Animation", "Best For", "Best For Tags", "Do Not Use For", "Light Mode ✓", "Dark Mode ✓", "Performance", "Accessibility", "Mobile-Friendly", "Conversion-Focused", "Framework Compatibility", "Era/Origin", "Complexity", "AI Prompt Keywords", "CSS/Technical Keywords", "Implementation Checklist", "Design System Variables"],
+      "filter_column": "Best For Tags",
+      "no_column": "No",
+      "evolve_persona": "arjun"
+    },
+    "colors.csv": {
+      "header": ["No", "Product Type", "Primary", "On Primary", "Secondary", "On Secondary", "Accent", "On Accent", "Background", "Foreground", "Card", "Card Foreground", "Muted", "Muted Foreground", "Border", "Destructive", "On Destructive", "Ring", "Notes"],
+      "filter_column": "Product Type",
+      "no_column": "No",
+      "evolve_persona": "zara"
+    },
+    "typography.csv": {
+      "header": ["No", "Font Pairing Name", "Category", "Heading Font", "Body Font", "Mood/Style Keywords", "Best For", "Best For Tags", "Google Fonts URL", "CSS Import", "Tailwind Config", "Notes"],
+      "filter_column": "Best For Tags",
+      "no_column": "No",
+      "evolve_persona": "zara"
+    },
+    "google-fonts.csv": {
+      "header": ["No", "Family", "Category", "Stroke", "Classifications", "Keywords", "Styles", "Variable Axes", "Subsets", "Designers", "Popularity Rank", "Trending Rank", "Is Noto", "Date Added", "Last Modified", "Google Fonts URL"],
+      "filter_column": "Keywords",
+      "no_column": "No"
+    },
+    "products.csv": {
+      "header": ["No", "Product Type", "Keywords", "Primary Style Recommendation", "Secondary Styles", "Landing Page Pattern", "Mapped Pattern", "Dashboard Style (if applicable)", "Color Palette Focus", "Key Considerations"],
+      "filter_column": "Product Type",
+      "no_column": "No",
+      "evolve_persona": "meera",
+      "joins": {
+        "Mapped Pattern": { "target_file": "landing.csv", "target_column": "Pattern Name" }
+      }
+    },
+    "ux-guidelines.csv": {
+      "header": ["No", "Category", "Issue", "Platform", "Description", "Do", "Don't", "Code Example Good", "Code Example Bad", "Severity"],
+      "filter_column": "Category",
+      "no_column": "No",
+      "evolve_persona": "noor"
+    },
+    "ui-reasoning.csv": {
+      "header": ["No", "UI Category", "Recommended Pattern", "Style Priority", "Color Mood", "Typography Mood", "Key Effects", "Decision Rules", "Anti Patterns", "Severity"],
+      "filter_column": "UI Category",
+      "no_column": "No"
+    },
+    "app-interface.csv": {
+      "header": ["No", "Category", "Issue", "Keywords", "Platform", "Description", "Do", "Don't", "Code Example Good", "Code Example Bad", "Severity"],
+      "filter_column": "Keywords",
+      "no_column": "No"
+    },
+    "landing.csv": {
+      "header": ["No", "Pattern Name", "Keywords", "Section Order", "Primary CTA Placement", "Color Strategy", "Recommended Effects", "Conversion Optimization"],
+      "filter_column": "Keywords",
+      "no_column": "No"
+    },
+    "charts.csv": {
+      "header": ["No", "Data Type", "Keywords", "Best Chart Type", "Secondary Options", "When to Use", "When NOT to Use", "Data Volume Threshold", "Color Guidance", "Accessibility Grade", "Accessibility Notes", "A11y Fallback", "Library Recommendation", "Interactive Level"],
+      "filter_column": "Data Type",
+      "no_column": "No"
+    },
+    "icons.csv": {
+      "header": ["No", "Category", "Icon Name", "Keywords", "Library", "Import Code", "Usage", "Best For", "Style"],
+      "filter_column": "Keywords",
+      "no_column": "No"
+    },
+    "react-performance.csv": {
+      "header": ["No", "Category", "Issue", "Keywords", "Platform", "Description", "Do", "Don't", "Code Example Good", "Code Example Bad", "Severity"],
+      "filter_column": "Category",
+      "no_column": "No",
+      "evolve_persona": "priya"
+    },
+    "stacks/angular.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/astro.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/flutter.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/html-tailwind.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/jetpack-compose.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/laravel.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/nextjs.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/nuxt-ui.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/nuxtjs.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/react.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/react-native.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/shadcn.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/svelte.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/swiftui.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/threejs.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    },
+    "stacks/vue.csv": {
+      "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
+      "filter_column": "Category",
+      "no_column": "No"
+    }
+  },
+  "stacks_detected": [
+    "nuxt-ui", "nuxtjs", "nextjs", "shadcn", "react-native", "react",
+    "vue", "angular", "svelte", "astro", "html-tailwind",
+    "flutter", "swiftui", "jetpack-compose", "laravel", "threejs"
+  ]
+}

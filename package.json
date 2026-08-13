@@ -39,7 +39,8 @@
   ],
   "scripts": {
     "build": "node scripts/obfuscate.js",
-    "prepublishOnly": "npm run build",
+    "validate": "node scripts/validate-csvs.js",
+    "prepublishOnly": "npm run build && npm run validate",
     "postinstall": "node dist/lib/install.js --silent --welcome"
   },
   "engines": {
