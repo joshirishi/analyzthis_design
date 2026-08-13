@@ -35,7 +35,9 @@
     "agents/",
     "supabase/",
     ".github/",
-    "README.md"
+    "scripts/validate-csvs.js",
+    "README.md",
+    "HOW-TO-USE.md"
   ],
   "scripts": {
     "build": "node scripts/obfuscate.js",
