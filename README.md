@@ -379,6 +379,9 @@ Ask → session digest → MoE router (1–2 experts, not 4) → persona cards (
 | **Persona cards** | `agents/cards/<persona>.md` (~500 tokens) are the default system prompt; the full `skills/<persona>/SKILL.md` is only opened for a C-or-below rubric lookup or an explicit deep/full request. |
 | **Lite output schema** | Grades + Top 2 fixes + score, by default. Deep/full schema is opt-in. |
 | **Retrieve-on-demand** | `npx analyzthis_design retrieve --file colors.csv --column "Product Type" --keywords saas` returns only matching rows, pre-formatted for citation — never the whole CSV. |
+| **Multi-file reference packs** | Each persona retrieves from 3-5 CSV files (not 1), pooled into a single ranker call. Arjun gets styles + ux-guidelines + ui-reasoning + charts; Zara gets colors + typography + styles + landing + icons. Same LLM cost as single-file, 3-5x coverage. |
+| **Best For Tags** | `styles.csv` and `typography.csv` have a `Best For Tags` column (semicolon-delimited product-type tokens) for reliable keyword filtering. Previously `Best For` was free-text and 31/84 styles were unfilterable. |
+| **CSV schema + validation** | `skills/design-reference/schema.json` defines all 28 CSV files' headers, filter columns, and cross-file joins. `npm run validate` checks integrity before publish. |
 | **Model tiers** | `structured` steps can run on a cheaper model (e.g. `gpt-4o-mini`); `critique`/`arbitrate` steps use a stronger model. Configurable per tier in `~/.analyzthis_design/config.json`. |
 | **Caching** | `lib/cache.js` caches retrieve results (invalidated automatically when the source CSV changes) and knowledge-bank slices (invalidated on `sync` / `session reset`). |
 | **Cost metrics** | Every `run` records `metrics` (llm_calls, experts_run, estimated tokens, cache_hits) into session state. |
@@ -458,12 +461,12 @@ evolve --extract → proposes:
   - reference-data rows (new product-type patterns)
   - router patches (task_type → best-performing expert)
         ↓
-evolve --apply <patchId> (human review) → skill/CSV/router updated
-        ↓
+  evolve --apply <patchId> (human review) → skill/CSV/router updated
+         ↓
 Next run retrieves:
   - per-persona knowledge slices (priority + fallback)
   - past lessons for similar tasks
-  - query-expanded + ranked reference rows
+  - query-expanded + ranked reference rows from 3-5 CSV files per persona
 ```
 
 ### Retrieval stack
@@ -709,11 +712,13 @@ npx analyzthis_design research --query <text>
 # Reference data (retrieve-on-demand)
 npx analyzthis_design retrieve --file <csv> --column <col> --keywords a,b [--limit N]
 
-# Standalone orchestrator
-npx analyzthis_design run --task "..." [--figma URL] [--provider host|anthropic|openai|google|zai] [--dry-run] [--output path]
-npx analyzthis_design run --task "..." [--lite | --full] [--experts a,b]
-npx analyzthis_design run --task "..." [--deliberate | --no-deliberate] [--max-rounds N] [--satisfaction 0.4]
+# Standalone orchestrator (v2.0 chunked by default)
+npx analyzthis_design run --task "..." [--budget free|cheap|auto] [--sequential|--parallel] [--max-chunks N] [--dry-run]
+npx analyzthis_design run-unchunked --task "..." [--lite|--full] [--experts a,b] [--dry-run] [--deliberate|--no-deliberate]
 npx analyzthis_design run --continue --task "..."   # resume host-mode run after /devi
+
+# CSV validation
+npx analyzthis_design validate    # validate all 28 CSV files against schema.json
 
 # Self-evolving team (v1.21)
 npx analyzthis_design evolve --extract [--window N] [--dry-run]
@@ -764,6 +769,7 @@ lib/
   chunk-synthesis.js    Merge chunk outputs into final verdict
   chunk-telemetry.js    Per-chunk model quality tracking
   chunk-run.js          Top-level chunked execution coordinator
+  reference-pack.js     Shared multi-file CSV + vault retrieval (buildReferencePack)
   moodboard.js          Mood-board engine: collect web/DS references, tag, deliberate
   dedup.js              Cross-persona redundancy detection
   lessons.js            Self-evolving lessons store (extract/retrieve/inject)
@@ -785,6 +791,7 @@ scripts/
   quality-check.js      Validate persona outputs vs skill + deliberation protocol
   demo-fictional-deliberation.js  Dry-run walkthrough for FlowPay scenario
 scripts/obfuscate.js    Build step → dist/
+scripts/validate-csvs.js  CSV integrity validation against schema.json
 skills/
   devi/                 Host LLM runtime — voices personas from pending prompts
   kavi/                 Kavi — Knowledge Archivist (/kavi)
@@ -804,7 +811,7 @@ skills/
 
 - Node.js 16+
 - Any Agent Skills–compatible host: [Cursor](https://cursor.com), [Claude Code](https://code.claude.com), Codex CLI, [Grok Build](https://x.ai), or Windsurf Cascade
-- **CLI `run`:** works without API keys via **`/devi`** host mode (default). Optional keys for automated API runs: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `ZAI_API_KEY`
+- **CLI `run`:** works without API keys via **`/devi`** host mode (default). Optional keys for automated API runs: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, `ZAI_API_KEY`, `GROQ_API_KEY`, `TOGETHER_API_KEY`, `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY`. Local Ollama auto-detected at `localhost:11434`.
 - **Kavi `collect` enrichment:** optional — same keys as above; without keys, draft vault + sync still run
 
 ---
@@ -818,6 +825,10 @@ skills/
 | **Chunk telemetry** | Tracks per-model success rate so router improves over time |
 | **Legacy mode preserved** | `npx analyzthis_design run-unchunked` for the original single-pass orchestrator |
 | **Planner never cheap** | Planner always uses frontier/host; chunk models are cost-optimized |
+| **Multi-file reference retrieval** | Each persona retrieves from 3-5 CSV files (not 1) via a shared ranker — same LLM cost, 3-5x coverage |
+| **All 16 stacks detected** | `detectStack()` covers all 16 stack CSVs (flutter, swiftui, laravel, threejs, etc.) — was 8 |
+| **CSV schema + validation** | `npm run validate` checks all 28 CSV files against `schema.json` before publish |
+| **Best For Tags** | styles.csv + typography.csv have normalized tag columns for reliable keyword filtering |
 
 ## What's new in v1.22
 

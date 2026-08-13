@@ -2,7 +2,7 @@
 
 A practical guide for Cursor, Claude Code, Codex CLI, Grok Build, Windsurf Cascade, and any Agent Skills–compatible IDE.
 
-> **Updated for v2.0.0:** `npx analyzthis_design run` now uses **chunked execution** by default (frontier planner → free/cheap chunk models → synthesis). Legacy single-pass is available as `npx analyzthis_design run-unchunked`.
+> **Updated for v2.0.0:** `npx analyzthis_design run` now uses **chunked execution** by default (frontier planner → free/cheap chunk models → synthesis). Each chunk retrieves from 3-5 CSV reference files + vault slices, pooled into a single ranker call. Legacy single-pass is available as `npx analyzthis_design run-unchunked`.
 
 ---
 
@@ -374,6 +374,11 @@ No API keys are required for host mode. To use cloud providers, set one of:
 - `OPENAI_API_KEY`
 - `GEMINI_API_KEY` or `GOOGLE_API_KEY`
 - `ZAI_API_KEY` or `ZHIPU_API_KEY`
+- `GROQ_API_KEY` (free tier available)
+- `TOGETHER_API_KEY`
+- `OPENROUTER_API_KEY` (free models available)
+- `DEEPSEEK_API_KEY`
+- Local **Ollama** auto-detected at `localhost:11434` (no key needed)
 
 ---
 
@@ -388,6 +393,7 @@ No API keys are required for host mode. To use cloud providers, set one of:
 | Want a cheaper run | Use `--lite` (default) instead of `--full` |
 | Want deeper critique | Use `--full` for the full design-critic chain |
 | Personas give generic advice | Add PRDs/brand/research notes and re-run `npx analyzthis_design collect` |
+| CSV data seems stale | Run `npx analyzthis_design validate` to check integrity against `schema.json` |
 
 ---
 
@@ -403,10 +409,16 @@ npx analyzthis_design sync --target all
 npx analyzthis_design session init
 npx analyzthis_design session show
 
-# Run
+# Run (v2.0 chunked by default)
 npx analyzthis_design run --task "Review this screen" --dry-run
-npx analyzthis_design run --task "Review this screen" --full
+npx analyzthis_design run --task "Review this screen" --budget free
 npx analyzthis_design run --continue --task "Review this screen"
+
+# Run (legacy single-pass)
+npx analyzthis_design run-unchunked --task "Review this screen" --full
+
+# Validate CSV reference data
+npx analyzthis_design validate
 
 # Mood board
 npx analyzthis_design moodboard create --task "..." --auto
