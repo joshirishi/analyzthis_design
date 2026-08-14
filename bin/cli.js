@@ -1121,10 +1121,10 @@ switch (cmd) {
       })();
       break;
     }
-    if (flags.includes('--apply')) {
+if (flags.includes('--apply')) {
       const applyId = getFlag('apply');
       if (!applyId) {
-        console.error('\n  ✗  --apply requires a patch id\n');
+        console.error('\n  ��  --apply requires a patch id\n');
         process.exit(1);
       }
       try {
@@ -1134,18 +1134,32 @@ switch (cmd) {
           console.log('  Target: ' + result.targetFile);
           console.log('  Preview:\n' + result.preview.slice(0, 1200));
         } else {
-          console.log('\n✅ Patch ' + (result.applied ? 'applied' : 'previewed') + ': ' + applyId);
+          console.log('\n��� Patch ' + (result.applied ? 'applied' : 'previewed') + ': ' + applyId);
           if (result.targetFile) console.log('   Target: ' + result.targetFile);
           if (result.message) console.log('   Note: ' + result.message);
         }
         console.log('');
       } catch (err) {
-        console.error(`\n  ✗  ${err.message}\n`);
+        console.error(`\n  ��  ${err.message}\n`);
         process.exit(1);
       }
       break;
     }
-    console.log('\n  Usage: evolve --extract [--window N] [--dry-run] | evolve --apply <patchId> [--dry-run]\n');
+    if (flags.includes('--metrics')) {
+      const em = require('../lib/evolution-metrics');
+      const m = em.computeEvolutionMetrics(projectVal);
+      console.log('\n' + em.formatEvolutionSummary(m));
+      break;
+    }
+    if (flags.includes('--ready')) {
+      const em = require('../lib/evolution-metrics');
+      const ready = em.checkEvolutionReady(projectVal);
+      console.log('\n' + (ready.ready ? '[READY] ' : '[PENDING] ') + ready.reason);
+      console.log('');
+      console.log(em.formatEvolutionSummary(ready.metrics));
+      break;
+    }
+    console.log('\n  Usage: evolve --extract [--window N] [--dry-run] | evolve --apply <patchId> [--dry-run] | evolve --metrics | evolve --ready\n');
     break;
   }
 

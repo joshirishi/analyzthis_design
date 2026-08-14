@@ -1,0 +1,16 @@
+{
+  "id": "evolve-check",
+  "name": "Evolve Check",
+  "type": "utility",
+  "tier": "structured",
+  "system_card": "agents/cards/evolve-check.md",
+  "system_skill": "skills/evolve-check/SKILL.md",
+  "allowed_jobs": ["evolve_check", "metrics_report"],
+  "forbidden_jobs": ["critique", "wireframe", "synthesize"],
+  "knowledge_categories": [],
+  "max_output_tokens": 600,
+  "effort_overrides": {
+    "trivial": { "provider": "host", "model": "devi", "max_output_tokens": 400 },
+    "standard": { "provider": "host", "model": "devi", "max_output_tokens": 600 }
+  }
+}
