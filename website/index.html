@@ -3,304 +3,323 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analyzthis Design — Automate Your UX Design Review with AI Personas</title>
+  <title>Analyzthis Design — Automate UX Design Review with AI Personas</title>
   <meta name="description" content="Open-source AI design personas that automate UX critique, ideation, and design review workflows. Plug into Cursor, Claude, Codex, Grok, or Windsurf. No API keys required.">
-  <meta name="keywords" content="UX design, AI personas, design critique, design automation, Cursor, Claude Code, design review, wireframe, design system">
   <meta property="og:title" content="Analyzthis Design — Automate UX Design Review with AI Personas">
   <meta property="og:description" content="8 AI design personas. Adversarial deliberation. Self-evolving. Plug into any AI IDE. Open source.">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
   <style>
     :root {
-      --bg: #08080c;
-      --bg-1: #0e0e16;
-      --bg-2: #14141f;
-      --bg-3: #1a1a28;
-      --border: #22223a;
-      --border-hi: #333358;
-      --text: #f0f0f5;
-      --text-1: #c0c0d0;
-      --text-2: #8888a0;
-      --text-3: #555570;
-      --accent: #8b5cf6;
-      --accent-1: #a78bfa;
-      --accent-2: #c4b5fd;
-      --accent-d: #6d28d9;
-      --green: #10b981;
-      --amber: #f59e0b;
-      --red: #ef4444;
-      --blue: #3b82f6;
-      --pink: #ec4899;
-      --cyan: #06b6d4;
-      --orange: #f97316;
-      --teal: #14b8a6;
-      --rose: #f43f5e;
-      --indigo: #6366f1;
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
-      --mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Menlo, monospace;
-      --radius: 14px;
-      --radius-sm: 8px;
-      --maxw: 1140px;
+      --bg: #f5f5f0;
+      --bg-1: #ffffff;
+      --bg-2: #efeee8;
+      --bg-3: #e6e4dc;
+      --ink: #0a0a0a;
+      --ink-1: #1a1a1a;
+      --ink-2: #4a4a4a;
+      --ink-3: #7a7a7a;
+      --line: #0a0a0a;
+      --line-soft: #c0c0b8;
+      --accent: #ff4d00;
+      --accent-1: #ff6b2b;
+      --accent-bg: #fff0e8;
+      --blue: #0046ff;
+      --green: #008a3d;
+      --amber: #d49800;
+      --red: #d92626;
+      --pink: #e8198b;
+      --cyan: #00a0a8;
+      --orange: #ff4d00;
+      --purple: #6d28d9;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Menlo, 'Courier New', monospace;
+      --bw: 3px;
+      --bw-2: 2px;
+      --sh: 6px 6px 0 var(--ink);
+      --sh-sm: 4px 4px 0 var(--ink);
+      --sh-lg: 8px 8px 0 var(--ink);
+      --sh-none: 0 0 0 var(--ink);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       font-family: var(--font);
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
       line-height: 1.65;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
     a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; }
 
     /* ── Nav ── */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(8,8,12,0.82);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
+      background: var(--bg-1);
+      border-bottom: var(--bw) solid var(--line);
     }
     .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .nav .brand { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; }
-    .nav .brand span { color: var(--accent-1); }
-    .nav .links { display: flex; gap: 32px; align-items: center; }
-    .nav .links a { color: var(--text-1); font-size: 0.875rem; transition: color 0.2s; }
-    .nav .links a:hover { color: var(--text); }
+    .nav .brand { font-weight: 900; font-size: 1.1rem; letter-spacing: -0.03em; text-transform: uppercase; }
+    .nav .brand span { color: var(--accent); }
+    .nav .links { display: flex; gap: 28px; align-items: center; }
+    .nav .links a { color: var(--ink-1); font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.15s; }
+    .nav .links a:hover { color: var(--accent); }
     .nav .cta {
-      background: var(--accent); color: #fff; padding: 8px 18px;
-      border-radius: var(--radius-sm); font-size: 0.8125rem; font-weight: 600;
-      transition: all 0.2s;
+      background: var(--ink); color: var(--bg-1); padding: 8px 18px;
+      border: var(--bw) solid var(--line); font-size: 0.8125rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      box-shadow: var(--sh-sm); transition: all 0.1s;
     }
-    .nav .cta:hover { background: var(--accent-1); transform: translateY(-1px); }
+    .nav .cta:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
     @media (max-width: 840px) { .nav .links a:not(.cta) { display: none; } }
 
     /* ── Hero ── */
-    .hero { padding: 130px 0 70px; text-align: center; position: relative; overflow: hidden; }
-    .hero-glow {
-      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-      width: 700px; height: 500px;
-      background: radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 60%);
-      pointer-events: none;
+    .hero { padding: 120px 0 60px; position: relative; overflow: hidden; border-bottom: var(--bw) solid var(--line); }
+    .hero-stripe {
+      position: absolute; top: 0; left: 0; right: 0; height: 12px;
+      background: var(--accent);
     }
+    .hero .wrap { position: relative; z-index: 1; }
     .hero .tag {
       display: inline-flex; align-items: center; gap: 8px;
-      background: var(--bg-2); border: 1px solid var(--border);
-      padding: 6px 16px; border-radius: 20px;
-      font-size: 0.8125rem; color: var(--text-1); margin-bottom: 24px;
+      background: var(--accent); color: var(--bg-1);
+      padding: 6px 14px; font-size: 0.75rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      border: var(--bw) solid var(--line);
+      box-shadow: var(--sh-sm); margin-bottom: 28px;
     }
-    .hero .tag .dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--green); box-shadow: 0 0 8px var(--green);
-    }
+    .hero .tag .dot { width: 8px; height: 8px; background: var(--bg-1); border-radius: 0; }
     .hero h1 {
-      font-size: 3.8rem; font-weight: 800; letter-spacing: -0.035em;
-      line-height: 1.08; margin-bottom: 24px;
-      background: linear-gradient(135deg, #fff 0%, #a78bfa 60%, #8b5cf6 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-size: 4rem; font-weight: 900; letter-spacing: -0.04em;
+      line-height: 1.0; margin-bottom: 24px; text-transform: uppercase;
     }
-    .hero h1 .line2 { display: block; font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #c4b5fd, #8b5cf6);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero h1 .accent { color: var(--accent); }
+    .hero h1 .outline {
+      -webkit-text-stroke: 2px var(--ink); color: transparent;
+    }
     .hero .sub {
-      font-size: 1.25rem; color: var(--text-1); max-width: 600px;
-      margin: 0 auto 40px;
+      font-size: 1.25rem; color: var(--ink-1); max-width: 620px;
+      margin: 0 auto 36px; font-weight: 500;
     }
-    .hero .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+    .hero .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 30px; border-radius: var(--radius-sm);
-      font-weight: 600; font-size: 0.9375rem; transition: all 0.2s; cursor: pointer;
+      padding: 14px 32px; font-weight: 800; font-size: 0.9375rem;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      border: var(--bw) solid var(--line); transition: all 0.1s; cursor: pointer;
     }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-1); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,92,246,0.3); }
-    .btn-ghost { background: var(--bg-2); border: 1px solid var(--border); color: var(--text); }
-    .btn-ghost:hover { background: var(--bg-3); border-color: var(--accent); }
+    .btn-primary { background: var(--ink); color: var(--bg-1); box-shadow: var(--sh); }
+    .btn-primary:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
+    .btn-accent { background: var(--accent); color: var(--bg-1); box-shadow: var(--sh); }
+    .btn-accent:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
+    .btn-ghost { background: var(--bg-1); color: var(--ink); box-shadow: var(--sh); }
+    .btn-ghost:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
     .hero .platforms {
-      display: flex; gap: 24px; justify-content: center; align-items: center;
-      flex-wrap: wrap; opacity: 0.6;
+      display: flex; gap: 20px; justify-content: center; align-items: center;
+      flex-wrap: wrap;
     }
-    .hero .platforms span { font-size: 0.875rem; color: var(--text-2); font-weight: 500; }
-    @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .hero h1 .line2 { font-size: 1.5rem; } .hero .sub { font-size: 1.0625rem; } }
+    .hero .platforms span { font-size: 0.875rem; color: var(--ink-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .hero .platforms .sep { color: var(--accent); font-weight: 900; }
+    @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .hero .sub { font-size: 1rem; } }
 
     /* ── Install ── */
-    .install { padding: 0 0 80px; }
+    .install { padding: 50px 0 40px; border-bottom: var(--bw) solid var(--line); }
     .install .box {
-      background: var(--bg-1); border: 1px solid var(--border);
-      border-radius: var(--radius); max-width: 640px; margin: 0 auto;
-      overflow: hidden;
+      background: var(--bg-1); border: var(--bw) solid var(--line);
+      box-shadow: var(--sh-lg); max-width: 680px; margin: 0 auto;
     }
     .install .box .bar {
-      padding: 10px 16px; background: var(--bg-2);
-      border-bottom: 1px solid var(--border);
+      padding: 10px 16px; background: var(--ink);
       display: flex; align-items: center; gap: 8px;
     }
-    .install .box .bar .d { width: 11px; height: 11px; border-radius: 50%; }
+    .install .box .bar .d { width: 12px; height: 12px; border: 2px solid var(--bg-1); }
     .install .box .bar .d:nth-child(1) { background: #ff5f57; }
     .install .box .bar .d:nth-child(2) { background: #febc2e; }
     .install .box .bar .d:nth-child(3) { background: #28c840; }
-    .install .box .bar .ttl { color: var(--text-3); font-size: 0.75rem; font-family: var(--mono); margin-left: 8px; }
+    .install .box .bar .ttl { color: var(--bg-1); font-size: 0.75rem; font-family: var(--mono); margin-left: 8px; font-weight: 700; }
     .install .box pre {
       padding: 24px; font-family: var(--mono); font-size: 0.85rem;
-      line-height: 1.8; overflow-x: auto; color: var(--text);
+      line-height: 1.9; overflow-x: auto; color: var(--ink); background: var(--bg-1);
     }
-    .install .box .c { color: var(--text-3); }
-    .install .box .g { color: var(--green); }
-    .install .box .p { color: var(--accent-1); }
+    .install .box .c { color: var(--ink-3); }
+    .install .box .g { color: var(--green); font-weight: 700; }
+    .install .box .p { color: var(--accent); font-weight: 700; }
+    .install .box .k { color: var(--blue); font-weight: 700; }
 
     /* ── Section base ── */
-    .sec { padding: 90px 0; }
-    .sec .title { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; text-align: center; margin-bottom: 16px; }
-    .sec .title .accent { color: var(--accent-1); }
-    .sec .sub { text-align: center; color: var(--text-1); max-width: 600px; margin: 0 auto 56px; font-size: 1.125rem; }
-    .sec .label { text-align: center; color: var(--accent-1); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .sec { padding: 80px 0; border-bottom: var(--bw) solid var(--line); }
+    .sec .label {
+      display: inline-block; background: var(--ink); color: var(--bg-1);
+      padding: 4px 14px; font-size: 0.6875rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;
+    }
+    .sec .title { font-size: 2.8rem; font-weight: 900; letter-spacing: -0.035em; text-transform: uppercase; margin-bottom: 14px; }
+    .sec .title .accent { color: var(--accent); }
+    .sec .sub { color: var(--ink-1); max-width: 600px; margin: 0 auto 56px; font-size: 1.125rem; font-weight: 500; text-align: center; }
+
+    /* ── Stats ── */
+    .stats-sec { padding: 40px 0; border-bottom: var(--bw) solid var(--line); }
+    .stats { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; }
+    .stat {
+      text-align: center; padding: 20px 40px;
+      border-right: var(--bw-2) solid var(--line);
+    }
+    .stat:last-child { border-right: none; }
+    .stat .n { font-size: 3.2rem; font-weight: 900; color: var(--accent); line-height: 1; }
+    .stat .l { font-size: 0.75rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 8px; font-weight: 700; }
+    @media (max-width: 768px) { .stat { border-right: none; border-bottom: 2px solid var(--line); } .stat:last-child { border-bottom: none; } }
 
     /* ── Persona cards ── */
-    .personas { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+    .personas { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0; border: var(--bw) solid var(--line); }
     .pcard {
-      background: var(--bg-1); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px;
-      transition: all 0.25s; position: relative; overflow: hidden;
+      background: var(--bg-1); padding: 24px;
+      border-right: var(--bw-2) solid var(--line);
+      border-bottom: var(--bw-2) solid var(--line);
+      transition: all 0.15s;
     }
-    .pcard::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: var(--c); opacity: 0; transition: opacity 0.25s;
-    }
-    .pcard:hover { background: var(--bg-2); border-color: var(--border-hi); transform: translateY(-3px); }
-    .pcard:hover::before { opacity: 1; }
+    .pcard:hover { background: var(--c); color: var(--bg-1); }
+    .pcard:hover .ava { border-color: var(--bg-1); }
+    .pcard:hover .role, .pcard:hover p, .pcard:hover .cmd { color: var(--bg-1); }
+    .pcard:hover h3 { color: var(--bg-1); }
     .pcard .ava {
-      width: 40px; height: 40px; border-radius: 10px;
+      width: 44px; height: 44px; border: var(--bw) solid var(--line);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 0.875rem; color: #fff;
-      margin-bottom: 14px;
+      font-weight: 900; font-size: 0.875rem; color: var(--bg-1);
+      margin-bottom: 14px; background: var(--c);
     }
-    .pcard h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: 2px; }
-    .pcard .role { font-size: 0.8125rem; color: var(--text-2); margin-bottom: 10px; font-weight: 500; }
-    .pcard p { font-size: 0.8125rem; color: var(--text-1); line-height: 1.6; }
-    .pcard .cmd { font-family: var(--mono); font-size: 0.75rem; color: var(--c); margin-top: 12px; font-weight: 600; }
+    .pcard h3 { font-size: 1.125rem; font-weight: 900; margin-bottom: 2px; text-transform: uppercase; letter-spacing: -0.01em; transition: color 0.15s; }
+    .pcard .role { font-size: 0.75rem; color: var(--ink-2); margin-bottom: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.15s; }
+    .pcard p { font-size: 0.8125rem; color: var(--ink-1); line-height: 1.6; transition: color 0.15s; }
+    .pcard .cmd { font-family: var(--mono); font-size: 0.75rem; color: var(--c); margin-top: 12px; font-weight: 700; transition: color 0.15s; }
 
     /* ── Feature grid ── */
-    .fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+    .fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
     .fcard {
-      background: var(--bg-1); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px;
-      transition: all 0.25s;
+      background: var(--bg-1); border: var(--bw) solid var(--line);
+      padding: 28px; box-shadow: var(--sh); transition: all 0.1s;
     }
-    .fcard:hover { background: var(--bg-2); border-color: var(--border-hi); }
-    .fcard .ico { font-size: 1.75rem; margin-bottom: 14px; }
-    .fcard h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 8px; }
-    .fcard p { font-size: 0.875rem; color: var(--text-1); line-height: 1.65; }
-
-    /* ── Workflow ── */
-    .flow { display: flex; flex-direction: column; gap: 0; max-width: 680px; margin: 0 auto; }
-    .fstep {
-      display: flex; gap: 20px; padding: 14px 0;
-      border-left: 2px solid var(--border); padding-left: 28px;
-      position: relative;
+    .fcard:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
+    .fcard .ico {
+      display: inline-block; font-size: 1.5rem; font-weight: 900;
+      background: var(--accent); color: var(--bg-1);
+      padding: 4px 10px; margin-bottom: 14px; border: var(--bw) solid var(--line);
     }
-    .fstep:last-child { border-left-color: transparent; }
-    .fstep::before {
-      content: ''; width: 12px; height: 12px; border-radius: 50%;
-      background: var(--accent); position: absolute; left: -7px; top: 20px;
-      box-shadow: 0 0 0 4px rgba(139,92,246,0.15);
-    }
-    .fstep .num { color: var(--accent-1); font-weight: 700; font-size: 0.8125rem; font-family: var(--mono); }
-    .fstep h4 { font-size: 0.9375rem; font-weight: 600; margin-bottom: 4px; }
-    .fstep p { font-size: 0.8125rem; color: var(--text-1); }
-    .fstep code { font-family: var(--mono); font-size: 0.75rem; color: var(--green); background: rgba(16,185,129,0.07); padding: 2px 7px; border-radius: 4px; }
+    .fcard h3 { font-size: 1.125rem; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; letter-spacing: -0.01em; }
+    .fcard p { font-size: 0.875rem; color: var(--ink-1); line-height: 1.65; }
 
     /* ── Ideation flow ── */
-    .ideation { display: flex; flex-direction: column; gap: 12px; max-width: 680px; margin: 0 auto; }
+    .ideation { display: flex; flex-direction: column; gap: 0; max-width: 720px; margin: 0 auto; border: var(--bw) solid var(--line); background: var(--bg-1); }
     .istep {
       display: flex; align-items: flex-start; gap: 16px;
-      background: var(--bg-1); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 16px 20px;
-      transition: all 0.2s;
+      padding: 18px 22px; border-bottom: var(--bw-2) solid var(--line);
+      transition: background 0.15s;
     }
-    .istep:hover { border-color: var(--border-hi); }
+    .istep:last-child { border-bottom: none; }
+    .istep:hover { background: var(--accent-bg); }
     .istep .ph {
-      width: 48px; height: 28px; border-radius: 6px;
+      width: 52px; height: 32px; border: var(--bw) solid var(--line);
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.6875rem; font-weight: 700; color: #fff;
-      flex-shrink: 0;
+      font-size: 0.6875rem; font-weight: 900; color: var(--bg-1);
+      flex-shrink: 0; background: var(--c, var(--ink)); font-family: var(--mono);
     }
-    .istep h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 3px; }
-    .istep p { font-size: 0.8125rem; color: var(--text-1); }
-    .istep .who { font-size: 0.75rem; color: var(--text-2); font-weight: 600; }
+    .istep h4 { font-size: 0.9375rem; font-weight: 800; margin-bottom: 3px; text-transform: uppercase; letter-spacing: -0.01em; }
+    .istep p { font-size: 0.8125rem; color: var(--ink-1); }
+    .istep .who { font-size: 0.75rem; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+
+    /* ── Workflow ── */
+    .flow { display: flex; flex-direction: column; gap: 0; max-width: 680px; margin: 0 auto; border: var(--bw) solid var(--line); }
+    .fstep {
+      display: flex; gap: 20px; padding: 18px 24px;
+      border-bottom: var(--bw-2) solid var(--line); background: var(--bg-1);
+      transition: background 0.15s;
+    }
+    .fstep:last-child { border-bottom: none; }
+    .fstep:hover { background: var(--bg-2); }
+    .fstep .num {
+      width: 36px; height: 36px; border: var(--bw) solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8125rem; font-weight: 900; flex-shrink: 0;
+      background: var(--accent); color: var(--bg-1); font-family: var(--mono);
+    }
+    .fstep h4 { font-size: 0.9375rem; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
+    .fstep p { font-size: 0.8125rem; color: var(--ink-1); }
+    .fstep code { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); background: var(--bg-2); padding: 2px 6px; border: 1px solid var(--line-soft); font-weight: 700; }
 
     /* ── Dashboard ── */
     .dash {
-      background: var(--bg-1); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px; max-width: 580px; margin: 0 auto;
+      background: var(--bg-1); border: var(--bw) solid var(--line);
+      box-shadow: var(--sh-lg); padding: 28px; max-width: 580px; margin: 0 auto;
     }
     .dash .hdr {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+      margin-bottom: 20px; padding-bottom: 16px; border-bottom: var(--bw) solid var(--line);
     }
-    .dash .hdr .lvl { font-size: 1.25rem; font-weight: 700; color: var(--accent-1); }
-    .dash .hdr .sc { font-size: 0.875rem; color: var(--text-2); }
-    .dash .row { display: flex; align-items: center; gap: 14px; padding: 7px 0; }
-    .dash .row .nm { width: 64px; font-size: 0.8125rem; font-weight: 600; }
-    .dash .row .bg { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .dash .row .fl { height: 100%; border-radius: 4px; transition: width 0.6s ease-out; }
-    .dash .row .pt { width: 48px; font-size: 0.75rem; color: var(--text-2); text-align: right; font-family: var(--mono); }
+    .dash .hdr .lvl { font-size: 1.5rem; font-weight: 900; color: var(--accent); text-transform: uppercase; }
+    .dash .hdr .sc { font-size: 0.875rem; color: var(--ink-2); font-family: var(--mono); font-weight: 700; }
+    .dash .row { display: flex; align-items: center; gap: 14px; padding: 8px 0; }
+    .dash .row .nm { width: 64px; font-size: 0.8125rem; font-weight: 800; text-transform: uppercase; }
+    .dash .row .bg { flex: 1; height: 14px; background: var(--bg-2); border: 2px solid var(--line); }
+    .dash .row .fl { height: 100%; transition: width 0.6s ease-out; }
+    .dash .row .pt { width: 56px; font-size: 0.75rem; color: var(--ink-2); text-align: right; font-family: var(--mono); font-weight: 700; }
     .dash .ftr {
-      margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
-      font-size: 0.8125rem; color: var(--text-2); text-align: center;
+      margin-top: 20px; padding-top: 16px; border-top: var(--bw) solid var(--line);
+      font-size: 0.75rem; color: var(--ink-2); text-align: center; font-weight: 600;
     }
 
     /* ── Security ── */
-    .sgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-    .scard { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
-    .scard .ck { width: 28px; height: 28px; border-radius: 8px; background: rgba(16,185,129,0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
-    .scard .ck svg { width: 16px; height: 16px; color: var(--green); }
-    .scard h4 { font-size: 0.9375rem; font-weight: 700; margin-bottom: 6px; }
-    .scard p { font-size: 0.8125rem; color: var(--text-1); line-height: 1.6; }
+    .sgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0; border: var(--bw) solid var(--line); }
+    .scard { background: var(--bg-1); padding: 24px; border-right: var(--bw-2) solid var(--line); border-bottom: var(--bw-2) solid var(--line); }
+    .scard:nth-child(4n) { border-right: none; }
+    .scard .ck {
+      width: 32px; height: 32px; border: var(--bw) solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px; background: var(--green);
+    }
+    .scard .ck svg { width: 18px; height: 18px; color: var(--bg-1); }
+    .scard h4 { font-size: 0.9375rem; font-weight: 900; margin-bottom: 6px; text-transform: uppercase; letter-spacing: -0.01em; }
+    .scard p { font-size: 0.8125rem; color: var(--ink-1); line-height: 1.6; }
+    .scard code { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); background: var(--bg-2); padding: 1px 5px; border: 1px solid var(--line-soft); font-weight: 700; }
 
     /* ── Use cases ── */
-    .ucases { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .ucases { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
     .ucase {
-      background: var(--bg-1); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px;
+      background: var(--bg-1); border: var(--bw) solid var(--line);
+      padding: 24px; box-shadow: var(--sh-sm); transition: all 0.1s;
     }
-    .ucase .tag { display: inline-block; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-1); margin-bottom: 8px; }
-    .ucase h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
-    .ucase p { font-size: 0.8125rem; color: var(--text-1); line-height: 1.6; }
-
-    /* ── Stats ── */
-    .stats { display: flex; justify-content: center; gap: 56px; flex-wrap: wrap; padding: 30px 0; }
-    .stat { text-align: center; }
-    .stat .n { font-size: 2.8rem; font-weight: 800; color: var(--accent-1); line-height: 1; }
-    .stat .l { font-size: 0.75rem; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 6px; font-weight: 600; }
+    .ucase:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
+    .ucase .tag { display: inline-block; font-size: 0.6875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bg-1); background: var(--accent); padding: 3px 10px; margin-bottom: 10px; border: var(--bw-2) solid var(--line); }
+    .ucase h4 { font-size: 1.0625rem; font-weight: 900; margin-bottom: 6px; text-transform: uppercase; letter-spacing: -0.01em; }
+    .ucase p { font-size: 0.8125rem; color: var(--ink-1); line-height: 1.6; }
 
     /* ── Partner CTA ── */
     .partner {
-      background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.04));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 48px 40px; text-align: center; max-width: 800px; margin: 0 auto;
+      background: var(--accent); border: var(--bw) solid var(--line);
+      box-shadow: var(--sh-lg); padding: 48px 40px; text-align: center; max-width: 800px; margin: 0 auto; color: var(--bg-1);
     }
-    .partner h3 { font-size: 1.75rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
-    .partner p { color: var(--text-1); max-width: 520px; margin: 0 auto 24px; font-size: 1rem; }
+    .partner h3 { font-size: 2rem; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em; text-transform: uppercase; }
+    .partner p { max-width: 520px; margin: 0 auto 24px; font-size: 1.0625rem; font-weight: 500; }
     .partner .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .partner .btn-ink { background: var(--ink); color: var(--bg-1); box-shadow: var(--sh-sm); }
+    .partner .btn-ink:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
+    .partner .btn-white { background: var(--bg-1); color: var(--ink); box-shadow: var(--sh-sm); }
+    .partner .btn-white:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
 
     /* ── Footer ── */
-    .footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; color: var(--text-2); font-size: 0.8125rem; }
+    .footer { padding: 40px 0; text-align: center; color: var(--ink-2); font-size: 0.8125rem; font-weight: 600; }
     .footer .links { display: flex; gap: 28px; justify-content: center; margin-bottom: 14px; }
-    .footer .links a:hover { color: var(--text); }
+    .footer .links a { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.75rem; transition: color 0.15s; }
+    .footer .links a:hover { color: var(--accent); }
+    .footer .brand { font-weight: 900; text-transform: uppercase; }
+    .footer .brand span { color: var(--accent); }
 
-    /* ── Animations ── */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes barGrow { from { width: 0; } }
-    .a0 { animation: fadeUp 0.6s ease-out; }
-    .a1 { animation: fadeUp 0.6s ease-out 0.1s both; }
-    .a2 { animation: fadeUp 0.6s ease-out 0.2s both; }
-    .a3 { animation: fadeUp 0.6s ease-out 0.3s both; }
-    .a4 { animation: fadeUp 0.6s ease-out 0.4s both; }
-    .dash .row .fl { animation: barGrow 0.8s ease-out 0.3s both; }
+    /* ── Wrap ── */
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+    @media (max-width: 768px) {
+      .sec .title { font-size: 2rem; }
+      .stats { flex-direction: column; }
+      .personas { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -312,7 +331,7 @@
     <div class="links">
       <a href="#personas">Personas</a>
       <a href="#features">Features</a>
-      <a href="#ideation">How it works</a>
+      <a href="#ideation">Workflow</a>
       <a href="#evolution">Evolution</a>
       <a href="#security">Security</a>
       <a href="#partner">Partner</a>
@@ -323,18 +342,22 @@
 
 <!-- ── Hero ── -->
 <section class="hero">
-  <div class="hero-glow"></div>
+  <div class="hero-stripe"></div>
   <div class="wrap">
-    <div class="tag a0"><span class="dot"></span> Open source &middot; v2.1.0 &middot; Plain source, no obfuscation</div>
-    <h1 class="a1">Automate Your UX Design Review<br><span class="line2">with 8 AI Design Personas</span></h1>
-    <p class="sub a2">An open-source agentic framework that plugs into Cursor, Claude Code, Codex, Grok, and Windsurf. Adversarial deliberation, self-evolving team, chunked execution on free models. No API keys required.</p>
-    <div class="actions a3">
-      <a href="#install" class="btn btn-primary">Get Started</a>
-      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-ghost">View on GitHub</a>
-      <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" class="btn btn-ghost">npm</a>
+    <div class="tag"><span class="dot"></span> Open source &middot; v2.1.0 &middot; No obfuscation</div>
+    <h1>Automate Your<br><span class="accent">UX Design Review</span><br>with AI Personas</h1>
+    <p class="sub">An open-source agentic framework that plugs into Cursor, Claude, Codex, Grok, and Windsurf. Adversarial deliberation, self-evolving team, chunked execution on free models. No API keys required.</p>
+    <div class="actions">
+      <a href="#install" class="btn btn-accent">Get Started</a>
+      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-ghost">GitHub</a>
+      <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" class="btn btn-primary">npm</a>
     </div>
-    <div class="platforms a4">
-      <span>Cursor</span><span>&middot;</span><span>Claude Code</span><span>&middot;</span><span>Codex CLI</span><span>&middot;</span><span>Grok Build</span><span>&middot;</span><span>Windsurf Cascade</span>
+    <div class="platforms">
+      <span>Cursor</span><span class="sep">/</span>
+      <span>Claude Code</span><span class="sep">/</span>
+      <span>Codex CLI</span><span class="sep">/</span>
+      <span>Grok Build</span><span class="sep">/</span>
+      <span>Windsurf</span>
     </div>
   </div>
 </section>
@@ -354,23 +377,23 @@
 <span class="p">npx analyzthis_design --target all</span>
 
 <span class="c"># Run a critique</span>
-<span class="p">npx analyzthis_design</span> run <span class="g">--task</span> "Review my onboarding flow"
+<span class="p">npx analyzthis_design</span> <span class="k">run</span> <span class="g">--task</span> "Review my onboarding flow"
 
 <span class="c"># Or invoke in your IDE</span>
-/persona-orchestrator Critique this screen for UX friction</pre>
+<span class="k">/persona-orchestrator</span> Critique this screen for UX friction</pre>
     </div>
   </div>
 </section>
 
 <!-- ── Stats ── -->
-<section style="padding: 20px 0 60px;">
+<section class="stats-sec">
   <div class="wrap">
     <div class="stats">
-      <div class="stat"><div class="n">8</div><div class="l">Design Personas</div></div>
-      <div class="stat"><div class="n">28</div><div class="l">Reference Files</div></div>
-      <div class="stat"><div class="n">16</div><div class="l">Stack Guides</div></div>
+      <div class="stat"><div class="n">8</div><div class="l">Personas</div></div>
+      <div class="stat"><div class="n">28</div><div class="l">Ref Files</div></div>
+      <div class="stat"><div class="n">16</div><div class="l">Stacks</div></div>
       <div class="stat"><div class="n">5</div><div class="l">IDE Hosts</div></div>
-      <div class="stat"><div class="n">0</div><div class="l">API Keys Needed</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">API Keys</div></div>
     </div>
   </div>
 </section>
@@ -378,64 +401,66 @@
 <!-- ── Personas ── -->
 <section id="personas" class="sec">
   <div class="wrap">
-    <div class="label">The Team</div>
-    <h2 class="title">Meet the <span class="accent">8 Personas</span></h2>
-    <p class="sub">Each persona has a distinct lens, a curated skill, and a short system card. They deliberate adversarially — not in parallel echo chambers. Every critique grounds in your design system tokens and project context.</p>
+    <div style="text-align:center">
+      <div class="label">The Team</div>
+    </div>
+    <h2 class="title" style="text-align:center">Meet the <span class="accent">8 Personas</span></h2>
+    <p class="sub">Each persona has a distinct lens, a curated skill, and a short system card. They deliberate adversarially — not in parallel echo chambers.</p>
     <div class="personas">
       <div class="pcard" style="--c: var(--blue)">
-        <div class="ava" style="background: var(--blue)">Ar</div>
+        <div class="ava">Ar</div>
         <h3>Arjun</h3>
-        <div class="role">UX + Visual Design Audit</div>
-        <p>Honeycomb audit — useful, usable, findable, credible, accessible, desirable, valuable. Full visual hierarchy check against design system tokens.</p>
+        <div class="role">UX + Visual</div>
+        <p>Honeycomb audit — useful, usable, findable, credible, accessible, desirable, valuable. Full visual hierarchy check against DS tokens.</p>
         <div class="cmd">/arjun</div>
       </div>
       <div class="pcard" style="--c: var(--green)">
-        <div class="ava" style="background: var(--green)">Me</div>
+        <div class="ava">Me</div>
         <h3>Meera</h3>
-        <div class="role">Business / Retention / GTM</div>
-        <p>Retention, ARR, GTM levers, monetization impact. Does this design move the north-star metric? Competitive parity vs differentiation.</p>
+        <div class="role">Business / GTM</div>
+        <p>Retention, ARR, GTM levers, monetization impact. Does this design move the north-star metric?</p>
         <div class="cmd">/meera</div>
       </div>
       <div class="pcard" style="--c: var(--amber)">
-        <div class="ava" style="background: var(--amber)">Pr</div>
+        <div class="ava">Pr</div>
         <h3>Priya</h3>
-        <div class="role">Feasibility / Engineering Effort</div>
-        <p>Technical complexity, implementation risk, T-shirt effort sizing. Stack-specific guidance for 16 frameworks including Next.js, Flutter, SwiftUI.</p>
+        <div class="role">Feasibility</div>
+        <p>Technical complexity, implementation risk, T-shirt effort sizing. Stack-specific guidance for 16 frameworks.</p>
         <div class="cmd">/priya</div>
       </div>
       <div class="pcard" style="--c: var(--pink)">
-        <div class="ava" style="background: var(--pink)">Za</div>
+        <div class="ava">Za</div>
         <h3>Zara</h3>
-        <div class="role">Delight Moments</div>
-        <p>Identifies exactly one structural or surface delight moment. First impressions, onboarding, empty states, peak moments, once-ever experiences.</p>
+        <div class="role">Delight</div>
+        <p>Identifies exactly one structural or surface delight moment. First impressions, onboarding, empty states, peak moments.</p>
         <div class="cmd">/zara</div>
       </div>
       <div class="pcard" style="--c: var(--cyan)">
-        <div class="ava" style="background: var(--cyan)">No</div>
+        <div class="ava">No</div>
         <h3>Noor</h3>
         <div class="role">Minimalist IA</div>
-        <p>Task-first IA with progressive disclosure, single primary actions, and ≤3 navigation levels. Produces Concept A — the minimalist wireframe.</p>
+        <p>Task-first IA with progressive disclosure, single primary actions, ≤3 nav levels. Produces Concept A.</p>
         <div class="cmd">/noor</div>
       </div>
       <div class="pcard" style="--c: var(--orange)">
-        <div class="ava" style="background: var(--orange)">An</div>
+        <div class="ava">An</div>
         <h3>Anuj</h3>
         <div class="role">Power-User IA</div>
-        <p>Information density, bulk operations, keyboard shortcuts, expert-user gaps. Produces Concept B — the dense, expert-optimized wireframe.</p>
+        <p>Information density, bulk operations, keyboard shortcuts, expert-user gaps. Produces Concept B.</p>
         <div class="cmd">/anuj</div>
       </div>
       <div class="pcard" style="--c: var(--red)">
-        <div class="ava" style="background: var(--red)">Ra</div>
+        <div class="ava">Ra</div>
         <h3>Raj</h3>
-        <div class="role">Strategy / Stalemate Arbitrator</div>
-        <p>Product strategist. Speaks only when personas deadlock — never first. Uses 5 ranked product principles to resolve structural disputes.</p>
+        <div class="role">Arbitrator</div>
+        <p>Product strategist. Speaks only when personas deadlock — never first. Resolves structural disputes with 5 ranked principles.</p>
         <div class="cmd">/raj</div>
       </div>
-      <div class="pcard" style="--c: var(--accent)">
-        <div class="ava" style="background: var(--accent)">Ka</div>
+      <div class="pcard" style="--c: var(--purple)">
+        <div class="ava">Ka</div>
         <h3>Kavi</h3>
-        <div class="role">Knowledge Archivist</div>
-        <p>Scans your codebase, discovers Obsidian vaults, fetches web references, builds a vault, enriches notes with LLM, syncs the knowledge bank.</p>
+        <div class="role">Archivist</div>
+        <p>Scans your codebase, discovers vaults, fetches web references, builds an Obsidian vault, syncs the knowledge bank.</p>
         <div class="cmd">/kavi</div>
       </div>
     </div>
@@ -445,39 +470,39 @@
 <!-- ── Features ── -->
 <section id="features" class="sec">
   <div class="wrap">
-    <div class="label">Capabilities</div>
-    <h2 class="title">Not Just Prompts. An <span class="accent">Agentic System.</span></h2>
-    <p class="sub">Shared session state, adversarial deliberation, multi-file CSV retrieval, self-evolution, chunked execution on free models. Built for production design workflows.</p>
+    <div style="text-align:center"><div class="label">Capabilities</div></div>
+    <h2 class="title" style="text-align:center">Not Just Prompts.<br><span class="accent">An Agentic System.</span></h2>
+    <p class="sub">Shared session state, adversarial deliberation, multi-file CSV retrieval, self-evolution, chunked execution on free models.</p>
     <div class="fgrid">
       <div class="fcard">
-        <div class="ico">&#9881;</div>
-        <h3>Chunked Execution (v2.0)</h3>
-        <p>A frontier planner breaks your task into small chunks. Each chunk runs on the cheapest capable model — local Ollama, free cloud APIs (Groq, Gemini, OpenRouter), or your paid keys. Outputs synthesized into a final verdict.</p>
+        <div class="ico">CHUNK</div>
+        <h3>Chunked Execution</h3>
+        <p>A frontier planner breaks your task into small chunks. Each chunk runs on the cheapest capable model — local Ollama, free cloud APIs, or your paid keys. Outputs synthesized into a final verdict.</p>
       </div>
       <div class="fcard">
-        <div class="ico">&#9880;</div>
+        <div class="ico">DEBATE</div>
         <h3>Adversarial Deliberation</h3>
-        <p>Personas don't echo each other. They debate with low satisfaction defaults, raise objections grounded in real task context, and escalate to Raj only when deadlocked. Each round requires new evidence.</p>
+        <p>Personas don't echo each other. They debate with low satisfaction defaults, raise objections grounded in real task context, and escalate to Raj only when deadlocked.</p>
       </div>
       <div class="fcard">
-        <div class="ico">&#128220;</div>
+        <div class="ico">EVOLVE</div>
         <h3>Self-Evolving Team</h3>
-        <p>Every accepted run extracts lessons. Confirmed outcomes feed patch proposals — prompt edits, CSV reference rows, router changes. Devi asks after every run if the team is ready to evolve. Dry-run by default.</p>
+        <p>Every accepted run extracts lessons. Confirmed outcomes feed patch proposals — prompt edits, CSV reference rows, router changes. Devi asks after every run if the team is ready.</p>
       </div>
       <div class="fcard">
-        <div class="ico">&#128202;</div>
+        <div class="ico">REFS</div>
         <h3>28 CSV Reference Files</h3>
-        <p>Colors, styles, typography, UX guidelines, chart types, landing patterns, 16 stack-specific guides. Personas retrieve 3-5 files per chunk via a shared LLM ranker — same cost, 5x coverage.</p>
+        <p>Colors, styles, typography, UX guidelines, chart types, landing patterns, 16 stack guides. Personas retrieve 3-5 files per chunk via a shared LLM ranker — same cost, 5x coverage.</p>
       </div>
       <div class="fcard">
-        <div class="ico">&#128218;</div>
-        <h3>Obsidian Vault + Knowledge Bank</h3>
-        <p>Kavi scans your repo, builds an Obsidian-compatible vault, enriches notes with an LLM, and syncs a per-persona knowledge bank. Personas read your project context first — PRDs, brand tokens, components.</p>
+        <div class="ico">VAULT</div>
+        <h3>Obsidian Vault + KB</h3>
+        <p>Kavi scans your repo, builds an Obsidian-compatible vault, enriches notes with an LLM, and syncs a per-persona knowledge bank. Personas read your project context first.</p>
       </div>
       <div class="fcard">
-        <div class="ico">&#129302;</div>
-        <h3>Devi — No API Keys Needed</h3>
-        <p>The host LLM voices each persona from a prompt queue. No paid API calls. Or plug in keys for automated runs with Anthropic, OpenAI, Google, Groq, Together, OpenRouter, DeepSeek, or local Ollama.</p>
+        <div class="ico">DEVI</div>
+        <h3>No API Keys Needed</h3>
+        <p>The host LLM voices each persona from a prompt queue. No paid API calls. Or plug in keys for Anthropic, OpenAI, Google, Groq, Together, OpenRouter, DeepSeek, or local Ollama.</p>
       </div>
     </div>
   </div>
@@ -486,61 +511,61 @@
 <!-- ── Ideation flow ── -->
 <section id="ideation" class="sec">
   <div class="wrap">
-    <div class="label">UX Ideator</div>
-    <h2 class="title">6 Phases. 7 Personas. <span class="accent">One Deliberated Concept.</span></h2>
+    <div style="text-align:center"><div class="label">UX Ideator</div></div>
+    <h2 class="title" style="text-align:center">6 Phases. 7 Personas.<br><span class="accent">One Deliberated Concept.</span></h2>
     <p class="sub">The UX Ideator workflow runs 7 personas across 6 phases to produce a single, deliberated, implementation-ready IA design. Each phase has a clear owner and output format.</p>
     <div class="ideation">
-      <div class="istep">
-        <div class="ph" style="background: var(--text-3)">-1</div>
+      <div class="istep" style="--c: var(--ink-2)">
+        <div class="ph">-1</div>
         <div>
-          <h4>Load knowledge bank</h4>
+          <h4>Load Knowledge Bank</h4>
           <p>Read project context — PRDs, brand guidelines, research, tech constraints. Treated as ground truth by all personas.</p>
         </div>
       </div>
-      <div class="istep">
-        <div class="ph" style="background: var(--green)">P1</div>
+      <div class="istep" style="--c: var(--green)">
+        <div class="ph">P1</div>
         <div>
-          <h4>Business reframe</h4>
+          <h4>Business Reframe</h4>
           <p>Map the feature request to business outcome. Which north-star metric? Which segment? Adoption risk?</p>
           <div class="who">Meera</div>
         </div>
       </div>
-      <div class="istep">
-        <div class="ph" style="background: var(--cyan)">P2</div>
+      <div class="istep" style="--c: var(--cyan)">
+        <div class="ph">P2</div>
         <div>
-          <h4>IA audit</h4>
+          <h4>IA Audit</h4>
           <p>Audit existing IA or propose clean-slate. Map gaps, power-user shortcuts, friction points backed by research.</p>
           <div class="who">Noor + Anuj + Arjun</div>
         </div>
       </div>
-      <div class="istep">
-        <div class="ph" style="background: var(--orange)">P3</div>
+      <div class="istep" style="--c: var(--orange)">
+        <div class="ph">P3</div>
         <div>
-          <h4>Two competing concepts</h4>
-          <p>Concept A (minimalist, progressive disclosure) vs Concept B (dense, expert-optimized). Both use named design system components.</p>
+          <h4>Two Competing Concepts</h4>
+          <p>Concept A (minimalist, progressive disclosure) vs Concept B (dense, expert-optimized). Both use named DS components.</p>
           <div class="who">Noor vs Anuj</div>
         </div>
       </div>
-      <div class="istep">
-        <div class="ph" style="background: var(--red)">P4</div>
+      <div class="istep" style="--c: var(--red)">
+        <div class="ph">P4</div>
         <div>
           <h4>Deliberation</h4>
           <p>Critique on 5 dimensions: task speed, learnability, density, navigation, feasibility. Raj resolves stalemates.</p>
           <div class="who">Noor vs Anuj + Raj</div>
         </div>
       </div>
-      <div class="istep">
-        <div class="ph" style="background: var(--blue)">P5</div>
+      <div class="istep" style="--c: var(--blue)">
+        <div class="ph">P5</div>
         <div>
-          <h4>UX validation + Delight</h4>
+          <h4>UX Validation + Delight</h4>
           <p>Score on UX Honeycomb. C or below triggers revision. Then exactly one delight moment (or "speed is the craft").</p>
           <div class="who">Arjun + Zara</div>
         </div>
       </div>
-      <div class="istep">
-        <div class="ph" style="background: var(--amber)">P6</div>
+      <div class="istep" style="--c: var(--amber)">
+        <div class="ph">P6</div>
         <div>
-          <h4>Feasibility check</h4>
+          <h4>Feasibility Check</h4>
           <p>T-shirt effort estimate, hard blockers, top 2 risks, simpler alternative if XL. Flag to user before output.</p>
           <div class="who">Priya</div>
         </div>
@@ -549,44 +574,44 @@
   </div>
 </section>
 
-<!-- ── Workflow ── -->
-<section class="sec" style="padding-top: 0;">
+<!-- ── Getting Started ── -->
+<section class="sec">
   <div class="wrap">
-    <div class="label">Getting Started</div>
-    <h2 class="title">From Install to <span class="accent">Evolved Team</span></h2>
+    <div style="text-align:center"><div class="label">Getting Started</div></div>
+    <h2 class="title" style="text-align:center">From Install to<br><span class="accent">Evolved Team</span></h2>
     <p class="sub">Five steps to automated UX critique in your IDE.</p>
     <div class="flow">
       <div class="fstep">
+        <div class="num">01</div>
         <div>
-          <div class="num">01</div>
           <h4>Install</h4>
           <p><code>npm install -g analyzthis_design</code> then <code>npx analyzthis_design --target all</code></p>
         </div>
       </div>
       <div class="fstep">
+        <div class="num">02</div>
         <div>
-          <div class="num">02</div>
           <h4>Collect Knowledge</h4>
           <p><code>npx analyzthis_design collect</code> — Kavi scans your repo, builds a vault, syncs the knowledge bank.</p>
         </div>
       </div>
       <div class="fstep">
+        <div class="num">03</div>
         <div>
-          <div class="num">03</div>
           <h4>Run a Critique</h4>
           <p><code>npx analyzthis_design run --task "Review onboarding"</code> — or invoke <code>/persona-orchestrator</code> in your IDE.</p>
         </div>
       </div>
       <div class="fstep">
+        <div class="num">04</div>
         <div>
-          <div class="num">04</div>
           <h4>Accept & Confirm</h4>
           <p><code>session accept --persona arjun</code> and <code>outcome --confirm --persona arjun --result shipped</code></p>
         </div>
       </div>
       <div class="fstep">
+        <div class="num">05</div>
         <div>
-          <div class="num">05</div>
           <h4>Evolve</h4>
           <p><code>evolve --extract</code> proposes patches. <code>evolve --apply</code> writes them. Devi asks after every run if the team is ready.</p>
         </div>
@@ -596,41 +621,41 @@
 </section>
 
 <!-- ── Use cases ── -->
-<section class="sec" style="padding-top: 0;">
+<section class="sec">
   <div class="wrap">
-    <div class="label">For Professionals</div>
-    <h2 class="title">Who Is This <span class="accent">For?</span></h2>
+    <div style="text-align:center"><div class="label">For Professionals</div></div>
+    <h2 class="title" style="text-align:center">Who Is This <span class="accent">For?</span></h2>
     <p class="sub">Analyzthis Design partners with professionals to automate their design review workflows.</p>
     <div class="ucases">
       <div class="ucase">
         <div class="tag">Design Teams</div>
-        <h4>Automate design critique</h4>
-        <p>Run structured UX critiques on every screen before sprint review. Catch hierarchy, contrast, and DS compliance issues early — before they reach QA.</p>
+        <h4>Automate Critique</h4>
+        <p>Run structured UX critiques on every screen before sprint review. Catch hierarchy, contrast, and DS compliance issues early.</p>
       </div>
       <div class="ucase">
         <div class="tag">Product Managers</div>
-        <h4>Validate before you build</h4>
-        <p>Get a business-impact assessment (Meera) + feasibility check (Priya) on any wireframe before engineering spends a sprint on it.</p>
+        <h4>Validate Before Build</h4>
+        <p>Get a business-impact assessment (Meera) + feasibility check (Priya) on any wireframe before engineering spends a sprint.</p>
       </div>
       <div class="ucase">
         <div class="tag">Solo Founders</div>
-        <h4>Your design team of one</h4>
-        <p>Eight expert personas review your screens for free, inside your IDE. No design hire needed for early-stage product validation.</p>
+        <h4>Design Team of One</h4>
+        <p>Eight expert personas review your screens for free, inside your IDE. No design hire needed for early-stage validation.</p>
       </div>
       <div class="ucase">
         <div class="tag">Agencies</div>
-        <h4>Scale design QA</h4>
+        <h4>Scale Design QA</h4>
         <p>Run consistent, structured critiques across every client deliverable. Citations from a 28-file reference library ground every recommendation.</p>
       </div>
       <div class="ucase">
-        <div class="tag">Open Source Projects</div>
-        <h4>Community design review</h4>
-        <p>Contributors get instant UX feedback on PRs that touch UI. The team evolves from accepted outputs — better over time, not static.</p>
+        <div class="tag">Open Source</div>
+        <h4>Community Review</h4>
+        <p>Contributors get instant UX feedback on PRs that touch UI. The team evolves from accepted outputs — better over time.</p>
       </div>
       <div class="ucase">
         <div class="tag">Enterprise</div>
-        <h4>Design system governance</h4>
-        <p>Every critique checks against your design tokens and component library. DS at-risk items stop the chain before Meera/Priya/Zara run.</p>
+        <h4>DS Governance</h4>
+        <p>Every critique checks against your design tokens and component library. DS at-risk items stop the chain before it runs.</p>
       </div>
     </div>
   </div>
@@ -639,14 +664,14 @@
 <!-- ── Evolution Dashboard ── -->
 <section id="evolution" class="sec">
   <div class="wrap">
-    <div class="label">Self-Evolving</div>
-    <h2 class="title">Team <span class="accent">Evolution Dashboard</span></h2>
-    <p class="sub">Track how much each persona has evolved — lessons learned, outcomes confirmed, patches applied. From Novice to Expert. Devi checks readiness after every run.</p>
+    <div style="text-align:center"><div class="label">Self-Evolving</div></div>
+    <h2 class="title" style="text-align:center">Team <span class="accent">Evolution Dashboard</span></h2>
+    <p class="sub">Track how much each persona has evolved — lessons, outcomes, patches applied. From Novice to Expert. Devi checks readiness after every run.</p>
     <div class="dash">
       <div class="hdr">
         <div>
           <div class="lvl">Developing Team</div>
-          <div style="font-size: 0.8125rem; color: var(--text-1); margin-top: 4px;">2 lessons &middot; 0 outcomes &middot; 0 patches applied</div>
+          <div style="font-size: 0.8125rem; color: var(--ink-2); margin-top: 4px; font-weight: 600;">2 lessons &middot; 0 outcomes &middot; 0 patches applied</div>
         </div>
         <div class="sc">avg 3/100</div>
       </div>
@@ -696,43 +721,43 @@
 <!-- ── Security ── -->
 <section id="security" class="sec">
   <div class="wrap">
-    <div class="label">Auditable</div>
-    <h2 class="title">Plain Source. <span class="accent">Consent-Based.</span></h2>
-    <p class="sub">No obfuscation. No auto-install. No hidden behavior. Every file is readable source. Security tools can review every line.</p>
+    <div style="text-align:center"><div class="label">Auditable</div></div>
+    <h2 class="title" style="text-align:center">Plain Source.<br><span class="accent">Consent-Based.</span></h2>
+    <p class="sub">No obfuscation. No auto-install. No hidden behavior. Every file is readable source.</p>
     <div class="sgrid">
       <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <h4>Plain Source Code</h4>
+        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h4>Plain Source</h4>
         <p>Every JS file in dist/ is readable, unobfuscated, unminified. No javascript-obfuscator dependency. Security tools can review every line.</p>
       </div>
       <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h4>No Auto-Install</h4>
-        <p>postinstall only prints a message. Skill installation requires explicit <code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent-1)">npx analyzthis_design --target &lt;ide&gt;</code>. No filesystem mutation without consent.</p>
+        <p>postinstall only prints a message. Skill installation requires explicit <code>npx analyzthis_design --target &lt;ide&gt;</code>. No filesystem mutation without consent.</p>
       </div>
       <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h4>No Network Calls</h4>
         <p>Zero network requests on install. No telemetry, no exfiltration, no phone-home. API keys only used when you explicitly run a critique.</p>
       </div>
       <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h4>CSV Validation</h4>
-        <p><code style="font-family:var(--mono);font-size:0.75rem;color:var(--accent-1)">npm run validate</code> checks all 28 CSV files against schema.json — row integrity, header match, cross-file joins, filter column population.</p>
+        <p><code>npm run validate</code> checks all 28 CSV files against schema.json — row integrity, header match, cross-file joins, filter column population.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ── Partner CTA ── -->
-<section id="partner" class="sec">
+<section id="partner" class="sec" style="border-bottom: none;">
   <div class="wrap">
     <div class="partner">
-      <h3>Partner with Analyzthis Design</h3>
+      <h3>Partner With Analyzthis Design</h3>
       <p>We're looking to collaborate with design teams, agencies, and open-source projects to automate UX review workflows. Integrate the persona framework into your pipeline, or build custom personas on top of our agentic system.</p>
       <div class="actions">
-        <a href="https://github.com/joshirishi/analyzthis_design/issues" target="_blank" class="btn btn-primary">Start a Discussion</a>
-        <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-ghost">View the Code</a>
+        <a href="https://github.com/joshirishi/analyzthis_design/issues" target="_blank" class="btn btn-ink">Start a Discussion</a>
+        <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-white">View the Code</a>
       </div>
     </div>
   </div>
@@ -749,7 +774,7 @@
       <a href="#security">Security</a>
       <a href="#partner">Partner</a>
     </div>
-    <p>MIT License &middot; <a href="https://github.com/joshirishi" target="_blank">Rishikesh Joshi</a> &middot; v2.1.0 &middot; Open source</p>
+    <p><span class="brand">analyzthis<span>_design</span></span> &middot; MIT License &middot; <a href="https://github.com/joshirishi" target="_blank">Rishikesh Joshi</a> &middot; v2.1.0 &middot; Open Source</p>
   </div>
 </footer>
 
