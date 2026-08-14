@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyzthis Design — 8 AI Design Personas for UX Critique & Ideation</title>
+  <meta name="description" content="Structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside Cursor, Claude Code, Codex CLI, Grok, and Windsurf. No API keys required.">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-card-hover: #181822;
+      --border: #1e1e2e;
+      --text: #e4e4e7;
+      --text-dim: #a1a1aa;
+      --text-muted: #71717a;
+      --accent: #8b5cf6;
+      --accent-light: #a78bfa;
+      --accent-dim: #6d28d9;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --pink: #ec4899;
+      --cyan: #06b6d4;
+      --orange: #f97316;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    nav .logo { font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+    nav .logo span { color: var(--accent); }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav a { color: var(--text-dim); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    nav a:hover { color: var(--text); }
+    nav .nav-cta {
+      background: var(--accent); color: white; padding: 7px 16px;
+      border-radius: 6px; font-size: 0.8125rem; font-weight: 600;
+    }
+    nav .nav-cta:hover { background: var(--accent-light); }
+
+    @media (max-width: 768px) { nav ul { display: none; } }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 140px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(139, 92, 246, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: 3.5rem; font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.25rem; color: var(--text-dim); max-width: 620px;
+      margin: 0 auto 36px;
+    }
+    .hero .badges {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .hero .badge {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px; font-size: 0.8125rem;
+      color: var(--text-dim);
+    }
+    .hero .badge .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .hero .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: white; padding: 12px 28px;
+      border-radius: 8px; font-weight: 600; font-size: 0.9375rem;
+      text-decoration: none; transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-secondary {
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); padding: 12px 28px; border-radius: 8px;
+      font-weight: 500; font-size: 0.9375rem; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: var(--bg-card-hover); border-color: var(--accent); }
+
+    @media (max-width: 768px) { .hero h1 { font-size: 2.25rem; } .hero p { font-size: 1.0625rem; } }
+
+    /* ── Install ── */
+    .install-section { padding: 40px 0; }
+    .install-box {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; max-width: 640px; margin: 0 auto;
+    }
+    .install-box .label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .install-box code {
+      display: block; font-family: var(--mono); font-size: 0.875rem;
+      color: var(--green); background: rgba(16, 185, 129, 0.08);
+      padding: 14px 18px; border-radius: 8px; overflow-x: auto;
+    }
+    .install-box .comment { color: var(--text-muted); }
+
+    /* ── Section ── */
+    section { padding: 80px 0; }
+    .section-title {
+      font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 12px; text-align: center;
+    }
+    .section-subtitle {
+      color: var(--text-dim); text-align: center; max-width: 560px;
+      margin: 0 auto 48px; font-size: 1.0625rem;
+    }
+
+    /* ── Persona grid ── */
+    .persona-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .persona-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; transition: all 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .persona-card:hover { background: var(--bg-card-hover); border-color: var(--accent); transform: translateY(-2px); }
+    .persona-card .avatar {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.875rem; color: white;
+      margin-bottom: 12px;
+    }
+    .persona-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+    .persona-card .role { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 8px; }
+    .persona-card p { font-size: 0.8125rem; color: var(--text-dim); line-height: 1.5; }
+    .persona-card .slash { font-family: var(--mono); font-size: 0.75rem; color: var(--accent-light); margin-top: 10px; }
+
+    /* ── Feature grid ── */
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; transition: all 0.2s;
+    }
+    .feature-card:hover { background: var(--bg-card-hover); }
+    .feature-card .icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 1.0625rem; font-weight: 600; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.875rem; color: var(--text-dim); line-height: 1.6; }
+
+    /* ── Flow ── */
+    .flow {
+      display: flex; flex-direction: column; gap: 0; max-width: 700px; margin: 0 auto;
+    }
+    .flow-step {
+      display: flex; gap: 16px; padding: 16px 0;
+      border-left: 2px solid var(--border); padding-left: 24px;
+      position: relative;
+    }
+    .flow-step::before {
+      content: ''; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); position: absolute; left: -6px; top: 22px;
+    }
+    .flow-step .num { color: var(--accent-light); font-weight: 700; font-size: 0.875rem; font-family: var(--mono); }
+    .flow-step h4 { font-size: 0.9375rem; font-weight: 600; margin-bottom: 4px; }
+    .flow-step p { font-size: 0.8125rem; color: var(--text-dim); }
+    .flow-step code { font-family: var(--mono); font-size: 0.75rem; color: var(--green); background: rgba(16, 185, 129, 0.08); padding: 2px 6px; border-radius: 4px; }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; max-width: 700px; margin: 0 auto;
+    }
+    .code-block .header {
+      padding: 10px 16px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .code-block .header .dots { display: flex; gap: 6px; }
+    .code-block .header .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-block .header .dot:nth-child(1) { background: #ff5f57; }
+    .code-block .header .dot:nth-child(2) { background: #febc2e; }
+    .code-block .header .dot:nth-child(3) { background: #28c840; }
+    .code-block .header .filename { color: var(--text-muted); font-size: 0.75rem; font-family: var(--mono); margin-left: 8px; }
+    .code-block pre {
+      padding: 20px; font-family: var(--mono); font-size: 0.8125rem;
+      line-height: 1.7; overflow-x: auto; color: var(--text);
+    }
+    .code-block .kw { color: var(--accent-light); }
+    .code-block .str { color: var(--green); }
+    .code-block .cmt { color: var(--text-muted); }
+    .code-block .fn { color: var(--blue); }
+    .code-block .var { color: var(--cyan); }
+
+    /* ── Evolution dashboard ── */
+    .dashboard {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; max-width: 600px; margin: 0 auto;
+    }
+    .dashboard .overall {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .dashboard .overall .level { font-size: 1.25rem; font-weight: 700; color: var(--accent-light); }
+    .dashboard .overall .score { font-size: 0.875rem; color: var(--text-muted); }
+    .dashboard .persona-row {
+      display: flex; align-items: center; gap: 12px; padding: 8px 0;
+    }
+    .dashboard .persona-row .name { width: 70px; font-size: 0.8125rem; font-weight: 600; }
+    .dashboard .persona-row .bar-bg {
+      flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .dashboard .persona-row .bar-fill {
+      height: 100%; border-radius: 4px; transition: width 0.5s;
+    }
+    .dashboard .persona-row .pts { width: 45px; font-size: 0.75rem; color: var(--text-muted); text-align: right; font-family: var(--mono); }
+
+    /* ── Security ── */
+    .security-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .security-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px;
+    }
+    .security-card .check { color: var(--green); font-size: 1.25rem; margin-bottom: 8px; }
+    .security-card h4 { font-size: 0.9375rem; font-weight: 600; margin-bottom: 4px; }
+    .security-card p { font-size: 0.8125rem; color: var(--text-dim); }
+
+    /* ── Stats ── */
+    .stats-row {
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+      padding: 40px 0;
+    }
+    .stat { text-align: center; }
+    .stat .num { font-size: 2.5rem; font-weight: 800; color: var(--accent-light); }
+    .stat .label { font-size: 0.8125rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 40px 0;
+      text-align: center; color: var(--text-muted); font-size: 0.8125rem;
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+    footer .links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeInUp 0.6s ease-out; }
+    .fade-in-delay-1 { animation: fadeInUp 0.6s ease-out 0.1s both; }
+    .fade-in-delay-2 { animation: fadeInUp 0.6s ease-out 0.2s both; }
+    .fade-in-delay-3 { animation: fadeInUp 0.6s ease-out 0.3s both; }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <div class="container">
+    <a href="#" class="logo">analyzthis<span>_design</span></a>
+    <ul>
+      <li><a href="#personas">Personas</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#flow">How it works</a></li>
+      <li><a href="#evolution">Evolution</a></li>
+      <li><a href="#security">Security</a></li>
+    </ul>
+    <a href="#install" class="nav-cta">Install</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="badges fade-in">
+      <span class="badge"><span class="dot" style="background:var(--green)"></span>No API keys required</span>
+      <span class="badge"><span class="dot" style="background:var(--blue)"></span>Cursor, Claude, Codex, Grok, Windsurf</span>
+      <span class="badge"><span class="dot" style="background:var(--accent)"></span>v2.1.0 — Plain source, no obfuscation</span>
+    </div>
+    <h1 class="fade-in-delay-1">8 AI Design Personas.<br>One Critique Framework.</h1>
+    <p class="fade-in-delay-2">Structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI IDE. Chunked execution with free/cheap models. Self-evolving team that learns from every run.</p>
+    <div class="cta-row fade-in-delay-3">
+      <a href="#install" class="btn-primary">Get Started</a>
+      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn-secondary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Install ── -->
+<section id="install" class="install-section">
+  <div class="container">
+    <div class="install-box">
+      <div class="label">Install</div>
+      <code><span class="comment"># Install the package (no auto-install, no obfuscation)</span>
+npm install -g analyzthis_design
+
+<span class="comment"># Install slash commands into your IDE (explicit, consent-based)</span>
+npx analyzthis_design --target all
+
+<span class="comment"># Run a critique</span>
+npx analyzthis_design run --task "Review my onboarding flow"</code>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats ── -->
+<section style="padding: 20px 0 60px;">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat"><div class="num">8</div><div class="label">Design Personas</div></div>
+      <div class="stat"><div class="num">28</div><div class="label">CSV Reference Files</div></div>
+      <div class="stat"><div class="num">16</div><div class="label">Stack Guides</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">IDE Hosts</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">API Keys Required</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Personas ── -->
+<section id="personas">
+  <div class="container">
+    <h2 class="section-title">Meet the Team</h2>
+    <p class="section-subtitle">Each persona has a distinct lens, a curated skill, and a short system card. They deliberate adversarially — not in parallel echo chambers.</p>
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--blue)">Ar</div>
+        <h3>Arjun</h3>
+        <div class="role">UX + Visual Design</div>
+        <p>Honeycomb audit (useful, usable, findable, credible, accessible, desirable, valuable) + full visual hierarchy check.</p>
+        <div class="slash">/arjun</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--green)">Me</div>
+        <h3>Meera</h3>
+        <div class="role">Business / Retention</div>
+        <p>Retention, ARR, GTM levers, monetization impact. Does this design move the north-star metric?</p>
+        <div class="slash">/meera</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--amber)">Pr</div>
+        <h3>Priya</h3>
+        <div class="role">Feasibility / Engineering</div>
+        <p>Technical complexity, implementation risk, effort sizing. Stack-specific guidance for 16 frameworks.</p>
+        <div class="slash">/priya</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--pink)">Za</div>
+        <h3>Zara</h3>
+        <div class="role">Delight</div>
+        <p>Identifies exactly one structural or surface delight moment. First impressions, onboarding, empty states, peak moments.</p>
+        <div class="slash">/zara</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--cyan)">No</div>
+        <h3>Noor</h3>
+        <div class="role">Minimalist IA</div>
+        <p>Task-first IA with progressive disclosure, single primary actions, and ≤3 navigation levels. Concept A.</p>
+        <div class="slash">/noor</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--orange)">An</div>
+        <h3>Anuj</h3>
+        <div class="role">Power-User IA</div>
+        <p>Information density, bulk operations, keyboard shortcuts, expert-user gaps. Concept B.</p>
+        <div class="slash">/anuj</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--red)">Ra</div>
+        <h3>Raj</h3>
+        <div class="role">Strategy / Arbitration</div>
+        <p>Product strategist and stalemate arbitrator. Speaks only when personas deadlock — never first.</p>
+        <div class="slash">/raj</div>
+      </div>
+      <div class="persona-card">
+        <div class="avatar" style="background: var(--accent)">Ka</div>
+        <h3>Kavi</h3>
+        <div class="role">Knowledge Archivist</div>
+        <p>Scans your codebase, discovers vaults, fetches web references, builds an Obsidian vault, syncs to the knowledge bank.</p>
+        <div class="slash">/kavi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">What Makes It Different</h2>
+    <p class="section-subtitle">Not just another prompt library. A full agentic system with shared state, adversarial deliberation, and self-evolution.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">[chunk]</div>
+        <h3>Chunked Execution</h3>
+        <p>A frontier planner breaks your task into small chunks. Each chunk runs on the cheapest capable model — local Ollama, free cloud APIs, or your paid keys. Outputs are synthesized into a final verdict.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">[debate]</div>
+        <h3>Adversarial Deliberation</h3>
+        <p>Personas don't echo each other. They debate with low satisfaction defaults, raise objections grounded in real task context, and escalate to Raj only when deadlocked.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">[evolve]</div>
+        <h3>Self-Evolving Team</h3>
+        <p>Every accepted run extracts lessons. Confirmed outcomes feed patch proposals — prompt edits, CSV reference rows, router changes. Dry-run by default, human review before apply.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">[refs]</div>
+        <h3>28 CSV Reference Files</h3>
+        <p>Colors, styles, typography, UX guidelines, chart types, landing patterns, 16 stack guides. Personas retrieve 3-5 files per chunk via a shared LLM ranker — same cost, 5x coverage.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">[vault]</div>
+        <h3>Obsidian Vault + Knowledge Bank</h3>
+        <p>Kavi scans your repo, builds an Obsidian-compatible vault, enriches notes with an LLM, and syncs a per-persona knowledge bank. Personas read your project context first.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">[devi]</div>
+        <h3>Devi — No API Keys Needed</h3>
+        <p>The host LLM (Cursor, Claude, etc.) voices each persona from a prompt queue. No paid API calls. Or plug in keys for automated runs with Anthropic, OpenAI, Google, Groq, and more.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Flow ── -->
+<section id="flow">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">From install to evolved team in five steps.</p>
+    <div class="flow">
+      <div class="flow-step">
+        <div>
+          <div class="num">01</div>
+          <h4>Install</h4>
+          <p><code>npm install -g analyzthis_design</code> then <code>npx analyzthis_design --target all</code></p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div>
+          <div class="num">02</div>
+          <h4>Collect Knowledge</h4>
+          <p><code>npx analyzthis_design collect</code> — Kavi scans your repo, builds a vault, syncs the knowledge bank.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div>
+          <div class="num">03</div>
+          <h4>Run a Critique</h4>
+          <p><code>npx analyzthis_design run --task "Review onboarding"</code> — Frontier planner chunks the task, cheap models execute, synthesis produces a verdict.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div>
+          <div class="num">04</div>
+          <h4>Accept & Confirm</h4>
+          <p><code>session accept --persona arjun</code> and <code>outcome --confirm --persona arjun --result shipped</code></p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div>
+          <div class="num">05</div>
+          <h4>Evolve</h4>
+          <p><code>evolve --extract</code> proposes patches. <code>evolve --apply</code> writes them. Devi asks after every run if the team is ready to evolve.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Evolution Dashboard ── -->
+<section id="evolution">
+  <div class="container">
+    <h2 class="section-title">Team Evolution Dashboard</h2>
+    <p class="section-subtitle">Track how much each persona has evolved — lessons, outcomes, patches applied. From Novice to Expert.</p>
+    <div class="dashboard">
+      <div class="overall">
+        <div>
+          <div class="level">Developing Team</div>
+          <div style="font-size: 0.8125rem; color: var(--text-dim); margin-top: 4px;">2 lessons | 0 outcomes | 0 patches applied</div>
+        </div>
+        <div class="score">avg 3/100</div>
+      </div>
+      <div class="persona-row">
+        <div class="name">arjun</div>
+        <div class="bar-bg"><div class="bar-fill" style="width: 20%; background: var(--blue)"></div></div>
+        <div class="pts">20/100</div>
+      </div>
+      <div class="persona-row">
+        <div class="name">meera</div>
+        <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: var(--green)"></div></div>
+        <div class="pts">0/100</div>
+      </div>
+      <div class="persona-row">
+        <div class="name">priya</div>
+        <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: var(--amber)"></div></div>
+        <div class="pts">0/100</div>
+      </div>
+      <div class="persona-row">
+        <div class="name">zara</div>
+        <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: var(--pink)"></div></div>
+        <div class="pts">0/100</div>
+      </div>
+      <div class="persona-row">
+        <div class="name">noor</div>
+        <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: var(--cyan)"></div></div>
+        <div class="pts">0/100</div>
+      </div>
+      <div class="persona-row">
+        <div class="name">anuj</div>
+        <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: var(--orange)"></div></div>
+        <div class="pts">0/100</div>
+      </div>
+      <div class="persona-row">
+        <div class="name">raj</div>
+        <div class="bar-bg"><div class="bar-fill" style="width: 0%; background: var(--red)"></div></div>
+        <div class="pts">0/100</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Security ── -->
+<section id="security">
+  <div class="container">
+    <h2 class="section-title">Auditable & Consent-Based</h2>
+    <p class="section-subtitle">No obfuscation. No auto-install. No hidden behavior. Every file is plain source.</p>
+    <div class="security-grid">
+      <div class="security-card">
+        <div class="check">[check]</div>
+        <h4>Plain Source</h4>
+        <p>Every JS file in dist/ is readable, unobfuscated, unminified. No javascript-obfuscator dependency. Security tools can review every line.</p>
+      </div>
+      <div class="security-card">
+        <div class="check">[check]</div>
+        <h4>No Auto-Install</h4>
+        <p>postinstall only prints a message. Skill installation requires an explicit <code>npx analyzthis_design --target &lt;ide&gt;</code> command. No filesystem mutation without consent.</p>
+      </div>
+      <div class="security-card">
+        <div class="check">[check]</div>
+        <h4>No Network Calls</h4>
+        <p>The package makes zero network requests on install. No telemetry, no exfiltration, no phone-home. API keys are only used when you explicitly run a critique.</p>
+      </div>
+      <div class="security-card">
+        <div class="check">[check]</div>
+        <h4>CSV Validation</h4>
+        <p><code>npm run validate</code> checks all 28 CSV files against schema.json — row integrity, header match, cross-file joins, filter column population.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Code Example ── -->
+<section style="padding: 60px 0;">
+  <div class="container">
+    <h2 class="section-title">One Command, Full Critique</h2>
+    <p class="section-subtitle">Chunked execution: frontier planner → free/cheap chunk models → synthesis.</p>
+    <div class="code-block">
+      <div class="header">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="filename">terminal</div>
+      </div>
+      <pre><span class="cmt"># Run a critique (no API keys needed — Devi voices personas)</span>
+npx analyzthis_design run <span class="kw">--task</span> <span class="str">"Review B2B SaaS dashboard contrast"</span>
+
+<span class="cmt"># Or with free cloud models</span>
+npx analyzthis_design run <span class="kw">--task</span> <span class="str">"..."</span> <span class="kw">--budget</span> free
+
+<span class="cmt"># Legacy single-pass orchestrator</span>
+npx analyzthis_design run-unchunked <span class="kw">--task</span> <span class="str">"..."</span> <span class="kw">--full</span>
+
+<span class="cmt"># Check evolution readiness</span>
+npx analyzthis_design evolve <span class="kw">--ready</span>
+
+<span class="cmt"># Show evolution dashboard</span>
+npx analyzthis_design evolve <span class="kw">--metrics</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="links">
+      <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank">npm</a>
+      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank">GitHub</a>
+      <a href="#install">Install</a>
+      <a href="#personas">Personas</a>
+      <a href="#security">Security</a>
+    </div>
+    <p>MIT License — <a href="https://github.com/joshirishi" target="_blank">Rishikesh Joshi</a> · v2.1.0</p>
+  </div>
+</footer>
+
+</body>
+</html>
