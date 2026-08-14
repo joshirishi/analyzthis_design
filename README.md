@@ -15,22 +15,27 @@ Install once. Run structured UX critiques, multi-phase ideation, and task-ground
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.0.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.1.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
 ## Quick start
 
 ```bash
-# 1. Install slash commands (Cursor/Claude/Codex/Grok/Windsurf)
-npx analyzthis_design
+# 1. Install the npm package (no auto-install, no obfuscation)
+npm install -g analyzthis_design
 
-# 2. Run a task in v2.0 chunked mode (free/cheap models)
+# 2. Install slash commands into your IDE (explicit, consent-based)
+npx analyzthis_design --target all
+
+# 3. Run a task in v2.0 chunked mode (free/cheap models)
 npx analyzthis_design run --task "Review invoice approval screen"
 
-# 3. Or use legacy single-pass orchestrator
+# 4. Or use legacy single-pass orchestrator
 npx analyzthis_design run-unchunked --task "Review invoice approval screen" --provider host
 ```
+
+> **Security:** This package publishes **plain source** — no obfuscation, no minification, no dynamic require. Every file in `dist/` is readable and auditable. The `postinstall` script only prints a welcome message; it does **not** write to any AI-agent directories. Skill installation requires an explicit `npx analyzthis_design --target <ide>` command.
 
 ### Install by target IDE
 

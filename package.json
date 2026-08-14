@@ -1,7 +1,7 @@
 {
   "name": "analyzthis_design",
-  "version": "2.0.1",
-  "description": "8 AI design personas — v2.0 chunked execution with frontier planner + free/cheap chunk models, adversarial deliberation loops, opt-in community feedback, Kavi knowledge collection, DesignSpec producer path, wireframe skills, UX critique, Agent Skills for Cursor, Claude, Codex, Grok, Windsurf.",
+  "version": "2.1.0",
+  "description": "8 AI design personas — v2.0 chunked execution with frontier planner + free/cheap chunk models, adversarial deliberation loops, opt-in community feedback, Kavi knowledge collection, DesignSpec producer path, wireframe skills, UX critique, Agent Skills for Cursor, Claude, Codex, Grok, Windsurf. Plain source — no obfuscation, no auto-install.",
   "keywords": [
     "cursor",
     "cursor-skill",
@@ -43,12 +43,9 @@
     "build": "node scripts/obfuscate.js",
     "validate": "node scripts/validate-csvs.js",
     "prepublishOnly": "npm run build && npm run validate",
-    "postinstall": "node dist/lib/install.js --silent --welcome"
+    "postinstall": "node -e \"console.log('\\n  analyzthis_design installed. Run: npx analyzthis_design --target all\\n  Or: npx analyzthis_design welcome\\n')\""
   },
   "engines": {
     "node": ">=16"
-  },
-  "devDependencies": {
-    "javascript-obfuscator": "^5.4.7"
   }
 }
