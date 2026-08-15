@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analyzthis Design — Automate UX Design Review with AI Personas</title>
-  <meta name="description" content="Open-source AI design personas that automate UX critique, ideation, and design review workflows. Plug into Cursor, Claude, Codex, Grok, or Windsurf. No API keys required.">
+  <title>Analyzthis Design — AI Personas for UX Ideation & Critique</title>
+  <meta name="description" content="Open-source AI design personas that ideate wireframes, produce DesignSpecs, and critique existing screens. Plug into Cursor, Claude, Codex, Grok, or Windsurf. No API keys required.">
   <meta property="og:title" content="Analyzthis Design — Automate UX Design Review with AI Personas">
   <meta property="og:description" content="8 AI design personas. Adversarial deliberation. Self-evolving. Plug into any AI IDE. Open source.">
   <meta property="og:type" content="website">
@@ -330,6 +330,7 @@
     <a href="#" class="brand">analyzthis<span>_design</span></a>
     <div class="links">
       <a href="#personas">Personas</a>
+      <a href="#create">Create</a>
       <a href="#features">Features</a>
       <a href="#ideation">Workflow</a>
       <a href="#evolution">Evolution</a>
@@ -344,13 +345,13 @@
 <section class="hero">
   <div class="hero-stripe"></div>
   <div class="wrap">
-    <div class="tag"><span class="dot"></span> Open source &middot; v2.1.0 &middot; No obfuscation</div>
-    <h1>Automate Your<br><span class="accent">UX Design Review</span><br>with AI Personas</h1>
-    <p class="sub">An open-source agentic framework that plugs into Cursor, Claude, Codex, Grok, and Windsurf. Adversarial deliberation, self-evolving team, chunked execution on free models. No API keys required.</p>
+    <div class="tag"><span class="dot"></span> Open source &middot; v2.1.0 &middot; Ideate + Critique + Evolve</div>
+    <h1>Design.<br>Then <span class="accent">Critique.</span><br><span class="outline">Automate Both.</span></h1>
+    <p class="sub">Open-source AI personas that ideate wireframes, produce DesignSpecs, and critique existing screens — all inside Cursor, Claude, Codex, Grok, and Windsurf. Adversarial deliberation. Self-evolving. No API keys required.</p>
     <div class="actions">
-      <a href="#install" class="btn btn-accent">Get Started</a>
-      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-ghost">GitHub</a>
-      <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" class="btn btn-primary">npm</a>
+      <a href="#create" class="btn btn-accent">Ideate a Design</a>
+      <a href="#ideation" class="btn btn-ghost">See the Workflow</a>
+      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-primary">GitHub</a>
     </div>
     <div class="platforms">
       <span>Cursor</span><span class="sep">/</span>
@@ -390,9 +391,10 @@
   <div class="wrap">
     <div class="stats">
       <div class="stat"><div class="n">8</div><div class="l">Personas</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Modes: Create + Critique</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">Ideation Phases</div></div>
       <div class="stat"><div class="n">28</div><div class="l">Ref Files</div></div>
       <div class="stat"><div class="n">16</div><div class="l">Stacks</div></div>
-      <div class="stat"><div class="n">5</div><div class="l">IDE Hosts</div></div>
       <div class="stat"><div class="n">0</div><div class="l">API Keys</div></div>
     </div>
   </div>
@@ -503,6 +505,42 @@
         <div class="ico">DEVI</div>
         <h3>No API Keys Needed</h3>
         <p>The host LLM voices each persona from a prompt queue. No paid API calls. Or plug in keys for Anthropic, OpenAI, Google, Groq, Together, OpenRouter, DeepSeek, or local Ollama.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Two Modes: Create + Critique ── -->
+<section class="sec" id="create">
+  <div class="wrap">
+    <div style="text-align:center"><div class="label">Two Modes</div></div>
+    <h2 class="title" style="text-align:center"><span class="accent">Create</span> or <span class="accent">Critique.</span><br>Same Team. Same Rigor.</h2>
+    <p class="sub">The personas don't just review — they design. Ideate new screens from scratch, produce implementation-ready DesignSpecs, then switch to critique mode to review what you built.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--bw) solid var(--line);max-width:760px;margin:0 auto" class="twomodes">
+      <div style="padding:36px;border-right:var(--bw) solid var(--line);background:var(--accent-bg)">
+        <div style="display:inline-block;background:var(--accent);color:var(--bg-1);padding:4px 14px;font-size:0.6875rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;border:var(--bw-2) solid var(--line);margin-bottom:18px">Create</div>
+        <h3 style="font-size:1.5rem;font-weight:900;text-transform:uppercase;margin-bottom:12px;letter-spacing:-0.02em">Ideate from Scratch</h3>
+        <p style="font-size:0.9375rem;color:var(--ink-1);margin-bottom:20px">Two competing wireframes. Minimalist vs dense. Deliberated. Then a DesignSpec with real tokens, real components, real states.</p>
+        <ul style="list-style:none;font-size:0.8125rem;color:var(--ink-1);line-height:2">
+          <li style="font-weight:700">/ux-ideator — 6-phase ideation workflow</li>
+          <li style="font-weight:700">/design-director — ideate → spec → gates → build</li>
+          <li style="font-weight:700">/noor — minimalist IA wireframe (Concept A)</li>
+          <li style="font-weight:700">/anuj — power-user IA wireframe (Concept B)</li>
+          <li style="font-weight:700">/design-spec — machine-readable spec contract</li>
+        </ul>
+      </div>
+      <div style="padding:36px;background:var(--bg-1)">
+        <div style="display:inline-block;background:var(--ink);color:var(--bg-1);padding:4px 14px;font-size:0.6875rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;border:var(--bw-2) solid var(--line);margin-bottom:18px">Critique</div>
+        <h3 style="font-size:1.5rem;font-weight:900;text-transform:uppercase;margin-bottom:12px;letter-spacing:-0.02em">Review What Exists</h3>
+        <p style="font-size:0.9375rem;color:var(--ink-1);margin-bottom:20px">Adversarial critique with composite scores, verdicts, and ranked action items. Every finding cited from reference data.</p>
+        <ul style="list-style:none;font-size:0.8125rem;color:var(--ink-1);line-height:2">
+          <li style="font-weight:700">/persona-orchestrator — full MoE critique</li>
+          <li style="font-weight:700">/design-critic — 4-persona scored review</li>
+          <li style="font-weight:700">/ux-story-gate — task-first screen review</li>
+          <li style="font-weight:700">/arjun, /meera, /priya, /zara — single-lens</li>
+          <li style="font-weight:700">/mood-board — visual direction + references</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -629,18 +667,18 @@
     <div class="ucases">
       <div class="ucase">
         <div class="tag">Design Teams</div>
-        <h4>Automate Critique</h4>
-        <p>Run structured UX critiques on every screen before sprint review. Catch hierarchy, contrast, and DS compliance issues early.</p>
+        <h4>Ideate + Critique</h4>
+        <p>Generate two competing wireframes for every new screen, then critique what you build. Catch hierarchy, contrast, and DS compliance issues before sprint review.</p>
       </div>
       <div class="ucase">
         <div class="tag">Product Managers</div>
-        <h4>Validate Before Build</h4>
-        <p>Get a business-impact assessment (Meera) + feasibility check (Priya) on any wireframe before engineering spends a sprint.</p>
+        <h4>Spec Before Build</h4>
+        <p>Get a business-impact assessment (Meera) + feasibility check (Priya) + a DesignSpec with real tokens and components before engineering spends a sprint.</p>
       </div>
       <div class="ucase">
         <div class="tag">Solo Founders</div>
         <h4>Design Team of One</h4>
-        <p>Eight expert personas review your screens for free, inside your IDE. No design hire needed for early-stage validation.</p>
+        <p>Eight expert personas ideate wireframes AND review your screens for free, inside your IDE. From blank page to spec to critique — no design hire needed.</p>
       </div>
       <div class="ucase">
         <div class="tag">Agencies</div>
@@ -649,13 +687,13 @@
       </div>
       <div class="ucase">
         <div class="tag">Open Source</div>
-        <h4>Community Review</h4>
-        <p>Contributors get instant UX feedback on PRs that touch UI. The team evolves from accepted outputs — better over time.</p>
+        <h4>Community Design Review</h4>
+        <p>Contributors get instant UX feedback on PRs that touch UI. The team evolves from accepted outputs — better over time, not static.</p>
       </div>
       <div class="ucase">
         <div class="tag">Enterprise</div>
         <h4>DS Governance</h4>
-        <p>Every critique checks against your design tokens and component library. DS at-risk items stop the chain before it runs.</p>
+        <p>Every ideation and critique checks against your design tokens and component library. DS at-risk items stop the chain before it runs.</p>
       </div>
     </div>
   </div>
