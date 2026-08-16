@@ -355,7 +355,7 @@ Create `~/.analyzthis_design/config.json`:
     "mode": "lite"
   },
   "collect": {
-    "web_urls": ["https://your-company.com/brand-guidelines"],
+    "web_urls": ["https://analyzthis.com"],
     "web_queries": ["your product design inspiration"],
     "web_limit": 10
   },

@@ -72,7 +72,7 @@ Example config (`~/.analyzthis_design/config.json`):
   "collect": {
     "source_paths": ["~/Documents/MyCompanyVault", "./docs/wiki"],
     "auto_connect_discovered": true,
-    "web_urls": ["https://your-company.com/brand-guidelines"],
+    "web_urls": ["https://analyzthis.com"],
     "web_limit": 10
   }
 }

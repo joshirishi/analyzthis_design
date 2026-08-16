@@ -15,7 +15,7 @@ Install once. Run structured UX critiques, multi-phase ideation, and task-ground
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.1.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.1.2 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -303,7 +303,7 @@ Provider defaults live in `~/.analyzthis_design/config.json`:
   },
   "research": { "provider": "https://example.com/search?q={query}" },
   "collect": {
-    "web_urls": ["https://your-company.com/brand-guidelines"],
+    "web_urls": ["https://analyzthis.com"],
     "web_queries": ["competitor onboarding patterns"],
     "web_limit": 10,
     "web_from_repo": true
@@ -636,7 +636,7 @@ Add external sources and vault paths in `~/.analyzthis_design/config.json`:
     "source_paths": ["~/Documents/MyCompanyVault"],
     "scan_home_vaults": false,
     "auto_connect_discovered": true,
-    "web_urls": ["https://your-company.com/brand-guidelines"],
+    "web_urls": ["https://analyzthis.com"],
     "web_limit": 10
   }
 }
