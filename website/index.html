@@ -2,819 +2,632 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analyzthis Design — AI Personas for UX Ideation & Critique</title>
-  <meta name="description" content="Open-source AI design personas that ideate wireframes, produce DesignSpecs, and critique existing screens. Plug into Cursor, Claude, Codex, Grok, or Windsurf. No API keys required.">
-  <meta property="og:title" content="Analyzthis Design — Automate UX Design Review with AI Personas">
-  <meta property="og:description" content="8 AI design personas. Adversarial deliberation. Self-evolving. Plug into any AI IDE. Open source.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analyzthis Lab — Work that reaches your desk ready to sign</title>
+  <meta name="description" content="Analyzthis Lab prepares the repeat work of small firms so it reaches the partner ready for review. You still sign. We measure whether it was worth it.">
+  <meta property="og:title" content="Analyzthis Lab — Work that reaches your desk ready to sign">
+  <meta property="og:description" content="A small team of specialists prepares the work. You review and sign. We measure the handoff, not the chat.">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#c93800">
   <style>
     :root {
-      --bg: #f5f5f0;
-      --bg-1: #ffffff;
-      --bg-2: #efeee8;
-      --bg-3: #e6e4dc;
-      --ink: #0a0a0a;
-      --ink-1: #1a1a1a;
-      --ink-2: #4a4a4a;
-      --ink-3: #7a7a7a;
-      --line: #0a0a0a;
-      --line-soft: #c0c0b8;
-      --accent: #ff4d00;
-      --accent-1: #ff6b2b;
-      --accent-bg: #fff0e8;
-      --blue: #0046ff;
-      --green: #008a3d;
-      --amber: #d49800;
-      --red: #d92626;
-      --pink: #e8198b;
-      --cyan: #00a0a8;
-      --orange: #ff4d00;
-      --purple: #6d28d9;
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      --mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Menlo, 'Courier New', monospace;
-      --bw: 3px;
-      --bw-2: 2px;
-      --sh: 6px 6px 0 var(--ink);
-      --sh-sm: 4px 4px 0 var(--ink);
-      --sh-lg: 8px 8px 0 var(--ink);
-      --sh-none: 0 0 0 var(--ink);
+      --paper:#f4f1e9; --white:#fff; --ink:#0a0a0a; --muted:#55534d;
+      --line:#0a0a0a; --soft:#ded9cd; --orange:#c93800; --orange-soft:#ffe7da;
+      --blue:#1746ff; --green:#08783f; --yellow:#f3c92f; --purple:#7c38d8;
+      --red:#d92b26; --cyan:#00737a; --max:1180px; --border:3px solid var(--line);
+      --shadow:7px 7px 0 var(--ink); --shadow-sm:4px 4px 0 var(--ink);
+      --sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.65;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; text-decoration: none; }
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:76px}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+    body.menu-open{overflow:hidden} a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+    button,a{touch-action:manipulation}.skip{position:fixed;left:12px;top:-80px;z-index:200;background:var(--ink);color:#fff;padding:12px 18px}
+    .skip:focus{top:12px}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:6px 12px;font:800 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+    .eyebrow.light{background:#fff;color:var(--ink)}.dot{width:8px;height:8px;background:var(--orange)}
+    h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1;letter-spacing:-.04em}h2{font-size:clamp(2.25rem,6vw,4.6rem);text-transform:uppercase;margin-bottom:20px}
+    h3{font-size:1.35rem;text-transform:uppercase}.accent{color:var(--orange)}.outline{-webkit-text-stroke:2px var(--ink);color:transparent}
+    .lede{max-width:700px;font-size:clamp(1.05rem,2vw,1.3rem);color:#24231f}.muted{color:var(--muted)}
+    .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:var(--border);padding:12px 22px;background:#fff;font-weight:900;text-transform:uppercase;letter-spacing:.025em;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+    .btn:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+    .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}.btn[disabled]{cursor:not-allowed;opacity:.45;transform:none;box-shadow:none}
+    :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}.section-head.center{text-align:center;margin-inline:auto}.section-head.center .lede{margin-inline:auto}
 
-    /* ── Nav ── */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: var(--bg-1);
-      border-bottom: var(--bw) solid var(--line);
-    }
-    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .nav .brand { font-weight: 900; font-size: 1.1rem; letter-spacing: -0.03em; text-transform: uppercase; }
-    .nav .brand span { color: var(--accent); }
-    .nav .links { display: flex; gap: 28px; align-items: center; }
-    .nav .links a { color: var(--ink-1); font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.15s; }
-    .nav .links a:hover { color: var(--accent); }
-    .nav .cta {
-      background: var(--ink); color: var(--bg-1); padding: 8px 18px;
-      border: var(--bw) solid var(--line); font-size: 0.8125rem; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.04em;
-      box-shadow: var(--sh-sm); transition: all 0.1s;
-    }
-    .nav .cta:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
-    @media (max-width: 840px) { .nav .links a:not(.cta) { display: none; } }
+    /* Navigation */
+    .nav{position:fixed;inset:0 0 auto;z-index:100;background:#fff;border-bottom:var(--border)}.nav-row{height:70px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}.nav-links{display:flex;align-items:center;gap:24px}
+    .nav-links>a:not(.btn){font-size:.77rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.nav-links>a:not(.btn):hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+    .menu-btn{display:none;width:48px;height:48px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font-weight:950;cursor:pointer}
 
-    /* ── Hero ── */
-    .hero { padding: 120px 0 60px; position: relative; overflow: hidden; border-bottom: var(--bw) solid var(--line); }
-    .hero-stripe {
-      position: absolute; top: 0; left: 0; right: 0; height: 12px;
-      background: var(--accent);
-    }
-    .hero .wrap { position: relative; z-index: 1; }
-    .hero .tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: var(--bg-1);
-      padding: 6px 14px; font-size: 0.75rem; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      border: var(--bw) solid var(--line);
-      box-shadow: var(--sh-sm); margin-bottom: 28px;
-    }
-    .hero .tag .dot { width: 8px; height: 8px; background: var(--bg-1); border-radius: 0; }
-    .hero h1 {
-      font-size: 4rem; font-weight: 900; letter-spacing: -0.04em;
-      line-height: 1.0; margin-bottom: 24px; text-transform: uppercase;
-    }
-    .hero h1 .accent { color: var(--accent); }
-    .hero h1 .outline {
-      -webkit-text-stroke: 2px var(--ink); color: transparent;
-    }
-    .hero .sub {
-      font-size: 1.25rem; color: var(--ink-1); max-width: 620px;
-      margin: 0 auto 36px; font-weight: 500;
-    }
-    .hero .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 32px; font-weight: 800; font-size: 0.9375rem;
-      text-transform: uppercase; letter-spacing: 0.04em;
-      border: var(--bw) solid var(--line); transition: all 0.1s; cursor: pointer;
-    }
-    .btn-primary { background: var(--ink); color: var(--bg-1); box-shadow: var(--sh); }
-    .btn-primary:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
-    .btn-accent { background: var(--accent); color: var(--bg-1); box-shadow: var(--sh); }
-    .btn-accent:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
-    .btn-ghost { background: var(--bg-1); color: var(--ink); box-shadow: var(--sh); }
-    .btn-ghost:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
-    .hero .platforms {
-      display: flex; gap: 20px; justify-content: center; align-items: center;
-      flex-wrap: wrap;
-    }
-    .hero .platforms span { font-size: 0.875rem; color: var(--ink-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-    .hero .platforms .sep { color: var(--accent); font-weight: 900; }
-    @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .hero .sub { font-size: 1rem; } }
+    /* Hero */
+    .hero{padding:145px 0 82px;border-bottom:var(--border);position:relative;overflow:hidden}.hero:before{content:"";position:absolute;inset:70px 0 auto;height:12px;background:var(--orange)}
+    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:70px}.hero h1{font-size:clamp(3.5rem,7.3vw,7rem);text-transform:uppercase;margin:24px 0 26px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}.micro-proof{display:flex;gap:16px 26px;flex-wrap:wrap;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
+    .micro-proof span:before{content:"✓";color:var(--green);font-weight:950;margin-right:7px}
+    .blueprint{background:#fff;border:var(--border);box-shadow:var(--shadow);position:relative}.blueprint-head{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:12px 16px;font:800 .72rem var(--mono);text-transform:uppercase}
+    .blueprint-body{padding:18px}.agent-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:13px;padding:14px 0;border-bottom:2px solid var(--line)}
+    .agent-row:last-child{border-bottom:0}.agent-id{width:44px;height:44px;display:grid;place-items:center;background:var(--agent);color:#fff;border:2px solid var(--ink);font-weight:950}
+    .agent-row strong{display:block;text-transform:uppercase}.agent-row small{color:var(--muted)}.agent-state{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft)}
+    .connector{text-align:center;font:900 .75rem var(--mono);background:var(--yellow);border-top:var(--border);padding:10px;text-transform:uppercase}
 
-    /* ── Install ── */
-    .install { padding: 50px 0 40px; border-bottom: var(--bw) solid var(--line); }
-    .install .box {
-      background: var(--bg-1); border: var(--bw) solid var(--line);
-      box-shadow: var(--sh-lg); max-width: 680px; margin: 0 auto;
-    }
-    .install .box .bar {
-      padding: 10px 16px; background: var(--ink);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .install .box .bar .d { width: 12px; height: 12px; border: 2px solid var(--bg-1); }
-    .install .box .bar .d:nth-child(1) { background: #ff5f57; }
-    .install .box .bar .d:nth-child(2) { background: #febc2e; }
-    .install .box .bar .d:nth-child(3) { background: #28c840; }
-    .install .box .bar .ttl { color: var(--bg-1); font-size: 0.75rem; font-family: var(--mono); margin-left: 8px; font-weight: 700; }
-    .install .box pre {
-      padding: 24px; font-family: var(--mono); font-size: 0.85rem;
-      line-height: 1.9; overflow-x: auto; color: var(--ink); background: var(--bg-1);
-    }
-    .install .box .c { color: var(--ink-3); }
-    .install .box .g { color: var(--green); font-weight: 700; }
-    .install .box .p { color: var(--accent); font-weight: 700; }
-    .install .box .k { color: var(--blue); font-weight: 700; }
+    /* Proof and pain */
+    .proof{background:var(--ink);color:#fff;border-bottom:var(--border)}.proof-row{display:grid;grid-template-columns:repeat(5,1fr)}.proof-item{padding:26px 20px;border-right:2px solid #fff}.proof-item:last-child{border:0}
+    .proof-item b{display:block;font-size:2rem;color:var(--orange);line-height:1}.proof-item span{font:700 .7rem var(--mono);text-transform:uppercase}
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--border);background:#fff}.pain{padding:30px;border-right:2px solid var(--line)}.pain:last-child{border:0}
+    .pain .num{font:900 2.8rem var(--mono);color:var(--orange)}.pain p{margin:0;color:var(--muted)}
 
-    /* ── Section base ── */
-    .sec { padding: 80px 0; border-bottom: var(--bw) solid var(--line); }
-    .sec .label {
-      display: inline-block; background: var(--ink); color: var(--bg-1);
-      padding: 4px 14px; font-size: 0.6875rem; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;
-    }
-    .sec .title { font-size: 2.8rem; font-weight: 900; letter-spacing: -0.035em; text-transform: uppercase; margin-bottom: 14px; }
-    .sec .title .accent { color: var(--accent); }
-    .sec .sub { color: var(--ink-1); max-width: 600px; margin: 0 auto 56px; font-size: 1.125rem; font-weight: 500; text-align: center; }
+    /* Blueprint process */
+    .service-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}.sticky-copy{position:sticky;top:104px}.steps{border:var(--border);background:#fff}
+    .step{display:grid;grid-template-columns:72px 1fr;gap:18px;padding:28px;border-bottom:2px solid var(--line)}.step:last-child{border:0}.step-no{width:56px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);background:var(--step);font:900 .85rem var(--mono)}
+    .step p{margin:8px 0 0;color:var(--muted)}.step small{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
 
-    /* ── Stats ── */
-    .stats-sec { padding: 40px 0; border-bottom: var(--bw) solid var(--line); }
-    .stats { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; }
-    .stat {
-      text-align: center; padding: 20px 40px;
-      border-right: var(--bw-2) solid var(--line);
-    }
-    .stat:last-child { border-right: none; }
-    .stat .n { font-size: 3.2rem; font-weight: 900; color: var(--accent); line-height: 1; }
-    .stat .l { font-size: 0.75rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 8px; font-weight: 700; }
-    @media (max-width: 768px) { .stat { border-right: none; border-bottom: 2px solid var(--line); } .stat:last-child { border-bottom: none; } }
+    /* Case study */
+    .case{background:var(--orange);color:#fff}.case .eyebrow{background:#fff;color:#000}.case h2{max-width:900px}.case-grid{display:grid;grid-template-columns:1fr 1fr;border:var(--border);box-shadow:var(--shadow);background:#fff;color:#000}
+    .case-copy{padding:34px;border-right:var(--border)}.case-flow{padding:22px}.case-role{display:flex;gap:12px;align-items:center;padding:13px;border-bottom:2px solid var(--line)}
+    .case-role:last-child{border:0}.case-role b{min-width:82px;text-transform:uppercase}.case-role span{color:var(--muted);font-size:.9rem}
 
-    /* ── Persona cards ── */
-    .personas { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0; border: var(--bw) solid var(--line); }
-    .pcard {
-      background: var(--bg-1); padding: 24px;
-      border-right: var(--bw-2) solid var(--line);
-      border-bottom: var(--bw-2) solid var(--line);
-      transition: all 0.15s;
-    }
-    .pcard:hover { background: var(--c); color: var(--bg-1); }
-    .pcard:hover .ava { border-color: var(--bg-1); }
-    .pcard:hover .role, .pcard:hover p, .pcard:hover .cmd { color: var(--bg-1); }
-    .pcard:hover h3 { color: var(--bg-1); }
-    .pcard .ava {
-      width: 44px; height: 44px; border: var(--bw) solid var(--line);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 0.875rem; color: var(--bg-1);
-      margin-bottom: 14px; background: var(--c);
-    }
-    .pcard h3 { font-size: 1.125rem; font-weight: 900; margin-bottom: 2px; text-transform: uppercase; letter-spacing: -0.01em; transition: color 0.15s; }
-    .pcard .role { font-size: 0.75rem; color: var(--ink-2); margin-bottom: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.15s; }
-    .pcard p { font-size: 0.8125rem; color: var(--ink-1); line-height: 1.6; transition: color 0.15s; }
-    .pcard .cmd { font-family: var(--mono); font-size: 0.75rem; color: var(--c); margin-top: 12px; font-weight: 700; transition: color 0.15s; }
+    /* Capabilities and examples */
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:var(--border);padding:26px;box-shadow:var(--shadow-sm)}
+    .card-tag{display:inline-block;padding:4px 8px;background:var(--tag,var(--orange));color:#fff;border:2px solid var(--ink);font:900 .68rem var(--mono);text-transform:uppercase;margin-bottom:22px}
+    .card p{color:var(--muted);margin-bottom:0}.teams-intro{border:var(--border);background:#fff;padding:24px 28px;margin-bottom:24px;box-shadow:var(--shadow-sm)}.teams-intro p{margin:0;color:var(--muted);max-width:72ch}
+    .teams{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.team{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column}
+    .team-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.team-label{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.team-meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 12px}.team-badge{font:800 .68rem var(--mono);padding:4px 8px;border:2px solid var(--ink);background:var(--paper);text-transform:uppercase}
+    .team-workload{color:var(--muted);font-size:.92rem;margin:0 0 4px;line-height:1.5}.team h3{margin:4px 0 0}.team ul{list-style:none;padding:0;margin:18px 0 0;border-top:2px solid var(--line);flex:1}
+    .team li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.9rem}.team li:before{content:"→";font-weight:950;color:var(--orange);margin-right:10px}.team-foot{margin-top:18px;padding-top:14px;border-top:2px dashed var(--soft);font-size:.82rem;color:var(--muted)}
+    .products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.product{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column;gap:16px}
+    .product-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.product-code{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.product p{color:var(--muted);margin:0;flex:1}
+    .product-status{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft);text-transform:uppercase}.product-status.live{background:#dff6e8}.product-status.lab{background:#fff5be}.product-status.service{background:#dfe7ff}
+    .signals{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:28px}
+    .contract{margin-top:8px}.contract-row{display:grid;grid-template-columns:140px 1fr;gap:12px;padding:12px 0;border-bottom:2px solid var(--line)}.contract-row:last-child{border-bottom:0}.contract-row b{text-transform:uppercase;font-size:.78rem}.contract-row span{color:var(--muted);font-size:.92rem}
 
-    /* ── Feature grid ── */
-    .fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-    .fcard {
-      background: var(--bg-1); border: var(--bw) solid var(--line);
-      padding: 28px; box-shadow: var(--sh); transition: all 0.1s;
-    }
-    .fcard:hover { box-shadow: var(--sh-none); transform: translate(6px, 6px); }
-    .fcard .ico {
-      display: inline-block; font-size: 1.5rem; font-weight: 900;
-      background: var(--accent); color: var(--bg-1);
-      padding: 4px 10px; margin-bottom: 14px; border: var(--bw) solid var(--line);
-    }
-    .fcard h3 { font-size: 1.125rem; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; letter-spacing: -0.01em; }
-    .fcard p { font-size: 0.875rem; color: var(--ink-1); line-height: 1.65; }
+    /* Trust and FAQ */
+    .trust{background:var(--ink);color:#fff}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#fff;border:2px solid #fff}.trust-item{background:var(--ink);padding:24px}
+    .trust-item b{display:block;color:var(--orange);text-transform:uppercase;margin-bottom:8px}.trust-item p{color:#d7d3ca;font-size:.9rem;margin:0}
+    .faq{max-width:860px}.faq details{background:#fff;border:var(--border);border-bottom:0}.faq details:last-child{border-bottom:var(--border)}
+    .faq summary{cursor:pointer;list-style:none;padding:21px 56px 21px 22px;font-weight:900;text-transform:uppercase;position:relative}.faq summary:after{content:"+";position:absolute;right:22px;font-size:1.5rem;top:14px}
+    .faq details[open] summary:after{content:"−"}.faq details p{padding:0 22px 22px;color:var(--muted);margin:0;max-width:72ch}
 
-    /* ── Ideation flow ── */
-    .ideation { display: flex; flex-direction: column; gap: 0; max-width: 720px; margin: 0 auto; border: var(--bw) solid var(--line); background: var(--bg-1); }
-    .istep {
-      display: flex; align-items: flex-start; gap: 16px;
-      padding: 18px 22px; border-bottom: var(--bw-2) solid var(--line);
-      transition: background 0.15s;
-    }
-    .istep:last-child { border-bottom: none; }
-    .istep:hover { background: var(--accent-bg); }
-    .istep .ph {
-      width: 52px; height: 32px; border: var(--bw) solid var(--line);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6875rem; font-weight: 900; color: var(--bg-1);
-      flex-shrink: 0; background: var(--c, var(--ink)); font-family: var(--mono);
-    }
-    .istep h4 { font-size: 0.9375rem; font-weight: 800; margin-bottom: 3px; text-transform: uppercase; letter-spacing: -0.01em; }
-    .istep p { font-size: 0.8125rem; color: var(--ink-1); }
-    .istep .who { font-size: 0.75rem; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+    /* Lead form */
+    .intake{background:var(--yellow)}.intake-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start}.intake-copy{position:sticky;top:104px}
+    .form-shell{background:#fff;border:var(--border);box-shadow:var(--shadow)}.form-head{padding:18px 22px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .form-head strong{text-transform:uppercase}.progress{font:800 .72rem var(--mono)}.progress-track{height:8px;background:#c9c9c9}.progress-fill{height:100%;width:33.33%;background:var(--orange);transition:width .2s ease}
+    .form-step{padding:28px}.form-step[hidden]{display:none}.form-step h3{margin-bottom:24px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
+    label{font-size:.77rem;font-weight:900;text-transform:uppercase;letter-spacing:.035em}.required{color:var(--red)}input,select,textarea{width:100%;min-height:48px;border:2px solid var(--ink);background:#fff;padding:11px 12px;border-radius:0}
+    textarea{min-height:112px;resize:vertical}input:focus,select:focus,textarea:focus{outline:4px solid var(--orange-soft);border-color:var(--orange)}[aria-invalid="true"]{border-color:var(--red);background:#fff3f2}
+    .error{min-height:18px;color:var(--red);font-size:.75rem;font-weight:750}.check{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start}.check input{width:22px;height:22px;min-height:0;margin:2px 0 0}
+    .form-actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px}.form-note{font-size:.78rem;color:var(--muted);margin-top:16px}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
+    .form-status{padding:16px 22px;border-top:2px solid var(--ink);font-weight:800}.form-status:empty{display:none}.form-status.error-state{background:#ffe0dd;color:#7b1512}.form-status.success-state{background:#dff6e8;color:#0a542d}
+    .success-panel{padding:34px}.success-panel[hidden]{display:none}.success-mark{width:54px;height:54px;display:grid;place-items:center;background:var(--green);color:#fff;border:var(--border);font-size:1.7rem;font-weight:950;margin-bottom:20px}
+    .success-panel p{color:var(--muted)}.privacy-note{display:flex;gap:10px;align-items:flex-start;margin-top:24px;padding:14px;border:2px solid var(--ink);background:#fff}
 
-    /* ── Workflow ── */
-    .flow { display: flex; flex-direction: column; gap: 0; max-width: 680px; margin: 0 auto; border: var(--bw) solid var(--line); }
-    .fstep {
-      display: flex; gap: 20px; padding: 18px 24px;
-      border-bottom: var(--bw-2) solid var(--line); background: var(--bg-1);
-      transition: background 0.15s;
-    }
-    .fstep:last-child { border-bottom: none; }
-    .fstep:hover { background: var(--bg-2); }
-    .fstep .num {
-      width: 36px; height: 36px; border: var(--bw) solid var(--line);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8125rem; font-weight: 900; flex-shrink: 0;
-      background: var(--accent); color: var(--bg-1); font-family: var(--mono);
-    }
-    .fstep h4 { font-size: 0.9375rem; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
-    .fstep p { font-size: 0.8125rem; color: var(--ink-1); }
-    .fstep code { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); background: var(--bg-2); padding: 2px 6px; border: 1px solid var(--line-soft); font-weight: 700; }
+    .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}
+    .footer small{color:var(--muted)}
 
-    /* ── Dashboard ── */
-    .dash {
-      background: var(--bg-1); border: var(--bw) solid var(--line);
-      box-shadow: var(--sh-lg); padding: 28px; max-width: 580px; margin: 0 auto;
+    @media(max-width:900px){
+      .menu-btn{display:grid;place-items:center}.nav-links{display:none;position:fixed;inset:70px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
+      .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}.nav-links .btn{margin-top:12px}
+      .hero-grid,.service-grid,.intake-grid{grid-template-columns:1fr;gap:42px}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
+      .cards{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
     }
-    .dash .hdr {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 20px; padding-bottom: 16px; border-bottom: var(--bw) solid var(--line);
+    @media(max-width:640px){
+      .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:126px 0 62px}.hero h1{font-size:clamp(3rem,15vw,4.3rem)}
+      .proof-row,.pain-grid,.cards,.signals,.teams,.products,.case-grid,.field-grid,.trust-grid{grid-template-columns:1fr}.teams-intro{padding:20px 18px}.proof-item,.pain,.case-copy{border-right:0;border-bottom:2px solid var(--line)}
+      .contract-row{grid-template-columns:1fr}
+      .proof-item:last-child,.pain:last-child{border-bottom:0}.step{grid-template-columns:52px 1fr;padding:22px 16px}.step-no{width:44px}
+      .form-step{padding:22px 16px}.field.full{grid-column:auto}.form-actions{flex-direction:column-reverse}.form-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
+      .outline{-webkit-text-stroke:1.5px var(--ink)}.hero-actions .btn{width:100%}
     }
-    .dash .hdr .lvl { font-size: 1.5rem; font-weight: 900; color: var(--accent); text-transform: uppercase; }
-    .dash .hdr .sc { font-size: 0.875rem; color: var(--ink-2); font-family: var(--mono); font-weight: 700; }
-    .dash .row { display: flex; align-items: center; gap: 14px; padding: 8px 0; }
-    .dash .row .nm { width: 64px; font-size: 0.8125rem; font-weight: 800; text-transform: uppercase; }
-    .dash .row .bg { flex: 1; height: 14px; background: var(--bg-2); border: 2px solid var(--line); }
-    .dash .row .fl { height: 100%; transition: width 0.6s ease-out; }
-    .dash .row .pt { width: 56px; font-size: 0.75rem; color: var(--ink-2); text-align: right; font-family: var(--mono); font-weight: 700; }
-    .dash .ftr {
-      margin-top: 20px; padding-top: 16px; border-top: var(--bw) solid var(--line);
-      font-size: 0.75rem; color: var(--ink-2); text-align: center; font-weight: 600;
-    }
-
-    /* ── Security ── */
-    .sgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0; border: var(--bw) solid var(--line); }
-    .scard { background: var(--bg-1); padding: 24px; border-right: var(--bw-2) solid var(--line); border-bottom: var(--bw-2) solid var(--line); }
-    .scard:nth-child(4n) { border-right: none; }
-    .scard .ck {
-      width: 32px; height: 32px; border: var(--bw) solid var(--line);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 12px; background: var(--green);
-    }
-    .scard .ck svg { width: 18px; height: 18px; color: var(--bg-1); }
-    .scard h4 { font-size: 0.9375rem; font-weight: 900; margin-bottom: 6px; text-transform: uppercase; letter-spacing: -0.01em; }
-    .scard p { font-size: 0.8125rem; color: var(--ink-1); line-height: 1.6; }
-    .scard code { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); background: var(--bg-2); padding: 1px 5px; border: 1px solid var(--line-soft); font-weight: 700; }
-
-    /* ── Use cases ── */
-    .ucases { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-    .ucase {
-      background: var(--bg-1); border: var(--bw) solid var(--line);
-      padding: 24px; box-shadow: var(--sh-sm); transition: all 0.1s;
-    }
-    .ucase:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
-    .ucase .tag { display: inline-block; font-size: 0.6875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bg-1); background: var(--accent); padding: 3px 10px; margin-bottom: 10px; border: var(--bw-2) solid var(--line); }
-    .ucase h4 { font-size: 1.0625rem; font-weight: 900; margin-bottom: 6px; text-transform: uppercase; letter-spacing: -0.01em; }
-    .ucase p { font-size: 0.8125rem; color: var(--ink-1); line-height: 1.6; }
-
-    /* ── Partner CTA ── */
-    .partner {
-      background: var(--accent); border: var(--bw) solid var(--line);
-      box-shadow: var(--sh-lg); padding: 48px 40px; text-align: center; max-width: 800px; margin: 0 auto; color: var(--bg-1);
-    }
-    .partner h3 { font-size: 2rem; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em; text-transform: uppercase; }
-    .partner p { max-width: 520px; margin: 0 auto 24px; font-size: 1.0625rem; font-weight: 500; }
-    .partner .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .partner .btn-ink { background: var(--ink); color: var(--bg-1); box-shadow: var(--sh-sm); }
-    .partner .btn-ink:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
-    .partner .btn-white { background: var(--bg-1); color: var(--ink); box-shadow: var(--sh-sm); }
-    .partner .btn-white:hover { box-shadow: var(--sh-none); transform: translate(4px, 4px); }
-
-    /* ── Footer ── */
-    .footer { padding: 40px 0; text-align: center; color: var(--ink-2); font-size: 0.8125rem; font-weight: 600; }
-    .footer .links { display: flex; gap: 28px; justify-content: center; margin-bottom: 14px; }
-    .footer .links a { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.75rem; transition: color 0.15s; }
-    .footer .links a:hover { color: var(--accent); }
-    .footer .brand { font-weight: 900; text-transform: uppercase; }
-    .footer .brand span { color: var(--accent); }
-
-    /* ── Wrap ── */
-    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-
-    @media (max-width: 768px) {
-      .sec .title { font-size: 2rem; }
-      .stats { flex-direction: column; }
-      .personas { grid-template-columns: 1fr; }
-    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
-
-<!-- ── Nav ── -->
-<nav class="nav">
-  <div class="wrap">
-    <a href="#" class="brand">analyzthis<span>_design</span></a>
-    <div class="links">
-      <a href="#personas">Personas</a>
-      <a href="#create">Create</a>
-      <a href="#features">Features</a>
-      <a href="#ideation">Workflow</a>
-      <a href="#evolution">Evolution</a>
-      <a href="#security">Security</a>
-      <a href="#partner">Partner</a>
-      <a href="#install" class="cta">Install</a>
-    </div>
-  </div>
-</nav>
-
-<!-- ── Hero ── -->
-<section class="hero">
-  <div class="hero-stripe"></div>
-  <div class="wrap">
-    <div class="tag"><span class="dot"></span> Open source &middot; v2.1.0 &middot; Ideate + Critique + Evolve</div>
-    <h1>Design.<br>Then <span class="accent">Critique.</span><br><span class="outline">Automate Both.</span></h1>
-    <p class="sub">Open-source AI personas that ideate wireframes, produce DesignSpecs, and critique existing screens — all inside Cursor, Claude, Codex, Grok, and Windsurf. Adversarial deliberation. Self-evolving. No API keys required.</p>
-    <div class="actions">
-      <a href="#create" class="btn btn-accent">Ideate a Design</a>
-      <a href="#ideation" class="btn btn-ghost">See the Workflow</a>
-      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-primary">GitHub</a>
-    </div>
-    <div class="platforms">
-      <span>Cursor</span><span class="sep">/</span>
-      <span>Claude Code</span><span class="sep">/</span>
-      <span>Codex CLI</span><span class="sep">/</span>
-      <span>Grok Build</span><span class="sep">/</span>
-      <span>Windsurf</span>
-    </div>
-  </div>
-</section>
-
-<!-- ── Install ── -->
-<section id="install" class="install">
-  <div class="wrap">
-    <div class="box">
-      <div class="bar">
-        <div class="d"></div><div class="d"></div><div class="d"></div>
-        <span class="ttl">terminal</span>
-      </div>
-      <pre><span class="c"># Install globally (no auto-install, no obfuscation)</span>
-<span class="g">npm install -g analyzthis_design</span>
-
-<span class="c"># Install slash commands into your IDE (explicit, consent-based)</span>
-<span class="p">npx analyzthis_design --target all</span>
-
-<span class="c"># Run a critique</span>
-<span class="p">npx analyzthis_design</span> <span class="k">run</span> <span class="g">--task</span> "Review my onboarding flow"
-
-<span class="c"># Or invoke in your IDE</span>
-<span class="k">/persona-orchestrator</span> Critique this screen for UX friction</pre>
-    </div>
-  </div>
-</section>
-
-<!-- ── Stats ── -->
-<section class="stats-sec">
-  <div class="wrap">
-    <div class="stats">
-      <div class="stat"><div class="n">8</div><div class="l">Personas</div></div>
-      <div class="stat"><div class="n">2</div><div class="l">Modes: Create + Critique</div></div>
-      <div class="stat"><div class="n">6</div><div class="l">Ideation Phases</div></div>
-      <div class="stat"><div class="n">28</div><div class="l">Ref Files</div></div>
-      <div class="stat"><div class="n">16</div><div class="l">Stacks</div></div>
-      <div class="stat"><div class="n">0</div><div class="l">API Keys</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Personas ── -->
-<section id="personas" class="sec">
-  <div class="wrap">
-    <div style="text-align:center">
-      <div class="label">The Team</div>
-    </div>
-    <h2 class="title" style="text-align:center">Meet the <span class="accent">8 Personas</span></h2>
-    <p class="sub">Each persona has a distinct lens, a curated skill, and a short system card. They deliberate adversarially — not in parallel echo chambers.</p>
-    <div class="personas">
-      <div class="pcard" style="--c: var(--blue)">
-        <div class="ava">Ar</div>
-        <h3>Arjun</h3>
-        <div class="role">UX + Visual</div>
-        <p>Honeycomb audit — useful, usable, findable, credible, accessible, desirable, valuable. Full visual hierarchy check against DS tokens.</p>
-        <div class="cmd">/arjun</div>
-      </div>
-      <div class="pcard" style="--c: var(--green)">
-        <div class="ava">Me</div>
-        <h3>Meera</h3>
-        <div class="role">Business / GTM</div>
-        <p>Retention, ARR, GTM levers, monetization impact. Does this design move the north-star metric?</p>
-        <div class="cmd">/meera</div>
-      </div>
-      <div class="pcard" style="--c: var(--amber)">
-        <div class="ava">Pr</div>
-        <h3>Priya</h3>
-        <div class="role">Feasibility</div>
-        <p>Technical complexity, implementation risk, T-shirt effort sizing. Stack-specific guidance for 16 frameworks.</p>
-        <div class="cmd">/priya</div>
-      </div>
-      <div class="pcard" style="--c: var(--pink)">
-        <div class="ava">Za</div>
-        <h3>Zara</h3>
-        <div class="role">Delight</div>
-        <p>Identifies exactly one structural or surface delight moment. First impressions, onboarding, empty states, peak moments.</p>
-        <div class="cmd">/zara</div>
-      </div>
-      <div class="pcard" style="--c: var(--cyan)">
-        <div class="ava">No</div>
-        <h3>Noor</h3>
-        <div class="role">Minimalist IA</div>
-        <p>Task-first IA with progressive disclosure, single primary actions, ≤3 nav levels. Produces Concept A.</p>
-        <div class="cmd">/noor</div>
-      </div>
-      <div class="pcard" style="--c: var(--orange)">
-        <div class="ava">An</div>
-        <h3>Anuj</h3>
-        <div class="role">Power-User IA</div>
-        <p>Information density, bulk operations, keyboard shortcuts, expert-user gaps. Produces Concept B.</p>
-        <div class="cmd">/anuj</div>
-      </div>
-      <div class="pcard" style="--c: var(--red)">
-        <div class="ava">Ra</div>
-        <h3>Raj</h3>
-        <div class="role">Arbitrator</div>
-        <p>Product strategist. Speaks only when personas deadlock — never first. Resolves structural disputes with 5 ranked principles.</p>
-        <div class="cmd">/raj</div>
-      </div>
-      <div class="pcard" style="--c: var(--purple)">
-        <div class="ava">Ka</div>
-        <h3>Kavi</h3>
-        <div class="role">Archivist</div>
-        <p>Scans your codebase, discovers vaults, fetches web references, builds an Obsidian vault, syncs the knowledge bank.</p>
-        <div class="cmd">/kavi</div>
+  <a class="skip" href="#main">Skip to main content</a>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="wrap nav-row">
+      <a href="#" class="brand" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
+      <div class="nav-links" id="nav-links">
+        <a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="#examples">Firms</a><a href="#measure">Measure</a><a href="#faq">FAQ</a>
+        <a href="#intake" class="btn primary">Map my workflow</a>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<!-- ── Features ── -->
-<section id="features" class="sec">
-  <div class="wrap">
-    <div style="text-align:center"><div class="label">Capabilities</div></div>
-    <h2 class="title" style="text-align:center">Not Just Prompts.<br><span class="accent">An Agentic System.</span></h2>
-    <p class="sub">Shared session state, adversarial deliberation, multi-file CSV retrieval, self-evolution, chunked execution on free models.</p>
-    <div class="fgrid">
-      <div class="fcard">
-        <div class="ico">CHUNK</div>
-        <h3>Chunked Execution</h3>
-        <p>A frontier planner breaks your task into small chunks. Each chunk runs on the cheapest capable model — local Ollama, free cloud APIs, or your paid keys. Outputs synthesized into a final verdict.</p>
-      </div>
-      <div class="fcard">
-        <div class="ico">DEBATE</div>
-        <h3>Adversarial Deliberation</h3>
-        <p>Personas don't echo each other. They debate with low satisfaction defaults, raise objections grounded in real task context, and escalate to Raj only when deadlocked.</p>
-      </div>
-      <div class="fcard">
-        <div class="ico">EVOLVE</div>
-        <h3>Self-Evolving Team</h3>
-        <p>Every accepted run extracts lessons. Confirmed outcomes feed patch proposals — prompt edits, CSV reference rows, router changes. Devi asks after every run if the team is ready.</p>
-      </div>
-      <div class="fcard">
-        <div class="ico">REFS</div>
-        <h3>28 CSV Reference Files</h3>
-        <p>Colors, styles, typography, UX guidelines, chart types, landing patterns, 16 stack guides. Personas retrieve 3-5 files per chunk via a shared LLM ranker — same cost, 5x coverage.</p>
-      </div>
-      <div class="fcard">
-        <div class="ico">VAULT</div>
-        <h3>Obsidian Vault + KB</h3>
-        <p>Kavi scans your repo, builds an Obsidian-compatible vault, enriches notes with an LLM, and syncs a per-persona knowledge bank. Personas read your project context first.</p>
-      </div>
-      <div class="fcard">
-        <div class="ico">DEVI</div>
-        <h3>No API Keys Needed</h3>
-        <p>The host LLM voices each persona from a prompt queue. No paid API calls. Or plug in keys for Anthropic, OpenAI, Google, Groq, Together, OpenRouter, DeepSeek, or local Ollama.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Two Modes: Create + Critique ── -->
-<section class="sec" id="create">
-  <div class="wrap">
-    <div style="text-align:center"><div class="label">Two Modes</div></div>
-    <h2 class="title" style="text-align:center"><span class="accent">Create</span> or <span class="accent">Critique.</span><br>Same Team. Same Rigor.</h2>
-    <p class="sub">The personas don't just review — they design. Ideate new screens from scratch, produce implementation-ready DesignSpecs, then switch to critique mode to review what you built.</p>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--bw) solid var(--line);max-width:760px;margin:0 auto" class="twomodes">
-      <div style="padding:36px;border-right:var(--bw) solid var(--line);background:var(--accent-bg)">
-        <div style="display:inline-block;background:var(--accent);color:var(--bg-1);padding:4px 14px;font-size:0.6875rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;border:var(--bw-2) solid var(--line);margin-bottom:18px">Create</div>
-        <h3 style="font-size:1.5rem;font-weight:900;text-transform:uppercase;margin-bottom:12px;letter-spacing:-0.02em">Ideate from Scratch</h3>
-        <p style="font-size:0.9375rem;color:var(--ink-1);margin-bottom:20px">Two competing wireframes. Minimalist vs dense. Deliberated. Then a DesignSpec with real tokens, real components, real states.</p>
-        <ul style="list-style:none;font-size:0.8125rem;color:var(--ink-1);line-height:2">
-          <li style="font-weight:700">/ux-ideator — 6-phase ideation workflow</li>
-          <li style="font-weight:700">/design-director — ideate → spec → gates → build</li>
-          <li style="font-weight:700">/noor — minimalist IA wireframe (Concept A)</li>
-          <li style="font-weight:700">/anuj — power-user IA wireframe (Concept B)</li>
-          <li style="font-weight:700">/design-spec — machine-readable spec contract</li>
-        </ul>
-      </div>
-      <div style="padding:36px;background:var(--bg-1)">
-        <div style="display:inline-block;background:var(--ink);color:var(--bg-1);padding:4px 14px;font-size:0.6875rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;border:var(--bw-2) solid var(--line);margin-bottom:18px">Critique</div>
-        <h3 style="font-size:1.5rem;font-weight:900;text-transform:uppercase;margin-bottom:12px;letter-spacing:-0.02em">Review What Exists</h3>
-        <p style="font-size:0.9375rem;color:var(--ink-1);margin-bottom:20px">Adversarial critique with composite scores, verdicts, and ranked action items. Every finding cited from reference data.</p>
-        <ul style="list-style:none;font-size:0.8125rem;color:var(--ink-1);line-height:2">
-          <li style="font-weight:700">/persona-orchestrator — full MoE critique</li>
-          <li style="font-weight:700">/design-critic — 4-persona scored review</li>
-          <li style="font-weight:700">/ux-story-gate — task-first screen review</li>
-          <li style="font-weight:700">/arjun, /meera, /priya, /zara — single-lens</li>
-          <li style="font-weight:700">/mood-board — visual direction + references</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Ideation flow ── -->
-<section id="ideation" class="sec">
-  <div class="wrap">
-    <div style="text-align:center"><div class="label">UX Ideator</div></div>
-    <h2 class="title" style="text-align:center">6 Phases. 7 Personas.<br><span class="accent">One Deliberated Concept.</span></h2>
-    <p class="sub">The UX Ideator workflow runs 7 personas across 6 phases to produce a single, deliberated, implementation-ready IA design. Each phase has a clear owner and output format.</p>
-    <div class="ideation">
-      <div class="istep" style="--c: var(--ink-2)">
-        <div class="ph">-1</div>
+  <main id="main">
+    <header class="hero">
+      <div class="wrap hero-grid">
         <div>
-          <h4>Load Knowledge Bank</h4>
-          <p>Read project context — PRDs, brand guidelines, research, tech constraints. Treated as ground truth by all personas.</p>
+          <span class="eyebrow"><span class="dot"></span>Analyzthis Lab · Prepared work for small firms</span>
+          <h1>Work that reaches your desk <span class="accent">ready to sign.</span></h1>
+          <p class="lede">A small team of specialists prepares the repeat work of your practice. You review it, change what you must, and you still make the decision.</p>
+          <div class="hero-actions">
+            <a href="#intake" class="btn primary">Map my workflow <span aria-hidden="true">→</span></a>
+            <a href="#products" class="btn">See lab products</a>
+          </div>
+          <div class="micro-proof" aria-label="How this works">
+            <span>You sign, always</span><span>Built for small firms</span><span>Measured, not assumed</span>
+          </div>
+        </div>
+        <div class="blueprint" aria-label="Example team blueprint">
+          <div class="blueprint-head"><span>Team / example</span><span>04 specialists</span></div>
+          <div class="blueprint-body">
+            <div class="agent-row" style="--agent:var(--purple)"><div class="agent-id">01</div><div><strong>Archivist</strong><small>Reads your knowledge and decisions</small></div><span class="agent-state">GROUND</span></div>
+            <div class="agent-row" style="--agent:var(--blue)"><div class="agent-id">02</div><div><strong>Planner</strong><small>Breaks work into accountable steps</small></div><span class="agent-state">PLAN</span></div>
+            <div class="agent-row" style="--agent:var(--red)"><div class="agent-id">03</div><div><strong>Challenger</strong><small>Finds weak assumptions before delivery</small></div><span class="agent-state">DEBATE</span></div>
+            <div class="agent-row" style="--agent:var(--green)"><div class="agent-id">04</div><div><strong>Verifier</strong><small>Checks output against your standard</small></div><span class="agent-state">GATE</span></div>
+          </div>
+          <div class="connector">Shared context → one accountable outcome</div>
         </div>
       </div>
-      <div class="istep" style="--c: var(--green)">
-        <div class="ph">P1</div>
-        <div>
-          <h4>Business Reframe</h4>
-          <p>Map the feature request to business outcome. Which north-star metric? Which segment? Adoption risk?</p>
-          <div class="who">Meera</div>
-        </div>
-      </div>
-      <div class="istep" style="--c: var(--cyan)">
-        <div class="ph">P2</div>
-        <div>
-          <h4>IA Audit</h4>
-          <p>Audit existing IA or propose clean-slate. Map gaps, power-user shortcuts, friction points backed by research.</p>
-          <div class="who">Noor + Anuj + Arjun</div>
-        </div>
-      </div>
-      <div class="istep" style="--c: var(--orange)">
-        <div class="ph">P3</div>
-        <div>
-          <h4>Two Competing Concepts</h4>
-          <p>Concept A (minimalist, progressive disclosure) vs Concept B (dense, expert-optimized). Both use named DS components.</p>
-          <div class="who">Noor vs Anuj</div>
-        </div>
-      </div>
-      <div class="istep" style="--c: var(--red)">
-        <div class="ph">P4</div>
-        <div>
-          <h4>Deliberation</h4>
-          <p>Critique on 5 dimensions: task speed, learnability, density, navigation, feasibility. Raj resolves stalemates.</p>
-          <div class="who">Noor vs Anuj + Raj</div>
-        </div>
-      </div>
-      <div class="istep" style="--c: var(--blue)">
-        <div class="ph">P5</div>
-        <div>
-          <h4>UX Validation + Delight</h4>
-          <p>Score on UX Honeycomb. C or below triggers revision. Then exactly one delight moment (or "speed is the craft").</p>
-          <div class="who">Arjun + Zara</div>
-        </div>
-      </div>
-      <div class="istep" style="--c: var(--amber)">
-        <div class="ph">P6</div>
-        <div>
-          <h4>Feasibility Check</h4>
-          <p>T-shirt effort estimate, hard blockers, top 2 risks, simpler alternative if XL. Flag to user before output.</p>
-          <div class="who">Priya</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </header>
 
-<!-- ── Getting Started ── -->
-<section class="sec">
-  <div class="wrap">
-    <div style="text-align:center"><div class="label">Getting Started</div></div>
-    <h2 class="title" style="text-align:center">From Install to<br><span class="accent">Evolved Team</span></h2>
-    <p class="sub">Five steps to automated UX critique in your IDE.</p>
-    <div class="flow">
-      <div class="fstep">
-        <div class="num">01</div>
-        <div>
-          <h4>Install</h4>
-          <p><code>npm install -g analyzthis_design</code> then <code>npx analyzthis_design --target all</code></p>
+    <section class="proof" aria-label="Lab proof points from analyzthis_design">
+      <div class="wrap proof-row">
+        <div class="proof-item"><b>2+</b><span>lab products in motion</span></div>
+        <div class="proof-item"><b>8</b><span>roles in analyzthis_design</span></div>
+        <div class="proof-item"><b>28</b><span>reference datasets</span></div>
+        <div class="proof-item"><b>6</b><span>supported AI hosts</span></div>
+        <div class="proof-item"><b>MIT</b><span>open-source lab code</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Lab products</span>
+          <h2>Each product is a <span class="accent">focused team.</span></h2>
+          <p class="lede">Analyzthis ships repeatable teams as named products. When your workflow does not fit an existing product, we design a custom team using the same lab architecture.</p>
+        </div>
+        <div class="products">
+          <article class="product">
+            <div class="product-top">
+              <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
+              <span class="product-status live">Shipped</span>
+            </div>
+            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution inside existing AI tools.</p>
+            <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">View on GitHub <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="product">
+            <div class="product-top">
+              <div><span class="product-code">analyzthis_product</span><h3>Product workflow team</h3></div>
+              <span class="product-status lab">In the lab</span>
+            </div>
+            <p>Specialist roles for product discovery, PRD shaping, roadmap pressure-testing, and delivery-quality review—built for product managers and builders.</p>
+            <a class="btn" href="#intake">Ask about early access</a>
+          </article>
+          <article class="product">
+            <div class="product-top">
+              <div><span class="product-code">Custom teams</span><h3>Built for your workflow</h3></div>
+              <span class="product-status service">Service</span>
+            </div>
+            <p>When your profession needs its own roster, knowledge scope, handoffs, and gates, we map the workflow and design the smallest useful team around it.</p>
+            <a class="btn primary" href="#intake">Map my workflow <span aria-hidden="true">→</span></a>
+          </article>
         </div>
       </div>
-      <div class="fstep">
-        <div class="num">02</div>
-        <div>
-          <h4>Collect Knowledge</h4>
-          <p><code>npx analyzthis_design collect</code> — Kavi scans your repo, builds a vault, syncs the knowledge bank.</p>
+    </section>
+
+    <section class="section" id="method">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">The problem</span>
+          <h2>Generic AI gives you <span class="accent">generic work.</span></h2>
+          <p class="lede">A single assistant has no durable division of responsibility, no internal challenge, and no definition of “good” that belongs to your profession.</p>
+        </div>
+        <div class="pain-grid">
+          <article class="pain"><div class="num">01</div><h3>It forgets context</h3><p>Your standards, source material, and prior decisions are repeatedly pasted—or simply lost.</p></article>
+          <article class="pain"><div class="num">02</div><h3>It agrees too easily</h3><p>One model produces and approves its own work. Weak assumptions survive because nobody is assigned to object.</p></article>
+          <article class="pain"><div class="num">03</div><h3>It never owns quality</h3><p>There is no role-based gate, outcome history, or structured learning loop tied to your definition of done.</p></article>
         </div>
       </div>
-      <div class="fstep">
-        <div class="num">03</div>
-        <div>
-          <h4>Run a Critique</h4>
-          <p><code>npx analyzthis_design run --task "Review onboarding"</code> — or invoke <code>/persona-orchestrator</code> in your IDE.</p>
+    </section>
+
+    <section class="section">
+      <div class="wrap service-grid">
+        <div class="sticky-copy">
+          <span class="eyebrow">Our method</span>
+          <h2>The lab architecture behind <span class="accent">every product.</span></h2>
+          <p class="lede">Whether we are shipping analyzthis_design, building analyzthis_product, or designing a custom team for your workflow, the method stays the same: encode accountability around the task.</p>
+          <a href="#intake" class="btn dark">Map my workflow</a>
+        </div>
+        <div class="steps">
+          <article class="step" style="--step:var(--orange-soft)"><div class="step-no">01</div><div><small>Discover</small><h3>Map the real workflow</h3><p>We identify the repeated task, inputs, expert decisions, tools, failure points, and the outcome that matters.</p></div></article>
+          <article class="step" style="--step:#dfe7ff"><div class="step-no">02</div><div><small>Architect</small><h3>Assign specialist roles</h3><p>Each agent gets one allowed job, explicit boundaries, the right context, and a handoff contract—no vague “do everything” prompts.</p></div></article>
+          <article class="step" style="--step:#e2f5e9"><div class="step-no">03</div><div><small>Ground</small><h3>Connect your knowledge</h3><p>PRDs, SOPs, reference files, brand rules, research, and prior decisions become scoped context instead of one oversized prompt.</p></div></article>
+          <article class="step" style="--step:#ffe3e1"><div class="step-no">04</div><div><small>Challenge</small><h3>Build in disagreement</h3><p>Critical roles review claims, ask for evidence, and escalate deadlocks. Agreement must be earned, not assumed.</p></div></article>
+          <article class="step" style="--step:#fff5be"><div class="step-no">05</div><div><small>Verify</small><h3>Gate the outcome</h3><p>Your quality rules become explicit checks. The team returns a verdict, risks, and next actions—not just a polished paragraph.</p></div></article>
+          <article class="step" style="--step:#eee3fb"><div class="step-no">06</div><div><small>Evolve</small><h3>Learn with your approval</h3><p>Accepted outputs and confirmed outcomes can propose improvements. You review every change before the team evolves.</p></div></article>
         </div>
       </div>
-      <div class="fstep">
-        <div class="num">04</div>
-        <div>
-          <h4>Accept & Confirm</h4>
-          <p><code>session accept --persona arjun</code> and <code>outcome --confirm --persona arjun --result shipped</code></p>
+    </section>
+
+    <section class="section case" id="proof">
+      <div class="wrap">
+        <span class="eyebrow">Lab product / analyzthis_design</span>
+        <h2>Our first shipped product is a <span class="outline" style="-webkit-text-stroke-color:#fff">Design Team.</span></h2>
+        <p class="lede" style="color:#fff">analyzthis_design is working proof from the lab: a design team that does the work humans usually do—ideate, critique, deliberate, verify, and improve inside existing AI tools.</p>
+        <div class="case-grid">
+          <div class="case-copy">
+            <h3>One team. Distinct accountability.</h3>
+            <p>Kavi grounds the work. Noor and Anuj propose competing information architectures. Arjun audits UX and visual quality. Meera checks business impact. Priya sizes feasibility. Zara protects delight. Raj speaks only when the team deadlocks.</p>
+            <p><strong>Output:</strong> structured concepts, DesignSpecs, SHIP / REVISE / BLOCK verdicts, ranked fixes, and a human-reviewed evolution loop.</p>
+            <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Inspect the source <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="case-flow" aria-label="Design team roles">
+            <div class="case-role"><b>Kavi</b><span>Collects project knowledge before opinions form.</span></div>
+            <div class="case-role"><b>Noor ∥ Anuj</b><span>Produce competing minimal and expert concepts.</span></div>
+            <div class="case-role"><b>Arjun</b><span>Checks task friction, accessibility, hierarchy, and design-system fit.</span></div>
+            <div class="case-role"><b>Meera ∥ Priya</b><span>Challenge business value and implementation assumptions.</span></div>
+            <div class="case-role"><b>Raj</b><span>Arbitrates only unresolved structural objections.</span></div>
+            <div class="case-role"><b>Devi</b><span>Lets the host AI voice each specialist without separate API keys.</span></div>
+          </div>
         </div>
       </div>
-      <div class="fstep">
-        <div class="num">05</div>
-        <div>
-          <h4>Evolve</h4>
-          <p><code>evolve --extract</code> proposes patches. <code>evolve --apply</code> writes them. Devi asks after every run if the team is ready.</p>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="wrap">
+        <div class="section-head center">
+          <span class="eyebrow light">Lab architecture</span>
+          <h2>More than a folder of <span class="accent">prompts.</span></h2>
+          <p class="lede">These are implemented capabilities across Analyzthis lab products. The same architecture powers shipped products and the custom teams we design for clients.</p>
+        </div>
+        <div class="cards">
+          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Knowledge</span><h3>Scoped project memory</h3><p>Collect source material into a knowledge bank, then give each role only the context relevant to its job.</p></article>
+          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Planning</span><h3>Chunked execution</h3><p>A strong planner decomposes work; smaller steps route to capable local, free, or paid models before synthesis.</p></article>
+          <article class="card" style="--tag:var(--red)"><span class="card-tag">Quality</span><h3>Adversarial review</h3><p>Agents cite specific claims, raise grounded objections, and require evidence before accepting prior work.</p></article>
+          <article class="card" style="--tag:var(--green)"><span class="card-tag">Control</span><h3>Hard quality gates</h3><p>Critical checks never downgrade. A failed standard becomes a blocker and an actionable correction.</p></article>
+          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Portability</span><h3>Works where you work</h3><p>Lab products support Cursor, Claude Code, Codex, Grok, Windsurf, cross-agent skills, and CLI runs.</p></article>
+          <article class="card" style="--tag:var(--cyan)"><span class="card-tag">Learning</span><h3>Human-reviewed evolution</h3><p>Accepted work and confirmed outcomes can suggest lessons, routing changes, and reference updates—never silently.</p></article>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ── Use cases ── -->
-<section class="sec">
-  <div class="wrap">
-    <div style="text-align:center"><div class="label">For Professionals</div></div>
-    <h2 class="title" style="text-align:center">Who Is This <span class="accent">For?</span></h2>
-    <p class="sub">Analyzthis Design partners with professionals to automate their design review workflows.</p>
-    <div class="ucases">
-      <div class="ucase">
-        <div class="tag">Design Teams</div>
-        <h4>Ideate + Critique</h4>
-        <p>Generate two competing wireframes for every new screen, then critique what you build. Catch hierarchy, contrast, and DS compliance issues before sprint review.</p>
-      </div>
-      <div class="ucase">
-        <div class="tag">Product Managers</div>
-        <h4>Spec Before Build</h4>
-        <p>Get a business-impact assessment (Meera) + feasibility check (Priya) + a DesignSpec with real tokens and components before engineering spends a sprint.</p>
-      </div>
-      <div class="ucase">
-        <div class="tag">Solo Founders</div>
-        <h4>Design Team of One</h4>
-        <p>Eight expert personas ideate wireframes AND review your screens for free, inside your IDE. From blank page to spec to critique — no design hire needed.</p>
-      </div>
-      <div class="ucase">
-        <div class="tag">Agencies</div>
-        <h4>Scale Design QA</h4>
-        <p>Run consistent, structured critiques across every client deliverable. Citations from a 28-file reference library ground every recommendation.</p>
-      </div>
-      <div class="ucase">
-        <div class="tag">Open Source</div>
-        <h4>Community Design Review</h4>
-        <p>Contributors get instant UX feedback on PRs that touch UI. The team evolves from accepted outputs — better over time, not static.</p>
-      </div>
-      <div class="ucase">
-        <div class="tag">Enterprise</div>
-        <h4>DS Governance</h4>
-        <p>Every ideation and critique checks against your design tokens and component library. DS at-risk items stop the chain before it runs.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Evolution Dashboard ── -->
-<section id="evolution" class="sec">
-  <div class="wrap">
-    <div style="text-align:center"><div class="label">Self-Evolving</div></div>
-    <h2 class="title" style="text-align:center">Team <span class="accent">Evolution Dashboard</span></h2>
-    <p class="sub">Track how much each persona has evolved — lessons, outcomes, patches applied. From Novice to Expert. Devi checks readiness after every run.</p>
-    <div class="dash">
-      <div class="hdr">
-        <div>
-          <div class="lvl">Developing Team</div>
-          <div style="font-size: 0.8125rem; color: var(--ink-2); margin-top: 4px; font-weight: 600;">2 lessons &middot; 0 outcomes &middot; 0 patches applied</div>
+    <section class="section" id="examples">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Built for small firms</span>
+          <h2>Real teams for <span class="accent">real firms.</span></h2>
+          <p class="lede">We build for MSMEs—architectural studios, CA practices, clinics, and other small firms where the same work repeats every week and partners still review everything.</p>
         </div>
-        <div class="sc">avg 3/100</div>
+        <div class="teams-intro">
+          <p>These are example teams, not off-the-shelf products. Each firm gets the smallest useful roster around the work humans already do—briefs, filings, follow-ups, checklists, and client updates.</p>
+        </div>
+        <div class="teams">
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Architectural firm</span><h3>Drawing &amp; submission team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">8–20 people</span></div>
+            <p class="team-workload">Work humans usually do: turn briefs into drawing sets, track municipal submissions, and prepare site-meeting notes.</p>
+            <ul>
+              <li>Check drawing sets against the client brief before partner review</li>
+              <li>Track municipal submission deadlines and missing sheets</li>
+              <li>Compare vendor BOQs before sign-off</li>
+              <li>Prepare site-meeting notes from field photos and mark-ups</li>
+            </ul>
+            <p class="team-foot">Partner still approves every submission.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">CA firm</span><h3>Books &amp; compliance team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">5–15 people</span></div>
+            <p class="team-workload">Work humans usually do: organize client books, chase missing documents, and prepare filing packets before the partner signs.</p>
+            <ul>
+              <li>Organize client books before GST and audit work begins</li>
+              <li>Flag missing invoices and ledger mismatches early</li>
+              <li>Draft client reminder letters for pending documents</li>
+              <li>Prepare monthly partner review packets</li>
+            </ul>
+            <p class="team-foot">Partner still signs every filing.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Interior design studio</span><h3>Client delivery team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">6–12 people</span></div>
+            <p class="team-workload">Work humans usually do: build material schedules, compare vendor quotes, and keep site progress aligned with the design intent.</p>
+            <ul>
+              <li>Build room-wise material schedules from mood boards</li>
+              <li>Compare vendor quotes line by line</li>
+              <li>Track site progress against the approved design</li>
+              <li>Prepare client presentation decks for approvals</li>
+            </ul>
+            <p class="team-foot">Designer still owns the final look and client relationship.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Dental clinic</span><h3>Patient care team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">4–10 people</span></div>
+            <p class="team-workload">Work humans usually do: prepare visit summaries, track treatment plans, and keep insurance and follow-up paperwork moving.</p>
+            <ul>
+              <li>Prepare patient visit summaries before the doctor enters</li>
+              <li>Track treatment plans and follow-up dates</li>
+              <li>Organize insurance paperwork for billing staff</li>
+              <li>Send post-visit care instructions consistently</li>
+            </ul>
+            <p class="team-foot">Doctor still makes every clinical decision.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Law chamber</span><h3>Case preparation team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">3–8 people</span></div>
+            <p class="team-workload">Work humans usually do: organize case facts, track filing dates, and draft first-pass client updates for senior counsel.</p>
+            <ul>
+              <li>Organize case facts from client documents</li>
+              <li>Track filing dates and court deadlines</li>
+              <li>Draft first-pass client update emails</li>
+              <li>Prepare hearing briefs for senior counsel review</li>
+            </ul>
+            <p class="team-foot">Counsel still argues every case.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Manufacturing SME</span><h3>Orders &amp; accounts team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">15–40 people</span></div>
+            <p class="team-workload">Work humans usually do: match purchase orders to invoices, follow up on dispatch, and flag stock and payment issues before month-end.</p>
+            <ul>
+              <li>Match purchase orders to incoming invoices</li>
+              <li>Track dispatch and delivery follow-ups</li>
+              <li>Prepare weekly stock and reorder notes</li>
+              <li>Flag vendor payment mismatches before accounts closes</li>
+            </ul>
+            <p class="team-foot">Owner still approves payments and orders.</p>
+          </article>
+        </div>
       </div>
-      <div class="row">
-        <div class="nm">arjun</div>
-        <div class="bg"><div class="fl" style="width: 20%; background: var(--blue)"></div></div>
-        <div class="pt">20/100</div>
-      </div>
-      <div class="row">
-        <div class="nm">meera</div>
-        <div class="bg"><div class="fl" style="width: 0%; background: var(--green)"></div></div>
-        <div class="pt">0/100</div>
-      </div>
-      <div class="row">
-        <div class="nm">priya</div>
-        <div class="bg"><div class="fl" style="width: 0%; background: var(--amber)"></div></div>
-        <div class="pt">0/100</div>
-      </div>
-      <div class="row">
-        <div class="nm">zara</div>
-        <div class="bg"><div class="fl" style="width: 0%; background: var(--pink)"></div></div>
-        <div class="pt">0/100</div>
-      </div>
-      <div class="row">
-        <div class="nm">noor</div>
-        <div class="bg"><div class="fl" style="width: 0%; background: var(--cyan)"></div></div>
-        <div class="pt">0/100</div>
-      </div>
-      <div class="row">
-        <div class="nm">anuj</div>
-        <div class="bg"><div class="fl" style="width: 0%; background: var(--orange)"></div></div>
-        <div class="pt">0/100</div>
-      </div>
-      <div class="row">
-        <div class="nm">raj</div>
-        <div class="bg"><div class="fl" style="width: 0%; background: var(--red)"></div></div>
-        <div class="pt">0/100</div>
-      </div>
-      <div class="ftr">
-        Scoring: 10 pts/lesson &middot; 15 pts/outcome &middot; 20 pts/patch &middot; 25 pts/applied bonus<br>
-        Levels: Novice (0-19) &rarr; Developing (20-39) &rarr; Proficient (40-59) &rarr; Advanced (60-79) &rarr; Expert (80-100)
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ── Security ── -->
-<section id="security" class="sec">
-  <div class="wrap">
-    <div style="text-align:center"><div class="label">Auditable</div></div>
-    <h2 class="title" style="text-align:center">Plain Source.<br><span class="accent">Consent-Based.</span></h2>
-    <p class="sub">No obfuscation. No auto-install. No hidden behavior. Every file is readable source.</p>
-    <div class="sgrid">
-      <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <h4>Plain Source</h4>
-        <p>Every JS file in dist/ is readable, unobfuscated, unminified. No javascript-obfuscator dependency. Security tools can review every line.</p>
+    <section class="section" id="measure">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">How we measure success</span>
+          <h2>We score the <span class="accent">handoff,</span> not the chat.</h2>
+          <p class="lede">A partner, doctor, or owner was going to review the work anyway. That review is the measurement. We do not ask the firm to fill a weekly scorecard.</p>
+        </div>
+        <div class="signals">
+          <article class="card" style="--tag:var(--green)"><span class="card-tag">Opened</span><h3>Was it opened at all?</h3><p>If the packet is never opened, the team is already dead. Abandonment is the churn signal nobody tracks.</p></article>
+          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Changed</span><h3>How much did they change?</h3><p>Accepted as-is, light edit, heavy rewrite, or discarded. That is first-pass quality, and it needs no survey.</p></article>
+          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Review time</span><h3>How long did review take?</h3><p>Not how long the work took to prepare — how long the human spent. That is the number that converts to money.</p></article>
+          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Repeat</span><h3>Did it run again?</h3><p>Monthly filing, weekly submission, daily list. If cycle four still runs, it works.</p></article>
+        </div>
+        <div class="blueprint contract" aria-label="Example team contract">
+          <div class="blueprint-head"><span>Team contract / example</span><span>Signed at discovery</span></div>
+          <div class="blueprint-body">
+            <div class="contract-row"><b>Workflow</b><span>Monthly GST filing prep</span></div>
+            <div class="contract-row"><b>Owns</b><span>Books organisation, missing-doc chase, packet assembly</span></div>
+            <div class="contract-row"><b>Does not own</b><span>Filing, client advice, sign-off</span></div>
+            <div class="contract-row"><b>Good looks like</b><span>Partner signs in one review. No document found missing after review.</span></div>
+            <div class="contract-row"><b>Fails when</b><span>A missing invoice is discovered post-review, or the filing date slips</span></div>
+            <div class="contract-row"><b>Reviewed by</b><span>Partner, monthly</span></div>
+            <div class="contract-row"><b>We track</b><span>Opened / edit level / review minutes / repeat run</span></div>
+          </div>
+          <div class="connector">Weeks 1–3 are calibration. The team is tuned, not scored.</div>
+        </div>
+        <div class="teams-intro" style="margin-top:24px">
+          <p>We do not grade the team in its first weeks. Everything looks rough, the firm loses nerve, and the account dies before the loop closes. Scoring starts after calibration.</p>
+        </div>
       </div>
-      <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <h4>No Auto-Install</h4>
-        <p>postinstall only prints a message. Skill installation requires explicit <code>npx analyzthis_design --target &lt;ide&gt;</code>. No filesystem mutation without consent.</p>
-      </div>
-      <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <h4>No Network Calls</h4>
-        <p>Zero network requests on install. No telemetry, no exfiltration, no phone-home. API keys only used when you explicitly run a critique.</p>
-      </div>
-      <div class="scard">
-        <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <h4>CSV Validation</h4>
-        <p><code>npm run validate</code> checks all 28 CSV files against schema.json — row integrity, header match, cross-file joins, filter column population.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ── Partner CTA ── -->
-<section id="partner" class="sec" style="border-bottom: none;">
-  <div class="wrap">
-    <div class="partner">
-      <h3>Partner With Analyzthis Design</h3>
-      <p>We're looking to collaborate with design teams, agencies, and open-source projects to automate UX review workflows. Integrate the persona framework into your pipeline, or build custom personas on top of our agentic system.</p>
-      <div class="actions">
-        <a href="https://github.com/joshirishi/analyzthis_design/issues" target="_blank" class="btn btn-ink">Start a Discussion</a>
-        <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" class="btn btn-white">View the Code</a>
+    <section class="section trust">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow light">Control and trust</span><h2>Automation without <span class="accent">abdication.</span></h2><p class="lede" style="color:#d7d3ca">Lab products ship as plain source with consent-based evolution. Custom teams can follow the same principles.</p></div>
+        <div class="trust-grid">
+          <article class="trust-item"><b>Clear boundaries</b><p>Every role has allowed jobs, forbidden jobs, and an explicit output contract.</p></article>
+          <article class="trust-item"><b>Human checkpoints</b><p>Assess-only modes and approval gates keep implementation under your control.</p></article>
+          <article class="trust-item"><b>Model choice</b><p>Use host models, local Ollama, free endpoints, or selected paid providers based on the task.</p></article>
+          <article class="trust-item"><b>Auditable system</b><p>Lab products like analyzthis_design ship readable source with no hidden auto-install behavior.</p></article>
+        </div>
+        <div class="privacy-note" style="color:#000"><strong>Website data note:</strong><span>This page makes no background telemetry calls. The inquiry form sends only the information you submit to a dedicated Google Sheet.</span></div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ── Footer ── -->
-<footer class="footer">
-  <div class="wrap">
-    <div class="links">
-      <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank">npm</a>
-      <a href="https://github.com/joshirishi/analyzthis_design" target="_blank">GitHub</a>
-      <a href="#install">Install</a>
-      <a href="#personas">Personas</a>
-      <a href="#security">Security</a>
-      <a href="#partner">Partner</a>
-    </div>
-    <p><span class="brand">analyzthis<span>_design</span></span> &middot; MIT License &middot; <a href="https://github.com/joshirishi" target="_blank">Rishikesh Joshi</a> &middot; v2.1.0 &middot; Open Source</p>
-  </div>
-</footer>
+    <section class="section" id="faq">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow light">Questions</span><h2>Before we map your <span class="accent">workflow.</span></h2></div>
+        <div class="faq">
+          <details><summary>Is Analyzthis just one product?</summary><p>No. Analyzthis is a lab. We ship focused team products such as analyzthis_design and analyzthis_product, and we also design custom teams when a workflow needs its own roster.</p></details>
+          <details><summary>Is this a generic chatbot setup service?</summary><p>No. The unit of design is the workflow: specialist roles, scoped knowledge, handoffs, failure behavior, quality gates, and outcome feedback. A chat interface may be one entry point, but it is not the architecture.</p></details>
+          <details><summary>Does every workflow need many agents?</summary><p>No. We use the smallest useful team. A narrow process may need two roles and one gate. Extra agents add coordination cost, so every role must earn its place.</p></details>
+          <details><summary>Will you replace our current tools?</summary><p>Usually not. The goal is to work inside or alongside the tools your team already trusts. Discovery includes your current software, data boundaries, and deployment constraints.</p></details>
+          <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. Your final setup depends on volume, privacy needs, latency, and required model quality.</p></details>
+          <details><summary>How do you keep quality under human control?</summary><p>We define assess-only stages, approval gates, explicit verdicts, and human-reviewed evolution. The system can recommend a change; you decide whether it becomes canonical.</p></details>
+          <details><summary>What happens after I submit the form?</summary><p>We review the workflow, tools, and desired outcome you describe. If the use case is a fit, the confirmation screen will invite you to book a discovery call.</p></details>
+        </div>
+      </div>
+    </section>
 
+    <section class="section intake" id="intake">
+      <div class="wrap intake-grid">
+        <div class="intake-copy">
+          <span class="eyebrow">Start with the workflow</span>
+          <h2>What should your team <span class="accent" style="color:#fff">take off your plate?</span></h2>
+          <p class="lede">Tell us about one repeatable workflow. We will use the detail to prepare a focused discovery conversation—not a generic sales call.</p>
+          <div class="privacy-note"><strong>What we collect:</strong><span>Your contact details and workflow answers. No passwords, client-confidential documents, or sensitive personal data.</span></div>
+        </div>
+        <div class="form-shell">
+          <div class="form-head"><strong>Team discovery</strong><span class="progress" id="progress-label">Step 1 of 3</span></div>
+          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+          <form id="lead-form" novalidate>
+            <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+            <section class="form-step" data-step="1" aria-labelledby="step-one-title">
+              <h3 id="step-one-title">First, who are we designing for?</h3>
+              <div class="field-grid">
+                <div class="field"><label for="fullName">Full name <span class="required">*</span></label><input id="fullName" name="fullName" type="text" autocomplete="name" maxlength="100" required><span class="error" id="fullName-error"></span></div>
+                <div class="field"><label for="email">Work email <span class="required">*</span></label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="160" required><span class="error" id="email-error"></span></div>
+                <div class="field"><label for="company">Company / organization</label><input id="company" name="company" type="text" autocomplete="organization" maxlength="120"><span class="error" id="company-error"></span></div>
+                <div class="field"><label for="role">Profession / role <span class="required">*</span></label><input id="role" name="role" type="text" autocomplete="organization-title" maxlength="120" placeholder="e.g. Architect, CA partner, clinic owner" required><span class="error" id="role-error"></span></div>
+              </div>
+              <div class="form-actions"><span></span><button class="btn primary" type="button" data-next>Continue <span aria-hidden="true">→</span></button></div>
+            </section>
+            <section class="form-step" data-step="2" aria-labelledby="step-two-title" hidden>
+              <h3 id="step-two-title">Now, map the work.</h3>
+              <div class="field-grid">
+                <div class="field full"><label for="workflow">Which repeatable workflow should move faster? <span class="required">*</span></label><textarea id="workflow" name="workflow" maxlength="1200" placeholder="Describe the trigger, inputs, decisions, and current output." required></textarea><span class="error" id="workflow-error"></span></div>
+                <div class="field full"><label for="tools">What tools and information does it use?</label><input id="tools" name="tools" type="text" maxlength="400" placeholder="e.g. Google Drive, Notion, HubSpot, internal SOPs"><span class="error" id="tools-error"></span></div>
+                <div class="field"><label for="frequency">How often does this happen? <span class="required">*</span></label><select id="frequency" name="frequency" required><option value="">Select one</option><option>Multiple times a day</option><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Ad hoc</option></select><span class="error" id="frequency-error"></span></div>
+                <div class="field"><label for="teamSize">People involved</label><select id="teamSize" name="teamSize"><option value="">Select one</option><option>Just me</option><option>2–5</option><option>6–20</option><option>21–100</option><option>100+</option></select><span class="error" id="teamSize-error"></span></div>
+                <div class="field"><label for="timeline">When would you like to start?</label><select id="timeline" name="timeline"><option value="">Select one</option><option>As soon as possible</option><option>Within 30 days</option><option>Within 3 months</option><option>Exploring for later</option></select><span class="error" id="timeline-error"></span></div>
+              </div>
+              <div class="form-actions"><button class="btn" type="button" data-back><span aria-hidden="true">←</span> Back</button><button class="btn primary" type="button" data-next>Continue <span aria-hidden="true">→</span></button></div>
+            </section>
+            <section class="form-step" data-step="3" aria-labelledby="step-three-title" hidden>
+              <h3 id="step-three-title">How will we know it worked?</h3>
+              <div class="field-grid">
+                <div class="field full"><label for="successSignal">How do you know this workflow succeeded today?</label><textarea id="successSignal" name="successSignal" maxlength="800" placeholder="e.g. Partner signed the GST packet in one review."></textarea><span class="error" id="successSignal-error"></span></div>
+                <div class="field full"><label for="failureMode">What goes wrong most often?</label><textarea id="failureMode" name="failureMode" maxlength="600" placeholder="e.g. A missing invoice turns up after the partner has already reviewed."></textarea><span class="error" id="failureMode-error"></span></div>
+                <div class="field full"><label for="outcome">What would “worth paying for” look like in 90 days? <span class="required">*</span></label><textarea id="outcome" name="outcome" maxlength="800" placeholder="e.g. Filings on time, partner review under 20 minutes, no missing docs after sign-off." required></textarea><span class="error" id="outcome-error"></span></div>
+                <div class="field full check"><input id="consent" name="consent" type="checkbox" required><div><label for="consent">I agree to be contacted about this inquiry. <span class="required">*</span></label><div class="error" id="consent-error"></div></div></div>
+              </div>
+              <div class="form-actions"><button class="btn" type="button" data-back><span aria-hidden="true">←</span> Back</button><button class="btn primary" type="submit" id="submit-lead">Send my workflow</button></div>
+              <p class="form-note">Please do not submit confidential client information, credentials, health data, financial account data, or other sensitive personal information.</p>
+            </section>
+          </form>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+          <div class="success-panel" id="success-panel" hidden>
+            <div class="success-mark" aria-hidden="true">✓</div>
+            <h3>Your workflow is in the queue.</h3>
+            <p>Thank you. The next step is a focused discovery call to map the roles, knowledge, and quality gates your team needs.</p>
+            <a class="btn primary" id="booking-link" href="#" target="_blank" rel="noopener" aria-disabled="true">Booking link coming soon</a>
+            <p class="form-note" id="booking-note">Calendar booking is not configured yet. We will contact you using the email submitted above.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
+      <div class="footer-links"><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">analyzthis_design</a></div>
+      <small>analyzthis_design v2.1.2 · MIT</small>
+    </div>
+  </footer>
+
+  <script>
+    // Production setup: paste the Apps Script /exec URL and your Google Calendar appointment-schedule URL.
+    const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/a/macros/analyzthis.com/s/AKfycbzjzc8scru_Yfjzf_wmR1ZyZX3STRk6VrcAOUFmNWpL62d2KoFYAvWWWXpR0kXcODfzWA/exec";
+    const BOOKING_URL = "https://calendar.app.google/KtKJ7hCAx1duA8m58";
+    const MOCK_MODE = new URLSearchParams(window.location.search).get("form") === "mock";
+
+    const menuButton = document.querySelector(".menu-btn");
+    const navLinks = document.querySelectorAll(".nav-links a");
+    menuButton.addEventListener("click", () => {
+      const open = document.body.classList.toggle("menu-open");
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+      menuButton.textContent = open ? "CLOSE" : "MENU";
+    });
+    navLinks.forEach(link => link.addEventListener("click", () => {
+      document.body.classList.remove("menu-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open navigation");
+      menuButton.textContent = "MENU";
+    }));
+
+    const form = document.getElementById("lead-form");
+    const steps = [...document.querySelectorAll(".form-step")];
+    const totalSteps = steps.length;
+    const statusBox = document.getElementById("form-status");
+    const progressLabel = document.getElementById("progress-label");
+    const progressFill = document.getElementById("progress-fill");
+    const submitButton = document.getElementById("submit-lead");
+    let activeStep = 1;
+
+    const stepFields = step => [...document.querySelector(`[data-step="${step}"]`).querySelectorAll("input, select, textarea")].filter(field => field.id !== "website");
+
+    const showStep = step => {
+      activeStep = step;
+      steps.forEach(section => { section.hidden = Number(section.dataset.step) !== step; });
+      progressLabel.textContent = `Step ${step} of ${totalSteps}`;
+      progressFill.style.width = `${(step / totalSteps) * 100}%`;
+      const heading = document.querySelector(`[data-step="${step}"] h3`);
+      heading.setAttribute("tabindex", "-1");
+      heading.focus();
+    };
+
+    const setError = (field, message) => {
+      field.setAttribute("aria-invalid", message ? "true" : "false");
+      field.setAttribute("aria-describedby", `${field.id}-error`);
+      document.getElementById(`${field.id}-error`).textContent = message;
+    };
+
+    const validateFields = fields => {
+      let valid = true;
+      fields.forEach(field => {
+        let message = "";
+        if (field.required && field.type === "checkbox" && !field.checked) message = "Please confirm before submitting.";
+        else if (field.required && !field.value.trim()) message = "This field is required.";
+        else if (field.type === "email" && field.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) message = "Enter a valid work email.";
+        else if (field.id === "workflow" && field.value.trim().length > 0 && field.value.trim().length < 20) message = "Add a little more detail so we can understand the workflow.";
+        setError(field, message);
+        if (message && valid) { field.focus(); valid = false; }
+      });
+      return valid;
+    };
+
+    form.addEventListener("click", event => {
+      if (event.target.closest("[data-next]")) {
+        if (validateFields(stepFields(activeStep))) showStep(activeStep + 1);
+      }
+      if (event.target.closest("[data-back]")) showStep(Math.max(1, activeStep - 1));
+    });
+    form.querySelectorAll("input, select, textarea").forEach(field => {
+      field.addEventListener("blur", () => { if (field.id !== "website") validateFields([field]); });
+      field.addEventListener("input", () => { if (field.getAttribute("aria-invalid") === "true") validateFields([field]); });
+    });
+
+    const getTracking = () => {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        source: document.referrer || "direct",
+        pageUrl: window.location.href,
+        utmSource: params.get("utm_source") || "",
+        utmMedium: params.get("utm_medium") || "",
+        utmCampaign: params.get("utm_campaign") || ""
+      };
+    };
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!validateFields(stepFields(activeStep))) return;
+      statusBox.className = "form-status";
+      statusBox.textContent = "";
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending…";
+
+      const payload = Object.fromEntries(new FormData(form).entries());
+      payload.consent = document.getElementById("consent").checked;
+      payload.submittedAt = new Date().toISOString();
+      Object.assign(payload, getTracking());
+
+      try {
+        if (!GOOGLE_SHEETS_ENDPOINT && !MOCK_MODE) throw new Error("Form setup is not complete yet. Please contact us after the Google Sheets endpoint is configured.");
+        if (MOCK_MODE) await new Promise(resolve => setTimeout(resolve, 450));
+        else {
+          // no-cors is used because Apps Script returns through a Google redirect.
+          await fetch(GOOGLE_SHEETS_ENDPOINT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload)
+          });
+        }
+        form.hidden = true;
+        document.getElementById("success-panel").hidden = false;
+        progressLabel.textContent = "Complete";
+        progressFill.style.width = "100%";
+        statusBox.textContent = "Your information was submitted successfully.";
+        statusBox.classList.add("success-state");
+        const booking = document.getElementById("booking-link");
+        if (BOOKING_URL) {
+          booking.href = BOOKING_URL;
+          booking.textContent = "Book a discovery call";
+          booking.removeAttribute("aria-disabled");
+          document.getElementById("booking-note").textContent = "Pick a time on the calendar. It lands on our Google Calendar.";
+        } else {
+          booking.addEventListener("click", e => e.preventDefault());
+        }
+      } catch (error) {
+        statusBox.textContent = error.message || "We could not submit the form. Please try again.";
+        statusBox.classList.add("error-state");
+        submitButton.disabled = false;
+        submitButton.textContent = "Send my workflow";
+      }
+    });
+  </script>
 </body>
 </html>
