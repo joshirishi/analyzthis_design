@@ -411,7 +411,7 @@
           <article class="trust-item"><b>Model choice</b><p>Use host models, local Ollama, free endpoints, or selected paid providers based on the task.</p></article>
           <article class="trust-item"><b>Auditable system</b><p>Lab products like analyzthis_design ship readable source with no hidden auto-install behavior.</p></article>
         </div>
-        <div class="privacy-note" style="color:#000"><strong>Website data note:</strong><span>This page makes no background telemetry calls. The inquiry form sends only the information you submit to a dedicated Google Sheet.</span></div>
+          <div class="privacy-note" style="color:#000"><strong>Website data note:</strong><span>This page makes no background telemetry calls. The inquiry form saves each completed step to a dedicated Google Sheet, including unfinished inquiries.</span></div>
       </div>
     </section>
 
@@ -436,7 +436,7 @@
           <span class="eyebrow">Start with the workflow</span>
           <h2>What should your team <span class="accent" style="color:#fff">take off your plate?</span></h2>
           <p class="lede">Tell us about one repeatable workflow. We will use the detail to prepare a focused discovery conversation—not a generic sales call.</p>
-          <div class="privacy-note"><strong>What we collect:</strong><span>Your contact details and workflow answers. No passwords, client-confidential documents, or sensitive personal data.</span></div>
+          <div class="privacy-note"><strong>What we collect:</strong><span>Your contact details and workflow answers, saved as you move through the form—even if you leave before the last step. No passwords, client-confidential documents, or sensitive personal data.</span></div>
         </div>
         <div class="form-shell">
           <div class="form-head"><strong>Team discovery</strong><span class="progress" id="progress-label">Step 1 of 3</span></div>
@@ -526,6 +526,7 @@
     const progressFill = document.getElementById("progress-fill");
     const submitButton = document.getElementById("submit-lead");
     let activeStep = 1;
+    let savedComplete = false;
 
     const stepFields = step => [...document.querySelector(`[data-step="${step}"]`).querySelectorAll("input, select, textarea")].filter(field => field.id !== "website");
 
@@ -561,7 +562,10 @@
 
     form.addEventListener("click", event => {
       if (event.target.closest("[data-next]")) {
-        if (validateFields(stepFields(activeStep))) showStep(activeStep + 1);
+        if (!validateFields(stepFields(activeStep))) return;
+        // Save what they have now so a drop-off still appears in the sheet.
+        sendLead("partial", activeStep);
+        showStep(activeStep + 1);
       }
       if (event.target.closest("[data-back]")) showStep(Math.max(1, activeStep - 1));
     });
@@ -581,6 +585,39 @@
       };
     };
 
+    const buildPayload = (status, lastStep) => {
+      const payload = Object.fromEntries(new FormData(form).entries());
+      payload.consent = document.getElementById("consent").checked;
+      payload.submittedAt = new Date().toISOString();
+      payload.status = status;
+      payload.lastStep = String(lastStep);
+      Object.assign(payload, getTracking());
+      return payload;
+    };
+
+    // Fire-and-forget write. Empty fields do not wipe earlier answers on the sheet.
+    const sendLead = (status, lastStep, useBeacon) => {
+      if (MOCK_MODE || !GOOGLE_SHEETS_ENDPOINT || savedComplete) return Promise.resolve();
+      const body = JSON.stringify(buildPayload(status, lastStep));
+      if (useBeacon && navigator.sendBeacon) {
+        navigator.sendBeacon(GOOGLE_SHEETS_ENDPOINT, new Blob([body], { type: "text/plain;charset=utf-8" }));
+        return Promise.resolve();
+      }
+      return fetch(GOOGLE_SHEETS_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body
+      });
+    };
+
+    // If they close the tab after entering a name and email, still keep the row.
+    window.addEventListener("pagehide", () => {
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      if (name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) sendLead("partial", activeStep, true);
+    });
+
     form.addEventListener("submit", async event => {
       event.preventDefault();
       if (!validateFields(stepFields(activeStep))) return;
@@ -589,23 +626,11 @@
       submitButton.disabled = true;
       submitButton.textContent = "Sending…";
 
-      const payload = Object.fromEntries(new FormData(form).entries());
-      payload.consent = document.getElementById("consent").checked;
-      payload.submittedAt = new Date().toISOString();
-      Object.assign(payload, getTracking());
-
       try {
         if (!GOOGLE_SHEETS_ENDPOINT && !MOCK_MODE) throw new Error("Form setup is not complete yet. Please contact us after the Google Sheets endpoint is configured.");
         if (MOCK_MODE) await new Promise(resolve => setTimeout(resolve, 450));
-        else {
-          // no-cors is used because Apps Script returns through a Google redirect.
-          await fetch(GOOGLE_SHEETS_ENDPOINT, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify(payload)
-          });
-        }
+        else await sendLead("complete", totalSteps);
+        savedComplete = true;
         form.hidden = true;
         document.getElementById("success-panel").hidden = false;
         progressLabel.textContent = "Complete";
