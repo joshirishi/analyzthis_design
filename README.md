@@ -871,7 +871,7 @@ skills/
 
 ## Marketing site
 
-The public lab site lives in `website/` and is deployed on Vercel as **analyzthis-lab** (site only — not the npm package).
+The public lab site lives in `website/` and is deployed on Vercel as **analyzthis-lab** (site only — not the npm package). Copy now names two doors: lab products for people who already use Cursor or Claude, and custom teams that arrive in a firm’s existing tools.
 
 - Live: [https://analyzthis-lab.vercel.app](https://analyzthis-lab.vercel.app)
 - Form test (does not write to Airtable): add `?form=mock` to the URL
