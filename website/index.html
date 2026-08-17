@@ -411,7 +411,7 @@
           <article class="trust-item"><b>Model choice</b><p>Use host models, local Ollama, free endpoints, or selected paid providers based on the task.</p></article>
           <article class="trust-item"><b>Auditable system</b><p>Lab products like analyzthis_design ship readable source with no hidden auto-install behavior.</p></article>
         </div>
-          <div class="privacy-note" style="color:#000"><strong>Website data note:</strong><span>This page makes no background telemetry calls. The inquiry form saves each completed step to a dedicated Google Sheet, including unfinished inquiries.</span></div>
+          <div class="privacy-note" style="color:#000"><strong>Website data note:</strong><span>This page makes no background telemetry calls. The inquiry form saves each completed step to Airtable, including unfinished inquiries.</span></div>
       </div>
     </section>
 
@@ -498,8 +498,8 @@
   </footer>
 
   <script>
-    // Production setup: paste the Apps Script /exec URL and your Google Calendar appointment-schedule URL.
-    const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/a/macros/analyzthis.com/s/AKfycbzjzc8scru_Yfjzf_wmR1ZyZX3STRk6VrcAOUFmNWpL62d2KoFYAvWWWXpR0kXcODfzWA/exec";
+    // Leads go to /api/lead, which writes to Airtable. Booking is a Google Calendar appointment page.
+    const LEAD_ENDPOINT = "/api/lead";
     const BOOKING_URL = "https://calendar.app.google/KtKJ7hCAx1duA8m58";
     const MOCK_MODE = new URLSearchParams(window.location.search).get("form") === "mock";
 
@@ -563,7 +563,7 @@
     form.addEventListener("click", event => {
       if (event.target.closest("[data-next]")) {
         if (!validateFields(stepFields(activeStep))) return;
-        // Save what they have now so a drop-off still appears in the sheet.
+        // Save what they have now so a drop-off still appears in Airtable.
         sendLead("partial", activeStep);
         showStep(activeStep + 1);
       }
@@ -595,20 +595,24 @@
       return payload;
     };
 
-    // Fire-and-forget write. Empty fields do not wipe earlier answers on the sheet.
-    const sendLead = (status, lastStep, useBeacon) => {
-      if (MOCK_MODE || !GOOGLE_SHEETS_ENDPOINT || savedComplete) return Promise.resolve();
+    // Writes to our server, which then writes to Airtable. Empty fields do not wipe earlier answers.
+    const sendLead = async (status, lastStep, useBeacon) => {
+      if (MOCK_MODE || savedComplete) return;
       const body = JSON.stringify(buildPayload(status, lastStep));
       if (useBeacon && navigator.sendBeacon) {
-        navigator.sendBeacon(GOOGLE_SHEETS_ENDPOINT, new Blob([body], { type: "text/plain;charset=utf-8" }));
-        return Promise.resolve();
+        navigator.sendBeacon(LEAD_ENDPOINT, new Blob([body], { type: "application/json" }));
+        return;
       }
-      return fetch(GOOGLE_SHEETS_ENDPOINT, {
+      const response = await fetch(LEAD_ENDPOINT, {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        headers: { "Content-Type": "application/json" },
         body
       });
+      if (status !== "complete") return;
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "We could not save your inquiry. Please try again.");
+      }
     };
 
     // If they close the tab after entering a name and email, still keep the row.
@@ -627,7 +631,6 @@
       submitButton.textContent = "Sending…";
 
       try {
-        if (!GOOGLE_SHEETS_ENDPOINT && !MOCK_MODE) throw new Error("Form setup is not complete yet. Please contact us after the Google Sheets endpoint is configured.");
         if (MOCK_MODE) await new Promise(resolve => setTimeout(resolve, 450));
         else await sendLead("complete", totalSteps);
         savedComplete = true;

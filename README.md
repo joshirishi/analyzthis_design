@@ -874,8 +874,8 @@ skills/
 The public lab site lives in `website/` and is deployed on Vercel as **analyzthis-lab** (site only — not the npm package).
 
 - Live: [https://analyzthis-lab.vercel.app](https://analyzthis-lab.vercel.app)
-- Form test (does not write to Sheets): add `?form=mock` to the URL
-- Leads go to Google Sheets after the Apps Script `/exec` URL is pasted into `GOOGLE_SHEETS_ENDPOINT`. Each step is saved; unfinished fills are marked `partial`.
+- Form test (does not write to Airtable): add `?form=mock` to the URL
+- Leads go to Airtable through `website/api/lead.js`. Each step is saved; unfinished fills are marked `partial`.
 - Booking uses Google Calendar: [https://calendar.app.google/KtKJ7hCAx1duA8m58](https://calendar.app.google/KtKJ7hCAx1duA8m58)
 
 ---

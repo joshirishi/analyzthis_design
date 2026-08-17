@@ -1,4 +1,7 @@
 /**
+ * Unused on the live site. Leads now go to Airtable through website/api/lead.js.
+ * Kept only as a fallback if we ever return to Google Sheets.
+ *
  * Analyzthis website → Google Sheets lead endpoint.
  *
  * SETUP
