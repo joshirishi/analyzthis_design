@@ -74,6 +74,16 @@
     .persona-id{width:48px;height:48px;display:grid;place-items:center;background:var(--agent);color:#fff;border:2px solid var(--ink);font-weight:950;margin-bottom:16px}
     .persona small{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange);margin-bottom:8px}
     .persona p{color:var(--muted);margin:0}
+    /* Devi is the host runtime, not a ninth critic. Break the grid: full-width, ink substrate, reversed contrast. */
+    .persona.host{grid-column:1/-1;background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr;gap:0 28px;align-items:center;padding:30px 34px}
+    .persona.host .persona-id{background:#fff;color:var(--ink);border-color:#fff;margin-bottom:0}
+    .persona.host small{color:var(--yellow);margin-bottom:6px}
+    .persona.host h3{color:#fff}
+    .persona.host p{color:#cbc7bd;margin:0}
+    .persona.host .host-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--yellow)}
+    .persona.host .host-flow .dot{width:8px;height:8px;background:var(--orange);display:inline-block}
+    .persona.host .host-flow .arrow{color:#fff;font-weight:950}
+    @media(max-width:760px){.persona.host{grid-template-columns:1fr;gap:18px;padding:24px}}
 
     .flow{border:var(--border);background:#fff;box-shadow:var(--shadow)}
     .flow-row{display:grid;grid-template-columns:72px 1fr;gap:18px;padding:26px;border-bottom:2px solid var(--line)}
@@ -404,7 +414,7 @@ npx analyzthis_design evolve --extract</pre>
         <div class="section-head">
           <span class="eyebrow light">The roster</span>
           <h2>One job each. No <span class="accent">“do everything.”</span></h2>
-          <p class="lede">You can call a single specialist for a narrow question. For a full screen, use the orchestrator so they speak in order and Raj only appears when they deadlock.</p>
+          <p class="lede">Eight specialists, each with one job. For a full screen, use the orchestrator so they speak in order and Raj only appears when they deadlock. Devi — below — is not a ninth critic; she is the host that voices them when you have no extra API keys.</p>
         </div>
         <div class="personas">
           <article class="persona"><div class="persona-id" style="--agent:var(--cyan)">KV</div><small>/kavi</small><h3>Kavi</h3><p>Knowledge archivist. Scans the repo, builds a vault, fills the knowledge bank. Speaks before opinions form. Not a critic.</p></article>
@@ -415,7 +425,7 @@ npx analyzthis_design evolve --extract</pre>
           <article class="persona"><div class="persona-id" style="--agent:var(--ink)">NO</div><small>/noor</small><h3>Noor</h3><p>Minimalist IA. Progressive disclosure, one primary action, a ranked information hierarchy that is declared out loud.</p></article>
           <article class="persona"><div class="persona-id" style="--agent:var(--red)">AN</div><small>/anuj</small><h3>Anuj</h3><p>Power-user advocate. Density, bulk actions, keyboard shortcuts. Will not hide expert tools behind a wizard “for simplicity.”</p></article>
           <article class="persona"><div class="persona-id" style="--agent:var(--yellow);color:#000">RJ</div><small>/raj</small><h3>Raj</h3><p>Arbitrator. Never speaks first. Resolves a stalemate with five ranked product principles after everyone else, including Zara, has gone.</p></article>
-          <article class="persona"><div class="persona-id" style="--agent:var(--cyan)">DV</div><small>/devi</small><h3>Devi</h3><p>Host runtime. When you have no extra API keys, Devi reads the pending prompt and writes the persona’s response in your IDE. The team still runs.</p></article>
+          <article class="persona host"><div class="persona-id" style="--agent:var(--ink);background:#fff;color:var(--ink)">DV</div><div><small>/devi</small><h3>Devi — the voice of the LLM you’re already using</h3><p>Not a ninth critic. Devi is the host runtime. When you have no extra API keys, the other eight personas write their prompts to a queue and Devi voices each response from the model in your Cursor, Claude, or Codex — the same model you are already chatting with. The team still runs; you just provide the voice.</p><div class="host-flow"><span>8 personas</span><span class="arrow">→</span><span class="dot"></span><span>Devi</span><span class="arrow">→</span><span>your model</span></div></div></article>
         </div>
       </div>
     </section>
