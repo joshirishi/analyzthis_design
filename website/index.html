@@ -9,6 +9,9 @@
   <meta property="og:description" content="A small team of specialists prepares the work. You review and sign. We measure the handoff, not the chat.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#c93800">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanuman&display=swap" rel="stylesheet">
   <style>
     :root {
       --paper:#f4f1e9; --white:#fff; --ink:#0a0a0a; --muted:#55534d;
@@ -33,13 +36,17 @@
     .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}.btn[disabled]{cursor:not-allowed;opacity:.45;transform:none;box-shadow:none}
     :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}.section-head.center{text-align:center;margin-inline:auto}.section-head.center .lede{margin-inline:auto}
 
-    /* Navigation — right-aligned cluster; logo lives inside the orange workflow lockup */
+    /* Navigation — Figma lockup: orange stamp with inline analyz THIS + WORKFLOW */
     .nav{position:fixed;inset:0 0 auto;z-index:100;background:#fff;border-bottom:var(--border);padding:16px 0}.nav-row{display:flex;align-items:center;justify-content:flex-end;gap:24px}
     .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}.nav-links{display:flex;align-items:center;gap:24px}
     .nav-links>a{font-size:.77rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.nav-links>a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
-    .nav-cta{flex-shrink:0}
-    .nav-cta-brand{display:block;width:163px;height:42px;overflow:hidden}.nav-cta-brand img{display:block;width:100%;height:100%;object-fit:contain}
-    .nav-cta-word{color:#fff;font-size:16px;font-weight:900;letter-spacing:.025em;text-transform:uppercase;white-space:nowrap}
+    .nav-cta{position:relative;display:flex;align-items:center;gap:4px;height:44px;padding:0 16px 0 4px;flex-shrink:0;background:var(--orange);border:2px solid var(--ink);border-radius:0 10px 0 10px;box-shadow:4px 4px 0 var(--ink);transition:transform .15s ease,box-shadow .15s ease}
+    .nav-cta:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+    .nav-cta-mark{display:flex;align-items:stretch;height:36px;flex-shrink:0}
+    .nav-cta-analyz{display:flex;align-items:center;justify-content:flex-end;width:92px;height:36px;padding:2px;background:#fff;border:2px solid #090909;border-radius:0 0 0 7px;font-family:Hanuman,Georgia,serif;font-size:24px;line-height:1;color:#212121}
+    .nav-cta-this{display:flex;align-items:center;justify-content:center;width:65px;height:36px;padding:4px;background:#000;color:#fff;font-size:22px;font-weight:700;letter-spacing:0;line-height:1}
+    .nav-cta-word{display:inline-flex;align-items:center;color:#fff;font-size:16px;font-weight:900;letter-spacing:.025em;text-transform:uppercase;white-space:nowrap;padding:0 2px 0 4px}
+    .nav-cta-dot{width:6px;height:6px;margin-left:4px;display:block}
     .menu-btn{display:none;width:48px;height:48px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font-weight:950;cursor:pointer}
 
     /* Hero */
@@ -66,7 +73,7 @@
 
     /* Case study */
     .case{background:var(--orange);color:#fff}.case .eyebrow{background:#fff;color:#000}.case h2{max-width:900px}.case-grid{display:grid;grid-template-columns:1fr 1fr;border:var(--border);box-shadow:var(--shadow);background:#fff;color:#000}
-    .case-copy{padding:34px;border-right:var(--border)}.case-flow{padding:22px}.case-role{display:flex;gap:12px;align-items:center;padding:13px;border-bottom:2px solid var(--line)}
+    .case-copy{padding:34px;border-right:var(--border)}.case-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}.case-flow{padding:22px}.case-role{display:flex;gap:12px;align-items:center;padding:13px;border-bottom:2px solid var(--line)}
     .case-role:last-child{border:0}.case-role b{min-width:82px;text-transform:uppercase}.case-role span{color:var(--muted);font-size:.9rem}
 
     /* Capabilities and examples */
@@ -110,7 +117,7 @@
       .menu-btn{display:grid;place-items:center}.nav-row{justify-content:space-between;gap:12px}
       .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
       .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
-      .nav-cta-brand{width:124px;height:32px}
+      .nav-cta{height:40px;padding-right:12px}.nav-cta-analyz{width:78px;font-size:20px}.nav-cta-this{width:54px;font-size:18px}.nav-cta-word{font-size:14px}
       .hero-grid,.service-grid,.intake-grid{grid-template-columns:1fr;gap:42px}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
       .cards{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
     }
@@ -133,9 +140,9 @@
       <div class="nav-links" id="nav-links">
         <a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="#examples">Firms</a><a href="#measure">Measure</a><a href="#faq">FAQ</a>
       </div>
-      <div class="nav-cta btn primary">
-        <a href="#" class="nav-cta-brand" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="163" height="42"></a>
-        <a href="#intake" class="nav-cta-word">Workflow</a>
+      <div class="nav-cta">
+        <a href="#" class="nav-cta-mark" aria-label="Analyzthis Lab home"><span class="nav-cta-analyz">analyz</span><span class="nav-cta-this">THIS</span></a>
+        <a href="#intake" class="nav-cta-word">Workflow<img class="nav-cta-dot" src="workflow-dot.svg" alt="" width="6" height="6"></a>
       </div>
     </div>
   </nav>
@@ -192,7 +199,7 @@
               <span class="product-status live">Shipped</span>
             </div>
             <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. Built for designers, PMs, and developers who already use Cursor, Claude, or a similar AI coding tool.</p>
-            <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">View on GitHub <span aria-hidden="true">↗</span></a>
+            <a class="btn primary" href="design.html">Learn more</a>
           </article>
           <article class="product">
             <div class="product-top">
@@ -258,7 +265,10 @@
             <h3>One team. Distinct accountability.</h3>
             <p>Kavi grounds the work. Noor and Anuj propose competing information architectures. Arjun audits UX and visual quality. Meera checks business impact. Priya sizes feasibility. Zara protects delight. Raj speaks only when the team deadlocks.</p>
             <p><strong>Output:</strong> structured concepts, DesignSpecs, SHIP / REVISE / BLOCK verdicts, ranked fixes, and a human-reviewed evolution loop.</p>
-            <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Inspect the source <span aria-hidden="true">↗</span></a>
+            <div class="case-actions">
+              <a class="btn primary" href="design.html">Learn more</a>
+              <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Inspect the source <span aria-hidden="true">↗</span></a>
+            </div>
           </div>
           <div class="case-flow" aria-label="Design team roles">
             <div class="case-role"><b>Kavi</b><span>Collects project knowledge before opinions form.</span></div>
@@ -500,7 +510,7 @@
   <footer class="footer">
     <div class="wrap footer-row">
       <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
-      <div class="footer-links"><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">analyzthis_design</a></div>
+      <div class="footer-links"><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
       <small>analyzthis_design v2.1.2 · MIT</small>
     </div>
   </footer>
