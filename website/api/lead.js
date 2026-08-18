@@ -47,6 +47,14 @@ export default async function handler(req, res) {
       return;
     }
 
+    // A form view is a count, not a lead: no name, no email, no cookie.
+    // It is only stored if AIRTABLE_EVENTS_TABLE is set, so it can never touch the Leads table.
+    if (payload.event === "form_view") {
+      await recordFormView(payload, { token, baseId, tableName: process.env.AIRTABLE_EVENTS_TABLE });
+      res.status(200).json({ ok: true });
+      return;
+    }
+
     const lead = validateLead(payload);
     await upsertLead(lead, { token, baseId, tableName });
     res.status(200).json({ ok: true });
@@ -153,6 +161,26 @@ async function airtable(path, { token, method, body }) {
     throw Object.assign(new Error(detail), { status: 502 });
   }
   return data;
+}
+
+async function recordFormView(payload, config) {
+  if (!config.tableName) return;
+
+  const fields = {
+    event: "form_view",
+    submittedAt: validIsoDate(payload.submittedAt) ? payload.submittedAt : new Date().toISOString(),
+    source: clean(payload.source, LIMITS.source),
+    pageUrl: clean(payload.pageUrl, LIMITS.pageUrl),
+    utmSource: clean(payload.utmSource, LIMITS.utmSource),
+    utmMedium: clean(payload.utmMedium, LIMITS.utmMedium),
+    utmCampaign: clean(payload.utmCampaign, LIMITS.utmCampaign)
+  };
+
+  await airtable(`${config.baseId}/${encodeURIComponent(config.tableName)}`, {
+    token: config.token,
+    method: "POST",
+    body: { fields, typecast: true }
+  });
 }
 
 async function upsertLead(lead, config) {

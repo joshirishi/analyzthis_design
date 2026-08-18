@@ -878,6 +878,10 @@ The public lab site lives in `website/` and is deployed on Vercel as **analyzthi
 - Form test (does not write to Airtable): add `?form=mock` to the URL
 - Leads go to Airtable through `website/api/lead.js`. Each step is saved; unfinished fills are marked `partial`.
 - Booking uses Google Calendar: [https://calendar.app.google/KtKJ7hCAx1duA8m58](https://calendar.app.google/KtKJ7hCAx1duA8m58)
+- Form views are counted first-party (no cookies, no third-party pixel). They are only stored if you set the optional `AIRTABLE_EVENTS_TABLE` env var to a separate Airtable table; without it the count is discarded and the Leads table is never touched.
+- There is exactly one privacy disclosure, in the `.privacy-note` directly above the inquiry form. If you change what the site collects, update that sentence — do not add a second notice elsewhere on the page.
+- Header layout: the real `logo.svg` sits left, nav links centre, one orange CTA right. No webfont is loaded, so the wordmark must stay an SVG.
+- The hero is tuned so the primary CTA and trust ticks stay above the fold at 1440×800 — check that before changing hero padding or the `h1` clamp.
 
 ---
 

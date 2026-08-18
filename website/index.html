@@ -9,16 +9,13 @@
   <meta property="og:description" content="A small team of specialists prepares the work. You review and sign. We measure the handoff, not the chat.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#c93800">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hanuman&display=swap" rel="stylesheet">
   <style>
     :root {
       --paper:#f4f1e9; --white:#fff; --ink:#0a0a0a; --muted:#55534d;
       --line:#0a0a0a; --soft:#ded9cd; --orange:#c93800; --orange-soft:#ffe7da;
       --blue:#1746ff; --green:#08783f; --yellow:#f3c92f; --purple:#7c38d8;
       --red:#d92b26; --cyan:#00737a; --max:1180px; --border:3px solid var(--line);
-      --shadow:7px 7px 0 var(--ink); --shadow-sm:4px 4px 0 var(--ink);
+      --shadow:8px 8px 0 var(--ink); --shadow-sm:4px 4px 0 var(--ink);
       --sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
     }
@@ -26,7 +23,7 @@
     body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
     body.menu-open{overflow:hidden} a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
     button,a{touch-action:manipulation}.skip{position:fixed;left:12px;top:-80px;z-index:200;background:var(--ink);color:#fff;padding:12px 18px}
-    .skip:focus{top:12px}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:6px 12px;font:800 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+    .skip:focus{top:12px}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:6px 12px;font:800 .76rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
     .eyebrow.light{background:#fff;color:var(--ink)}.dot{width:8px;height:8px;background:var(--orange)}
     h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1;letter-spacing:-.04em}h2{font-size:clamp(2.25rem,6vw,4.6rem);text-transform:uppercase;margin-bottom:20px}
     h3{font-size:1.35rem;text-transform:uppercase}.accent{color:var(--orange)}.outline{-webkit-text-stroke:2px var(--ink);color:transparent}
@@ -36,23 +33,21 @@
     .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}.btn[disabled]{cursor:not-allowed;opacity:.45;transform:none;box-shadow:none}
     :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}.section-head.center{text-align:center;margin-inline:auto}.section-head.center .lede{margin-inline:auto}
 
-    /* Navigation — Figma lockup: orange stamp with inline analyz THIS + WORKFLOW */
-    .nav{position:fixed;inset:0 0 auto;z-index:100;background:#fff;border-bottom:var(--border);padding:16px 0}.nav-row{display:flex;align-items:center;justify-content:flex-end;gap:24px}
-    .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}.nav-links{display:flex;align-items:center;gap:24px}
-    .nav-links>a{font-size:.77rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.nav-links>a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
-    .nav-cta{position:relative;display:flex;align-items:center;gap:4px;height:44px;padding:0 16px 0 4px;flex-shrink:0;background:var(--orange);border:2px solid var(--ink);border-radius:0 10px 0 10px;box-shadow:4px 4px 0 var(--ink);transition:transform .15s ease,box-shadow .15s ease}
-    .nav-cta:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
-    .nav-cta-mark{display:flex;align-items:stretch;height:36px;flex-shrink:0}
-    .nav-cta-analyz{display:flex;align-items:center;justify-content:flex-end;width:92px;height:36px;padding:2px;background:#fff;border:2px solid #090909;border-radius:0 0 0 7px;font-family:Hanuman,Georgia,serif;font-size:24px;line-height:1;color:#212121}
-    .nav-cta-this{display:flex;align-items:center;justify-content:center;width:65px;height:36px;padding:4px;background:#000;color:#fff;font-size:22px;font-weight:700;letter-spacing:0;line-height:1}
-    .nav-cta-word{display:inline-flex;align-items:center;color:#fff;font-size:16px;font-weight:900;letter-spacing:.025em;text-transform:uppercase;white-space:nowrap;padding:0 2px 0 4px}
-    .nav-cta-dot{width:6px;height:6px;margin-left:4px;display:block}
-    .menu-btn{display:none;width:48px;height:48px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font-weight:950;cursor:pointer}
+    /* Navigation — brand stamp on the left, one real CTA on the right. Same tokens as .btn. */
+    .nav{position:fixed;inset:0 0 auto;z-index:100;background:#fff;border-bottom:var(--border);padding:16px 0}.nav-row{display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}.nav-links{display:flex;align-items:center;gap:22px}
+    .nav-links>a{font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.nav-links>a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+    .nav-brand{display:inline-flex;align-items:center;flex-shrink:0}
+    .nav-brand img{display:block;width:auto;height:40px;filter:drop-shadow(4px 4px 0 var(--ink));transition:transform .15s ease,filter .15s ease}
+    .nav-brand:hover img{transform:translate(4px,4px);filter:drop-shadow(0 0 0 transparent)}
+    .nav-brand:active img{transform:translate(2px,2px);filter:drop-shadow(2px 2px 0 var(--ink))}
+    .nav-btn{min-height:44px;padding:10px 16px;font-size:.78rem;flex-shrink:0}.nav-btn-short{display:none}
+    .menu-btn{display:none;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer}
 
     /* Hero */
-    .hero{padding:165px 0 82px;border-bottom:var(--border);position:relative;overflow:hidden}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
-    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:70px}.hero h1{font-size:clamp(3.5rem,7.3vw,7rem);text-transform:uppercase;margin:24px 0 26px}
-    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}.micro-proof{display:flex;gap:16px 26px;flex-wrap:wrap;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
+    .hero{padding:120px 0 72px;border-bottom:var(--border);position:relative;overflow:hidden}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:56px}.hero h1{font-size:clamp(2.75rem,5vw,4.5rem);text-transform:uppercase;margin:20px 0 22px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}.micro-proof{display:flex;gap:16px 26px;flex-wrap:wrap;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
     .micro-proof span:before{content:"✓";color:var(--green);font-weight:950;margin-right:7px}
     .blueprint{background:#fff;border:var(--border);box-shadow:var(--shadow);position:relative}.blueprint-head{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:12px 16px;font:800 .72rem var(--mono);text-transform:uppercase}
     .blueprint-body{padding:18px}.agent-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:13px;padding:14px 0;border-bottom:2px solid var(--line)}
@@ -62,7 +57,7 @@
 
     /* Proof and pain */
     .proof{background:var(--ink);color:#fff;border-bottom:var(--border)}.proof-row{display:grid;grid-template-columns:repeat(5,1fr)}.proof-item{padding:26px 20px;border-right:2px solid #fff}.proof-item:last-child{border:0}
-    .proof-item b{display:block;font-size:2rem;color:var(--orange);line-height:1}.proof-item span{font:700 .7rem var(--mono);text-transform:uppercase}
+    .proof-item b{display:block;font-size:2rem;color:var(--orange);line-height:1;margin-bottom:6px}.proof-item span{font:700 .74rem var(--mono);text-transform:uppercase}
     .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--border);background:#fff}.pain{padding:30px;border-right:2px solid var(--line)}.pain:last-child{border:0}
     .pain .num{font:900 2.8rem var(--mono);color:var(--orange)}.pain p{margin:0;color:var(--muted)}
 
@@ -94,7 +89,7 @@
     .trust{background:var(--ink);color:#fff}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#fff;border:2px solid #fff}.trust-item{background:var(--ink);padding:24px}
     .trust-item b{display:block;color:var(--orange);text-transform:uppercase;margin-bottom:8px}.trust-item p{color:#d7d3ca;font-size:.9rem;margin:0}
     .faq{max-width:860px}.faq details{background:#fff;border:var(--border);border-bottom:0}.faq details:last-child{border-bottom:var(--border)}
-    .faq summary{cursor:pointer;list-style:none;padding:21px 56px 21px 22px;font-weight:900;text-transform:uppercase;position:relative}.faq summary:after{content:"+";position:absolute;right:22px;font-size:1.5rem;top:14px}
+    .faq summary{cursor:pointer;list-style:none;padding:20px 56px 20px 22px;font-weight:900;text-transform:uppercase;position:relative;transition:background .15s ease}.faq summary:hover{background:var(--paper)}.faq summary:after{content:"+";position:absolute;right:22px;font-size:1.5rem;top:14px}
     .faq details[open] summary:after{content:"−"}.faq details p{padding:0 22px 22px;color:var(--muted);margin:0;max-width:72ch}
 
     /* Lead form */
@@ -113,16 +108,21 @@
     .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}
     .footer small{color:var(--muted)}
 
+    /* Narrow desktops: shrink the nav links and use the short CTA label so the row never wraps. */
+    @media(max-width:1080px){
+      .nav-links{gap:16px}.nav-links>a{font-size:.74rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
+    }
     @media(max-width:900px){
-      .menu-btn{display:grid;place-items:center}.nav-row{justify-content:space-between;gap:12px}
+      .menu-btn{display:grid;place-items:center;margin-left:auto}.nav-row{gap:12px}
       .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
       .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
-      .nav-cta{height:40px;padding-right:12px}.nav-cta-analyz{width:78px;font-size:20px}.nav-cta-this{width:54px;font-size:18px}.nav-cta-word{font-size:14px}
       .hero-grid,.service-grid,.intake-grid{grid-template-columns:1fr;gap:42px}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
       .cards{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:640px){
-      .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:126px 0 62px}.hero h1{font-size:clamp(3rem,15vw,4.3rem)}
+      .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:120px 0 56px}.hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}
+      .nav-row{gap:8px}.menu-btn{min-width:44px;padding:0 8px;font-size:.68rem}
+      .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}
       .proof-row,.pain-grid,.cards,.signals,.teams,.products,.case-grid,.field-grid,.trust-grid{grid-template-columns:1fr}.teams-intro{padding:20px 18px}.proof-item,.pain,.case-copy{border-right:0;border-bottom:2px solid var(--line)}
       .contract-row{grid-template-columns:1fr}
       .proof-item:last-child,.pain:last-child{border-bottom:0}.step{grid-template-columns:52px 1fr;padding:22px 16px}.step-no{width:44px}
@@ -136,14 +136,12 @@
   <a class="skip" href="#main">Skip to main content</a>
   <nav class="nav" aria-label="Main navigation">
     <div class="wrap nav-row">
+      <a class="nav-brand" href="#main" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="314" height="81"></a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
       <div class="nav-links" id="nav-links">
-        <a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="#examples">Firms</a><a href="#measure">Measure</a><a href="#faq">FAQ</a>
+        <a href="#products">Products</a><a href="design.html">Design team</a><a href="#method">Method</a><a href="#measure">Measure</a><a href="#examples">Firms</a><a href="#faq">FAQ</a>
       </div>
-      <div class="nav-cta">
-        <a href="#" class="nav-cta-mark" aria-label="Analyzthis Lab home"><span class="nav-cta-analyz">analyz</span><span class="nav-cta-this">THIS</span></a>
-        <a href="#intake" class="nav-cta-word">Workflow<img class="nav-cta-dot" src="workflow-dot.svg" alt="" width="6" height="6"></a>
-      </div>
+      <a class="btn primary nav-btn" href="#intake"><span class="nav-btn-full">Map my workflow</span><span class="nav-btn-short">Map workflow</span></a>
     </div>
   </nav>
 
@@ -175,12 +173,12 @@
       </div>
     </header>
 
-    <section class="proof" aria-label="Lab proof points from analyzthis_design">
+    <section class="proof" aria-label="What we commit to">
       <div class="wrap proof-row">
-        <div class="proof-item"><b>2+</b><span>lab products in motion</span></div>
-        <div class="proof-item"><b>8</b><span>roles in analyzthis_design</span></div>
-        <div class="proof-item"><b>28</b><span>reference datasets</span></div>
-        <div class="proof-item"><b>6</b><span>AI hosts for the design team</span></div>
+        <div class="proof-item"><b>1</b><span>partner review, then sign</span></div>
+        <div class="proof-item"><b>3 wks</b><span>calibration before we score</span></div>
+        <div class="proof-item"><b>4</b><span>signals tracked, no surveys</span></div>
+        <div class="proof-item"><b>0</b><span>changes without your approval</span></div>
         <div class="proof-item"><b>MIT</b><span>open-source lab code</span></div>
       </div>
     </section>
@@ -232,6 +230,38 @@
           <article class="pain"><div class="num">01</div><h3>It forgets context</h3><p>Your standards, source material, and prior decisions are repeatedly pasted—or simply lost.</p></article>
           <article class="pain"><div class="num">02</div><h3>It agrees too easily</h3><p>One model produces and approves its own work. Weak assumptions survive because nobody is assigned to object.</p></article>
           <article class="pain"><div class="num">03</div><h3>It never owns quality</h3><p>There is no role-based gate, outcome history, or structured learning loop tied to your definition of done.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="measure">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">How we measure success</span>
+          <h2>We score the <span class="accent">handoff,</span> not the chat.</h2>
+          <p class="lede">A partner, doctor, or owner was going to review the work anyway. That review is the measurement. We do not ask the firm to fill a weekly scorecard.</p>
+        </div>
+        <div class="signals">
+          <article class="card" style="--tag:var(--green)"><span class="card-tag">Opened</span><h3>Was it opened at all?</h3><p>If the packet is never opened, the team is already dead. Abandonment is the churn signal nobody tracks.</p></article>
+          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Changed</span><h3>How much did they change?</h3><p>Accepted as-is, light edit, heavy rewrite, or discarded. That is first-pass quality, and it needs no survey.</p></article>
+          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Review time</span><h3>How long did review take?</h3><p>Not how long the work took to prepare — how long the human spent. That is the number that converts to money.</p></article>
+          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Repeat</span><h3>Did it run again?</h3><p>Monthly filing, weekly submission, daily list. If cycle four still runs, it works.</p></article>
+        </div>
+        <div class="blueprint contract" aria-label="Example team contract">
+          <div class="blueprint-head"><span>Team contract / example</span><span>Signed at discovery</span></div>
+          <div class="blueprint-body">
+            <div class="contract-row"><b>Workflow</b><span>Monthly GST filing prep</span></div>
+            <div class="contract-row"><b>Owns</b><span>Books organisation, missing-doc chase, packet assembly</span></div>
+            <div class="contract-row"><b>Does not own</b><span>Filing, client advice, sign-off</span></div>
+            <div class="contract-row"><b>Good looks like</b><span>Partner signs in one review. No document found missing after review.</span></div>
+            <div class="contract-row"><b>Fails when</b><span>A missing invoice is discovered post-review, or the filing date slips</span></div>
+            <div class="contract-row"><b>Reviewed by</b><span>Partner, monthly</span></div>
+            <div class="contract-row"><b>We track</b><span>Opened / edit level / review minutes / repeat run</span></div>
+          </div>
+          <div class="connector">Weeks 1–3 are calibration. The team is tuned, not scored.</div>
+        </div>
+        <div class="teams-intro" style="margin-top:24px">
+          <p>We do not grade the team in its first weeks. Everything looks rough, the firm loses nerve, and the account dies before the loop closes. Scoring starts after calibration.</p>
         </div>
       </div>
     </section>
@@ -387,38 +417,6 @@
       </div>
     </section>
 
-    <section class="section" id="measure">
-      <div class="wrap">
-        <div class="section-head">
-          <span class="eyebrow light">How we measure success</span>
-          <h2>We score the <span class="accent">handoff,</span> not the chat.</h2>
-          <p class="lede">A partner, doctor, or owner was going to review the work anyway. That review is the measurement. We do not ask the firm to fill a weekly scorecard.</p>
-        </div>
-        <div class="signals">
-          <article class="card" style="--tag:var(--green)"><span class="card-tag">Opened</span><h3>Was it opened at all?</h3><p>If the packet is never opened, the team is already dead. Abandonment is the churn signal nobody tracks.</p></article>
-          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Changed</span><h3>How much did they change?</h3><p>Accepted as-is, light edit, heavy rewrite, or discarded. That is first-pass quality, and it needs no survey.</p></article>
-          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Review time</span><h3>How long did review take?</h3><p>Not how long the work took to prepare — how long the human spent. That is the number that converts to money.</p></article>
-          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Repeat</span><h3>Did it run again?</h3><p>Monthly filing, weekly submission, daily list. If cycle four still runs, it works.</p></article>
-        </div>
-        <div class="blueprint contract" aria-label="Example team contract">
-          <div class="blueprint-head"><span>Team contract / example</span><span>Signed at discovery</span></div>
-          <div class="blueprint-body">
-            <div class="contract-row"><b>Workflow</b><span>Monthly GST filing prep</span></div>
-            <div class="contract-row"><b>Owns</b><span>Books organisation, missing-doc chase, packet assembly</span></div>
-            <div class="contract-row"><b>Does not own</b><span>Filing, client advice, sign-off</span></div>
-            <div class="contract-row"><b>Good looks like</b><span>Partner signs in one review. No document found missing after review.</span></div>
-            <div class="contract-row"><b>Fails when</b><span>A missing invoice is discovered post-review, or the filing date slips</span></div>
-            <div class="contract-row"><b>Reviewed by</b><span>Partner, monthly</span></div>
-            <div class="contract-row"><b>We track</b><span>Opened / edit level / review minutes / repeat run</span></div>
-          </div>
-          <div class="connector">Weeks 1–3 are calibration. The team is tuned, not scored.</div>
-        </div>
-        <div class="teams-intro" style="margin-top:24px">
-          <p>We do not grade the team in its first weeks. Everything looks rough, the firm loses nerve, and the account dies before the loop closes. Scoring starts after calibration.</p>
-        </div>
-      </div>
-    </section>
-
     <section class="section trust">
       <div class="wrap">
         <div class="section-head"><span class="eyebrow light">Control and trust</span><h2>Automation without <span class="accent">abdication.</span></h2><p class="lede" style="color:#d7d3ca">Lab products ship as plain source with consent-based evolution. Custom teams can follow the same principles.</p></div>
@@ -428,7 +426,6 @@
           <article class="trust-item"><b>Model choice</b><p>Use host models, local Ollama, free endpoints, or selected paid providers based on the task.</p></article>
           <article class="trust-item"><b>Auditable system</b><p>Lab products like analyzthis_design ship readable source with no hidden auto-install behavior.</p></article>
         </div>
-          <div class="privacy-note" style="color:#000"><strong>Website data note:</strong><span>This page makes no background telemetry calls. The inquiry form saves each completed step to Airtable, including unfinished inquiries.</span></div>
       </div>
     </section>
 
@@ -454,7 +451,7 @@
           <span class="eyebrow">Start with the workflow</span>
           <h2>What should your team <span class="accent" style="color:#fff">take off your plate?</span></h2>
           <p class="lede">Tell us about one repeatable workflow. We will use the detail to prepare a focused discovery conversation—not a generic sales call.</p>
-          <div class="privacy-note"><strong>What we collect:</strong><span>Your contact details and workflow answers, saved as you move through the form—even if you leave before the last step. No passwords, client-confidential documents, or sensitive personal data.</span></div>
+          <div class="privacy-note"><strong>What we collect:</strong><span>Contact details and workflow answers, saved as you go—even if you leave before the last step. Form views are counted on our own server; no cookies or third-party trackers.</span></div>
         </div>
         <div class="form-shell">
           <div class="form-head"><strong>Team discovery</strong><span class="progress" id="progress-label">Step 1 of 3</span></div>
@@ -602,6 +599,19 @@
         utmCampaign: params.get("utm_campaign") || ""
       };
     };
+
+    // Count how many visitors actually reach the form. First-party, no cookies, fired once per page view.
+    const countFormView = () => {
+      if (MOCK_MODE || !("IntersectionObserver" in window) || !navigator.sendBeacon) return;
+      const watcher = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        watcher.disconnect();
+        const body = JSON.stringify({ event: "form_view", submittedAt: new Date().toISOString(), ...getTracking() });
+        navigator.sendBeacon(LEAD_ENDPOINT, new Blob([body], { type: "application/json" }));
+      }, { threshold: 0.3 });
+      watcher.observe(document.getElementById("intake"));
+    };
+    countFormView();
 
     const buildPayload = (status, lastStep) => {
       const payload = Object.fromEntries(new FormData(form).entries());
