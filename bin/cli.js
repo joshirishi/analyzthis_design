@@ -33,13 +33,19 @@ Usage:
   welcome    Print getting-started banner for your AI tool (--target)
 
 ── Knowledge bank commands ──────────────────────────────────
-  connect    Register a vault or knowledge folder as a source
-  sync       Read all sources and build the knowledge-bank skill
-  disconnect Remove a source from the registry
-  status     Show connected sources and last sync time
+  connect    Register a vault or knowledge folder as a source (scoped to cwd project)
+  sync       Read this project's sources and build the knowledge-bank skill
+  disconnect Remove a source from this project's registry
+  status     Show this project's sources and last sync time
   collect    Kavi: scan codebase → Obsidian vault → enrich → sync knowledge bank
              (--vault path, --dry-run, --no-enrich, --no-web, --no-discover,
               --web-limit N, --target cursor|claude|codex|grok|windsurf|agents|all)
+
+  Scope flags (connect/sync/disconnect/status):
+  --project <id>   Explicit project id (overrides cwd-derived id)
+  --global         Use the legacy merged pool (config.sources → ~/.claude/skills/...)
+                   instead of per-project scoping. Only use when you want
+                   multiple projects' notes blended together.
 
 ── Design spec commands ─────────────────────────────────────
   spec show      Print design_spec from session state
@@ -61,7 +67,7 @@ Usage:
   feedback list     List feedback entries for this project (--all for every project)
   feedback export   Export rejected + correction JSONL pairs for training
                     (--persona <id>, --all, --output <path>, --include-positive)
-  feedback submit   Opt-in: send anonymized corrections to community store (Supabase)
+  feedback submit   Opt-in: send anonymized corrections to a community store (HTTP endpoint)
                     (--yes skip prompt, --dry-run preview, --all unsent across projects)
   feedback status   Show submit consent, endpoint config, unsent count
   feedback revoke   Revoke opt-in consent for community submit
@@ -175,9 +181,11 @@ Usage:
   npx analyzthis_design connect --vault ~/Documents/MyVault
   npx analyzthis_design connect --vault ~/docs --tags design,brand,product
   npx analyzthis_design connect --vault ~/vault --include Design,Research
-  npx analyzthis_design sync                               # sync to Cursor
-  npx analyzthis_design sync --target all                  # sync to all tools
-  npx analyzthis_design status                             # show sources
+  npx analyzthis_design sync                               # sync to Cursor (project-scoped)
+  npx analyzthis_design sync --target all                  # sync to all tools (project-scoped)
+  npx analyzthis_design sync --global                      # legacy: blend all projects into ~/.claude/skills/
+  npx analyzthis_design status                             # show this project's sources
+  npx analyzthis_design status --global                    # show the legacy merged pool
   npx analyzthis_design disconnect --vault ~/Documents/MyVault
 
   npx analyzthis_design session init                       # start a new session for this repo
@@ -255,6 +263,7 @@ const vaultVal   = getFlag('vault');
 const tagsVal    = getFlag('tags');
 const includeVal = getFlag('include');
 const projectVal = getFlag('project');
+const globalFlag = flags.includes('--global');
 const allFlag    = flags.includes('--all');
 const urlVal     = getFlag('url');
 const queryVal   = getFlag('query');
@@ -352,8 +361,10 @@ switch (cmd) {
     try {
       const tags    = tagsVal    ? tagsVal.split(',').map(t => t.trim())    : [];
       const include = includeVal ? includeVal.split(',').map(t => t.trim()) : [];
-      const abs = connect({ vaultPath: vaultVal, tags, include });
+      const abs = connect({ vaultPath: vaultVal, tags, include, project: projectVal, global: globalFlag });
+      const scopeLabel = globalFlag ? 'global (merged across projects)' : (projectVal || `project derived from ${path.resolve(process.cwd())}`);
       console.log(`\n✅ Connected: ${abs}`);
+      console.log(`   Scope: ${scopeLabel}`);
       if (tags.length)    console.log(`   Tags filter:    ${tags.join(', ')}`);
       if (include.length) console.log(`   Folder filter:  ${include.join(', ')}`);
       console.log(`\n   Run "npx analyzthis_design sync" to build the knowledge bank.\n`);
@@ -369,7 +380,7 @@ switch (cmd) {
       console.error('\n  ✗  --vault is required.  Example: npx analyzthis_design disconnect --vault ~/Documents/MyVault\n');
       process.exit(1);
     }
-    disconnect(vaultVal);
+    disconnect(vaultVal, { project: projectVal, global: globalFlag });
     console.log(`\n🗑  Disconnected: ${path.resolve(vaultVal)}\n`);
     break;
   }
@@ -381,9 +392,10 @@ switch (cmd) {
       console.error(`\n  ✗  Unknown target "${targetVal}". Choose: ${ALL_TARGET_IDS.join(', ')}, all\n`);
       process.exit(1);
     }
-    console.log('\n⏳ Syncing knowledge bank...\n');
+    const scopeLabel = globalFlag ? 'global (merged across projects)' : (projectVal || `project derived from ${path.resolve(process.cwd())}`);
+    console.log(`\n⏳ Syncing knowledge bank (${scopeLabel})...\n`);
     try {
-      const result = sync({ targets });
+      const result = sync({ targets, project: projectVal, global: globalFlag });
       if (result.message) {
         console.log(`  ⚠  ${result.message}\n`);
       } else {
@@ -399,18 +411,22 @@ switch (cmd) {
   }
 
   case 'status': {
-    const cfg = status();
-    if (!cfg.sources || cfg.sources.length === 0) {
-      console.log('\n  No knowledge sources connected.\n  Run: npx analyzthis_design connect --vault /path/to/vault\n');
+    const view = status({ project: projectVal, global: globalFlag });
+    if (!view.sources || view.sources.length === 0) {
+      const scopeHint = view.scope === 'global'
+        ? 'Run: npx analyzthis_design connect --vault /path/to/vault --global'
+        : 'Run: npx analyzthis_design collect (from inside the project) or npx analyzthis_design connect --vault /path/to/vault';
+      console.log(`\n  No knowledge sources connected for this ${view.scope} scope.\n  ${scopeHint}\n`);
     } else {
-      console.log(`\n📚 Knowledge bank sources (${cfg.sources.length}):\n`);
-      for (const s of cfg.sources) {
+      const scopeLabel = view.scope === 'global' ? 'global (merged across projects)' : `project: ${view.projectId}`;
+      console.log(`\n📚 Knowledge bank sources (${view.sources.length}) — ${scopeLabel}:\n`);
+      for (const s of view.sources) {
         console.log(`  • ${s.path}`);
-        if (s.tags.length)    console.log(`    Tags:    ${s.tags.join(', ')}`);
-        if (s.include.length) console.log(`    Folders: ${s.include.join(', ')}`);
+        if (s.tags && s.tags.length)    console.log(`    Tags:    ${s.tags.join(', ')}`);
+        if (s.include && s.include.length) console.log(`    Folders: ${s.include.join(', ')}`);
         console.log(`    Added:   ${s.addedAt}`);
       }
-      if (cfg.lastSync) console.log(`\n  Last sync: ${cfg.lastSync}`);
+      if (view.lastSync) console.log(`\n  Last sync: ${view.lastSync}`);
       console.log('');
     }
     break;

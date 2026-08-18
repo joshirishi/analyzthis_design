@@ -89,7 +89,6 @@ for (const [src, dest] of FILES) {
 // Copy static assets into dist/
 copyDir(path.join(root, 'skills'),   path.join(root, 'dist/skills'));
 copyDir(path.join(root, 'agents'),   path.join(root, 'dist/agents'));
-copyDir(path.join(root, 'supabase'), path.join(root, 'dist/supabase'));
 copyDir(path.join(root, '.github'),  path.join(root, 'dist/.github'));
 fs.copyFileSync(path.join(root, 'README.md'),     path.join(root, 'dist/README.md'));
 fs.copyFileSync(path.join(root, 'HOW-TO-USE.md'), path.join(root, 'dist/HOW-TO-USE.md'));

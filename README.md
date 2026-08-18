@@ -4,6 +4,12 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
+## v2.2 — project-scoped knowledge bank
+
+Knowledge sources are now scoped per project by default. `collect`, `connect`, `sync`, `disconnect`, and `status` operate on the project derived from your current working directory, and the built `knowledge-bank` skill is written into that project's local skills directory (`<project>/.claude/skills/knowledge-bank/SKILL.md`, `<project>/.cursor/skills/...`, etc.). Invoking a skill from one project never reads another project's vaults.
+
+Pass `--global` to opt into the legacy merged behavior (read `config.sources` and write into `~/.claude/skills/...`). Use `--global` only when you deliberately want cross-project blending.
+
 ## v2.0 — chunked execution by default
 
 `npx analyzthis_design run --task "..."` now uses a **frontier planner + cheap chunk models**:
@@ -15,7 +21,7 @@ Install once. Run structured UX critiques, multi-phase ideation, and task-ground
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.1.2 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.2.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -536,12 +542,14 @@ npx analyzthis_design feedback status
 
 **What does NOT get sent:** project paths, repo names, emails, API keys, full source trees.
 
-**Maintainer setup (Supabase):**
+**Maintainer setup (vendor-neutral HTTP endpoint):**
 
-1. Create a Supabase project
-2. Run `supabase/migrations/001_persona_feedback.sql` in the SQL editor
-3. Copy `supabase/feedback-config.example.json` into `~/.analyzthis_design/config.json` under `"feedback"` (or set env vars `ANALYZTHIS_FEEDBACK_URL` + `ANALYZTHIS_FEEDBACK_ANON_KEY`)
-4. View submissions in Supabase Table Editor → `persona_feedback`
+The `feedback submit` client is a plain HTTPS POST with an `apikey` header — it works with any REST endpoint that accepts anonymous inserts, not only Supabase. A reference schema (with row-level security for insert-only anon access) lives in [`supabase/migrations/001_persona_feedback.sql`](./supabase/migrations/001_persona_feedback.sql) in the repo. That folder is **not** shipped in the npm package, so installing `analyzthis_design` does not pull a Supabase-branded folder into `node_modules`.
+
+1. Stand up any HTTP endpoint that accepts anonymous JSON inserts (Supabase with RLS is one option; a small Cloudflare Worker or a self-hosted Postgres + thin API work too).
+2. If you use the reference schema, run `supabase/migrations/001_persona_feedback.sql` in your SQL editor.
+3. Copy the endpoint URL and anon key into `~/.analyzthis_design/config.json` under `"feedback"` (or set env vars `ANALYZTHIS_FEEDBACK_URL` + `ANALYZTHIS_FEEDBACK_ANON_KEY`).
+4. Read submissions from your endpoint's dashboard.
 
 Users can also file GitHub issues via **Persona feedback** template if they prefer not to use CLI submit.
 

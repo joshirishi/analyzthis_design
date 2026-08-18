@@ -1,7 +1,7 @@
 {
   "name": "analyzthis_design",
-  "version": "2.1.2",
-  "description": "8 AI design personas — v2.0 chunked execution with frontier planner + free/cheap chunk models, adversarial deliberation loops, opt-in community feedback, Kavi knowledge collection, DesignSpec producer path, wireframe skills, UX critique, Agent Skills for Cursor, Claude, Codex, Grok, Windsurf. Plain source — no obfuscation, no auto-install.",
+  "version": "2.2.0",
+  "description": "8 AI design personas — v2.2 project-scoped knowledge bank (no cross-project vault entanglement), v2.0 chunked execution with frontier planner + free/cheap chunk models, adversarial deliberation loops, opt-in community feedback, Kavi knowledge collection, DesignSpec producer path, wireframe skills, UX critique, Agent Skills for Cursor, Claude, Codex, Grok, Windsurf. Plain source — no obfuscation, no auto-install.",
   "keywords": [
     "cursor",
     "cursor-skill",
@@ -33,7 +33,6 @@
     "dist/",
     "skills/",
     "agents/",
-    "supabase/",
     ".github/",
     "scripts/validate-csvs.js",
     "README.md",

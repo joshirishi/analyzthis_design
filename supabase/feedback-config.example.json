@@ -1,7 +1,7 @@
 {
   "feedback": {
     "submit_enabled": true,
-    "submit_url": "https://YOUR_PROJECT.supabase.co/rest/v1/persona_feedback",
-    "anon_key": "YOUR_SUPABASE_ANON_KEY"
+    "submit_url": "https://YOUR_FEEDBACK_ENDPOINT/feedback",
+    "anon_key": "YOUR_ANON_KEY"
   }
 }
