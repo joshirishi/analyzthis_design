@@ -83,6 +83,13 @@ Usage:
   research --url <url>       Fetch a URL and append to session web-context.md
   research --query <text>    Search stub (or provider) appended to web-context.md
 
+── MCP server (for any AI IDE: Cursor, Claude Desktop, Lovable, v0, Bolt) ──
+  mcp                       Start the MCP server on stdio (for MCP client config)
+  mcp --configure cursor    Write MCP config to ~/.cursor/mcp.json
+  mcp --configure claude    Write MCP config to Claude Desktop config
+  mcp --configure windsurf   Write MCP config to Windsurf
+  mcp --configure <tool>    Print manual MCP config for any other tool
+
 ── Mood board commands ─────────────────────────────────────
   moodboard create --task <text>   Build a mood board from web + DS references
                                     [--url <url> ...] [--auto]
@@ -749,6 +756,19 @@ switch (cmd) {
     }
     console.error('\n  Unknown moodboard subcommand. Use: create | critique | add | list\n');
     process.exit(1);
+  }
+
+  // ── MCP server ─────────────────────────────────────────────────────────
+
+  case 'mcp': {
+    const mcpServer = require('../lib/mcp-server');
+    const configureTarget = getFlag('configure');
+    if (configureTarget) {
+      mcpServer.writeMcpConfig(configureTarget);
+      break;
+    }
+    mcpServer.startStdioServer();
+    break;
   }
 
   // ── Retrieve-on-demand reference rows ───────────────────────────────────

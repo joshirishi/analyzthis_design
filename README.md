@@ -21,7 +21,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.2.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.3.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -42,6 +42,8 @@ npx analyzthis_design run-unchunked --task "Review invoice approval screen" --pr
 ```
 
 > **Security:** This package publishes **plain source** — no obfuscation, no minification, no dynamic require. Every file in `dist/` is readable and auditable. The `postinstall` script only prints a welcome message; it does **not** write to any AI-agent directories. Skill installation requires an explicit `npx analyzthis_design --target <ide>` command.
+>
+> **MCP (universal):** `npx analyzthis_design mcp` starts a local MCP server with 19 tools (all personas + combination passes + utilities). Auto-configures for Cursor, Claude Desktop, and Windsurf during `--target all` install. For Lovable, v0, Bolt, Replit, ChatGPT: run `npx analyzthis_design mcp --configure <tool>` for a config snippet.
 
 ### Install by target IDE
 
@@ -733,6 +735,13 @@ npx analyzthis_design run --continue --task "..."   # resume host-mode run after
 # CSV validation
 npx analyzthis_design validate    # validate all 28 CSV files against schema.json
 
+# MCP server (for any AI IDE: Cursor, Claude Desktop, Lovable, v0, Bolt, Replit)
+npx analyzthis_design mcp                          # start stdio MCP server
+npx analyzthis_design mcp --configure cursor       # auto-config Cursor
+npx analyzthis_design mcp --configure claude        # auto-config Claude Desktop
+npx analyzthis_design mcp --configure windsurf     # auto-config Windsurf
+npx analyzthis_design mcp --configure <tool>       # print config for any other tool
+
 # Self-evolving team (v1.21)
 npx analyzthis_design evolve --extract [--window N] [--dry-run]
 npx analyzthis_design evolve --apply <patchId> [--dry-run]
@@ -785,6 +794,8 @@ lib/
   chunk-telemetry.js    Per-chunk model quality tracking
   chunk-run.js          Top-level chunked execution coordinator
   reference-pack.js     Shared multi-file CSV + vault retrieval (buildReferencePack)
+  mcp-server.js         MCP server — 19 tools for any MCP-compatible IDE
+  system-prompt.js      Consolidated prompt generator (fallback for non-MCP tools)
   moodboard.js          Mood-board engine: collect web/DS references, tag, deliberate
   dedup.js              Cross-persona redundancy detection
   lessons.js            Self-evolving lessons store (extract/retrieve/inject)
@@ -830,6 +841,16 @@ skills/
 - **Kavi `collect` enrichment:** optional — same keys as above; without keys, draft vault + sync still run
 
 ---
+
+## What's new in v2.3
+
+| Feature | Description |
+|---------|-------------|
+| **MCP server** | `npx analyzthis_design mcp` starts a local MCP server exposing 19 tools — all 8 individual personas + 6 combination passes + 5 utilities. Any MCP-compatible client can discover and call them. |
+| **Auto-configure MCP** | `npx analyzthis_design mcp --configure cursor` (or `claude`, `windsurf`) writes the MCP config automatically. `--target all` now auto-configures MCP during install. |
+| **Universal IDE support** | Cursor, Claude Desktop, Windsurf auto-configured. Lovable, v0, Bolt, Replit, ChatGPT: run `mcp --configure <tool>` for a copy-paste config snippet. |
+| **19 MCP tools** | 8 individual personas (arjun, meera, priya, zara, noor, anuj, raj, kavi) + 6 combination passes (ux-ideator, persona-orchestrator, design-critic, ux-story-gate, design-director, mood-board) + 5 utilities (evolve-check, collect, retrieve, session, system-prompt) |
+| **System prompt fallback** | `analyzthis_system_prompt` tool generates a consolidated prompt for tools that don't support MCP yet |
 
 ## What's new in v2.2
 

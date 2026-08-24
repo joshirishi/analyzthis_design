@@ -43,6 +43,8 @@ const FILES = [
   ['lib/evolve.js',           'dist/lib/evolve.js'],
   ['lib/evolution-metrics.js','dist/lib/evolution-metrics.js'],
   ['lib/reference-pack.js',   'dist/lib/reference-pack.js'],
+  ['lib/system-prompt.js',    'dist/lib/system-prompt.js'],
+  ['lib/mcp-server.js',       'dist/lib/mcp-server.js'],
   ['lib/chunk-models.js',     'dist/lib/chunk-models.js'],
   ['lib/chunk-planner.js',    'dist/lib/chunk-planner.js'],
   ['lib/chunk-router.js',     'dist/lib/chunk-router.js'],
