@@ -93,9 +93,11 @@
     .flow-row small{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
 
     .hosts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .host{background:#fff;border:var(--border);padding:22px;box-shadow:var(--shadow-sm)}
-    .host b{display:block;text-transform:uppercase;margin-bottom:6px}
-    .host p{margin:0;color:var(--muted);font-size:.9rem}
+    .mcp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+    .host,.mcp-tile{background:#fff;border:var(--border);padding:22px;box-shadow:var(--shadow-sm)}
+    .host b,.mcp-tile b{display:block;text-transform:uppercase;margin-bottom:6px}
+    .host p,.mcp-tile p{margin:0;color:var(--muted);font-size:.9rem}
+    .mcp-tile .mcp-count{font:950 1.8rem/1 var(--mono);color:var(--orange);margin-bottom:8px}
 
     .table-wrap{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);overflow:auto}
     table{width:100%;border-collapse:collapse;min-width:640px}
@@ -120,7 +122,7 @@
       .menu-btn{display:grid;place-items:center;margin-left:auto}.nav-row{gap:12px}
       .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
       .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
-      .job,.trust-grid,.personas,.hosts{grid-template-columns:1fr}
+      .job,.trust-grid,.personas,.hosts,.mcp-grid{grid-template-columns:1fr}
       .job-side{border-left:0;border-top:var(--border)}
     }
     @media(max-width:640px){
@@ -142,6 +144,7 @@
         <a href="index.html">Lab</a>
         <a href="#jobs">What you can do</a>
         <a href="#team">Team</a>
+        <a href="#mcp">MCP</a>
         <a href="#run">Run it</a>
         <a href="index.html#intake">Custom team</a>
         <a href="index.html#faq">FAQ</a>
@@ -153,7 +156,7 @@
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.1.2</span>
+        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.3.0</span>
         <h1>A design team you can <span class="accent">install.</span></h1>
         <p class="lede">analyzthis_design is a free npm package. It puts named specialists inside Cursor, Claude, or a similar AI coding tool. They wireframe, critique, argue, and gate the work — so you get a verdict, not a polite paragraph.</p>
         <div class="hero-actions">
@@ -163,7 +166,7 @@
         </div>
         <div class="micro-proof">
           <span>Plain source, no lock-in</span>
-          <span>Works in 6 AI hosts</span>
+          <span>19 MCP tools · 6+ AI hosts</span>
           <span>No API keys required</span>
         </div>
       </div>
@@ -184,6 +187,7 @@
           <a href="#mood">Set visual direction</a>
           <a href="#kavi">Index project knowledge</a>
           <a href="#run">Run without API keys</a>
+          <a href="#mcp">Run from any MCP IDE</a>
           <a href="#evolve">Improve the team</a>
         </nav>
       </div>
@@ -336,19 +340,25 @@ npx analyzthis_design moodboard create \
                 <li>Kavi scans the repo: pages, tokens, components, research, stack.</li>
                 <li>It writes an Obsidian-compatible vault on your machine.</li>
                 <li>Optional: an LLM enriches the notes. Without keys, the draft vault still lands.</li>
-                <li>A knowledge bank is synced into your IDE. Personas read it first.</li>
-                <li>You can also connect an existing vault and sync that instead.</li>
+                <li>The knowledge bank syncs into <strong>this project’s</strong> local skills folder — not a global merge that entangles other vaults.</li>
+                <li>You can connect an existing vault. Use <span class="cmd">--global</span> only when you deliberately want cross-project blending.</li>
               </ol>
               <p class="muted">If you skip Kavi, the team still runs — it just guesses more. Ground first.</p>
             </div>
             <div class="job-side">
               <div class="code-card">
                 <div class="code-head"><span>Once per project</span><span>Terminal</span></div>
-                <pre>npx analyzthis_design collect
+                <pre>npx analyzthis_design collect --target all
+
+# Knowledge bank lands in this project:
+# .cursor/skills/knowledge-bank/SKILL.md
 
 npx analyzthis_design connect \
   --vault ~/Documents/MyVault
-npx analyzthis_design sync --target all</pre>
+npx analyzthis_design sync --target cursor
+
+# Legacy cross-project merge (opt-in only):
+npx analyzthis_design sync --global --target all</pre>
               </div>
             </div>
           </article>
@@ -394,13 +404,16 @@ npx analyzthis_design run-unchunked --continue \
                 <li>Extract lessons from accepted work and confirmed outcomes.</li>
                 <li>The system proposes patches. You see the diff.</li>
                 <li>You accept or reject. The team does not evolve in the dark.</li>
+                <li>After CLI runs, Devi may hint when the team is ready to evolve. Check scores with <span class="cmd">evolve --metrics</span>.</li>
               </ol>
             </div>
             <div class="job-side">
               <div class="code-card">
                 <div class="code-head"><span>Human-reviewed</span><span>Terminal</span></div>
                 <pre>npx analyzthis_design outcome --confirm
-npx analyzthis_design evolve --extract</pre>
+npx analyzthis_design evolve --extract
+npx analyzthis_design evolve --metrics
+npx analyzthis_design evolve --ready</pre>
               </div>
             </div>
           </article>
@@ -414,7 +427,7 @@ npx analyzthis_design evolve --extract</pre>
         <div class="section-head">
           <span class="eyebrow light">The roster</span>
           <h2>One job each. No <span class="accent">“do everything.”</span></h2>
-          <p class="lede">Eight specialists, each with one job. For a full screen, use the orchestrator so they speak in order and Raj only appears when they deadlock. Devi — below — is not a ninth critic; she is the host that voices them when you have no extra API keys.</p>
+          <p class="lede">Eight specialists, each with one job. For a full screen, use the orchestrator so they speak in order. Raj challenges the premise or closes a deadlock. Devi — below — is not a ninth critic; she is the host that voices them when you have no extra API keys.</p>
         </div>
         <div class="personas">
           <article class="persona"><div class="persona-id" style="--agent:var(--cyan)">KV</div><small>/kavi</small><h3>Kavi</h3><p>Knowledge archivist. Scans the repo, builds a vault, fills the knowledge bank. Speaks before opinions form. Not a critic.</p></article>
@@ -424,8 +437,41 @@ npx analyzthis_design evolve --extract</pre>
           <article class="persona"><div class="persona-id" style="--agent:var(--purple)">ZA</div><small>/zara</small><h3>Zara</h3><p>Delight. Exactly one peak moment. Will not “fix contrast” and call it joy. Contrast goes back to Arjun and the design-system gate.</p></article>
           <article class="persona"><div class="persona-id" style="--agent:var(--ink)">NO</div><small>/noor</small><h3>Noor</h3><p>Minimalist IA. Progressive disclosure, one primary action, a ranked information hierarchy that is declared out loud.</p></article>
           <article class="persona"><div class="persona-id" style="--agent:var(--red)">AN</div><small>/anuj</small><h3>Anuj</h3><p>Power-user advocate. Density, bulk actions, keyboard shortcuts. Will not hide expert tools behind a wizard “for simplicity.”</p></article>
-          <article class="persona"><div class="persona-id" style="--agent:var(--yellow);color:#000">RJ</div><small>/raj</small><h3>Raj</h3><p>Arbitrator. Never speaks first. Resolves a stalemate with five ranked product principles after everyone else, including Zara, has gone.</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--yellow);color:#000">RJ</div><small>/raj</small><h3>Raj</h3><p>Arbitrator and premise challenger. Can run first to ask “are we solving the right problem?” When specialists deadlock, he resolves with five ranked product principles — never by summarizing both sides.</p></article>
           <article class="persona host"><div class="persona-id" style="--agent:var(--ink);background:#fff;color:var(--ink)">DV</div><div><small>/devi</small><h3>Devi — the voice of the LLM you’re already using</h3><p>Not a ninth critic. Devi is the host runtime. When you have no extra API keys, the other eight personas write their prompts to a queue and Devi voices each response from the model in your Cursor, Claude, or Codex — the same model you are already chatting with. The team still runs; you just provide the voice.</p><div class="host-flow"><span>8 personas</span><span class="arrow">→</span><span class="dot"></span><span>Devi</span><span class="arrow">→</span><span>your model</span></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mcp">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Universal access</span>
+          <h2>Same team. Any <span class="accent">MCP client.</span></h2>
+          <p class="lede">v2.3 adds a local MCP server — no hosting, no extra API keys. Any MCP-compatible IDE discovers and calls the team as tools. Cursor, Claude Desktop, and Windsurf auto-configure on install. Lovable, v0, Bolt, Replit, and ChatGPT get a copy-paste config snippet.</p>
+        </div>
+        <div class="mcp-grid">
+          <article class="mcp-tile"><div class="mcp-count">8</div><b>Personas</b><p>Arjun, Meera, Priya, Zara, Noor, Anuj, Raj, Kavi — each as its own tool.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">6</div><b>Combination passes</b><p>Orchestrator, design-critic, ux-story-gate, ux-ideator, design-director, mood-board.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">5</div><b>Utilities</b><p>Collect, session, evolve-check, retrieve, system-prompt — for tools without slash commands.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">19</div><b>Total tools</b><p>Runs locally via stdio. Plain JSON-RPC. Zero external dependencies.</p></article>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><span>MCP setup</span><span>Terminal</span></div>
+          <pre># Start the local MCP server
+npx analyzthis_design mcp
+
+# Auto-config for your IDE
+npx analyzthis_design mcp --configure cursor
+npx analyzthis_design mcp --configure claude
+npx analyzthis_design mcp --configure windsurf
+
+# Copy-paste config for other MCP clients
+npx analyzthis_design mcp --configure lovable
+npx analyzthis_design mcp --configure v0
+
+# --target all now installs skills + MCP config together
+npx analyzthis_design --target all --force</pre>
         </div>
       </div>
     </section>
@@ -451,7 +497,12 @@ npx analyzthis_design evolve --extract</pre>
               <tr><td>Full four-persona review</td><td><span class="cmd">/design-critic</span></td><td>Composite score + hierarchy gate</td></tr>
               <tr><td>Check against a PRD</td><td><span class="cmd">/ux-story-gate</span></td><td>Task map, routing, optional browser verify</td></tr>
               <tr><td>Set visual direction</td><td><span class="cmd">/mood-board</span></td><td>Tagged references + team scores</td></tr>
-              <tr><td>Ground the repo</td><td><span class="cmd">/kavi</span></td><td>Vault + knowledge bank</td></tr>
+              <tr><td>Ground the repo</td><td><span class="cmd">/kavi</span></td><td>Vault + project-local knowledge bank</td></tr>
+              <tr><td>Run from any MCP IDE</td><td><span class="cmd">npx analyzthis_design mcp</span></td><td>19 local tools any MCP client can call</td></tr>
+              <tr><td>Auto-config MCP for Cursor</td><td><span class="cmd">mcp --configure cursor</span></td><td>Writes MCP config to your IDE</td></tr>
+              <tr><td>Check if team can evolve</td><td><span class="cmd">evolve --ready</span></td><td>Readiness + per-persona scores</td></tr>
+              <tr><td>See evolution dashboard</td><td><span class="cmd">evolve --metrics</span></td><td>Novice → Expert per persona</td></tr>
+              <tr><td>Legacy global knowledge sync</td><td><span class="cmd">sync --global</span></td><td>Merged cross-project bank (opt-in)</td></tr>
               <tr><td>One specialist’s view</td><td><span class="cmd">/arjun</span> <span class="cmd">/meera</span> <span class="cmd">/priya</span> <span class="cmd">/zara</span></td><td>A single-lens follow-up, after grounding</td></tr>
             </tbody>
           </table>
@@ -467,10 +518,11 @@ npx analyzthis_design evolve --extract</pre>
           <p class="lede">A full critique is a graph, not a chat. The same graph runs from your IDE or from the CLI.</p>
         </div>
         <div class="flow">
+          <article class="flow-row" style="--step:#fff5be"><div class="flow-no">00</div><div><small>Premise</small><h3>Raj may question the framing</h3><p>Before planning starts, the planner can add a premise check: are we solving the right problem? Accepting the task without questioning it is forbidden.</p></div></article>
           <article class="flow-row" style="--step:var(--orange-soft)"><div class="flow-no">01</div><div><small>Intake</small><h3>You name the task</h3><p>A Figma URL, a file, a screenshot, or a sentence. The story gate looks for PRDs and the design system before anyone opines.</p></div></article>
           <article class="flow-row" style="--step:#dfe7ff"><div class="flow-no">02</div><div><small>Route</small><h3>The smallest useful team</h3><p>A mixture-of-experts router picks who speaks. Full chain only when you ask. Extra agents cost coordination, so they must earn a seat.</p></div></article>
-          <article class="flow-row" style="--step:#ffe3e1"><div class="flow-no">03</div><div><small>Deliberate</small><h3>Disagreement is required</h3><p>Specialists object in parallel, cite evidence, and cannot repeat themselves on a re-run. Low satisfaction is the default.</p></div></article>
-          <article class="flow-row" style="--step:#eee3fb"><div class="flow-no">04</div><div><small>Delight last</small><h3>Zara, then Raj if needed</h3><p>Delight is one peak, not a polish pass. Raj never opens. He only closes a structural deadlock.</p></div></article>
+          <article class="flow-row" style="--step:#ffe3e1"><div class="flow-no">03</div><div><small>Deliberate</small><h3>Disagreement is required</h3><p>Specialists object in parallel, cite evidence, and cannot repeat themselves on a re-run. Synthesis picks a winner — not a summary of both sides.</p></div></article>
+          <article class="flow-row" style="--step:#eee3fb"><div class="flow-no">04</div><div><small>Delight + deadlock</small><h3>Zara, then Raj if needed</h3><p>Delight is one peak, not a polish pass. Raj closes structural deadlocks with ranked principles — or challenged the premise in step 00.</p></div></article>
           <article class="flow-row" style="--step:#e2f5e9"><div class="flow-no">05</div><div><small>Gate</small><h3>SHIP / REVISE / BLOCK</h3><p>Design-system, hierarchy, and verify gates do not downgrade. A failed standard is a blocker with a correction, not a suggestion in a footnote.</p></div></article>
         </div>
       </div>
@@ -481,14 +533,15 @@ npx analyzthis_design evolve --extract</pre>
         <div class="section-head">
           <span class="eyebrow light">Where it runs</span>
           <h2>Same team. Different <span class="accent">hosts.</span></h2>
-          <p class="lede">Install once per machine. Skills are plain SKILL.md files. The CLI is the same everywhere. Only the invoke prefix changes.</p>
+          <p class="lede">Install once per machine. Skills are plain SKILL.md files. MCP exposes the same team as 19 tools to any compatible client. Only the invoke prefix changes.</p>
         </div>
         <div class="hosts">
-          <article class="host"><b>Cursor</b><p>Skills in ~/.cursor/skills. Type /getting-started.</p></article>
-          <article class="host"><b>Claude Code</b><p>Skills in ~/.claude/skills. Same slash commands.</p></article>
+          <article class="host"><b>Cursor</b><p>Skills in ~/.cursor/skills. MCP auto-configured on <span class="cmd">--target all</span>. Type /getting-started.</p></article>
+          <article class="host"><b>Claude Code</b><p>Skills in ~/.claude/skills. MCP via <span class="cmd">mcp --configure claude</span>. Same slash commands.</p></article>
           <article class="host"><b>Codex CLI</b><p>Skills in ~/.codex/skills. Reference them from AGENTS.md.</p></article>
           <article class="host"><b>Grok Build</b><p>Skills in ~/.grok/skills. Slash commands.</p></article>
-          <article class="host"><b>Windsurf</b><p>Skills in the Windsurf folder. Invoke with @, not /.</p></article>
+          <article class="host"><b>Windsurf</b><p>Skills in the Windsurf folder. MCP auto-configured. Invoke with @, not /.</p></article>
+          <article class="host"><b>MCP clients</b><p>Lovable, v0, Bolt, Replit, ChatGPT — <span class="cmd">mcp --configure &lt;tool&gt;</span> for a config snippet.</p></article>
           <article class="host"><b>CLI</b><p>npx analyzthis_design run — host-agnostic, with or without keys.</p></article>
         </div>
       </div>
@@ -513,7 +566,7 @@ npx analyzthis_design evolve --extract</pre>
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Install</span>
-          <h2>Three commands. Then <span class="accent">/getting-started.</span></h2>
+          <h2>Five steps. Then <span class="accent">/getting-started.</span></h2>
           <p class="lede">Node.js 16 or newer. An AI coding tool. That is the whole requirement.</p>
         </div>
         <div class="code-card" style="margin-bottom:28px">
@@ -521,18 +574,21 @@ npx analyzthis_design evolve --extract</pre>
           <pre># 1. Install the package
 npm install -g analyzthis_design
 
-# 2. Copy skills into your AI tool (you choose the target)
+# 2. Copy skills + MCP config into your AI tool
 npx analyzthis_design --target cursor
 npx analyzthis_design --target claude
 npx analyzthis_design --target all
 
-# 3. In the project, ground the team once
-npx analyzthis_design collect
+# 3. In the project, ground the team once (project-local bank)
+npx analyzthis_design collect --target all
 
-# 4. In chat
+# 4. Optional — MCP for universal IDE access
+npx analyzthis_design mcp --configure cursor
+
+# 5. In chat
 /getting-started</pre>
         </div>
-        <p class="muted">After a package update, reinstall skills with <span class="cmd">npx analyzthis_design --target all --force</span>. Reprint help anytime with <span class="cmd">npx analyzthis_design welcome</span>.</p>
+        <p class="muted">After a package update, reinstall with <span class="cmd">npx analyzthis_design --target all --force</span> (skills + MCP). Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. Knowledge bank is project-scoped by default — use <span class="cmd">sync --global</span> only for legacy cross-project merge.</p>
       </div>
     </section>
 
@@ -560,7 +616,7 @@ npx analyzthis_design collect
         <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm</a>
         <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <small>analyzthis_design v2.1.2 · MIT</small>
+      <small>analyzthis_design v2.3.0 · MIT</small>
     </div>
   </footer>
 
