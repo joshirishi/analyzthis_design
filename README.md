@@ -21,7 +21,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.2.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.2.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -736,6 +736,8 @@ npx analyzthis_design validate    # validate all 28 CSV files against schema.jso
 # Self-evolving team (v1.21)
 npx analyzthis_design evolve --extract [--window N] [--dry-run]
 npx analyzthis_design evolve --apply <patchId> [--dry-run]
+npx analyzthis_design evolve --metrics [--project id]
+npx analyzthis_design evolve --ready [--project id]
 npx analyzthis_design outcome --infer [--window N]
 npx analyzthis_design outcome --pending
 npx analyzthis_design outcome --confirm --persona <id> --result shipped|revised|blocked|missed
@@ -828,6 +830,17 @@ skills/
 - **Kavi `collect` enrichment:** optional — same keys as above; without keys, draft vault + sync still run
 
 ---
+
+## What's new in v2.2
+
+| Feature | Description |
+|---------|-------------|
+| **Premise challenge** | Planner now evaluates whether the task premise is valid before planning chunks. Can add a `premise_check` chunk (Raj) that runs first and questions "are we solving the right problem?" |
+| **Conflict resolution** | Synthesis must pick a winner when personas disagree — not summarize both sides. Detects disagreements automatically, injects them into the synthesis prompt, and requires a definitive answer with a forward path. |
+| **Raj authority expanded** | Raj can now challenge the task premise (not just arbitrate stalemates). "Accepting the task framing without questioning it" is explicitly forbidden. |
+| **Evolution metrics** | `evolve --metrics` shows a per-persona evolution dashboard (0-100 score, levels: Novice → Expert). `evolve --ready` checks if enough data exists to propose patches. |
+| **Devi evolution check** | After every successful run, Devi prints an evolution readiness hint and asks if the team is ready to evolve. |
+| **Plain source, no obfuscation** | Removed `javascript-obfuscator` entirely. `dist/` is fully auditable plain JavaScript. `postinstall` only prints a message — no auto-install. |
 
 ## What's new in v2.0
 

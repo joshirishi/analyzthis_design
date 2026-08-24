@@ -335,6 +335,23 @@ npx analyzthis_design evolve --extract             # write patch proposals
 npx analyzthis_design evolve --apply <patchId>      # apply after review
 ```
 
+### Check evolution metrics
+
+```bash
+npx analyzthis_design evolve --metrics             # team evolution dashboard
+npx analyzthis_design evolve --ready               # check if enough data to evolve
+```
+
+The dashboard shows a per-persona score (0-100) based on lessons, outcomes, and patches applied. Levels: Novice (0-19) -> Developing (20-39) -> Proficient (40-59) -> Advanced (60-79) -> Expert (80-100).
+
+After every successful run, Devi prints an evolution readiness hint automatically.
+
+### Premise challenge (v2.2)
+
+When you run a critique, the planner now evaluates whether your task framing is valid before planning chunks. If the premise is questionable (e.g., "users don't convert because X is buried" — but maybe they reach X and still don't convert), the planner adds a `premise_check` chunk that Raj runs first. All subsequent persona chunks see the premise assessment.
+
+The synthesis step also explicitly resolves disagreements — if Arjun says SHIP and Meera says REVISE, the synthesis picks a winner with a forward path instead of summarizing both sides.
+
 ### Confirm whether the advice actually shipped
 
 ```bash
@@ -426,6 +443,8 @@ npx analyzthis_design moodboard critique --board <id>
 npx analyzthis_design moodboard add --board <id> --url <url> --tags a,b
 
 # Evolve
+npx analyzthis_design evolve --metrics
+npx analyzthis_design evolve --ready
 npx analyzthis_design evolve --extract --dry-run
 npx analyzthis_design evolve --apply <patchId>
 npx analyzthis_design outcome --confirm --persona arjun --result shipped
