@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Analyzthis Lab — Work that reaches your desk ready to sign</title>
-  <meta name="description" content="Analyzthis Lab prepares the repeat work of small firms so it reaches the partner ready for review. You still sign. We measure whether it was worth it.">
+  <meta name="description" content="A specialist team prepares one repeat packet for your practice. It arrives in the tools you already open. You review and sign. Nothing changes without approval.">
   <meta property="og:title" content="Analyzthis Lab — Work that reaches your desk ready to sign">
-  <meta property="og:description" content="A small team of specialists prepares the work. You review and sign. We measure the handoff, not the chat.">
+  <meta property="og:description" content="Shipped team products plus custom workflow teams. Same method. Different delivery. You still sign.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#c93800">
   <style>
@@ -45,10 +45,30 @@
     .menu-btn{display:none;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer}
 
     /* Hero */
-    .hero{padding:120px 0 72px;border-bottom:var(--border);position:relative;overflow:hidden}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
-    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:56px}.hero h1{font-size:clamp(2.75rem,5vw,4.5rem);text-transform:uppercase;margin:20px 0 22px}
-    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}.micro-proof{display:flex;gap:16px 26px;flex-wrap:wrap;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
+    .hero{padding:120px 0 72px;border-bottom:var(--border);position:relative}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:start;gap:56px;min-width:0}.hero-grid > *{min-width:0}.hero h1{font-size:clamp(2.75rem,5vw,4.5rem);text-transform:uppercase;margin:20px 0 22px}
+    .hero-actions{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:28px}
+    .hero-alt{margin:0;font-weight:800;font-size:.95rem;color:var(--muted)}
+    .hero-alt a{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+    .hero-alt a:hover{color:var(--ink)}
+    .micro-proof{display:flex;flex-direction:column;gap:10px;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
     .micro-proof span:before{content:"✓";color:var(--green);font-weight:950;margin-right:7px}
+    .packet-split{display:grid;grid-template-columns:1fr 1fr}
+    .packet-col{padding:16px}.packet-col + .packet-col{border-left:2px solid var(--line)}
+    .packet-col h3{font-size:.78rem;margin:0 0 10px}.packet-col ul{list-style:none;padding:0;margin:0}
+    .packet-col li{padding:7px 0;border-bottom:1px solid var(--soft);font-size:.88rem}.packet-col li:last-child{border:0}
+    .packet-step{display:flex;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--soft);font-size:.88rem}
+    .packet-step:last-child{border:0}
+    .packet-n{width:26px;height:26px;flex-shrink:0;display:grid;place-items:center;border:2px solid var(--ink);background:var(--orange);color:#fff;font:900 .68rem var(--mono)}
+    .packet-ban{padding:14px 16px;background:#fff3f2;border-top:2px solid var(--line)}
+    .packet-ban b{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--red);margin-bottom:4px}
+    .packet-ban span{color:var(--muted);font-size:.88rem}
+    .lab-line{font-size:1.05rem;max-width:46ch;margin:0 0 28px}
+    .product-facts{display:grid;gap:10px;margin:0;padding:14px 0 0;border-top:2px solid var(--line)}
+    .product-facts div{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:start}
+    .product-facts dt{font:800 .68rem var(--mono);text-transform:uppercase;padding-top:2px}
+    .product-facts dd{margin:0;color:var(--muted);font-size:.88rem}
+    .method-pipe{margin-bottom:32px}
     .blueprint{background:#fff;border:var(--border);box-shadow:var(--shadow);position:relative}.blueprint-head{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:12px 16px;font:800 .72rem var(--mono);text-transform:uppercase}
     .blueprint-body{padding:18px}.agent-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:13px;padding:14px 0;border-bottom:2px solid var(--line)}
     .agent-row:last-child{border-bottom:0}.agent-id{width:44px;height:44px;display:grid;place-items:center;background:var(--agent);color:#fff;border:2px solid var(--ink);font-weight:950}
@@ -109,6 +129,9 @@
     .footer small{color:var(--muted)}
 
     /* Narrow desktops: shrink the nav links and use the short CTA label so the row never wraps. */
+    @media(max-width:1100px){
+      .hero-grid{grid-template-columns:1fr;gap:32px}
+    }
     @media(max-width:1080px){
       .nav-links{gap:16px}.nav-links>a{font-size:.74rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
     }
@@ -116,7 +139,7 @@
       .menu-btn{display:grid;place-items:center;margin-left:auto}.nav-row{gap:12px}
       .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
       .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
-      .hero-grid,.service-grid,.intake-grid{grid-template-columns:1fr;gap:42px}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
+      .hero-grid,.service-grid,.intake-grid,.packet-split{grid-template-columns:1fr;gap:42px}.packet-col + .packet-col{border-left:0;border-top:2px solid var(--line)}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
       .cards{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:640px){
@@ -141,34 +164,50 @@
       <div class="nav-links" id="nav-links">
         <a href="#products">Products</a><a href="design.html">Design team</a><a href="#method">Method</a><a href="#measure">Measure</a><a href="#examples">Firms</a><a href="#faq">FAQ</a>
       </div>
-      <a class="btn primary nav-btn" href="#intake"><span class="nav-btn-full">Map my workflow</span><span class="nav-btn-short">Map workflow</span></a>
+      <a class="btn primary nav-btn" href="#intake"><span class="nav-btn-full">Map one workflow</span><span class="nav-btn-short">Map workflow</span></a>
     </div>
   </nav>
 
   <main id="main">
     <header class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <span class="eyebrow"><span class="dot"></span>Analyzthis Lab · Prepared work for small firms</span>
-          <h1>Work that reaches your desk <span class="accent">ready to sign.</span></h1>
-          <p class="lede">A small team of specialists prepares the repeat work of your practice. You review it, change what you must, and you still make the decision.</p>
-          <div class="hero-actions">
-            <a href="#intake" class="btn primary">Map my workflow <span aria-hidden="true">→</span></a>
-            <a href="#products" class="btn">See lab products</a>
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow"><span class="dot"></span>Analyzthis Lab · One workflow. One packet. You sign.</span>
+            <h1>Work that reaches your desk <span class="accent">ready to sign.</span></h1>
+            <p class="lede">A specialist team prepares one repeat packet — books, drawings, visit notes, or POs. It arrives in the tools you already open. A partner reviews and signs. Nothing changes without approval.</p>
+            <div class="hero-actions">
+              <a href="#intake" class="btn primary">Map one workflow <span aria-hidden="true">→</span></a>
+              <p class="hero-alt">Already in Cursor or Claude Code? <a href="design.html#call">See how to call the design team</a></p>
+            </div>
+            <div class="micro-proof" aria-label="How this works">
+              <span>You review. You sign. We do not file, advise, or ship.</span>
+              <span>One workflow first. Smallest useful team.</span>
+              <span>We score the packet: opened, edited, minutes, ran again.</span>
+            </div>
           </div>
-          <div class="micro-proof" aria-label="How this works">
-            <span>You sign, always</span><span>Built for small firms</span><span>Measured, not assumed</span>
+          <aside class="blueprint" aria-label="Example review packet for monthly GST prep">
+            <div class="blueprint-head"><span>Tuesday morning / example</span><span>GST · monthly</span></div>
+            <div class="packet-split">
+              <div class="packet-col">
+                <h3>What we send</h3>
+                <ul>
+                  <li>Monthly GST review packet</li>
+                  <li>12 missing invoices flagged</li>
+                  <li>Ledger mismatches listed</li>
+                  <li>Partner checklist, one page</li>
+                </ul>
+              </div>
+              <div class="packet-col">
+                <h3>What you do</h3>
+                <div class="packet-step"><span class="packet-n">1</span> Open the packet</div>
+                <div class="packet-step"><span class="packet-n">2</span> Edit or accept</div>
+                <div class="packet-step"><span class="packet-n">3</span> Sign</div>
+              </div>
+            </div>
+            <div class="packet-ban"><b>Does not own</b><span>Filing · Client advice · Sign-off</span></div>
+            <div class="connector">Same pattern for drawings, visit notes, and POs</div>
           </div>
-        </div>
-        <div class="blueprint" aria-label="Example team blueprint">
-          <div class="blueprint-head"><span>Team / example</span><span>04 specialists</span></div>
-          <div class="blueprint-body">
-            <div class="agent-row" style="--agent:var(--purple)"><div class="agent-id">01</div><div><strong>Archivist</strong><small>Reads your knowledge and decisions</small></div><span class="agent-state">GROUND</span></div>
-            <div class="agent-row" style="--agent:var(--blue)"><div class="agent-id">02</div><div><strong>Planner</strong><small>Breaks work into accountable steps</small></div><span class="agent-state">PLAN</span></div>
-            <div class="agent-row" style="--agent:var(--red)"><div class="agent-id">03</div><div><strong>Challenger</strong><small>Finds weak assumptions before delivery</small></div><span class="agent-state">DEBATE</span></div>
-            <div class="agent-row" style="--agent:var(--green)"><div class="agent-id">04</div><div><strong>Verifier</strong><small>Checks output against your standard</small></div><span class="agent-state">GATE</span></div>
-          </div>
-          <div class="connector">Shared context → one accountable outcome</div>
         </div>
       </div>
     </header>
@@ -188,23 +227,32 @@
         <div class="section-head">
           <span class="eyebrow light">Lab products</span>
           <h2>Each product is a <span class="accent">focused team.</span></h2>
-          <p class="lede">Analyzthis ships repeatable teams as named products. When your workflow does not fit an existing product, we design a custom team using the same lab architecture.</p>
+          <p class="lede lab-line">Analyzthis Lab = shipped team products + custom workflow teams. Same method. Different delivery.</p>
+          <p class="lede">Pick what is live, what is still in the lab, and what is a mapped service. Do not treat the three as one SKU.</p>
         </div>
         <div class="products">
           <article class="product">
             <div class="product-top">
               <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
-              <span class="product-status live">Shipped</span>
+              <span class="product-status live">Live · MIT</span>
             </div>
-            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. Built for designers, PMs, and developers who already use Cursor, Claude, or a similar AI coding tool.</p>
+            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution.</p>
+            <dl class="product-facts">
+              <div><dt>You get</dt><dd>Commands in your IDE, verdicts, and readable source</dd></div>
+              <div><dt>You need</dt><dd>Cursor, Claude, or a similar AI coding tool</dd></div>
+            </dl>
             <a class="btn primary" href="design.html">Learn more</a>
           </article>
           <article class="product">
             <div class="product-top">
               <div><span class="product-code">analyzthis_product</span><h3>Product workflow team</h3></div>
-              <span class="product-status lab">In the lab</span>
+              <span class="product-status lab">Lab / early access</span>
             </div>
-            <p>Specialist roles for product discovery, PRD shaping, roadmap pressure-testing, and delivery-quality review—built for product managers and builders.</p>
+            <p>Specialist roles for product discovery, PRD shaping, roadmap pressure-testing, and delivery-quality review.</p>
+            <dl class="product-facts">
+              <div><dt>You get</dt><dd>PRD and roadmap review once the roster ships</dd></div>
+              <div><dt>You need</dt><dd>A waitlist conversation — not a download today</dd></div>
+            </dl>
             <a class="btn" href="#intake">Ask about early access</a>
           </article>
           <article class="product">
@@ -212,8 +260,12 @@
               <div><span class="product-code">Custom teams</span><h3>Built for your workflow</h3></div>
               <span class="product-status service">Service</span>
             </div>
-            <p>When your profession needs its own roster, knowledge scope, handoffs, and gates, we map the workflow and design the smallest useful team around it. You do not need an IDE. The team arrives as prepared work in the tools you already open—email, Drive, WhatsApp, or your practice software.</p>
-            <a class="btn primary" href="#intake">Map my workflow <span aria-hidden="true">→</span></a>
+            <p>We map one repeat workflow and design the smallest useful team around it. Packets arrive in the tools you already open.</p>
+            <dl class="product-facts">
+              <div><dt>You get</dt><dd>A mapped roster and packets beside your current tools</dd></div>
+              <div><dt>You need</dt><dd>Discovery first. No IDE required.</dd></div>
+            </dl>
+            <a class="btn primary" href="#intake">Map one workflow <span aria-hidden="true">→</span></a>
           </article>
         </div>
       </div>
@@ -267,12 +319,24 @@
     </section>
 
     <section class="section">
+      <div class="wrap">
+        <div class="blueprint method-pipe" aria-label="How the packet is made">
+          <div class="blueprint-head"><span>How the packet is made</span><span>04 specialists</span></div>
+          <div class="blueprint-body">
+            <div class="agent-row" style="--agent:var(--purple)"><div class="agent-id">01</div><div><strong>Archivist</strong><small>Reads your knowledge and decisions</small></div><span class="agent-state">GROUND</span></div>
+            <div class="agent-row" style="--agent:var(--blue)"><div class="agent-id">02</div><div><strong>Planner</strong><small>Breaks work into accountable steps</small></div><span class="agent-state">PLAN</span></div>
+            <div class="agent-row" style="--agent:var(--red)"><div class="agent-id">03</div><div><strong>Challenger</strong><small>Finds weak assumptions before delivery</small></div><span class="agent-state">DEBATE</span></div>
+            <div class="agent-row" style="--agent:var(--green)"><div class="agent-id">04</div><div><strong>Verifier</strong><small>Checks output against your standard</small></div><span class="agent-state">GATE</span></div>
+          </div>
+          <div class="connector">Shared context → one accountable outcome</div>
+        </div>
+      </div>
       <div class="wrap service-grid">
         <div class="sticky-copy">
           <span class="eyebrow">Our method</span>
           <h2>The lab architecture behind <span class="accent">every product.</span></h2>
           <p class="lede">Whether we are shipping analyzthis_design, building analyzthis_product, or designing a custom team for your workflow, the method stays the same: encode accountability around the task.</p>
-          <a href="#intake" class="btn dark">Map my workflow</a>
+          <a href="#intake" class="btn dark">Map one workflow</a>
         </div>
         <div class="steps">
           <article class="step" style="--step:var(--orange-soft)"><div class="step-no">01</div><div><small>Discover</small><h3>Map the real workflow</h3><p>We identify the repeated task, inputs, expert decisions, tools, failure points, and the outcome that matters.</p></div></article>

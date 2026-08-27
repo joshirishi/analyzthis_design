@@ -93,6 +93,13 @@
     .flow-row small{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
 
     .hosts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .call-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:28px}
+    .call-card{background:#fff;border:var(--border);padding:26px;box-shadow:var(--shadow-sm)}
+    .call-card small{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+    .call-card h3{margin-bottom:10px}
+    .call-card p{color:var(--muted);margin:0 0 14px}
+    .call-card .cmd{margin:2px 0}
+    .call-do{font:800 .78rem var(--mono);background:var(--ink);color:#fff;padding:10px 12px;margin:0}
     .mcp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
     .host,.mcp-tile{background:#fff;border:var(--border);padding:22px;box-shadow:var(--shadow-sm)}
     .host b,.mcp-tile b{display:block;text-transform:uppercase;margin-bottom:6px}
@@ -122,7 +129,7 @@
       .menu-btn{display:grid;place-items:center;margin-left:auto}.nav-row{gap:12px}
       .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
       .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
-      .job,.trust-grid,.personas,.hosts,.mcp-grid{grid-template-columns:1fr}
+      .job,.trust-grid,.personas,.hosts,.call-grid,.mcp-grid{grid-template-columns:1fr}
       .job-side{border-left:0;border-top:var(--border)}
     }
     @media(max-width:640px){
@@ -144,6 +151,7 @@
         <a href="index.html">Lab</a>
         <a href="#jobs">What you can do</a>
         <a href="#team">Team</a>
+        <a href="#call">Call them</a>
         <a href="#mcp">MCP</a>
         <a href="#run">Run it</a>
         <a href="index.html#intake">Custom team</a>
@@ -177,7 +185,7 @@
         <div class="section-head">
           <span class="eyebrow light">Who this is for</span>
           <h2>Built for people who already have an <span class="accent">AI coding tool.</span></h2>
-          <p class="lede">Designers who are understaffed. Developers and PMs who need to design. If you can open Cursor or Claude, you can run this team. You do not need a new app.</p>
+          <p class="lede">Designers who are understaffed. Developers and PMs who need to design. If you can open Cursor or Claude Code, you can run this team. You do not need a new app. Slash commands and MCP are not the same pipe — see <a href="#call" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">how to call them</a>.</p>
         </div>
         <nav class="jump" aria-label="Jump to a job">
           <a href="#wireframe">Wireframe a screen</a>
@@ -187,6 +195,7 @@
           <a href="#mood">Set visual direction</a>
           <a href="#kavi">Index project knowledge</a>
           <a href="#run">Run without API keys</a>
+          <a href="#call">Call a specialist</a>
           <a href="#mcp">Run from any MCP IDE</a>
           <a href="#evolve">Improve the team</a>
         </nav>
@@ -443,12 +452,59 @@ npx analyzthis_design evolve --ready</pre>
       </div>
     </section>
 
+    <section class="section" id="call">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Call them correctly</span>
+          <h2>Slash commands and MCP are <span class="accent">not the same.</span></h2>
+          <p class="lede">The team is one package. How you call a specialist depends on which window you opened. MCP never creates <span class="cmd">/noor</span>. Claude’s slash menu may only show Getting Started even when every skill is already on disk.</p>
+        </div>
+        <div class="call-grid">
+          <article class="call-card">
+            <small>Rank 1 — Cursor</small>
+            <h3>Type the slash name</h3>
+            <p>Skills land in ~/.cursor/skills. The primary action is the command, not the MCP hammer. MCP tools are extra, with different names.</p>
+            <p class="call-do">npx analyzthis_design install --target cursor<br>then type /noor</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 1 — Claude Code</small>
+            <h3>Install, then type /noor anyway</h3>
+            <p>Files go to ~/.claude/skills. Claude often lists only Getting Started. Type the name. <span class="cmd">mcp --configure claude</span> does not wire Claude Code.</p>
+            <p class="call-do">npx analyzthis_design install --target claude<br>then type /noor</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 2 — Claude Desktop</small>
+            <h3>Tools, not slashes</h3>
+            <p>Enable the analyzthis_design MCP server. Call <span class="cmd">analyzthis_noor</span>. Configure writes Desktop only — not Claude Code, not claude.ai.</p>
+            <p class="call-do">npx analyzthis_design mcp --configure claude<br>ask: use the Noor tool</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 3 — Other catalogs</small>
+            <h3>A matching name is not this team</h3>
+            <p>Your host may ship or recommend its own skills. A similar title in a marketplace, built-in list, or another plugin is a different file. This team is the one you installed into your skills folder.</p>
+            <p class="call-do">npx analyzthis_design list --target cursor<br>or --target claude — confirm the names landed</p>
+          </article>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><span>The flag is not a command</span><span>Terminal</span></div>
+          <pre># This fails — the CLI treats the first word as the command
+npx analyzthis_design --target claude
+
+# This copies skills into Claude Code
+npx analyzthis_design install --target claude
+
+# See what landed
+npx analyzthis_design list --target claude</pre>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="mcp">
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Universal access</span>
-          <h2>Same team. Any <span class="accent">MCP client.</span></h2>
-          <p class="lede">v2.3 adds a local MCP server — no hosting, no extra API keys. Any MCP-compatible IDE discovers and calls the team as tools. Cursor, Claude Desktop, and Windsurf auto-configure on install. Lovable, v0, Bolt, Replit, and ChatGPT get a copy-paste config snippet.</p>
+          <h2>Same team. MCP is a <span class="accent">tool list.</span></h2>
+          <p class="lede">The local MCP server exposes 19 tools (analyzthis_noor, not /noor). Cursor and Windsurf get MCP config on skill install. <span class="cmd">mcp --configure claude</span> writes Claude Desktop only. Claude Code needs its own MCP file. Lovable, v0, Bolt, Replit, and ChatGPT get a copy-paste snippet.</p>
         </div>
         <div class="mcp-grid">
           <article class="mcp-tile"><div class="mcp-count">8</div><b>Personas</b><p>Arjun, Meera, Priya, Zara, Noor, Anuj, Raj, Kavi — each as its own tool.</p></article>
@@ -470,8 +526,8 @@ npx analyzthis_design mcp --configure windsurf
 npx analyzthis_design mcp --configure lovable
 npx analyzthis_design mcp --configure v0
 
-# --target all now installs skills + MCP config together
-npx analyzthis_design --target all --force</pre>
+# Skills + MCP config for Cursor / Desktop / Windsurf
+npx analyzthis_design install --target all --force</pre>
         </div>
       </div>
     </section>
@@ -533,11 +589,11 @@ npx analyzthis_design --target all --force</pre>
         <div class="section-head">
           <span class="eyebrow light">Where it runs</span>
           <h2>Same team. Different <span class="accent">hosts.</span></h2>
-          <p class="lede">Install once per machine. Skills are plain SKILL.md files. MCP exposes the same team as 19 tools to any compatible client. Only the invoke prefix changes.</p>
+          <p class="lede">Install once per machine. Skills are plain SKILL.md files. MCP is a separate tool list — it does not fill the slash menu. Only the invoke prefix changes.</p>
         </div>
         <div class="hosts">
-          <article class="host"><b>Cursor</b><p>Skills in ~/.cursor/skills. MCP auto-configured on <span class="cmd">--target all</span>. Type /getting-started.</p></article>
-          <article class="host"><b>Claude Code</b><p>Skills in ~/.claude/skills. MCP via <span class="cmd">mcp --configure claude</span>. Same slash commands.</p></article>
+          <article class="host"><b>Cursor</b><p>Skills in ~/.cursor/skills. Type /noor. MCP is optional extra tools.</p></article>
+          <article class="host"><b>Claude Code</b><p>Skills in ~/.claude/skills. Type /noor even if only Getting Started is listed. Desktop MCP config does not apply here.</p></article>
           <article class="host"><b>Codex CLI</b><p>Skills in ~/.codex/skills. Reference them from AGENTS.md.</p></article>
           <article class="host"><b>Grok Build</b><p>Skills in ~/.grok/skills. Slash commands.</p></article>
           <article class="host"><b>Windsurf</b><p>Skills in the Windsurf folder. MCP auto-configured. Invoke with @, not /.</p></article>
@@ -555,7 +611,7 @@ npx analyzthis_design --target all --force</pre>
         </div>
         <div class="trust-grid">
           <article class="trust-item"><b>MIT license</b><p>Use it, fork it, read every file. The published package is plain source — no obfuscation, no minified surprise.</p></article>
-          <article class="trust-item"><b>Consent-based install</b><p>npm install does not write into your AI folders. Skills land only when you run npx analyzthis_design --target.</p></article>
+          <article class="trust-item"><b>Consent-based install</b><p>npm install does not write into your AI folders. Skills land only when you run npx analyzthis_design install --target.</p></article>
           <article class="trust-item"><b>You still sign</b><p>Assess-only modes and hard gates keep implementation off until you approve. The team prepares. You decide.</p></article>
           <article class="trust-item"><b>No required API bill</b><p>Host mode uses the model you already pay for in Cursor or Claude. Local Ollama and free endpoints are first-class.</p></article>
         </div>
@@ -574,21 +630,24 @@ npx analyzthis_design --target all --force</pre>
           <pre># 1. Install the package
 npm install -g analyzthis_design
 
-# 2. Copy skills + MCP config into your AI tool
-npx analyzthis_design --target cursor
-npx analyzthis_design --target claude
-npx analyzthis_design --target all
+# 2. Copy skills into your AI tool (the word "install" is required)
+npx analyzthis_design install --target cursor
+npx analyzthis_design install --target claude
+npx analyzthis_design install --target all
 
 # 3. In the project, ground the team once (project-local bank)
 npx analyzthis_design collect --target all
 
-# 4. Optional — MCP for universal IDE access
+# 4. Optional — MCP tools (not slash commands)
 npx analyzthis_design mcp --configure cursor
+# Claude Desktop only — not Claude Code:
+npx analyzthis_design mcp --configure claude
 
-# 5. In chat
-/getting-started</pre>
+# 5. In Cursor or Claude Code chat
+/getting-started
+/noor</pre>
         </div>
-        <p class="muted">After a package update, reinstall with <span class="cmd">npx analyzthis_design --target all --force</span> (skills + MCP). Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. Knowledge bank is project-scoped by default — use <span class="cmd">sync --global</span> only for legacy cross-project merge.</p>
+        <p class="muted">After a package update, reinstall with <span class="cmd">npx analyzthis_design install --target all --force</span>. Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. Knowledge bank is project-scoped by default — use <span class="cmd">sync --global</span> only for legacy cross-project merge.</p>
       </div>
     </section>
 
