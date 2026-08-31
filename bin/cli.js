@@ -248,7 +248,13 @@ Docs: https://github.com/rishikeshjoshi/analyzthis_design
 
 // ─── Parse args ──────────────────────────────────────────────────────────────
 
-const [,, cmd, ...flags] = process.argv;
+let [, , cmd, ...flags] = process.argv;
+// Leading flags mean install: `npx analyzthis_design --target claude`
+// Keep --help / -h as help, not install.
+if (cmd && cmd.startsWith('-') && cmd !== '--help' && cmd !== '-h') {
+  flags = [cmd, ...flags];
+  cmd = 'install';
+}
 
 function getFlag(name) {
   // Supports both --flag=value and --flag value

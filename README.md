@@ -21,17 +21,21 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.3.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.3.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
 ## Quick start
 
 ```bash
-# 1. Install the npm package (no auto-install, no obfuscation)
+# 1. Install the CLI globally (optional). Do not run npm install inside a
+#    pnpm/Yarn workspace repo — npm cannot read workspace:* and will fail.
+#    Prefer npx from any folder:
 npm install -g analyzthis_design
 
-# 2. Install slash commands into your IDE (explicit, consent-based)
+# 2. Copy skills + slash commands into your IDE (consent-based)
+npx analyzthis_design install --target all
+# Same thing: a leading --target means install
 npx analyzthis_design --target all
 
 # 3. Run a task in v2.0 chunked mode (free/cheap models)
@@ -41,13 +45,14 @@ npx analyzthis_design run --task "Review invoice approval screen"
 npx analyzthis_design run-unchunked --task "Review invoice approval screen" --provider host
 ```
 
-> **Security:** This package publishes **plain source** — no obfuscation, no minification, no dynamic require. Every file in `dist/` is readable and auditable. The `postinstall` script only prints a welcome message; it does **not** write to any AI-agent directories. Skill installation requires an explicit `npx analyzthis_design --target <ide>` command.
+> **Security:** This package publishes **plain source** — no obfuscation, no minification, no dynamic require. Every file in `dist/` is readable and auditable. The `postinstall` script only prints a welcome message; it does **not** write to any AI-agent directories. Skill installation requires an explicit `npx analyzthis_design install --target <ide>` (or `npx analyzthis_design --target <ide>`).
 >
-> **MCP (universal):** `npx analyzthis_design mcp` starts a local MCP server with 19 tools (all personas + combination passes + utilities). Auto-configures for Cursor, Claude Desktop, and Windsurf during `--target all` install. For Lovable, v0, Bolt, Replit, ChatGPT: run `npx analyzthis_design mcp --configure <tool>` for a config snippet.
+> **MCP (universal):** `npx analyzthis_design mcp` starts a local MCP server with 19 tools (all personas + combination passes + utilities). Auto-configures for Cursor, Claude Desktop, **Claude Code**, and Windsurf during install. For Lovable, v0, Bolt, Replit, ChatGPT: run `npx analyzthis_design mcp --configure <tool>` for a config snippet.
 
 ### Install by target IDE
 
 ```bash
+npx analyzthis_design install --target claude
 npx analyzthis_design --target claude
 npx analyzthis_design --target codex
 npx analyzthis_design --target grok
@@ -55,7 +60,7 @@ npx analyzthis_design --target windsurf
 npx analyzthis_design --target all --force
 ```
 
-**After install:** type `/getting-started` in Cursor or Claude Code (or `@getting-started` in Windsurf). For a complete walkthrough, see [HOW-TO-USE.md](./HOW-TO-USE.md). Re-print CLI help anytime with `npx analyzthis_design welcome`.
+**After install:** type `/noor`, `/arjun`, `/ux-ideator` (or `@` in Windsurf). Claude’s menu may only show Getting Started — type the name anyway. Also `/getting-started`. Walkthrough: [HOW-TO-USE.md](./HOW-TO-USE.md). Re-print help: `npx analyzthis_design welcome`.
 
 | Tool | Skills installed to | Invoke |
 |---|---|---|

@@ -152,6 +152,7 @@
         <a href="#jobs">What you can do</a>
         <a href="#team">Team</a>
         <a href="#call">Call them</a>
+        <a href="#models">Models</a>
         <a href="#mcp">MCP</a>
         <a href="#run">Run it</a>
         <a href="index.html#intake">Custom team</a>
@@ -164,7 +165,7 @@
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.3.0</span>
+        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.3.1</span>
         <h1>A design team you can <span class="accent">install.</span></h1>
         <p class="lede">analyzthis_design is a free npm package. It puts named specialists inside Cursor, Claude, or a similar AI coding tool. They wireframe, critique, argue, and gate the work — so you get a verdict, not a polite paragraph.</p>
         <div class="hero-actions">
@@ -196,6 +197,7 @@
           <a href="#kavi">Index project knowledge</a>
           <a href="#run">Run without API keys</a>
           <a href="#call">Call a specialist</a>
+          <a href="#models">Which model runs</a>
           <a href="#mcp">Run from any MCP IDE</a>
           <a href="#evolve">Improve the team</a>
         </nav>
@@ -375,7 +377,7 @@ npx analyzthis_design sync --global --target all</pre>
           <article class="job" id="run">
             <div class="job-copy">
               <h3>Run the team without paying for extra keys</h3>
-              <p>The CLI can drive the same graph from the terminal. Default v2.0 mode plans on a strong model, then runs small chunks on cheap or free models — including local Ollama. If you set no keys at all, Devi asks your host IDE to voice each specialist.</p>
+              <p>The CLI can drive the same graph from the terminal. Default v2.0 mode plans on a strong model, then runs small chunks on cheap or free models — including local Ollama. If you set no keys at all, Devi asks your host IDE to voice each specialist. Slash commands do not pick a model — <a href="#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">see how models are picked</a>.</p>
               <div class="job-meta"><span>CLI</span><span>run</span><span>/devi</span></div>
               <ol class="job-steps">
                 <li>Start a run with a task in plain language.</li>
@@ -469,13 +471,13 @@ npx analyzthis_design evolve --ready</pre>
           <article class="call-card">
             <small>Rank 1 — Claude Code</small>
             <h3>Install, then type /noor anyway</h3>
-            <p>Files go to ~/.claude/skills. Claude often lists only Getting Started. Type the name. <span class="cmd">mcp --configure claude</span> does not wire Claude Code.</p>
+            <p>Files go to ~/.claude/skills and this repo’s .claude/commands. Claude’s menu may only show Getting Started — type <span class="cmd">/noor</span>. Install also wires Claude Code MCP.</p>
             <p class="call-do">npx analyzthis_design install --target claude<br>then type /noor</p>
           </article>
           <article class="call-card">
             <small>Rank 2 — Claude Desktop</small>
             <h3>Tools, not slashes</h3>
-            <p>Enable the analyzthis_design MCP server. Call <span class="cmd">analyzthis_noor</span>. Configure writes Desktop only — not Claude Code, not claude.ai.</p>
+            <p>Enable the analyzthis_design MCP server. Call <span class="cmd">analyzthis_noor</span>. Configure writes Desktop and Claude Code. claude.ai still needs a connected session.</p>
             <p class="call-do">npx analyzthis_design mcp --configure claude<br>ask: use the Noor tool</p>
           </article>
           <article class="call-card">
@@ -486,15 +488,60 @@ npx analyzthis_design evolve --ready</pre>
           </article>
         </div>
         <div class="code-card">
-          <div class="code-head"><span>The flag is not a command</span><span>Terminal</span></div>
-          <pre># This fails — the CLI treats the first word as the command
+          <div class="code-head"><span>Either form installs</span><span>Terminal</span></div>
+          <pre># Both copy skills into Claude Code
 npx analyzthis_design --target claude
-
-# This copies skills into Claude Code
 npx analyzthis_design install --target claude
 
-# See what landed
+# See what landed, then type /noor
 npx analyzthis_design list --target claude</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="models">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Which model runs</span>
+          <h2>Slash does not pick a <span class="accent">model.</span></h2>
+          <p class="lede">Personas are voices, not brands of LLM. Chat and MCP use the model already in your window. The CLI picks automatically by hardness and budget — not “Noor gets one model, Arjun another.”</p>
+        </div>
+        <div class="call-grid">
+          <article class="call-card">
+            <small>Rank 1 — Chat</small>
+            <h3>Your current IDE model</h3>
+            <p>Type <span class="cmd">/noor</span> or call an MCP tool. Same model that is already answering. Devi is that model speaking as each specialist.</p>
+            <p class="call-do">Type /noor in Cursor or Claude Code</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 1 — CLI default</small>
+            <h3>Strong planner, cheap chunks</h3>
+            <p>A frontier-class planner stays strong on purpose. Each chunk then takes the cheapest capable model you have: local first, then free, then cheap paid if you allow it.</p>
+            <p class="call-do">npx analyzthis_design run --task "Review this screen"</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 2 — No extra keys</small>
+            <h3>Force free, or use the host</h3>
+            <p>No API keys means host mode. Devi fills pending replies in your IDE. <span class="cmd">--budget free</span> keeps chunks on local and free endpoints only.</p>
+            <p class="call-do">run --budget free<br>or run-unchunked --provider host + /devi</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 3 — Safety</small>
+            <h3>Gates stay strong. You can lock one.</h3>
+            <p>Design-system, hierarchy, and verify gates never run on a cheapened model. Hardness is easy / usual / hard — not a favorite LLM per persona. Override with flags or config tiers.</p>
+            <p class="call-do">--provider host --model …<br>or edit ~/.analyzthis_design/config.json</p>
+          </article>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><span>Pick a lane</span><span>Terminal</span></div>
+          <pre># Automatic: strong planner, cheapest capable chunks
+npx analyzthis_design run --task "Review the invoice screen"
+
+# Local and free endpoints only
+npx analyzthis_design run --task "Review the invoice screen" --budget free
+
+# One host model via Devi — full continue steps on #run
+npx analyzthis_design run-unchunked --task "Review the invoice screen" --provider host</pre>
         </div>
       </div>
     </section>
@@ -504,7 +551,7 @@ npx analyzthis_design list --target claude</pre>
         <div class="section-head">
           <span class="eyebrow light">Universal access</span>
           <h2>Same team. MCP is a <span class="accent">tool list.</span></h2>
-          <p class="lede">The local MCP server exposes 19 tools (analyzthis_noor, not /noor). Cursor and Windsurf get MCP config on skill install. <span class="cmd">mcp --configure claude</span> writes Claude Desktop only. Claude Code needs its own MCP file. Lovable, v0, Bolt, Replit, and ChatGPT get a copy-paste snippet.</p>
+          <p class="lede">The local MCP server exposes 19 tools (analyzthis_noor, not /noor). Cursor and Windsurf get MCP config on skill install. <span class="cmd">mcp --configure claude</span> writes Claude Desktop, Claude Code (~/.claude.json), and this repo’s .mcp.json. Lovable, v0, Bolt, Replit, and ChatGPT get a copy-paste snippet.</p>
         </div>
         <div class="mcp-grid">
           <article class="mcp-tile"><div class="mcp-count">8</div><b>Personas</b><p>Arjun, Meera, Priya, Zara, Noor, Anuj, Raj, Kavi — each as its own tool.</p></article>
@@ -627,23 +674,23 @@ npx analyzthis_design install --target all --force</pre>
         </div>
         <div class="code-card" style="margin-bottom:28px">
           <div class="code-head"><span>One-time setup</span><span>Terminal</span></div>
-          <pre># 1. Install the package
+          <pre># 1. Optional global CLI. Do not npm install inside a pnpm/Yarn workspace.
 npm install -g analyzthis_design
 
-# 2. Copy skills into your AI tool (the word "install" is required)
+# 2. Copy skills + project slash commands (either form)
 npx analyzthis_design install --target cursor
-npx analyzthis_design install --target claude
-npx analyzthis_design install --target all
+npx analyzthis_design --target claude
+npx analyzthis_design --target all
 
 # 3. In the project, ground the team once (project-local bank)
 npx analyzthis_design collect --target all
 
 # 4. Optional — MCP tools (not slash commands)
 npx analyzthis_design mcp --configure cursor
-# Claude Desktop only — not Claude Code:
+# Claude Desktop + Claude Code:
 npx analyzthis_design mcp --configure claude
 
-# 5. In Cursor or Claude Code chat
+# 5. In Cursor or Claude Code chat — type the persona name
 /getting-started
 /noor</pre>
         </div>
@@ -675,7 +722,7 @@ npx analyzthis_design mcp --configure claude
         <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm</a>
         <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <small>analyzthis_design v2.3.0 · MIT</small>
+      <small>analyzthis_design v2.3.1 · MIT</small>
     </div>
   </footer>
 

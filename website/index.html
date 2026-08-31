@@ -385,7 +385,7 @@
         </div>
         <div class="cards">
           <article class="card" style="--tag:var(--purple)"><span class="card-tag">Knowledge</span><h3>Scoped project memory</h3><p>Collect source material into a knowledge bank, then give each role only the context relevant to its job.</p></article>
-          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Planning</span><h3>Chunked execution</h3><p>A strong planner decomposes work; smaller steps route to capable local, free, or paid models before synthesis.</p></article>
+          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Planning</span><h3>Chunked execution</h3><p>A strong planner stays strong. Chunks pick cheap local, free, or paid models. Slash commands do not — they use the model already in your chat. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">See how models are picked</a>.</p></article>
           <article class="card" style="--tag:var(--red)"><span class="card-tag">Quality</span><h3>Adversarial review</h3><p>Agents cite specific claims, raise grounded objections, and require evidence before accepting prior work.</p></article>
           <article class="card" style="--tag:var(--green)"><span class="card-tag">Control</span><h3>Hard quality gates</h3><p>Critical checks never downgrade. A failed standard becomes a blocker and an actionable correction.</p></article>
           <article class="card" style="--tag:var(--orange)"><span class="card-tag">Portability</span><h3>Works where you work</h3><p>Slash commands in Cursor, Claude, and similar tools — plus 19 MCP tools for Lovable, v0, Bolt, Replit, and ChatGPT. Custom teams live in the tools your firm already uses.</p></article>
@@ -502,7 +502,7 @@
           <details><summary>Does every workflow need many agents?</summary><p>No. We use the smallest useful team. A narrow process may need two roles and one gate. Extra agents add coordination cost, so every role must earn its place.</p></details>
           <details><summary>Will you replace our current tools?</summary><p>Usually not. The goal is to work inside or alongside the tools your team already trusts. Discovery includes your current software, data boundaries, and deployment constraints.</p></details>
           <details><summary>Do I need Cursor or Claude?</summary><p>Only for lab products such as analyzthis_design. A custom team for a practice does not ask you to install a coding tool. We start from the software you already open.</p></details>
-          <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. Your final setup depends on volume, privacy needs, latency, and required model quality.</p></details>
+          <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. In chat, personas use the model already in Cursor or Claude. Automatic model picking happens only on the CLI <code>run</code> command. Your final setup depends on volume, privacy needs, latency, and required model quality. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">How models are picked</a>.</p></details>
           <details><summary>How do you keep quality under human control?</summary><p>We define assess-only stages, approval gates, explicit verdicts, and human-reviewed evolution. The system can recommend a change; you decide whether it becomes canonical.</p></details>
           <details><summary>What happens after I submit the form?</summary><p>We review the workflow, tools, and desired outcome you describe. If the use case is a fit, the confirmation screen will invite you to book a discovery call.</p></details>
         </div>
@@ -572,7 +572,7 @@
     <div class="wrap footer-row">
       <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
       <div class="footer-links"><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
-      <small>analyzthis_design v2.3.0 · MIT</small>
+      <small>analyzthis_design v2.3.1 · MIT</small>
     </div>
   </footer>
 
