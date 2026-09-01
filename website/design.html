@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>analyzthis_design — What you can do with the open-source design team</title>
-  <meta name="description" content="A free, open-source design team for Cursor, Claude, and similar AI tools. Wireframe, critique, spec, and ship with named specialists — MIT licensed on npm.">
-  <meta property="og:title" content="analyzthis_design — What the design team can do">
-  <meta property="og:description" content="Open-source npm package. Eight specialists. Wireframes, critiques, DesignSpecs, and SHIP / REVISE / BLOCK verdicts inside the AI tool you already use.">
+  <title>analyzthis_design — Your design team. Type the name.</title>
+  <meta name="description" content="A design team inside Cursor or Claude. Type /zara, then /accept and /share. No terminal flags. Free, MIT, on npm.">
+  <meta property="og:title" content="analyzthis_design — Your design team. Type the name.">
+  <meta property="og:description" content="For designers: keep or skip in chat, send a note back. No CLI flags. Eight specialists. SHIP / REVISE / BLOCK.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#c93800">
   <style>
@@ -45,6 +45,24 @@
     .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
     .micro-proof{display:flex;gap:16px 26px;flex-wrap:wrap;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
     .micro-proof span:before{content:"✓";color:var(--green);font-weight:950;margin-right:7px}
+    .hero-cmds{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;align-items:center}
+    .hero-cmds .hint{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--muted);margin-right:4px}
+    .cmd.peak{background:var(--yellow);box-shadow:3px 3px 0 var(--ink)}
+    .hero-alt-links{margin-top:18px;display:flex;flex-wrap:wrap;gap:16px 22px;font:800 .72rem var(--mono);text-transform:uppercase}
+    .hero-alt-links a{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;color:var(--muted)}
+    .hero-alt-links a:hover{color:var(--ink)}
+
+    .designer-path{background:var(--white);border-bottom:var(--border)}
+    .path-table table{min-width:520px}
+    .path-table td:first-child{white-space:normal}
+    .path-table tbody tr.rank-1{background:var(--orange-soft)}
+    .path-table tbody tr.rank-1 td{font-weight:750}
+    .path-install{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:22px}
+    .warn{border:var(--border);background:var(--yellow);padding:22px 24px;box-shadow:var(--shadow-sm)}
+    .warn b{display:block;text-transform:uppercase;margin-bottom:8px;font-size:.85rem}
+    .warn p{margin:0;color:#24231f;font-size:.95rem}
+    .path-more{margin:22px 0 0;font:800 .78rem var(--mono);text-transform:uppercase}
+    .path-more a{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
 
     .jump{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
     .jump a{border:2px solid var(--ink);background:#fff;padding:8px 12px;font:800 .72rem var(--mono);text-transform:uppercase;box-shadow:3px 3px 0 var(--ink)}
@@ -142,12 +160,13 @@
       .menu-btn{display:grid;place-items:center;margin-left:auto}.nav-row{gap:12px}
       .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
       .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
-      .job,.trust-grid,.personas,.hosts,.call-grid,.mcp-grid{grid-template-columns:1fr}
+      .job,.trust-grid,.personas,.hosts,.call-grid,.mcp-grid,.path-install{grid-template-columns:1fr}
       .job-side{border-left:0;border-top:var(--border)}
     }
     @media(max-width:640px){
       .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:120px 0 56px}
       .hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}.hero-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
+      .path-table table{min-width:0}.path-table th,.path-table td{padding:12px 10px}
       .nav-row{gap:8px}.menu-btn{min-width:44px;padding:0 8px;font-size:.68rem}
       .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}
     }
@@ -162,6 +181,7 @@
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
       <div class="nav-links" id="nav-links">
         <a href="index.html">Lab</a>
+        <a href="#designer-path">Designer path</a>
         <a href="#jobs">What you can do</a>
         <a href="#team">Team</a>
         <a href="#whats-new">What's new</a>
@@ -172,29 +192,94 @@
         <a href="index.html#intake">Custom team</a>
         <a href="index.html#faq">FAQ</a>
       </div>
-      <a class="btn primary nav-btn" href="#install"><span class="nav-btn-full">Install the package</span><span class="nav-btn-short">Install</span></a>
+      <a class="btn primary nav-btn" href="#designer-path"><span class="nav-btn-full">Start as a designer</span><span class="nav-btn-short">Start</span></a>
     </div>
   </nav>
 
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.4.1</span>
-        <h1>A design team you can <span class="accent">install.</span></h1>
-        <p class="lede">analyzthis_design is a free npm package. It puts named specialists inside Cursor, Claude, or a similar AI coding tool. They wireframe, critique, argue, and gate the work — so you get a verdict, not a polite paragraph.</p>
+        <span class="eyebrow"><span class="dot"></span>For designers · open source · v2.4.1</span>
+        <h1>Your design team. Type the <span class="accent">name.</span></h1>
+        <p class="lede">Keep or skip in chat. Send a note back. No terminal flags. Named specialists wireframe, critique, and gate the work — so you get a verdict, not a polite paragraph.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#install">Install the package</a>
-          <a class="btn" href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">View on npm <span aria-hidden="true">↗</span></a>
-          <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Read the source <span aria-hidden="true">↗</span></a>
+          <a class="btn primary" href="#designer-path">Start as a designer</a>
+          <a class="btn" href="#install">I already have Cursor — install</a>
+        </div>
+        <div class="hero-cmds" aria-label="What you type">
+          <span class="hint">Type</span>
+          <span class="cmd">/zara</span>
+          <span class="cmd peak">/accept yes</span>
+          <span class="cmd">/share</span>
+          <span class="cmd">/receipt</span>
         </div>
         <div class="micro-proof">
-          <span>Plain source, no lock-in</span>
-          <span>Lite MCP catalog · 6+ AI hosts</span>
-          <span>Type /noor · /accept · /share</span>
-          <span>No API keys required</span>
+          <span>No new app</span>
+          <span>No CLI flags after install</span>
+          <span>You still sign every change</span>
         </div>
+        <p class="hero-alt-links">
+          <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">View on npm</a>
+          <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Read the source</a>
+        </p>
       </div>
     </header>
+
+    <section class="section designer-path" id="designer-path">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Designer path</span>
+          <h2>Four things to type. <span class="accent">Nothing else.</span></h2>
+          <p class="lede">Install once. Then you work in chat. Yes or no. One sentence if no. The long command map stays below for when you already know the job.</p>
+        </div>
+        <div class="table-wrap path-table">
+          <table>
+            <thead>
+              <tr><th>I want to…</th><th>Type this</th><th>What comes back</th></tr>
+            </thead>
+            <tbody>
+              <tr class="rank-1">
+                <td>Get a critique</td>
+                <td><span class="cmd">/zara</span></td>
+                <td>One delight pass — or “speed is the craft”</td>
+              </tr>
+              <tr>
+                <td>Keep or skip that note</td>
+                <td><span class="cmd peak">/accept yes</span> or <span class="cmd">/accept no</span> plus one sentence</td>
+                <td>Saved on your machine. The team can learn.</td>
+              </tr>
+              <tr>
+                <td>Send a correction to the package</td>
+                <td><span class="cmd">/share</span> then yes</td>
+                <td>Redacted preview. GitHub or the package inbox. No folder names.</td>
+              </tr>
+              <tr>
+                <td>See inferred spend</td>
+                <td><span class="cmd">/receipt</span></td>
+                <td>A number. Not a bill. Not a monthly dollar.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="path-install">
+          <div class="code-card">
+            <div class="code-head"><span>One line — any folder</span><span>Terminal</span></div>
+            <pre># Cursor
+npx analyzthis_design@2.4.1 --target cursor --force
+
+# Claude Code
+npx analyzthis_design@2.4.1 --target claude --force
+
+# Then restart the app. Type /zara even if the menu is short.</pre>
+          </div>
+          <aside class="warn">
+            <b>Do not add this to package.json</b>
+            <p>Do not run <span class="cmd">npm install analyzthis_design</span> inside a pnpm or Yarn workspace. That crash is the workspace, not this team. The <span class="cmd">npx</span> line is enough.</p>
+          </aside>
+        </div>
+        <p class="path-more"><a href="#commands">All commands</a> · <a href="#install">Full install</a> · <a href="#wireframe">Wireframe</a> · <a href="#director">Spec and build</a> · <a href="#stories">Review against a PRD</a></p>
+      </div>
+    </section>
 
     <section class="section">
       <div class="wrap">
@@ -204,6 +289,7 @@
           <p class="lede">Designers who are understaffed. Developers and PMs who need to design. If you can open Cursor or Claude Code, you can run this team. You do not need a new app. After a critique, type <span class="cmd">/accept</span> (keep or skip) and <span class="cmd">/share</span> (send a note back). No terminal flags. Slash commands and MCP are not the same pipe — see <a href="#call" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">how to call them</a>.</p>
         </div>
         <nav class="jump" aria-label="Jump to a job">
+          <a href="#designer-path">Designer path</a>
           <a href="#wireframe">Wireframe a screen</a>
           <a href="#director">Design, spec, build</a>
           <a href="#critique">Critique a design</a>
@@ -675,7 +761,7 @@ npx analyzthis_design install --target all --force</pre>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="commands">
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Command map</span>
