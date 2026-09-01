@@ -178,7 +178,7 @@
             <p class="lede">A specialist team prepares one repeat packet — books, drawings, visit notes, or POs. It arrives in the tools you already open. A partner reviews and signs. Nothing changes without approval.</p>
             <div class="hero-actions">
               <a href="#intake" class="btn primary">Map one workflow <span aria-hidden="true">→</span></a>
-              <p class="hero-alt">Already in Cursor or Claude Code? <a href="design.html#call">See how to call the design team</a></p>
+              <p class="hero-alt">Already in Cursor or Claude Code? <a href="design.html#call">See how to call the design team</a> · <a href="design.html#whats-new">What's new in 2.4.0</a></p>
             </div>
             <div class="micro-proof" aria-label="How this works">
               <span>You review. You sign. We do not file, advise, or ship.</span>
@@ -234,14 +234,18 @@
           <article class="product">
             <div class="product-top">
               <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
-              <span class="product-status live">Live · MIT</span>
+              <span class="product-status live">Live · v2.4.0</span>
             </div>
-            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution.</p>
+            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. After install, type /noor — each specialist is independently callable.</p>
             <dl class="product-facts">
               <div><dt>You get</dt><dd>Commands in your IDE, verdicts, and readable source</dd></div>
               <div><dt>You need</dt><dd>Cursor, Claude, or a similar AI coding tool</dd></div>
+              <div><dt>What's new</dt><dd>Lite MCP catalog, inferred receipt, slim skill fronts — same verdict, fewer tokens</dd></div>
             </dl>
-            <a class="btn primary" href="design.html">Learn more</a>
+            <div class="hero-actions" style="margin-top:0;flex-direction:row;flex-wrap:wrap">
+              <a class="btn primary" href="design.html">Learn more</a>
+              <a class="btn" href="design.html#whats-new">Changelog</a>
+            </div>
           </article>
           <article class="product">
             <div class="product-top">
@@ -358,7 +362,7 @@
           <div class="case-copy">
             <h3>One team. Distinct accountability.</h3>
             <p>Kavi grounds the work. Noor and Anuj propose competing information architectures. Arjun audits UX and visual quality. Meera checks business impact. Priya sizes feasibility. Zara protects delight. Raj challenges the premise or arbitrates deadlocks.</p>
-            <p><strong>Output:</strong> structured concepts, DesignSpecs, SHIP / REVISE / BLOCK verdicts, ranked fixes, 19 MCP tools for any IDE, and a human-reviewed evolution loop.</p>
+            <p><strong>Output:</strong> structured concepts, DesignSpecs, SHIP / REVISE / BLOCK verdicts, ranked fixes, a lite MCP catalog for any IDE, and a human-reviewed evolution loop.</p>
             <div class="case-actions">
               <a class="btn primary" href="design.html">Learn more</a>
               <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Inspect the source <span aria-hidden="true">↗</span></a>
@@ -388,7 +392,7 @@
           <article class="card" style="--tag:var(--blue)"><span class="card-tag">Planning</span><h3>Chunked execution</h3><p>A strong planner stays strong. Chunks pick cheap local, free, or paid models. Slash commands do not — they use the model already in your chat. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">See how models are picked</a>.</p></article>
           <article class="card" style="--tag:var(--red)"><span class="card-tag">Quality</span><h3>Adversarial review</h3><p>Agents cite specific claims, raise grounded objections, and require evidence before accepting prior work.</p></article>
           <article class="card" style="--tag:var(--green)"><span class="card-tag">Control</span><h3>Hard quality gates</h3><p>Critical checks never downgrade. A failed standard becomes a blocker and an actionable correction.</p></article>
-          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Portability</span><h3>Works where you work</h3><p>Slash commands in Cursor, Claude, and similar tools — plus 19 MCP tools for Lovable, v0, Bolt, Replit, and ChatGPT. Custom teams live in the tools your firm already uses.</p></article>
+          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Portability</span><h3>Works where you work</h3><p>Slash commands in Cursor, Claude, and similar tools — plus a lite MCP catalog for Lovable, v0, Bolt, Replit, and ChatGPT. Custom teams live in the tools your firm already uses.</p></article>
           <article class="card" style="--tag:var(--cyan)"><span class="card-tag">Learning</span><h3>Human-reviewed evolution</h3><p>Accepted work and confirmed outcomes can suggest lessons, routing changes, and reference updates—never silently.</p></article>
         </div>
       </div>
@@ -501,6 +505,7 @@
           <details><summary>Is this a generic chatbot setup service?</summary><p>No. The unit of design is the workflow: specialist roles, scoped knowledge, handoffs, failure behavior, quality gates, and outcome feedback. A chat interface may be one entry point, but it is not the architecture.</p></details>
           <details><summary>Does every workflow need many agents?</summary><p>No. We use the smallest useful team. A narrow process may need two roles and one gate. Extra agents add coordination cost, so every role must earn its place.</p></details>
           <details><summary>Will you replace our current tools?</summary><p>Usually not. The goal is to work inside or alongside the tools your team already trusts. Discovery includes your current software, data boundaries, and deployment constraints.</p></details>
+          <details><summary>What changed in analyzthis_design 2.4.0?</summary><p>Claude Code and Desktop spend fewer tokens per verdict. MCP defaults to a small router instead of 19 tools (use <code>mcp --catalog full</code> for the old list). Every MCP turn gets an inferred receipt — not a bill. Skills load a short front; retrieve the rest. Knowledge bank is an index, not a dump. Type <code>/receipt</code> or run <code>npx analyzthis_design receipt</code>. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
           <details><summary>Do I need Cursor or Claude?</summary><p>Only for lab products such as analyzthis_design. A custom team for a practice does not ask you to install a coding tool. We start from the software you already open.</p></details>
           <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. In chat, personas use the model already in Cursor or Claude. Automatic model picking happens only on the CLI <code>run</code> command. Your final setup depends on volume, privacy needs, latency, and required model quality. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">How models are picked</a>.</p></details>
           <details><summary>How do you keep quality under human control?</summary><p>We define assess-only stages, approval gates, explicit verdicts, and human-reviewed evolution. The system can recommend a change; you decide whether it becomes canonical.</p></details>
@@ -571,8 +576,8 @@
   <footer class="footer">
     <div class="wrap footer-row">
       <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
-      <div class="footer-links"><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
-      <small>analyzthis_design v2.3.1 · MIT</small>
+      <div class="footer-links"><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="design.html#whats-new">What's new</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
+      <small>analyzthis_design v2.4.0 · MIT</small>
     </div>
   </footer>
 

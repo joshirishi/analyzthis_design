@@ -4,6 +4,33 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
+## v2.4.0 — Claude-path efficiency (1 Sep 2026)
+
+Same SHIP / REVISE / BLOCK. Fewer tokens on Claude Code and Claude Desktop. Not Caveman-speak. Not a proxy.
+
+- **Lite MCP catalog (default):** `analyzthis_design` (router) + `analyzthis_retrieve` + `analyzthis_session` + `analyzthis_receipt`. Old 19-tool list: `ANALYZTHIS_MCP_CATALOG=full` or `npx analyzthis_design mcp --catalog full`.
+- **Receipt:** every MCP result ends with inferred tokens (not a bill). CLI: `npx analyzthis_design receipt`. Slash: `/receipt`.
+- **Slim skill fronts:** Arjun, story-gate, and orchestrator load a short front. Call retrieve (`kind=skill`) for the lens. Personas default to verdict + top 3 + one evidence line; say **expand** for the full schema.
+- **Knowledge bank** is an index. Load one persona slice (`kind=knowledge`, `persona=zara`). Do not inject the whole bank.
+- **Tokens per verdict** prints on `receipt` and CLI `run`.
+- Optional: wrap our stdio MCP through Caveman’s shrink if you already run Caveman. We do not ship a proxy.
+
+## v2.3.1 — independently callable personas (31 Aug 2026)
+
+After install, type `/noor`, `/anuj`, `/arjun`, `/meera`, `/priya`, `/zara`, `/raj`, `/kavi` even if Claude’s slash menu only lists Getting Started.
+
+- `npx analyzthis_design --target claude` is the same as `install --target claude` (leading `--target` used to print “Unknown command”).
+- Install writes project slash commands into `.claude/commands/` and `.cursor/commands/`.
+- `mcp --configure claude` writes Claude Desktop, Claude Code (`~/.claude.json`), and this repo’s `.mcp.json` when you are in a project.
+- Do not `npm install` this package inside a pnpm/Yarn `workspace:*` repo — use `npx … --target` instead.
+- Slash and MCP still use the model already in your chat. CLI `run` still picks a strong planner and cheap chunks.
+
+Website changelog: [analyzthis-lab.vercel.app/design#whats-new](https://analyzthis-lab.vercel.app/design#whats-new)
+
+## v2.3.0 — MCP for any IDE
+
+19 MCP tools (`analyzthis_noor`, not `/noor`). Slash commands and MCP are different pipes. MCP never creates a slash menu entry.
+
 ## v2.2 — project-scoped knowledge bank
 
 Knowledge sources are now scoped per project by default. `collect`, `connect`, `sync`, `disconnect`, and `status` operate on the project derived from your current working directory, and the built `knowledge-bank` skill is written into that project's local skills directory (`<project>/.claude/skills/knowledge-bank/SKILL.md`, `<project>/.cursor/skills/...`, etc.). Invoking a skill from one project never reads another project's vaults.
@@ -21,7 +48,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.3.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.4.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -47,7 +74,7 @@ npx analyzthis_design run-unchunked --task "Review invoice approval screen" --pr
 
 > **Security:** This package publishes **plain source** — no obfuscation, no minification, no dynamic require. Every file in `dist/` is readable and auditable. The `postinstall` script only prints a welcome message; it does **not** write to any AI-agent directories. Skill installation requires an explicit `npx analyzthis_design install --target <ide>` (or `npx analyzthis_design --target <ide>`).
 >
-> **MCP (universal):** `npx analyzthis_design mcp` starts a local MCP server with 19 tools (all personas + combination passes + utilities). Auto-configures for Cursor, Claude Desktop, **Claude Code**, and Windsurf during install. For Lovable, v0, Bolt, Replit, ChatGPT: run `npx analyzthis_design mcp --configure <tool>` for a config snippet.
+> **MCP (universal):** `npx analyzthis_design mcp` starts a local MCP server. Default catalog is **lite** (router + retrieve + session + receipt). Full 19 named tools: `ANALYZTHIS_MCP_CATALOG=full` or `mcp --catalog full`. Auto-configures for Cursor, Claude Desktop, **Claude Code**, and Windsurf during install. For Lovable, v0, Bolt, Replit, ChatGPT: run `npx analyzthis_design mcp --configure <tool>` for a config snippet.
 
 ### Install by target IDE
 
@@ -854,7 +881,7 @@ skills/
 | **MCP server** | `npx analyzthis_design mcp` starts a local MCP server exposing 19 tools — all 8 individual personas + 6 combination passes + 5 utilities. Any MCP-compatible client can discover and call them. |
 | **Auto-configure MCP** | `npx analyzthis_design mcp --configure cursor` (or `claude`, `windsurf`) writes the MCP config automatically. `--target all` now auto-configures MCP during install. |
 | **Universal IDE support** | Cursor, Claude Desktop, Windsurf auto-configured. Lovable, v0, Bolt, Replit, ChatGPT: run `mcp --configure <tool>` for a copy-paste config snippet. |
-| **19 MCP tools** | 8 individual personas (arjun, meera, priya, zara, noor, anuj, raj, kavi) + 6 combination passes (ux-ideator, persona-orchestrator, design-critic, ux-story-gate, design-director, mood-board) + 5 utilities (evolve-check, collect, retrieve, session, system-prompt) |
+| **MCP lite + full** | Default: router (`analyzthis_design`) + retrieve + session + receipt. Full 19 named tools behind `--catalog full`. |
 | **System prompt fallback** | `analyzthis_system_prompt` tool generates a consolidated prompt for tools that don't support MCP yet |
 
 ## What's new in v2.2

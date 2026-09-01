@@ -118,6 +118,19 @@
 
     .cta-band{background:var(--yellow)}.cta-band .lede{margin-bottom:28px}
 
+    .log{border:var(--border);background:#fff;box-shadow:var(--shadow);overflow:hidden}
+    .log-entry{padding:28px 30px;border-bottom:2px solid var(--line)}
+    .log-entry:last-child{border-bottom:0}
+    .log-entry.now{background:var(--orange-soft)}
+    .log-entry header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:14px}
+    .log-entry time{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
+    .log-entry h3{margin:0;font-size:1.2rem}
+    .log-entry ul{margin:0;padding-left:20px;color:#24231f}
+    .log-entry li{margin:8px 0}
+    .log-entry.older{background:#fff}
+    .log-entry.older ul,.log-entry.older p{color:var(--muted)}
+    .log-entry p{margin:0;color:#24231f}
+
     .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}
     .footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}.footer small{color:var(--muted)}
 
@@ -151,6 +164,7 @@
         <a href="index.html">Lab</a>
         <a href="#jobs">What you can do</a>
         <a href="#team">Team</a>
+        <a href="#whats-new">What's new</a>
         <a href="#call">Call them</a>
         <a href="#models">Models</a>
         <a href="#mcp">MCP</a>
@@ -165,7 +179,7 @@
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.3.1</span>
+        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.4.0</span>
         <h1>A design team you can <span class="accent">install.</span></h1>
         <p class="lede">analyzthis_design is a free npm package. It puts named specialists inside Cursor, Claude, or a similar AI coding tool. They wireframe, critique, argue, and gate the work — so you get a verdict, not a polite paragraph.</p>
         <div class="hero-actions">
@@ -175,7 +189,8 @@
         </div>
         <div class="micro-proof">
           <span>Plain source, no lock-in</span>
-          <span>19 MCP tools · 6+ AI hosts</span>
+          <span>Lite MCP catalog · 6+ AI hosts</span>
+          <span>Type /noor after install</span>
           <span>No API keys required</span>
         </div>
       </div>
@@ -196,11 +211,78 @@
           <a href="#mood">Set visual direction</a>
           <a href="#kavi">Index project knowledge</a>
           <a href="#run">Run without API keys</a>
+          <a href="#whats-new">What's new in 2.4.0</a>
           <a href="#call">Call a specialist</a>
           <a href="#models">Which model runs</a>
           <a href="#mcp">Run from any MCP IDE</a>
           <a href="#evolve">Improve the team</a>
         </nav>
+      </div>
+    </section>
+
+    <section class="section" id="whats-new">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Changelog</span>
+          <h2>What's new in <span class="accent">2.4.0.</span></h2>
+          <p class="lede">Same verdict. Fewer tokens on Claude Code and Desktop. Re-run install with <span class="cmd">--force</span> after you update.</p>
+        </div>
+        <div class="log">
+          <article class="log-entry now">
+            <header>
+              <time datetime="2026-09-01">1 Sep 2026</time>
+              <h3>2.4.0 — Claude-path efficiency</h3>
+            </header>
+            <ul>
+              <li><strong>Lite MCP catalog.</strong> Desktop and Code now see a router, retrieve, session, and receipt — not 19 tools. Old list: <span class="cmd">mcp --catalog full</span>.</li>
+              <li><strong>Receipt after every MCP turn.</strong> Inferred tokens, not a bill. Type <span class="cmd">/receipt</span> or run <span class="cmd">npx analyzthis_design receipt</span>.</li>
+              <li><strong>Slim skill fronts.</strong> Arjun and the long workflows load a short front. Retrieve the rest. Default output: verdict + top three + one evidence line. Say expand for the full schema.</li>
+              <li><strong>Knowledge is an index.</strong> Load one persona slice. Do not inject the whole bank.</li>
+              <li><strong>Tokens per verdict</strong> prints on receipt and CLI <span class="cmd">run</span>. We did not make the team speak caveman. We do not ship a proxy. Optional: wrap our MCP through Caveman shrink if you already use it.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-08-31">31 Aug 2026</time>
+              <h3>2.3.1 — Type /noor after install</h3>
+            </header>
+            <ul>
+              <li><strong>Either install command works.</strong> <span class="cmd">npx analyzthis_design --target claude</span> is the same as <span class="cmd">install --target claude</span>. The first form used to say “Unknown command.”</li>
+              <li><strong>Type the specialist name.</strong> After install, type <span class="cmd">/noor</span> <span class="cmd">/anuj</span> <span class="cmd">/arjun</span> <span class="cmd">/meera</span> <span class="cmd">/priya</span> <span class="cmd">/zara</span> <span class="cmd">/raj</span> <span class="cmd">/kavi</span> even if Claude’s menu only lists Getting Started.</li>
+              <li><strong>Project slash files land in this repo.</strong> Install writes <span class="cmd">.claude/commands</span> and <span class="cmd">.cursor/commands</span> so each persona is callable from the folder you are in.</li>
+              <li><strong>Claude MCP covers Code, not only Desktop.</strong> <span class="cmd">mcp --configure claude</span> writes Desktop, Claude Code, and this project’s MCP file when you are in a repo.</li>
+              <li><strong>Do not npm-install this package inside a workspace repo.</strong> If your folder already uses pnpm or Yarn workspaces, run the <span class="cmd">npx … --target</span> command instead. That crash is the workspace, not this team.</li>
+              <li><strong>Models did not change.</strong> Slash and MCP still use the model already in your chat. CLI <span class="cmd">run</span> still picks a strong planner and cheap chunks. See <a href="#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">which model runs</a>.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-08">August 2026</time>
+              <h3>2.3.0 — MCP for any IDE</h3>
+            </header>
+            <ul>
+              <li>19 MCP tools so the same team can run from Lovable, v0, Bolt, Replit, ChatGPT, and similar hosts.</li>
+              <li>Slash commands and MCP are different pipes. MCP never creates <span class="cmd">/noor</span>. See <a href="#call" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">how to call them</a>.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-08">August 2026</time>
+              <h3>2.2 — Project knowledge + stronger review</h3>
+            </header>
+            <ul>
+              <li>Knowledge bank is project-scoped by default. One project’s notes do not leak into another.</li>
+              <li>Premise challenge, conflict resolution, and evolution metrics on the review path.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-07">Earlier</time>
+              <h3>2.0 — Cheap chunks by default</h3>
+            </header>
+            <p><span class="cmd">npx analyzthis_design run</span> plans on a strong model, then runs each chunk on the cheapest capable model you have. Use <span class="cmd">run-unchunked</span> for the older single-pass path.</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -551,13 +633,13 @@ npx analyzthis_design run-unchunked --task "Review the invoice screen" --provide
         <div class="section-head">
           <span class="eyebrow light">Universal access</span>
           <h2>Same team. MCP is a <span class="accent">tool list.</span></h2>
-          <p class="lede">The local MCP server exposes 19 tools (analyzthis_noor, not /noor). Cursor and Windsurf get MCP config on skill install. <span class="cmd">mcp --configure claude</span> writes Claude Desktop, Claude Code (~/.claude.json), and this repo’s .mcp.json. Lovable, v0, Bolt, Replit, and ChatGPT get a copy-paste snippet.</p>
+          <p class="lede">Default MCP catalog is lite: router (analyzthis_design), retrieve, session, receipt. Named tools like analyzthis_noor are still there behind <span class="cmd">mcp --catalog full</span>. Cursor and Windsurf get MCP on skill install. <span class="cmd">mcp --configure claude</span> writes Desktop, Claude Code, and this repo’s .mcp.json. Lovable, v0, Bolt, Replit, and ChatGPT get a snippet.</p>
         </div>
         <div class="mcp-grid">
-          <article class="mcp-tile"><div class="mcp-count">8</div><b>Personas</b><p>Arjun, Meera, Priya, Zara, Noor, Anuj, Raj, Kavi — each as its own tool.</p></article>
-          <article class="mcp-tile"><div class="mcp-count">6</div><b>Combination passes</b><p>Orchestrator, design-critic, ux-story-gate, ux-ideator, design-director, mood-board.</p></article>
-          <article class="mcp-tile"><div class="mcp-count">5</div><b>Utilities</b><p>Collect, session, evolve-check, retrieve, system-prompt — for tools without slash commands.</p></article>
-          <article class="mcp-tile"><div class="mcp-count">19</div><b>Total tools</b><p>Runs locally via stdio. Plain JSON-RPC. Zero external dependencies.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">4</div><b>Lite catalog</b><p>Router, retrieve, session, receipt — the default Desktop and Code list.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">8</div><b>Personas</b><p>Ask the router for Zara, Arjun, Noor, and the rest. Named tools stay behind --catalog full.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">1</div><b>Receipt</b><p>Inferred tokens after each MCP turn. Not a bill. Slash: /receipt.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">0</div><b>Proxy</b><p>Runs locally via stdio. Optional: wrap through Caveman shrink if you already use it.</p></article>
         </div>
         <div class="code-card">
           <div class="code-head"><span>MCP setup</span><span>Terminal</span></div>
@@ -572,6 +654,9 @@ npx analyzthis_design mcp --configure windsurf
 # Copy-paste config for other MCP clients
 npx analyzthis_design mcp --configure lovable
 npx analyzthis_design mcp --configure v0
+
+# Old 19-tool list (escape hatch)
+npx analyzthis_design mcp --catalog full
 
 # Skills + MCP config for Cursor / Desktop / Windsurf
 npx analyzthis_design install --target all --force</pre>
@@ -601,7 +686,8 @@ npx analyzthis_design install --target all --force</pre>
               <tr><td>Check against a PRD</td><td><span class="cmd">/ux-story-gate</span></td><td>Task map, routing, optional browser verify</td></tr>
               <tr><td>Set visual direction</td><td><span class="cmd">/mood-board</span></td><td>Tagged references + team scores</td></tr>
               <tr><td>Ground the repo</td><td><span class="cmd">/kavi</span></td><td>Vault + project-local knowledge bank</td></tr>
-              <tr><td>Run from any MCP IDE</td><td><span class="cmd">npx analyzthis_design mcp</span></td><td>19 local tools any MCP client can call</td></tr>
+              <tr><td>Run from any MCP IDE</td><td><span class="cmd">npx analyzthis_design mcp</span></td><td>Lite catalog: router + retrieve + session + receipt</td></tr>
+              <tr><td>See inferred token spend</td><td><span class="cmd">/receipt</span></td><td>Not a bill. Same as npx analyzthis_design receipt</td></tr>
               <tr><td>Auto-config MCP for Cursor</td><td><span class="cmd">mcp --configure cursor</span></td><td>Writes MCP config to your IDE</td></tr>
               <tr><td>Check if team can evolve</td><td><span class="cmd">evolve --ready</span></td><td>Readiness + per-persona scores</td></tr>
               <tr><td>See evolution dashboard</td><td><span class="cmd">evolve --metrics</span></td><td>Novice → Expert per persona</td></tr>
@@ -640,7 +726,7 @@ npx analyzthis_design install --target all --force</pre>
         </div>
         <div class="hosts">
           <article class="host"><b>Cursor</b><p>Skills in ~/.cursor/skills. Type /noor. MCP is optional extra tools.</p></article>
-          <article class="host"><b>Claude Code</b><p>Skills in ~/.claude/skills. Type /noor even if only Getting Started is listed. Desktop MCP config does not apply here.</p></article>
+          <article class="host"><b>Claude Code</b><p>Skills in ~/.claude/skills. Type /noor even if only Getting Started is listed. MCP configure writes Claude Code as well as Desktop.</p></article>
           <article class="host"><b>Codex CLI</b><p>Skills in ~/.codex/skills. Reference them from AGENTS.md.</p></article>
           <article class="host"><b>Grok Build</b><p>Skills in ~/.grok/skills. Slash commands.</p></article>
           <article class="host"><b>Windsurf</b><p>Skills in the Windsurf folder. MCP auto-configured. Invoke with @, not /.</p></article>
@@ -669,8 +755,8 @@ npx analyzthis_design install --target all --force</pre>
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Install</span>
-          <h2>Five steps. Then <span class="accent">/getting-started.</span></h2>
-          <p class="lede">Node.js 16 or newer. An AI coding tool. That is the whole requirement.</p>
+          <h2>Five steps. Then type <span class="accent">/noor.</span></h2>
+          <p class="lede">Node.js 16 or newer. An AI coding tool. That is the whole requirement. After 2.4.0, type /noor — then /receipt if you want inferred spend.</p>
         </div>
         <div class="code-card" style="margin-bottom:28px">
           <div class="code-head"><span>One-time setup</span><span>Terminal</span></div>
@@ -691,8 +777,8 @@ npx analyzthis_design mcp --configure cursor
 npx analyzthis_design mcp --configure claude
 
 # 5. In Cursor or Claude Code chat — type the persona name
-/getting-started
-/noor</pre>
+/noor
+/receipt</pre>
         </div>
         <p class="muted">After a package update, reinstall with <span class="cmd">npx analyzthis_design install --target all --force</span>. Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. Knowledge bank is project-scoped by default — use <span class="cmd">sync --global</span> only for legacy cross-project merge.</p>
       </div>
@@ -718,11 +804,12 @@ npx analyzthis_design mcp --configure claude
       <div class="footer-links">
         <a href="index.html">Lab</a>
         <a href="design.html" aria-current="page">Design team</a>
+        <a href="#whats-new">What's new</a>
         <a href="index.html#intake">Start inquiry</a>
         <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm</a>
         <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <small>analyzthis_design v2.3.1 · MIT</small>
+      <small>analyzthis_design v2.4.0 · MIT</small>
     </div>
   </footer>
 

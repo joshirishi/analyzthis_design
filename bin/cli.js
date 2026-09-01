@@ -75,6 +75,7 @@ Usage:
 ── Efficiency / cost commands ────────────────────────────────
   metrics             Print the last run's cost metrics (--all for every project)
   cost                Print the last run's $ cost from config.pricing (--all for every project)
+  receipt             Inferred token receipt for host (slash/MCP) turns — not a bill
   export-training     Write accepted-output JSONL pairs for LoRA prep
                       (--persona <id>, --all, --output <path>)
   feedback export     Write rejected + correction JSONL pairs (DPO / negative examples)
@@ -86,9 +87,11 @@ Usage:
 ── MCP server (for any AI IDE: Cursor, Claude Desktop, Lovable, v0, Bolt) ──
   mcp                       Start the MCP server on stdio (for MCP client config)
   mcp --configure cursor    Write MCP config to ~/.cursor/mcp.json
-  mcp --configure claude    Write MCP config to Claude Desktop config
+  mcp --configure claude    Write MCP config to Claude Desktop + Claude Code
   mcp --configure windsurf   Write MCP config to Windsurf
   mcp --configure <tool>    Print manual MCP config for any other tool
+  mcp --catalog lite|full   Lite (default): router + retrieve + session + receipt
+                            full: all 19 named tools. Or ANALYZTHIS_MCP_CATALOG=full
 
 ── Mood board commands ─────────────────────────────────────
   moodboard create --task <text>   Build a mood board from web + DS references
@@ -769,11 +772,12 @@ switch (cmd) {
   case 'mcp': {
     const mcpServer = require('../lib/mcp-server');
     const configureTarget = getFlag('configure');
+    const catalogVal = getFlag('catalog');
     if (configureTarget) {
-      mcpServer.writeMcpConfig(configureTarget);
+      mcpServer.writeMcpConfig(configureTarget, { catalog: catalogVal });
       break;
     }
-    mcpServer.startStdioServer();
+    mcpServer.startStdioServer(catalogVal);
     break;
   }
 
@@ -965,6 +969,8 @@ switch (cmd) {
       console.log(`    objections_raised: ${m.objections_raised ?? 0}`);
       console.log(`    objections_resolved: ${m.objections_resolved ?? 0}`);
       console.log(`    raj_escalations:   ${m.raj_escalations ?? 0}`);
+      console.log(`    host_turns:        ${(m.host_turns || []).length}`);
+      console.log(`    tokens_per_verdict: ${m.tokens_per_verdict ?? 'n/a'}`);
       const d = state.deliberation;
       if (d?.mode) {
         console.log(`    deliberation_mode: ${d.mode}, consensus=${d.consensus_reached}`);
@@ -978,6 +984,12 @@ switch (cmd) {
 
   case 'cost': {
     cost.report({ project: projectVal, all: allFlag });
+    break;
+  }
+
+  case 'receipt': {
+    const receipt = require('../lib/receipt');
+    console.log('\n' + receipt.report({ project: projectVal }) + '\n');
     break;
   }
 

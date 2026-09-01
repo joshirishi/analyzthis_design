@@ -108,7 +108,8 @@ npx analyzthis_design sync --target all
 | Review against PRDs and stories | `/ux-story-gate` | Task map + routing before critique |
 | Set visual direction | `/mood-board` | References + design-system patterns + team deliberation |
 | Index the repo for personas | `/kavi` | Kavi → knowledge bank |
-| Get a single-lens opinion | `/arjun`, `/meera`, `/priya`, `/zara`, `/noor`, `/anuj` | Targeted follow-up |
+| Get a single-lens opinion | `/arjun`, `/meera`, `/priya`, `/zara`, `/noor`, `/anuj` | Targeted follow-up. Default is a short verdict — say expand for the full schema |
+| See inferred token spend | `/receipt` | Not a bill. Same as `npx analyzthis_design receipt` |
 
 **Important:** do not use `/persona-orchestrator` or `/design-critic` when you want wireframes. They are for critique.
 
