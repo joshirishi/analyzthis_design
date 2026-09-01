@@ -53,6 +53,9 @@ const FILES = [
   ['lib/chunk-telemetry.js',  'dist/lib/chunk-telemetry.js'],
   ['lib/chunk-run.js',        'dist/lib/chunk-run.js'],
   ['lib/moodboard.js',        'dist/lib/moodboard.js'],
+  ['lib/receipt.js',          'dist/lib/receipt.js'],
+  ['lib/accept.js',           'dist/lib/accept.js'],
+  ['lib/share.js',            'dist/lib/share.js'],
 ];
 
 const root = path.join(__dirname, '..');

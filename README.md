@@ -4,6 +4,12 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
+## v2.4.1 — `/accept` and `/share` (designer keep / skip / send)
+
+After `/zara` (or any persona), type `/accept yes` or `/accept no` plus one sentence. No CLI flags. Writes keep or skip for **local** evolution. Slash-only notes still count.
+
+To send a correction to the **published** package: `/share` (preview) then `/share yes`. Redacted. Uses the HTTP endpoint if configured; otherwise a GitHub issue on joshirishi/analyzthis_design.
+
 ## v2.4.0 — Claude-path efficiency (1 Sep 2026)
 
 Same SHIP / REVISE / BLOCK. Fewer tokens on Claude Code and Claude Desktop. Not Caveman-speak. Not a proxy.
@@ -48,7 +54,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.4.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.4.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -149,6 +155,9 @@ Invoke critique personas for targeted, already-grounded questions. For **wirefra
 | `/knowledge-bank` | Auto-populated from your connected vault (or from Kavi collect). All personas read this first. |
 | `/design-reference` | CSV reference data (colors, typography, UX guidelines, stacks, …) |
 | `/collect-knowledge` | Alias for `/kavi` |
+| `/accept` | Keep or skip the last persona note (yes / no). Local evolution — no CLI flags. |
+| `/share` | Send a correction to the package (preview, then yes). Redacted. |
+| `/receipt` | Inferred token receipt for this project. Not a bill. |
 
 ---
 
@@ -742,6 +751,10 @@ npx analyzthis_design status
 
 # Session (agentic)
 npx analyzthis_design session init|show|reset [--project id] [--all]
+npx analyzthis_design accept --keep [--persona zara]          # designer keep (slash: /accept yes)
+npx analyzthis_design accept --fix --because "one sentence"   # designer skip (slash: /accept no)
+npx analyzthis_design share                                   # preview notes for the package
+npx analyzthis_design share --send                            # send (slash: /share yes)
 npx analyzthis_design session accept --persona <id> [--reject] [--comment "..."] [--correction "..."] [--rating 1-5] [--tags a,b]
 
 # Persona feedback (v1.16)

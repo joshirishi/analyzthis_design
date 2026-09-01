@@ -313,20 +313,38 @@ Each persona reads the session state, so you do not need to repeat the task.
 
 ## 8. After the run — accept, reject, evolve
 
-### Mark an output accepted
+### Designer path (remember this)
 
-```bash
-npx analyzthis_design session accept --persona arjun
+In chat, after `/zara` or any persona:
+
+```
+/accept yes
 ```
 
-### Reject with correction
+or
+
+```
+/accept no — too much motion on the daily table
+```
+
+No terminal flags. `/accept` writes keep or skip for **local** evolution.
+
+To send a correction to the published package:
+
+```
+/share
+```
+
+Then **yes** if the preview looks right. Redacted — no folder names, emails, or keys.
+
+### CLI (same thing, if you prefer the terminal)
 
 ```bash
-npx analyzthis_design session accept --persona arjun --reject \
-  --comment "Invented tokens not in our DS" \
-  --correction "Use --color-primary and spacing-4 from tokens.css" \
-  --rating 2 --tags invented_tokens,missed_ds
+npx analyzthis_design accept --keep --persona arjun
+npx analyzthis_design accept --fix --persona arjun --because "Invented tokens — use tokens.css"
 ```
+
+The older `session accept` / `feedback record` flags still work.
 
 ### Make the team learn
 

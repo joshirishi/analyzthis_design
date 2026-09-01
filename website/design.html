@@ -179,7 +179,7 @@
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.4.0</span>
+        <span class="eyebrow"><span class="dot"></span>Open source · npm · MIT · v2.4.1</span>
         <h1>A design team you can <span class="accent">install.</span></h1>
         <p class="lede">analyzthis_design is a free npm package. It puts named specialists inside Cursor, Claude, or a similar AI coding tool. They wireframe, critique, argue, and gate the work — so you get a verdict, not a polite paragraph.</p>
         <div class="hero-actions">
@@ -190,7 +190,7 @@
         <div class="micro-proof">
           <span>Plain source, no lock-in</span>
           <span>Lite MCP catalog · 6+ AI hosts</span>
-          <span>Type /noor after install</span>
+          <span>Type /noor · /accept · /share</span>
           <span>No API keys required</span>
         </div>
       </div>
@@ -200,8 +200,8 @@
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Who this is for</span>
-          <h2>Built for people who already have an <span class="accent">AI coding tool.</span></h2>
-          <p class="lede">Designers who are understaffed. Developers and PMs who need to design. If you can open Cursor or Claude Code, you can run this team. You do not need a new app. Slash commands and MCP are not the same pipe — see <a href="#call" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">how to call them</a>.</p>
+          <h2>Built for <span class="accent">designers</span> — and the people who sit next to them.</h2>
+          <p class="lede">Designers who are understaffed. Developers and PMs who need to design. If you can open Cursor or Claude Code, you can run this team. You do not need a new app. After a critique, type <span class="cmd">/accept</span> (keep or skip) and <span class="cmd">/share</span> (send a note back). No terminal flags. Slash commands and MCP are not the same pipe — see <a href="#call" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">how to call them</a>.</p>
         </div>
         <nav class="jump" aria-label="Jump to a job">
           <a href="#wireframe">Wireframe a screen</a>
@@ -211,7 +211,7 @@
           <a href="#mood">Set visual direction</a>
           <a href="#kavi">Index project knowledge</a>
           <a href="#run">Run without API keys</a>
-          <a href="#whats-new">What's new in 2.4.0</a>
+          <a href="#whats-new">What's new in 2.4.1</a>
           <a href="#call">Call a specialist</a>
           <a href="#models">Which model runs</a>
           <a href="#mcp">Run from any MCP IDE</a>
@@ -224,11 +224,22 @@
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Changelog</span>
-          <h2>What's new in <span class="accent">2.4.0.</span></h2>
-          <p class="lede">Same verdict. Fewer tokens on Claude Code and Desktop. Re-run install with <span class="cmd">--force</span> after you update.</p>
+          <h2>What's new in <span class="accent">2.4.1.</span></h2>
+          <p class="lede">Designers keep or skip in chat. Send a correction back to the package. Re-run install with <span class="cmd">--force</span> after you update.</p>
         </div>
         <div class="log">
           <article class="log-entry now">
+            <header>
+              <time datetime="2026-09-01">1 Sep 2026</time>
+              <h3>2.4.1 — /accept and /share</h3>
+            </header>
+            <ul>
+              <li><strong>Keep or skip without flags.</strong> After <span class="cmd">/zara</span> (or any persona), type <span class="cmd">/accept yes</span> or <span class="cmd">/accept no</span> plus one sentence. Local evolution. Slash-only notes still count.</li>
+              <li><strong>Send a note back to the package.</strong> Type <span class="cmd">/share</span>, read the redacted preview, then <span class="cmd">/share yes</span>. No folder names, emails, or keys. GitHub issue if no HTTP inbox is set.</li>
+              <li><strong>Do not npm-install inside a workspace repo.</strong> Same as 2.3.1: use <span class="cmd">npx … --target … --force</span>. The package is not a line in the app’s package.json.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
             <header>
               <time datetime="2026-09-01">1 Sep 2026</time>
               <h3>2.4.0 — Claude-path efficiency</h3>
@@ -493,7 +504,8 @@ npx analyzthis_design run-unchunked --continue \
               <p>After work ships, you can tell the system what landed. It harvests lessons and may propose prompt, reference, or routing patches. Nothing becomes canonical until you review it. Silent self-rewrite is not allowed.</p>
               <div class="job-meta"><span>Learning</span><span>evolve</span><span>outcome</span></div>
               <ol class="job-steps">
-                <li>Mark whether a persona’s output actually shipped.</li>
+                <li>In chat: <span class="cmd">/accept yes</span> or <span class="cmd">/accept no</span> plus one sentence. Optional: <span class="cmd">/share</span> to send a correction to the package.</li>
+                <li>Or in the terminal, mark whether a persona’s output actually shipped.</li>
                 <li>Extract lessons from accepted work and confirmed outcomes.</li>
                 <li>The system proposes patches. You see the diff.</li>
                 <li>You accept or reject. The team does not evolve in the dark.</li>
@@ -503,9 +515,8 @@ npx analyzthis_design run-unchunked --continue \
             <div class="job-side">
               <div class="code-card">
                 <div class="code-head"><span>Human-reviewed</span><span>Terminal</span></div>
-                <pre>npx analyzthis_design outcome --confirm
-npx analyzthis_design evolve --extract
-npx analyzthis_design evolve --metrics
+                <pre>/accept yes
+/share
 npx analyzthis_design evolve --ready</pre>
               </div>
             </div>
@@ -687,6 +698,8 @@ npx analyzthis_design install --target all --force</pre>
               <tr><td>Set visual direction</td><td><span class="cmd">/mood-board</span></td><td>Tagged references + team scores</td></tr>
               <tr><td>Ground the repo</td><td><span class="cmd">/kavi</span></td><td>Vault + project-local knowledge bank</td></tr>
               <tr><td>Run from any MCP IDE</td><td><span class="cmd">npx analyzthis_design mcp</span></td><td>Lite catalog: router + retrieve + session + receipt</td></tr>
+              <tr><td>Keep or skip the last note</td><td><span class="cmd">/accept</span></td><td>Yes or no. Local evolution — no CLI flags</td></tr>
+              <tr><td>Send a correction to the package</td><td><span class="cmd">/share</span></td><td>Preview, then yes. Redacted. GitHub or HTTP</td></tr>
               <tr><td>See inferred token spend</td><td><span class="cmd">/receipt</span></td><td>Not a bill. Same as npx analyzthis_design receipt</td></tr>
               <tr><td>Auto-config MCP for Cursor</td><td><span class="cmd">mcp --configure cursor</span></td><td>Writes MCP config to your IDE</td></tr>
               <tr><td>Check if team can evolve</td><td><span class="cmd">evolve --ready</span></td><td>Readiness + per-persona scores</td></tr>
@@ -756,7 +769,7 @@ npx analyzthis_design install --target all --force</pre>
         <div class="section-head">
           <span class="eyebrow light">Install</span>
           <h2>Five steps. Then type <span class="accent">/noor.</span></h2>
-          <p class="lede">Node.js 16 or newer. An AI coding tool. That is the whole requirement. After 2.4.0, type /noor — then /receipt if you want inferred spend.</p>
+          <p class="lede">Node.js 16 or newer. An AI coding tool. That is the whole requirement. After 2.4.1, type /noor — then /accept and /share. /receipt if you want inferred spend.</p>
         </div>
         <div class="code-card" style="margin-bottom:28px">
           <div class="code-head"><span>One-time setup</span><span>Terminal</span></div>
@@ -778,6 +791,8 @@ npx analyzthis_design mcp --configure claude
 
 # 5. In Cursor or Claude Code chat — type the persona name
 /noor
+/accept
+/share
 /receipt</pre>
         </div>
         <p class="muted">After a package update, reinstall with <span class="cmd">npx analyzthis_design install --target all --force</span>. Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. Knowledge bank is project-scoped by default — use <span class="cmd">sync --global</span> only for legacy cross-project merge.</p>
@@ -809,7 +824,7 @@ npx analyzthis_design mcp --configure claude
         <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm</a>
         <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <small>analyzthis_design v2.4.0 · MIT</small>
+      <small>analyzthis_design v2.4.1 · MIT</small>
     </div>
   </footer>
 

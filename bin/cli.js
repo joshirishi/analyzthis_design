@@ -60,6 +60,10 @@ Usage:
   session accept  Mark a persona's last output accepted, for training export
                   (--persona <id>, optional --reject to unmark)
                   Optional feedback: --comment, --correction, --rating 1-5, --tags a,b
+  accept          Designer keep / skip (same as /accept). --keep or --fix
+                  Optional: --persona, --because "one sentence", --liked (keep, not shipped)
+  share           Designer send-to-package (same as /share). Preview, then --send
+                  Optional: --because "one sentence", --persona
 
 ── Persona feedback commands ─────────────────────────────────
   feedback record   Record unhappiness or a correction for a persona output
@@ -220,6 +224,10 @@ Usage:
   npx analyzthis_design devi respond --run ~/.analyzthis_design/runs/... --step 001-arjun --file out.md
   npx analyzthis_design run-unchunked --task "Review this screen" --provider anthropic
 
+  npx analyzthis_design accept --keep --persona zara
+  npx analyzthis_design accept --fix --persona zara --because "too much motion on the table"
+  npx analyzthis_design share
+  npx analyzthis_design share --send
   npx analyzthis_design session accept --persona arjun
   npx analyzthis_design session accept --persona arjun --reject \\
     --comment "Invented tokens not in our DS" \\
@@ -322,6 +330,11 @@ const budgetVal    = getFlag('budget');
 const sequentialFlag = flags.includes('--sequential');
 const maxChunksVal = getFlag('max-chunks');
 const unchunkedFlag = flags.includes('--unchunked');
+const keepFlag = flags.includes('--keep');
+const fixFlag = flags.includes('--fix') || flags.includes('--no');
+const likedFlag = flags.includes('--liked');
+const becauseVal = getFlag('because');
+const sendFlag = flags.includes('--send');
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 
@@ -990,6 +1003,123 @@ switch (cmd) {
   case 'receipt': {
     const receipt = require('../lib/receipt');
     console.log('\n' + receipt.report({ project: projectVal }) + '\n');
+    break;
+  }
+
+  case 'accept': {
+    const accept = require('../lib/accept');
+    const wantKeep = keepFlag || yesFlag;
+    const wantFix = fixFlag;
+    try {
+      if (wantKeep && wantFix) {
+        console.error('\n  ✗  Use --keep or --fix, not both.\n');
+        process.exit(1);
+      }
+      if (!wantKeep && !wantFix) {
+        const peek = accept.preview({ project: projectVal });
+        console.log('\n  Keep the last note?');
+        console.log('    Yes:  npx analyzthis_design accept --keep' + (peek.persona ? ` --persona ${peek.persona}` : ''));
+        console.log('    No:   npx analyzthis_design accept --fix --because "one sentence"');
+        if (peek.persona) console.log(`  Last persona: ${peek.persona}`);
+        else console.log('  Last persona: not sure — add --persona zara (or arjun, meera, …)');
+        console.log('');
+        break;
+      }
+      if (wantKeep) {
+        const result = accept.keep({
+          project: projectVal,
+          persona: personaVal,
+          comment: commentVal || becauseVal || '',
+          shipped: !likedFlag,
+          note: commentVal || '',
+        });
+        console.log(`\n✅ Kept ${result.persona}'s note.` + (result.shipped ? ' Marked as shipped for evolution.' : ' Saved as liked (not shipped).') + '\n');
+        break;
+      }
+      const result = accept.fix({
+        project: projectVal,
+        persona: personaVal,
+        because: becauseVal || commentVal || '',
+        correction: correctionVal || '',
+        rating: ratingVal,
+        tags: parseFeedbackTags(tagsVal),
+      });
+      console.log(`\n✅ Logged your fix for ${result.persona}. The team can learn from it.\n`);
+    } catch (err) {
+      if (err.code === 'NEED_PERSONA') {
+        console.error('\n  ✗  Which note? Add --persona zara (or arjun, meera, priya, noor, anuj, raj).\n');
+        process.exit(1);
+      }
+      if (err.code === 'NEED_BECAUSE') {
+        console.error('\n  ✗  Add one sentence: --because "what was wrong or what you did instead"\n');
+        process.exit(1);
+      }
+      console.error(`\n  ✗  ${err.message}\n`);
+      process.exit(1);
+    }
+
+    break;
+  }
+
+  case 'share': {
+    const share = require('../lib/share');
+    const acceptMod = require('../lib/accept');
+    const wantSend = sendFlag || yesFlag;
+    (async () => {
+      try {
+        if (!wantSend) {
+          if (becauseVal || commentVal) {
+            acceptMod.fix({
+              project: projectVal,
+              persona: personaVal,
+              because: becauseVal || commentVal,
+              correction: correctionVal || becauseVal || commentVal,
+            });
+          }
+          const peek = share.preview({ project: projectVal, persona: personaVal, all: allFlag });
+          if (!peek.count) {
+            console.log('\n  Nothing to send yet. After a critique: /accept no plus one sentence, then /share.\n');
+            return;
+          }
+          console.log(`\n  Ready to send ${peek.count} note(s) to the package (redacted — no folders, emails, or keys).`);
+          peek.rows.slice(0, 5).forEach((r) => {
+            console.log(`    • ${r.persona}: ${(r.comment || r.correction || '').slice(0, 100)}`);
+          });
+          if (peek.rows.length > 5) console.log(`    … and ${peek.rows.length - 5} more`);
+          console.log(peek.hasHttp ? '  Path: configured HTTP endpoint.' : '  Path: GitHub issue on joshirishi/analyzthis_design.');
+          console.log('  Send?  Run: npx analyzthis_design share --send\n');
+          return;
+        }
+        const result = await share.send({
+          project: projectVal,
+          persona: personaVal,
+          because: becauseVal || commentVal || '',
+          correction: correctionVal || '',
+          all: allFlag,
+        });
+        if (result.via === 'github-link') {
+          console.log(`\n  ${result.message}`);
+          console.log(`  ${result.url}\n`);
+          return;
+        }
+        console.log(`\n✅ ${result.message}` + (result.url ? `\n   ${result.url}` : '') + '\n');
+      } catch (err) {
+        if (err.code === 'NOTHING') {
+          console.error('\n  ✗  Nothing to send yet. /accept no plus one sentence, then /share.\n');
+          process.exit(1);
+        }
+        if (err.code === 'NEED_PERSONA') {
+          console.error('\n  ✗  Which note? Add --persona zara (or arjun, meera, priya, noor, anuj, raj).\n');
+          process.exit(1);
+        }
+        if (err.code === 'NEED_BECAUSE') {
+          console.error('\n  ✗  Add one sentence: --because "what was wrong or what you did instead"\n');
+          process.exit(1);
+        }
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+    })();
     break;
   }
 

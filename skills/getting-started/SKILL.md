@@ -36,6 +36,9 @@ This runs **Kavi** — scans your repo, builds an Obsidian vault, and syncs a **
 | Set visual direction with references + team debate | `/mood-board` | Collect web/DS references, tag, deliberate, converge |
 | Inspect the chunked execution planner | `/chunk-planner` | See how tasks are split into model-routed chunks |
 | Run legacy single-pass orchestrator | `/run-unchunked` | Skip planner overhead for quick single-expert tasks |
+| Keep or skip the last persona note | `/accept` | Yes or no (plus one sentence if no). Local evolution — no CLI flags. |
+| Send a correction to the package | `/share` | Preview, then yes. Redacted. GitHub or HTTP — no CLI flags. |
+| See inferred tokens after a critique | `/receipt` | Not a bill. Not a monthly dollar. |
 | Make the team learn from accepted outputs | `npx analyzthis_design evolve --extract` | Harvests lessons + proposes prompt/reference/router patches |
 | Track whether a persona's advice actually shipped | `npx analyzthis_design outcome --confirm` | Labels outcome: shipped / revised / blocked / missed |
 
