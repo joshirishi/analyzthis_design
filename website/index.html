@@ -99,6 +99,23 @@
     .team-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.team-label{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.team-meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 12px}.team-badge{font:800 .68rem var(--mono);padding:4px 8px;border:2px solid var(--ink);background:var(--paper);text-transform:uppercase}
     .team-workload{color:var(--muted);font-size:.92rem;margin:0 0 4px;line-height:1.5}.team h3{margin:4px 0 0}.team ul{list-style:none;padding:0;margin:18px 0 0;border-top:2px solid var(--line);flex:1}
     .team li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.9rem}.team li:before{content:"→";font-weight:950;color:var(--orange);margin-right:10px}.team-foot{margin-top:18px;padding-top:14px;border-top:2px dashed var(--soft);font-size:.82rem;color:var(--muted)}
+    /* Three doors — paths, not SKUs. Selected door stamps orange (Zara's one moment). */
+    .doors{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .door{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column;gap:14px;transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease}
+    .door h3{margin:0}.door p{color:var(--muted);margin:0;flex:1}
+    .door-kicker{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
+    .door .btn{align-self:flex-start;margin-top:6px}
+    .door[aria-current="true"]{background:var(--orange);color:#fff;transform:translate(4px,4px);box-shadow:none}
+    .door[aria-current="true"] p{color:var(--orange-soft)}.door[aria-current="true"] .door-kicker{color:#fff}
+    .door[aria-current="true"] .btn.primary{background:#fff;color:var(--ink)}
+    .cmd{display:inline-block;font:800 .78rem var(--mono);background:var(--orange-soft);border:2px solid var(--ink);padding:2px 8px;margin:0 2px}
+    .warn{border:var(--border);background:var(--yellow);padding:22px 24px;box-shadow:var(--shadow-sm);margin-top:22px}
+    .warn b{display:block;text-transform:uppercase;margin-bottom:8px;font-size:.85rem}
+    .warn p{margin:0;color:#24231f;font-size:.95rem}
+    .jobs-more{margin:22px 0 0;font:800 .78rem var(--mono);text-transform:uppercase}
+    .jobs-more a{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+    .job-card .cmd{margin-top:14px}
+
     .products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.product{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column;gap:16px}
     .product-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.product-code{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.product p{color:var(--muted);margin:0;flex:1}
     .product-status{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft);text-transform:uppercase}.product-status.live{background:#dff6e8}.product-status.lab{background:#fff5be}.product-status.service{background:#dfe7ff}
@@ -140,13 +157,13 @@
       .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
       .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
       .hero-grid,.service-grid,.intake-grid,.packet-split{grid-template-columns:1fr;gap:42px}.packet-col + .packet-col{border-left:0;border-top:2px solid var(--line)}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
-      .cards{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
+      .cards{grid-template-columns:repeat(2,1fr)}.products,.doors{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:640px){
       .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:120px 0 56px}.hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}
       .nav-row{gap:8px}.menu-btn{min-width:44px;padding:0 8px;font-size:.68rem}
       .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}
-      .proof-row,.pain-grid,.cards,.signals,.teams,.products,.case-grid,.field-grid,.trust-grid{grid-template-columns:1fr}.teams-intro{padding:20px 18px}.proof-item,.pain,.case-copy{border-right:0;border-bottom:2px solid var(--line)}
+      .proof-row,.pain-grid,.cards,.signals,.teams,.products,.doors,.case-grid,.field-grid,.trust-grid{grid-template-columns:1fr}.teams-intro{padding:20px 18px}.proof-item,.pain,.case-copy{border-right:0;border-bottom:2px solid var(--line)}
       .contract-row{grid-template-columns:1fr}
       .proof-item:last-child,.pain:last-child{border-bottom:0}.step{grid-template-columns:52px 1fr;padding:22px 16px}.step-no{width:44px}
       .form-step{padding:22px 16px}.field.full{grid-column:auto}.form-actions{flex-direction:column-reverse}.form-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
@@ -162,7 +179,7 @@
       <a class="nav-brand" href="#main" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="314" height="81"></a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
       <div class="nav-links" id="nav-links">
-        <a href="#products">Products</a><a href="design.html">Design team</a><a href="#method">Method</a><a href="#measure">Measure</a><a href="#examples">Firms</a><a href="#faq">FAQ</a>
+        <a href="#doors">Your path</a><a href="#products">Products</a><a href="design.html">Design team</a><a href="#method">Method</a><a href="#measure">Measure</a><a href="#examples">Firms</a><a href="#faq">FAQ</a>
       </div>
       <a class="btn primary nav-btn" href="#intake"><span class="nav-btn-full">Map one workflow</span><span class="nav-btn-short">Map workflow</span></a>
     </div>
@@ -177,8 +194,8 @@
             <h1>Work that reaches your desk <span class="accent">ready to sign.</span></h1>
             <p class="lede">A specialist team prepares one repeat packet — books, drawings, visit notes, or POs. It arrives in the tools you already open. A partner reviews and signs. Nothing changes without approval.</p>
             <div class="hero-actions">
-              <a href="#intake" class="btn primary">Map one workflow <span aria-hidden="true">→</span></a>
-              <p class="hero-alt">Already in Cursor or Claude Code? <a href="design.html#call">See how to call the design team</a> · <a href="design.html#whats-new">What's new in 2.4.1</a></p>
+              <a href="#doors" class="btn primary">Find your path <span aria-hidden="true">→</span></a>
+              <p class="hero-alt">Already in Cursor or Claude Code? <a href="#doors">The doors are next</a> · <a href="design.html#whats-new">What's new in 2.4.1</a></p>
             </div>
             <div class="micro-proof" aria-label="How this works">
               <span>You review. You sign. We do not file, advise, or ship.</span>
@@ -222,6 +239,77 @@
       </div>
     </section>
 
+    <section class="section" id="doors">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Your path</span>
+          <h2>Built for designers — and the people who <span class="accent">sit next to them.</span></h2>
+          <p class="lede">Pick who you are. Designers get a first-class door. Developers and PMs get three jobs. Firm owners still map one workflow. Nothing here asks you to add a package to your app.</p>
+        </div>
+        <div class="doors">
+          <article class="door" data-door="design">
+            <span class="door-kicker">Designer</span>
+            <h3>I design screens</h3>
+            <p>Type the name. Keep or skip in chat. No terminal flags.</p>
+            <a class="btn primary" href="design.html">Open the design team <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="door" data-door="ship">
+            <span class="door-kicker">Dev / PM</span>
+            <h3>I ship product</h3>
+            <p>No designer on the team. Get a wireframe, a critique, or a check against the PRD.</p>
+            <a class="btn primary" href="#jobs">See three jobs <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="door" data-door="practice">
+            <span class="door-kicker">Firm / owner</span>
+            <h3>I run a practice</h3>
+            <p>We map one repeat workflow. Packets arrive in the tools you already open.</p>
+            <a class="btn primary" href="#intake">Map a workflow <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="jobs" hidden>
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Three jobs</span>
+          <h2>You do not need a <span class="accent">designer on staff.</span></h2>
+          <p class="lede">Install once from the design team page. Then type the command in Cursor or Claude. The team stops at a human decision.</p>
+        </div>
+        <div class="cards">
+          <article class="card job-card">
+            <span class="card-tag">New screen</span>
+            <h3>Wireframe a screen</h3>
+            <p>Two competing sketches before anyone opens Figma or writes code.</p>
+            <span class="cmd">/ux-ideator</span>
+          </article>
+          <article class="card job-card">
+            <span class="card-tag">Review</span>
+            <h3>Critique what shipped</h3>
+            <p>SHIP, REVISE, or BLOCK. Then keep or skip the note.</p>
+            <span class="cmd">/zara</span> <span class="cmd">/accept</span>
+          </article>
+          <article class="card job-card">
+            <span class="card-tag">PRD</span>
+            <h3>Review against a story</h3>
+            <p>Can a real person finish the job, using your PRD — not vibes?</p>
+            <span class="cmd">/ux-story-gate</span>
+          </article>
+        </div>
+        <aside class="warn">
+          <b>Do not add this to package.json</b>
+          <p>Do not run <span class="cmd">npm install analyzthis_design</span> inside a pnpm or Yarn workspace. That crash is the workspace, not this team. Copy the <span class="cmd">npx</span> line on the design team page.</p>
+        </aside>
+        <p class="jobs-more">
+          <span class="cmd">/zara</span>
+          <span class="cmd">/accept</span>
+          <span class="cmd">/share</span>
+          <span class="cmd">/receipt</span>
+          · <a href="design.html#jobs">All jobs on the design team page</a>
+        </p>
+      </div>
+    </section>
+
     <section class="section" id="products">
       <div class="wrap">
         <div class="section-head">
@@ -244,7 +332,7 @@
             </dl>
             <div class="hero-actions" style="margin-top:0;flex-direction:row;flex-wrap:wrap">
               <a class="btn primary" href="design.html#designer-path">Start as a designer</a>
-              <a class="btn" href="design.html#whats-new">Changelog</a>
+              <a class="btn" href="#jobs">Dev or PM? Three jobs</a>
             </div>
           </article>
           <article class="product">
@@ -577,7 +665,7 @@
   <footer class="footer">
     <div class="wrap footer-row">
       <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
-      <div class="footer-links"><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="design.html#whats-new">What's new</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
+      <div class="footer-links"><a href="#doors">Your path</a><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="design.html#whats-new">What's new</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
       <small>analyzthis_design v2.4.1 · MIT</small>
     </div>
   </footer>
@@ -602,6 +690,44 @@
       menuButton.setAttribute("aria-label", "Open navigation");
       menuButton.textContent = "MENU";
     }));
+
+    // Three doors: stamp the chosen path. Jobs stay hidden until Dev/PM picks them (or #jobs).
+    const doorCards = document.querySelectorAll("[data-door]");
+    const jobsBand = document.getElementById("jobs");
+
+    const selectDoor = (id) => {
+      doorCards.forEach((door) => {
+        if (door.getAttribute("data-door") === id) door.setAttribute("aria-current", "true");
+        else door.removeAttribute("aria-current");
+      });
+      if (jobsBand) jobsBand.hidden = id !== "ship";
+    };
+
+    doorCards.forEach((door) => {
+      const action = door.querySelector("a.btn");
+      if (!action) return;
+      action.addEventListener("click", () => {
+        const id = door.getAttribute("data-door");
+        if (id === "design") return;
+        selectDoor(id);
+        // Hiding #jobs changes page height — re-scroll after layout so #intake / #jobs still land.
+        const href = action.getAttribute("href") || "";
+        if (href.charAt(0) === "#") {
+          const target = document.getElementById(href.slice(1));
+          if (target) requestAnimationFrame(() => target.scrollIntoView());
+        }
+      });
+    });
+    // Unhide jobs before the browser scrolls, so #jobs is a real target.
+    document.querySelectorAll('a[href="#jobs"]').forEach((link) => {
+      link.addEventListener("click", () => selectDoor("ship"));
+    });
+
+    const applyDoorHash = () => {
+      if (location.hash === "#jobs") selectDoor("ship");
+    };
+    applyDoorHash();
+    window.addEventListener("hashchange", applyDoorHash);
 
     const form = document.getElementById("lead-form");
     const steps = [...document.querySelectorAll(".form-step")];
