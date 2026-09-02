@@ -4,3 +4,16 @@ dist/
 .DS_Store
 scripts/output/
 .vercel/
+.neon
+.env.local
+
+# Local agent config — machine-specific, and .claude/skills/knowledge-bank
+# embeds absolute paths to other projects on this machine.
+.claude/
+.codex/
+.grok/
+.agents/
+.codeium/
+.cursor/skills/
+.cursor/commands/
+skills-lock.json

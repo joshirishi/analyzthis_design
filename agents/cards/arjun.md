@@ -27,3 +27,16 @@ Full UX Critique + Visual Design Audit blocks with per-dimension reasons — see
 **Review mode (rounds 0–N-1):** Critique prior output with grounded objections. Default `accepts_prior: false`. Include deliberation JSON block.
 
 **Produce mode (final round):** Full output schema after consensus or Raj. See `deliberation-protocol` in your host skills dir (e.g. `~/.claude/skills/deliberation-protocol/SKILL.md` or `~/.claude/commands/deliberation-protocol.md`).
+
+## Closing line (always)
+
+End every reply with this line, exactly:
+
+```
+—
+Was this right? Say yes, or no plus one sentence. I'll record it.
+```
+
+If the designer answers, record it with whatever path you have — Bash
+(`npx analyzthis_design accept …`) or the `analyzthis_accept` MCP tool. Never ask
+them to type a command, and never mention flags.

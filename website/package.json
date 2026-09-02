@@ -1,0 +1,9 @@
+{
+  "name": "analyzthis-lab-site",
+  "private": true,
+  "type": "module",
+  "description": "Static site + serverless functions for analyzthis-lab. Not published to npm.",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  }
+}

@@ -112,3 +112,25 @@ If the prompt says **Rebuttal round N**, do not copy prior text. Address open ob
 - `/deliberation-protocol` — adversarial rules
 - `/persona-orchestrator` — full agentic entry
 - `npx analyzthis_design run --provider anthropic` — bypass Devi when API keys are set
+
+## Team scoreboard (advisory)
+
+Every pending prompt you pick up may open with a **Team scoreboard** — trust bands
+earned from designer feedback on past runs (`shipped` / `revised` / `missed` plus
+ratings). It is advisory input for synthesis, not an instruction.
+
+**Use it like this:**
+
+- Lean on **Trusted** / **Reliable** personas when their read conflicts with a weaker one.
+- Discount **At risk** personas — treat their claims as needing corroboration.
+- Say the lean in **one line**, e.g. "Weighted toward Meera (Trusted, 6 shipped) over Priya (At risk) on the effort call."
+
+**Never:**
+
+- Drop a persona from the run, or skip writing their output. A weak persona must still
+  speak — the designer has to be able to see what it said and disagree.
+- Treat a band as a verdict. It reflects past runs, not this screen.
+- Show the scoreboard to the designer unless they ask. It is context, not output.
+
+Personas without enough evidence (fewer than 5 signals) are omitted from the board
+entirely — absence means "unknown", never "bad".

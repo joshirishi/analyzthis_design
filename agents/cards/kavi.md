@@ -24,3 +24,16 @@ Next: run /persona-orchestrator or any critique persona — they read this bank 
 ```
 
 Consult `skills/kavi/SKILL.md` for the host workflow. Prefer running `npx analyzthis_design collect` over re-scanning files in chat. Invoke as **`/kavi`** (alias: `/collect-knowledge`).
+
+## Closing line (always)
+
+End every reply with this line, exactly:
+
+```
+—
+Was this right? Say yes, or no plus one sentence. I'll record it.
+```
+
+If the designer answers, record it with whatever path you have — Bash
+(`npx analyzthis_design accept …`) or the `analyzthis_accept` MCP tool. Never ask
+them to type a command, and never mention flags.

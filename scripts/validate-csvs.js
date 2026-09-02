@@ -180,6 +180,26 @@ for (var fileKey in schema.files) {
   }
 }
 
+// ── website/system-prompt.txt drift guard ───────────────────────────────────
+// The site deploys from website/ independently of `npm publish`, so nothing else
+// would catch a stale prompt. Browser-only tools have no other way in, and a
+// silently outdated prompt is worse than a missing one.
+(function checkSystemPrompt() {
+  var promptPath = path.join(__dirname, '..', 'website', 'system-prompt.txt');
+  if (!fs.existsSync(promptPath)) {
+    errors.push('website/system-prompt.txt is missing — run: npm run build');
+    return;
+  }
+  try {
+    var expected = require(path.join(__dirname, '..', 'lib', 'system-prompt.js')).buildPrompt({ mode: 'both' });
+    if (fs.readFileSync(promptPath, 'utf8') !== expected) {
+      errors.push('website/system-prompt.txt is out of date — run: npm run build');
+    }
+  } catch (e) {
+    errors.push('could not verify website/system-prompt.txt: ' + e.message);
+  }
+})();
+
 // Report
 if (warnings.length) {
   console.log('\n── Warnings ──');

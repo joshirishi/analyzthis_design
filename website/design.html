@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -171,7 +171,21 @@
       .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-  </style>
+    /* Tool picker — neo-brutalist to match .btn/.code-card */
+    .tool-picker{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+    .tool-pick{min-height:44px;border:var(--border);background:#fff;padding:9px 16px;font:900 .8rem var(--mono);text-transform:uppercase;letter-spacing:.02em;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+    .tool-pick:hover{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+    .tool-pick.is-active{background:var(--ink);color:#fff;transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+    .tool-pick:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+    .tool-card h3{font-size:1.5rem;margin:0 0 14px}
+    .tool-card .tool-then{margin:14px 0 0;max-width:66ch}
+    .tool-card .muted{margin-top:14px;max-width:66ch}
+    .copy-status{font:800 .78rem var(--mono);margin-left:10px}
+    .copy-status.ok{color:var(--green)}.copy-status.err{color:var(--red)}
+    /* No JS: show every card with its own heading rather than a blank section */
+    .no-js .tool-card[hidden]{display:block!important}
+    .no-js .tool-picker{display:none}
+</style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to main content</a>
@@ -199,12 +213,12 @@
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <span class="eyebrow"><span class="dot"></span>For designers · open source · v2.4.1</span>
+        <span class="eyebrow"><span class="dot"></span>For designers · open source · v2.5.0</span>
         <h1>Your design team. Type the <span class="accent">name.</span></h1>
         <p class="lede">Keep or skip in chat. Send a note back. No terminal flags. Named specialists wireframe, critique, and gate the work — so you get a verdict, not a polite paragraph.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#designer-path">Start as a designer</a>
-          <a class="btn" href="#install">I already have Cursor — install</a>
+          <a class="btn" href="#install">I already have a tool — set it up</a>
         </div>
         <div class="hero-cmds" aria-label="What you type">
           <span class="hint">Type</span>
@@ -265,10 +279,10 @@
           <div class="code-card">
             <div class="code-head"><span>One line — any folder</span><span>Terminal</span></div>
             <pre># Cursor
-npx analyzthis_design@2.4.1 --target cursor --force
+npx analyzthis_design@2.5.0 --target cursor --force
 
 # Claude Code
-npx analyzthis_design@2.4.1 --target claude --force
+npx analyzthis_design@2.5.0 --target claude --force
 
 # Then restart the app. Type /zara even if the menu is short.</pre>
           </div>
@@ -297,7 +311,7 @@ npx analyzthis_design@2.4.1 --target claude --force
           <a href="#mood">Set visual direction</a>
           <a href="#kavi">Index project knowledge</a>
           <a href="#run">Run without API keys</a>
-          <a href="#whats-new">What's new in 2.4.1</a>
+          <a href="#whats-new">What's new in 2.5.0</a>
           <a href="#call">Call a specialist</a>
           <a href="#models">Which model runs</a>
           <a href="#mcp">Run from any MCP IDE</a>
@@ -310,11 +324,26 @@ npx analyzthis_design@2.4.1 --target claude --force
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Changelog</span>
-          <h2>What's new in <span class="accent">2.4.1.</span></h2>
-          <p class="lede">Designers keep or skip in chat. Send a correction back to the package. Re-run install with <span class="cmd">--force</span> after you update.</p>
+          <h2>What's new in <span class="accent">2.5.0.</span></h2>
+          <p class="lede">Keep or skip a note and the persona's score actually moves &mdash; both ways. Works with no terminal, so Claude Desktop counts too. Re-run install with <span class="cmd">--force</span> after you update.</p>
         </div>
         <div class="log">
           <article class="log-entry now">
+            <header>
+              <time datetime="2026-09-02">2 Sep 2026</time>
+              <h3>2.5.0 — personas earn or lose trust</h3>
+            </header>
+            <ul>
+              <li><strong>A skip now costs the persona.</strong> Before this release it did the opposite: marking a note wrong recorded it as <span class="cmd">revised</span> and scoring counted every outcome the same, so a rejection raised the score by 15. Punishment was a reward. Fixed.</li>
+              <li><strong>Scored on rate, not total.</strong> Each persona starts at 50 and moves both ways &mdash; shipped <span class="cmd">+15</span>, revised <span class="cmd">&minus;5</span>, missed <span class="cmd">&minus;15</span>, plus your rating. Averaged per signal, so early wins never make a persona immune to later misses. Bands: At risk, Developing, Baseline, Reliable, Trusted.</li>
+              <li><strong>One bad note brands nobody.</strong> Under five signals a persona reads <span class="cmd">Baseline (insufficient evidence)</span> whatever the maths says.</li>
+              <li><strong>Devi weights the synthesis.</strong> She sees the scoreboard and leans on Trusted personas over At risk ones, and says so in one line. She never drops a persona from the run &mdash; a weak read still gets written down where you can disagree with it.</li>
+              <li><strong>Feedback works with no terminal.</strong> New <span class="cmd">analyzthis_accept</span> MCP tool in the default catalog, so Claude Desktop can keep or skip. Same core as the CLI, identical state.</li>
+              <li><strong>The persona asks.</strong> Every note ends with one line: <em>Was this right? Say yes, or no plus one sentence.</em> You answer in plain language &mdash; no slash command, no flags, and it works the same on every host.</li>
+              <li><strong>See the scoreboard.</strong> <span class="cmd">npx analyzthis_design scores</span> (or <span class="cmd">scores --persona arjun</span>) shows the signed breakdown, so you can see <em>why</em> a persona fell. Scores are derived on read &mdash; existing history re-scores itself on upgrade.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
             <header>
               <time datetime="2026-09-01">1 Sep 2026</time>
               <h3>2.4.1 — /accept and /share</h3>
@@ -587,15 +616,15 @@ npx analyzthis_design run-unchunked --continue \
           <article class="job" id="evolve">
             <div class="job-copy">
               <h3>Let the team learn — with your approval</h3>
-              <p>After work ships, you can tell the system what landed. It harvests lessons and may propose prompt, reference, or routing patches. Nothing becomes canonical until you review it. Silent self-rewrite is not allowed.</p>
+              <p>Tell the system what landed and each persona&rsquo;s score moves &mdash; up when the advice ships, down when it needed rework or missed. Devi leans on the personas that earn it. Patches are still proposed, never applied: nothing becomes canonical until you review it. Silent self-rewrite is not allowed.</p>
               <div class="job-meta"><span>Learning</span><span>evolve</span><span>outcome</span></div>
               <ol class="job-steps">
-                <li>In chat: <span class="cmd">/accept yes</span> or <span class="cmd">/accept no</span> plus one sentence. Optional: <span class="cmd">/share</span> to send a correction to the package.</li>
-                <li>Or in the terminal, mark whether a persona’s output actually shipped.</li>
-                <li>Extract lessons from accepted work and confirmed outcomes.</li>
+                <li>The persona asks at the end of its note. Answer in plain language &mdash; <span class="cmd">yes</span>, or <span class="cmd">no</span> plus one sentence.</li>
+                <li>Works in chat, in the terminal, and on Claude Desktop &mdash; which has neither slash commands nor a shell. Optional: <span class="cmd">/share</span> sends a redacted correction to the package.</li>
+                <li>Lessons come from rejected notes too &mdash; your correction is the most useful thing the team gets. Each is scored, de-duplicated, and tagged.</li>
                 <li>The system proposes patches. You see the diff.</li>
                 <li>You accept or reject. The team does not evolve in the dark.</li>
-                <li>After CLI runs, Devi may hint when the team is ready to evolve. Check scores with <span class="cmd">evolve --metrics</span>.</li>
+                <li>Each persona&rsquo;s score moves, and Devi leans on the ones that earn it. Check the board with <span class="cmd">scores</span> &mdash; it shows why a persona fell, not just that it did.</li>
               </ol>
             </div>
             <div class="job-side">
@@ -603,7 +632,7 @@ npx analyzthis_design run-unchunked --continue \
                 <div class="code-head"><span>Human-reviewed</span><span>Terminal</span></div>
                 <pre>/accept yes
 /share
-npx analyzthis_design evolve --ready</pre>
+npx analyzthis_design scores</pre>
               </div>
             </div>
           </article>
@@ -789,7 +818,7 @@ npx analyzthis_design install --target all --force</pre>
               <tr><td>See inferred token spend</td><td><span class="cmd">/receipt</span></td><td>Not a bill. Same as npx analyzthis_design receipt</td></tr>
               <tr><td>Auto-config MCP for Cursor</td><td><span class="cmd">mcp --configure cursor</span></td><td>Writes MCP config to your IDE</td></tr>
               <tr><td>Check if team can evolve</td><td><span class="cmd">evolve --ready</span></td><td>Readiness + per-persona scores</td></tr>
-              <tr><td>See evolution dashboard</td><td><span class="cmd">evolve --metrics</span></td><td>Novice → Expert per persona</td></tr>
+              <tr><td>See evolution dashboard</td><td><span class="cmd">scores</span></td><td>Novice → Expert per persona</td></tr>
               <tr><td>Legacy global knowledge sync</td><td><span class="cmd">sync --global</span></td><td>Merged cross-project bank (opt-in)</td></tr>
               <tr><td>One specialist’s view</td><td><span class="cmd">/arjun</span> <span class="cmd">/meera</span> <span class="cmd">/priya</span> <span class="cmd">/zara</span></td><td>A single-lens follow-up, after grounding</td></tr>
             </tbody>
@@ -854,34 +883,165 @@ npx analyzthis_design install --target all --force</pre>
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Install</span>
-          <h2>Five steps. Then type <span class="accent">/noor.</span></h2>
-          <p class="lede">Node.js 16 or newer. An AI coding tool. That is the whole requirement. After 2.4.1, type /noor — then /accept and /share. /receipt if you want inferred spend.</p>
+          <h2>Pick your tool. <span class="accent">Get only your steps.</span></h2>
+          <p class="lede">Node.js 16 or newer for anything with a terminal &mdash; and nothing at all if you work in the browser. Every tool below has a different path; you only need yours.</p>
         </div>
-        <div class="code-card" style="margin-bottom:28px">
-          <div class="code-head"><span>One-time setup</span><span>Terminal</span></div>
-          <pre># 1. Optional global CLI. Do not npm install inside a pnpm/Yarn workspace.
-npm install -g analyzthis_design
-
-# 2. Copy skills + project slash commands (either form)
-npx analyzthis_design install --target cursor
-npx analyzthis_design --target claude
-npx analyzthis_design --target all
-
-# 3. In the project, ground the team once (project-local bank)
-npx analyzthis_design collect --target all
-
-# 4. Optional — MCP tools (not slash commands)
-npx analyzthis_design mcp --configure cursor
-# Claude Desktop + Claude Code:
-npx analyzthis_design mcp --configure claude
-
-# 5. In Cursor or Claude Code chat — type the persona name
-/noor
-/accept
-/share
-/receipt</pre>
+        <div class="tool-picker" role="group" aria-label="Choose your tool">
+            <button class="tool-pick is-active" type="button" data-pick="cursor" aria-pressed="true">Cursor</button>
+            <button class="tool-pick" type="button" data-pick="claude-code" aria-pressed="false">Claude Code</button>
+            <button class="tool-pick" type="button" data-pick="claude-desktop" aria-pressed="false">Claude Desktop</button>
+            <button class="tool-pick" type="button" data-pick="windsurf" aria-pressed="false">Windsurf</button>
+            <button class="tool-pick" type="button" data-pick="codex" aria-pressed="false">Codex CLI</button>
+            <button class="tool-pick" type="button" data-pick="grok" aria-pressed="false">Grok Build</button>
+            <button class="tool-pick" type="button" data-pick="lovable" aria-pressed="false">Lovable</button>
+            <button class="tool-pick" type="button" data-pick="v0" aria-pressed="false">v0</button>
+            <button class="tool-pick" type="button" data-pick="bolt" aria-pressed="false">Bolt</button>
+            <button class="tool-pick" type="button" data-pick="replit" aria-pressed="false">Replit</button>
+            <button class="tool-pick" type="button" data-pick="chatgpt" aria-pressed="false">ChatGPT</button>
         </div>
-        <p class="muted">After a package update, reinstall with <span class="cmd">npx analyzthis_design install --target all --force</span>. Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. Knowledge bank is project-scoped by default — use <span class="cmd">sync --global</span> only for legacy cross-project merge.</p>
+        <div class="tool-cards">
+          <div class="tool-card" data-tool="cursor" hidden>
+            <h3>Cursor</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target cursor
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+<div class="code-card" style="margin-top:14px">
+              <div class="code-head"><span>Optional &mdash; MCP tools</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure cursor</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">/noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Skills land in <code>~/.cursor/skills/</code>. Slash commands also go into the project's <code>.cursor/commands/</code>.</p>
+          </div><div class="tool-card" data-tool="claude-code" hidden>
+            <h3>Claude Code</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target claude
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+<div class="code-card" style="margin-top:14px">
+              <div class="code-head"><span>Optional &mdash; MCP tools</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure claude</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">/noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Claude's menu may only list Getting Started &mdash; type <code>/noor</code> anyway, it works.</p>
+          </div><div class="tool-card" data-tool="claude-desktop" hidden>
+            <h3>Claude Desktop</h3>
+            <p class="tool-then">Claude Desktop has <strong>no terminal and no slash commands</strong>. It reaches the team through MCP tools instead. Run this once in your Mac or Windows terminal &mdash; not in Claude:</p>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once, then restart Claude</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure claude</pre>
+            </div>
+            <p class="tool-then"><strong>Then just ask in plain language</strong> &mdash; &ldquo;have Zara look at this screen&rdquo;. Claude picks the tool. You will see five:
+              <span class="cmd">analyzthis_design</span> <span class="cmd">analyzthis_accept</span>
+              <span class="cmd">analyzthis_retrieve</span> <span class="cmd">analyzthis_session</span>
+              <span class="cmd">analyzthis_receipt</span>.</p>
+            <p class="muted"><code>/noor</code> will never work here &mdash; that is a slash command, and Desktop has none. Keep or skip still works: say the note was right or wrong and Claude records it with <code>analyzthis_accept</code>, so scores move exactly as they do in the terminal.</p>
+          </div><div class="tool-card" data-tool="windsurf" hidden>
+            <h3>Windsurf</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target windsurf
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+<div class="code-card" style="margin-top:14px">
+              <div class="code-head"><span>Optional &mdash; MCP tools</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure windsurf</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">@noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Windsurf Cascade uses <strong>@</strong>, not <strong>/</strong>. <code>@noor</code>, <code>@zara</code>, <code>@arjun</code>.</p>
+          </div><div class="tool-card" data-tool="codex" hidden>
+            <h3>Codex CLI</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target codex
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Codex has no slash menu. Name the skill, or reference it from <code>AGENTS.md</code>.</p>
+          </div><div class="tool-card" data-tool="grok" hidden>
+            <h3>Grok Build</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target grok
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">/noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Skills land in <code>~/.grok/skills/</code>.</p>
+          </div><div class="tool-card" data-tool="lovable" hidden>
+            <h3>Lovable</h3>
+            <p class="tool-then">Lovable runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="Lovable">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Knowledge &rarr; add the prompt to your project knowledge.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="v0" hidden>
+            <h3>v0</h3>
+            <p class="tool-then">v0 runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="v0">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Project settings &rarr; System Instructions.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="bolt" hidden>
+            <h3>Bolt</h3>
+            <p class="tool-then">Bolt runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="Bolt">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Project settings &rarr; custom instructions.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="replit" hidden>
+            <h3>Replit</h3>
+            <p class="tool-then">Replit runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="Replit">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Agent instructions, or a <code>replit.md</code> at the repo root.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="chatgpt" hidden>
+            <h3>ChatGPT</h3>
+            <p class="tool-then">ChatGPT runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="ChatGPT">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Customize ChatGPT &rarr; Instructions, or a Project's instructions.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:26px">After a package update, reinstall with <span class="cmd">npx analyzthis_design install --target all --force</span>. Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. The knowledge bank is project-scoped by default &mdash; use <span class="cmd">sync --global</span> only for a deliberate cross-project merge.</p>
       </div>
     </section>
 
@@ -889,7 +1049,7 @@ npx analyzthis_design mcp --configure claude
       <div class="wrap">
         <span class="eyebrow">Next</span>
         <h2>Install it. Or map a <span class="accent">custom team.</span></h2>
-        <p class="lede">If you already have Cursor or Claude, start with the package. If you run a practice and do not, we design a team that arrives in the tools you already open.</p>
+        <p class="lede">If you already have Cursor, Claude, Windsurf, Lovable, v0 or Bolt, start with the package &mdash; there is a path for each. If you run a practice and do not, we design a team that arrives in the tools you already open.</p>
         <div class="hero-actions">
           <a class="btn primary" href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">Get analyzthis_design <span aria-hidden="true">↗</span></a>
           <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
@@ -910,11 +1070,76 @@ npx analyzthis_design mcp --configure claude
         <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm</a>
         <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <small>analyzthis_design v2.4.1 · MIT</small>
+      <small>analyzthis_design v2.5.0 · MIT</small>
     </div>
   </footer>
 
   <script>
+  // Tool picker: reveal one card at a time. Progressive enhancement — without JS
+  // every card stays visible (see .no-js), so the section is never empty.
+  document.documentElement.classList.remove('no-js');
+  (function () {
+    var picks = document.querySelectorAll('.tool-pick');
+    var cards = document.querySelectorAll('.tool-card');
+    if (!picks.length || !cards.length) return;
+
+    function show(id) {
+      cards.forEach(function (c) { c.hidden = c.getAttribute('data-tool') !== id; });
+      picks.forEach(function (b) {
+        var on = b.getAttribute('data-pick') === id;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      try { history.replaceState(null, '', '#install-' + id); } catch (e) {}
+    }
+
+    picks.forEach(function (b) {
+      b.addEventListener('click', function () { show(b.getAttribute('data-pick')); });
+    });
+
+    // Deep link: /design#install-lovable opens that card directly.
+    var m = (location.hash || '').match(/^#install-([a-z0-9-]+)$/);
+    show(m && document.querySelector('.tool-card[data-tool="' + m[1] + '"]') ? m[1] : 'cursor');
+
+    // Copy the generated system prompt. Same text `buildPrompt` produces —
+    // regenerated by npm run build, so it cannot drift from the shipped personas.
+    var promptCache = null;
+    document.querySelectorAll('.copy-prompt').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        var status = btn.parentElement.querySelector('.copy-status');
+        status.className = 'copy-status';
+        status.textContent = 'Fetching…';
+        try {
+          if (!promptCache) {
+            var res = await fetch('/system-prompt.txt');
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            promptCache = await res.text();
+          }
+          try {
+            await navigator.clipboard.writeText(promptCache);
+          } catch (e) {
+            // Clipboard API needs a secure context and can be blocked; fall back.
+            var ta = document.createElement('textarea');
+            ta.value = promptCache;
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            var ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (!ok) throw new Error('copy blocked');
+          }
+          status.className = 'copy-status ok';
+          status.textContent = 'Copied — paste into ' + btn.getAttribute('data-label');
+        } catch (err) {
+          status.className = 'copy-status err';
+          status.textContent = 'Could not copy — open /system-prompt.txt and copy it manually';
+        }
+      });
+    });
+  })();
+</script>
+<script>
     const menuButton = document.querySelector(".menu-btn");
     const navLinks = document.querySelectorAll(".nav-links a");
     menuButton.addEventListener("click", () => {

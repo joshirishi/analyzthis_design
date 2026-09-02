@@ -98,4 +98,20 @@ copyDir(path.join(root, '.github'),  path.join(root, 'dist/.github'));
 fs.copyFileSync(path.join(root, 'README.md'),     path.join(root, 'dist/README.md'));
 fs.copyFileSync(path.join(root, 'HOW-TO-USE.md'), path.join(root, 'dist/HOW-TO-USE.md'));
 
+// Generate the paste-able system prompt the website serves. Browser-only tools
+// (Lovable, v0, Bolt, Replit, ChatGPT) cannot run npx or reach the stdio MCP
+// server, so the site is their only route in. Generating it here means the text
+// on the site can never drift from the personas that actually ship.
+const promptOut = path.join(root, 'website', 'system-prompt.txt');
+try {
+  const { buildPrompt } = require(path.join(root, 'lib', 'system-prompt.js'));
+  fs.mkdirSync(path.dirname(promptOut), { recursive: true });
+  const prompt = buildPrompt({ mode: 'both' });
+  fs.writeFileSync(promptOut, prompt);
+  console.log(`  OK   lib/system-prompt.js  ->  website/system-prompt.txt (${prompt.length} chars)`);
+} catch (err) {
+  console.error(`  FAIL  could not generate website/system-prompt.txt: ${err.message}`);
+  process.exit(1);
+}
+
 console.log('\nBuild complete (plain source, no obfuscation).\n');

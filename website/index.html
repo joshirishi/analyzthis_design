@@ -195,7 +195,7 @@
             <p class="lede">A specialist team prepares one repeat packet — books, drawings, visit notes, or POs. It arrives in the tools you already open. A partner reviews and signs. Nothing changes without approval.</p>
             <div class="hero-actions">
               <a href="#doors" class="btn primary">Find your path <span aria-hidden="true">→</span></a>
-              <p class="hero-alt">Already in Cursor or Claude Code? <a href="#doors">The doors are next</a> · <a href="design.html#whats-new">What's new in 2.4.1</a></p>
+              <p class="hero-alt">Already in Cursor, Claude, Windsurf or Lovable? <a href="#doors">The doors are next</a> · <a href="design.html#whats-new">What's new in 2.5.0</a></p>
             </div>
             <div class="micro-proof" aria-label="How this works">
               <span>You review. You sign. We do not file, advise, or ship.</span>
@@ -274,7 +274,7 @@
         <div class="section-head">
           <span class="eyebrow light">Three jobs</span>
           <h2>You do not need a <span class="accent">designer on staff.</span></h2>
-          <p class="lede">Install once from the design team page. Then type the command in Cursor or Claude. The team stops at a human decision.</p>
+          <p class="lede">Install once from the design team page. Then type the command in Cursor, Claude or Windsurf &mdash; or paste it into a browser tool. The team stops at a human decision.</p>
         </div>
         <div class="cards">
           <article class="card job-card">
@@ -322,12 +322,12 @@
           <article class="product">
             <div class="product-top">
               <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
-              <span class="product-status live">Live · v2.4.1</span>
+              <span class="product-status live">Live · v2.5.0</span>
             </div>
             <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. For designers: type /noor, then /accept and /share — no terminal flags.</p>
             <dl class="product-facts">
               <div><dt>You get</dt><dd>Commands in your IDE, verdicts, and readable source</dd></div>
-              <div><dt>You need</dt><dd>Cursor, Claude, or a similar AI coding tool</dd></div>
+              <div><dt>You need</dt><dd>Cursor, Claude, Windsurf &mdash; or nothing at all if you work in Lovable, v0 or Bolt</dd></div>
               <div><dt>What's new</dt><dd>/accept and /share — keep, skip, or send a correction without CLI flags</dd></div>
             </dl>
             <div class="hero-actions" style="margin-top:0;flex-direction:row;flex-wrap:wrap">
@@ -593,9 +593,9 @@
           <details><summary>Is this a generic chatbot setup service?</summary><p>No. The unit of design is the workflow: specialist roles, scoped knowledge, handoffs, failure behavior, quality gates, and outcome feedback. A chat interface may be one entry point, but it is not the architecture.</p></details>
           <details><summary>Does every workflow need many agents?</summary><p>No. We use the smallest useful team. A narrow process may need two roles and one gate. Extra agents add coordination cost, so every role must earn its place.</p></details>
           <details><summary>Will you replace our current tools?</summary><p>Usually not. The goal is to work inside or alongside the tools your team already trusts. Discovery includes your current software, data boundaries, and deployment constraints.</p></details>
-          <details><summary>What changed in analyzthis_design 2.4.1?</summary><p>Designers can type <code>/accept yes</code> or <code>/accept no</code> plus one sentence — no terminal flags. <code>/share</code> previews a redacted correction and sends it back to the package (GitHub or HTTP). 2.4.0 still stands: lite MCP catalog, inferred receipt, slim skill fronts. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
+          <details><summary>What changed in analyzthis_design 2.5.0?</summary><p>Keeping or skipping a note now moves that persona&rsquo;s score &mdash; and moves it <em>down</em> when the advice missed. Before 2.5.0 a rejection raised it. Devi leans on the personas that earn it, and feedback works on Claude Desktop, which has no terminal. Check the board with <code>npx analyzthis_design scores</code>. 2.4.1 still stands: <code>/accept</code>, <code>/share</code>, lite MCP catalog, inferred receipt. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
           <details><summary>What changed in analyzthis_design 2.4.0?</summary><p>Claude Code and Desktop spend fewer tokens per verdict. MCP defaults to a small router instead of 19 tools (use <code>mcp --catalog full</code> for the old list). Every MCP turn gets an inferred receipt — not a bill. Skills load a short front; retrieve the rest. Knowledge bank is an index, not a dump. Type <code>/receipt</code> or run <code>npx analyzthis_design receipt</code>. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
-          <details><summary>Do I need Cursor or Claude?</summary><p>Only for lab products such as analyzthis_design. A custom team for a practice does not ask you to install a coding tool. We start from the software you already open.</p></details>
+          <details><summary>Do I need Cursor or Claude?</summary><p>No. Cursor, Claude Code, Claude Desktop, Windsurf, Codex and Grok each install with one command. Lovable, v0, Bolt, Replit and ChatGPT install nothing at all &mdash; you copy the team in as a system prompt. Pick your tool on the <a href="design.html#install">design team page</a>. Beyond that, this applies only to lab products such as analyzthis_design. A custom team for a practice does not ask you to install a coding tool. We start from the software you already open.</p></details>
           <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. In chat, personas use the model already in Cursor or Claude. Automatic model picking happens only on the CLI <code>run</code> command. Your final setup depends on volume, privacy needs, latency, and required model quality. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">How models are picked</a>.</p></details>
           <details><summary>How do you keep quality under human control?</summary><p>We define assess-only stages, approval gates, explicit verdicts, and human-reviewed evolution. The system can recommend a change; you decide whether it becomes canonical.</p></details>
           <details><summary>What happens after I submit the form?</summary><p>We review the workflow, tools, and desired outcome you describe. If the use case is a fit, the confirmation screen will invite you to book a discovery call.</p></details>
@@ -666,7 +666,7 @@
     <div class="wrap footer-row">
       <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
       <div class="footer-links"><a href="#doors">Your path</a><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="design.html#whats-new">What's new</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
-      <small>analyzthis_design v2.4.1 · MIT</small>
+      <small>analyzthis_design v2.5.0 · MIT</small>
     </div>
   </footer>
 

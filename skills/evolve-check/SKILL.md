@@ -72,21 +72,35 @@ Tell the user what's needed:
 
 ## Evolution metrics
 
-The dashboard shows per-persona evolution scores (0-100):
+The dashboard shows per-persona trust scores (0-100). A persona **starts at 50**
+and moves in both directions, so a rejection genuinely costs it.
 
 | Score | Level | Meaning |
 |-------|-------|---------|
-| 0-19 | Novice | No data yet |
-| 20-39 | Developing | Some lessons extracted |
-| 40-59 | Proficient | Lessons + outcomes accumulating |
-| 60-79 | Advanced | Patches proposed and some applied |
-| 80-100 | Expert | Significant evolution, patches applied |
+| 80-100 | Trusted | Consistently shipped; weight heavily |
+| 60-79 | Reliable | More hits than misses |
+| 40-59 | Baseline | Neutral, or not enough evidence yet |
+| 20-39 | Developing | More rework than wins |
+| 0-19 | At risk | Repeatedly wrong or missed |
 
-Scoring:
-- 10 pts per lesson (cap 100)
-- 15 pts per confirmed outcome (cap 100)
-- 20 pts per proposed patch (cap 100)
-- 25 pts bonus per applied patch
+Signed contributions:
+
+| Signal | Points |
+|---|---|
+| outcome `shipped` | **+15** |
+| outcome `blocked_correctly` | **+10** |
+| outcome `revised` | **-5** |
+| outcome `missed` | **-15** |
+| each rating | `(rating - 3) x 4` → 5* = +8, 1* = -8 |
+| each positive lesson | +10 |
+| patch proposed / applied | +20 / +25 |
+
+**Evidence gating:** below 5 signals a persona is reported as
+`Baseline (insufficient evidence)` regardless of score — one bad note must not
+brand a persona. Scores are derived on read, so changing weights re-scores history
+with no migration.
+
+Scope is **global per persona** by default. Pass `--project` to scope down.
 
 ## CLI reference
 
@@ -94,8 +108,10 @@ Scoring:
 # Check readiness + dashboard
 npx analyzthis_design evolve --ready
 
-# Just the dashboard
+# Just the dashboard (or the shorter alias)
 npx analyzthis_design evolve --metrics
+npx analyzthis_design scores
+npx analyzthis_design scores --persona arjun
 
 # Extract patches (dry-run by default)
 npx analyzthis_design evolve --extract --dry-run

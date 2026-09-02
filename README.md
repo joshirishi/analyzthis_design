@@ -4,6 +4,37 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
+## v2.5.0 — personas earn or lose trust
+
+Marking a note now moves a score. Previously a rejection *raised* a persona's score by
+15 — `accept.fix()` recorded `outcome: 'revised'` and scoring counted outcomes without
+reading their value. Punishment was a reward. Fixed.
+
+- **Signed, rate-based scoring.** A persona starts at 50 and moves both ways:
+  `shipped` +15, `blocked_correctly` +10, `revised` −5, `missed` −15, plus
+  `(rating − 3) x 4` per rating. Scored as a **rate per signal**, not a running total,
+  so early wins can never make a persona immune to later failures.
+- **Evidence gating.** Under 5 signals a persona reads `Baseline (insufficient
+  evidence)`. One bad note does not brand anyone.
+- **Bands:** At risk · Developing · Baseline · Reliable · Trusted.
+- **Devi gets a scoreboard** in every pending prompt and weights its synthesis,
+  saying the lean in one line. Advisory only — **no persona is ever dropped from a run.**
+- **Feedback works with no terminal.** New `analyzthis_accept` MCP tool in the
+  **lite** catalog, so Claude Desktop can record keep/skip. Same shared core as the
+  CLI — both transports write identical state.
+- **The persona asks.** Every note ends with one host-neutral line: *"Was this right?
+  Say yes, or no plus one sentence."* The designer answers in plain language; the
+  agent picks the transport. No flags, ever.
+- **Lessons learn from rejections too**, tagged `polarity`, and de-duplicated so
+  re-marking a note cannot inflate a score.
+
+```bash
+npx analyzthis_design scores                  # the whole team
+npx analyzthis_design scores --persona arjun  # one persona, with the breakdown
+```
+
+Scores are derived on read — changing the weights re-scores history with no migration.
+
 ## v2.4.1 — `/accept` and `/share` (designer keep / skip / send)
 
 After `/zara` (or any persona), type `/accept yes` or `/accept no` plus one sentence. No CLI flags. Writes keep or skip for **local** evolution. Slash-only notes still count.
@@ -54,7 +85,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.4.1 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.5.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -80,7 +111,7 @@ npx analyzthis_design run-unchunked --task "Review invoice approval screen" --pr
 
 > **Security:** This package publishes **plain source** — no obfuscation, no minification, no dynamic require. Every file in `dist/` is readable and auditable. The `postinstall` script only prints a welcome message; it does **not** write to any AI-agent directories. Skill installation requires an explicit `npx analyzthis_design install --target <ide>` (or `npx analyzthis_design --target <ide>`).
 >
-> **MCP (universal):** `npx analyzthis_design mcp` starts a local MCP server. Default catalog is **lite** (router + retrieve + session + receipt). Full 19 named tools: `ANALYZTHIS_MCP_CATALOG=full` or `mcp --catalog full`. Auto-configures for Cursor, Claude Desktop, **Claude Code**, and Windsurf during install. For Lovable, v0, Bolt, Replit, ChatGPT: run `npx analyzthis_design mcp --configure <tool>` for a config snippet.
+> **MCP (universal):** `npx analyzthis_design mcp` starts a local MCP server. Default catalog is **lite** (router + retrieve + session + receipt). Full 19 named tools: `ANALYZTHIS_MCP_CATALOG=full` or `mcp --catalog full`. Auto-configures for Cursor, Claude Desktop, **Claude Code**, and Windsurf during install. **Browser-only tools (Lovable, v0, Bolt, Replit, ChatGPT) cannot use MCP here** — our server speaks stdio, and a cloud-hosted tool cannot spawn a process on your machine. Paste the team in instead: `npx analyzthis_design system-prompt --mode both`, or copy it with one click from [the tool picker](https://analyzthis-lab.vercel.app/design#install-lovable). Note the paste path gives you the personas but no `/accept`, lessons, or trust scores — those need local state.
 
 ### Install by target IDE
 
@@ -893,7 +924,7 @@ skills/
 |---------|-------------|
 | **MCP server** | `npx analyzthis_design mcp` starts a local MCP server exposing 19 tools — all 8 individual personas + 6 combination passes + 5 utilities. Any MCP-compatible client can discover and call them. |
 | **Auto-configure MCP** | `npx analyzthis_design mcp --configure cursor` (or `claude`, `windsurf`) writes the MCP config automatically. `--target all` now auto-configures MCP during install. |
-| **Universal IDE support** | Cursor, Claude Desktop, Windsurf auto-configured. Lovable, v0, Bolt, Replit, ChatGPT: run `mcp --configure <tool>` for a copy-paste config snippet. |
+| **Universal IDE support** | Cursor, Claude Code, Claude Desktop, Windsurf auto-configured via MCP. Lovable, v0, Bolt, Replit, ChatGPT install nothing — paste `system-prompt` output into the tool's instructions. |
 | **MCP lite + full** | Default: router (`analyzthis_design`) + retrieve + session + receipt. Full 19 named tools behind `--catalog full`. |
 | **System prompt fallback** | `analyzthis_system_prompt` tool generates a consolidated prompt for tools that don't support MCP yet |
 

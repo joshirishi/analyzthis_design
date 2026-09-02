@@ -23,27 +23,39 @@ You help a designer mark the last persona note (Zara, Arjun, …) so the team ca
    > Was this Zara, Arjun, Meera, Priya, Noor, Anuj, or Raj?
 
 5. On **skip**, you need one sentence (what was wrong, or what they did instead). If missing, ask **once**. Then stop asking.
-6. Run the CLI yourself. Do not ask them to copy commands.
+6. Record it using **whichever path this host gives you** — never ask the designer
+   to run anything:
 
-**Keep:**
+   - **Have Bash** (Claude Code, Cursor, a terminal)?
 
-```bash
-npx analyzthis_design accept --keep --persona zara
-```
+     ```bash
+     npx analyzthis_design accept --keep --persona zara
+     npx analyzthis_design accept --fix --persona zara --because "one sentence from the designer"
+     ```
 
-**Skip:**
+   - **MCP only** (Claude Desktop — there is no terminal, so the commands above
+     cannot run)? Call the **`analyzthis_accept`** tool:
 
-```bash
-npx analyzthis_design accept --fix --persona zara --because "one sentence from the designer"
-```
+     ```
+     analyzthis_accept  { keep: true,  persona: "zara" }
+     analyzthis_accept  { keep: false, persona: "zara", because: "one sentence" }
+     ```
 
-Change `zara` to the persona they used. If they already named it in `/accept yes zara`, pass that.
+     `persona` is optional — the last persona that spoke is inferred.
 
-7. Reply in **one or two short sentences**. Example: “Saved. Zara’s note is marked keep.” or “Saved. We logged your fix so the team can learn.” After a skip, you may mention they can type `/share` to send it to the package. No JSON. No dollar figures. No flag tutorial unless the command failed.
+   Both paths write identical state. Change `zara` to the persona they used.
 
-## If the command failed
+7. Reply in **one or two short sentences**. Example: "Saved. Zara's note is marked keep."
+   or "Saved. We logged your fix so the team can learn." After a skip, you may mention
+   they can type `/share` to send it to the package. No JSON. No dollar figures. No flag
+   tutorial unless the command failed.
+
+## If it failed
 
 Say what happened in plain language. If it asks which persona or for one sentence, ask the designer that — still no flags.
+
+If Bash is unavailable and `analyzthis_accept` is not in your tool list, say the note
+could not be recorded on this host — do not pretend it was saved.
 
 ## Do not
 

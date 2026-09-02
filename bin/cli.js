@@ -1000,6 +1000,60 @@ switch (cmd) {
     break;
   }
 
+  case 'scores': {
+    const em = require('../lib/evolution-metrics');
+    if (flags.includes('--submit') || flags.includes('--submit-dry-run')) {
+      const submitter = require('../lib/feedback-submit');
+      const dry = flags.includes('--submit-dry-run');
+      submitter.submitScores({ dryRun: dry })
+        .then((r) => {
+          if (r.skipped) console.log(`\n  Not sent: ${r.skipped}\n`);
+          else if (r.dryRun) console.log(`\n  Would send ${r.rows.length} persona score row(s). Counts only — no note text.\n`);
+          else console.log(`\n  Sent ${r.sent} persona score row(s).\n`);
+        })
+        .catch((e) => console.log(`\n  Submit failed: ${e.message}\n`));
+      break;
+    }
+    const metrics = em.computeEvolutionMetrics(projectVal ? { project: projectVal } : undefined);
+    if (personaVal) {
+      const m = metrics.personas[personaVal];
+      if (!m) {
+        console.log(`\n  Unknown persona "${personaVal}". Use: ${em.PERSONAS.join(', ')}\n`);
+        break;
+      }
+      console.log(`\n  ${personaVal}: ${m.score}/100 ${m.level}` +
+        (m.sufficient_evidence ? '' : ' (insufficient evidence)'));
+      console.log(`  ${m.evidence_count} signal(s) · shipped ${m.outcome_breakdown.shipped}` +
+        ` · revised ${m.outcome_breakdown.revised} · missed ${m.outcome_breakdown.missed}` +
+        (m.avg_rating != null ? ` · avg rating ${m.avg_rating}` : ''));
+      console.log(`  contributions: ${JSON.stringify(m.contributions)}\n`);
+      break;
+    }
+    console.log('\n' + em.formatEvolutionSummary(metrics));
+    break;
+  }
+
+  case 'system-prompt': {
+    // The only path into the personas for browser-only tools (Lovable, v0, Bolt,
+    // Replit, ChatGPT). They cannot reach the MCP server — it speaks stdio, and a
+    // cloud-hosted tool cannot spawn a process on the user's machine.
+    const builder = require('../lib/system-prompt');
+    const mode = getFlag('mode') || 'both';
+    if (!['create', 'critique', 'both'].includes(mode)) {
+      console.log(`\n  Unknown mode "${mode}". Use: create, critique, or both.\n`);
+      break;
+    }
+    const prompt = builder.buildPrompt({ mode });
+    const out = getFlag('out');
+    if (out) {
+      require('fs').writeFileSync(out, prompt);
+      console.log(`\n  Wrote ${prompt.length} chars to ${out}\n  Paste it into your tool's system instructions.\n`);
+    } else {
+      console.log(prompt);
+    }
+    break;
+  }
+
   case 'receipt': {
     const receipt = require('../lib/receipt');
     console.log('\n' + receipt.report({ project: projectVal }) + '\n');
