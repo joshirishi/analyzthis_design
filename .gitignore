@@ -17,3 +17,6 @@ scripts/output/
 .cursor/skills/
 .cursor/commands/
 skills-lock.json
+
+# Local mood / UI boards written into the project
+moodboard/

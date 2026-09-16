@@ -214,8 +214,19 @@ Combined Arjun score: (UX score + Visual score) / 2 → [X/5]
 - Missing timestamps users repeatedly asked for
 - Modal interruptions that break expert mid-flow
 - Single-session generalizations — always qualify with sample size
+- Touch targets under 44×44px on mobile or tablet surfaces (`[ux-guidelines.csv, row 109]`)
 
-**Visual:**
+**Visual & Anti-AI-Slop Checks:**
+- **Card Nesting Syndrome:** Wrapping every section in nested cards (`div.card > div.card > div.card`). Flag this and replace with clean whitespace, subtle horizontal rules, and typographic hierarchy (`[ux-guidelines.csv, row 100]`).
+- **Untinted / Harsh Neutrals:** Pure `#000000` black or dead `#888888` gray with zero undertone. Replace with brand-tinted neutrals (e.g. slate, zinc, warm gray) (`[ux-guidelines.csv, row 101]`).
+- **Gray Text on Colored Backgrounds:** Light or medium gray text placed on colored hero sections, pills, or cards that destroys WCAG contrast. Enforce high-contrast tinted white/dark tones (`[ux-guidelines.csv, row 102]`).
+- **AI Purple/Blue Gradient Clichés:** Defaulting to generic purple-to-blue or pink gradient text and cards on every screen. Use intentional brand palettes, crisp solid accents, or clean subtle tinted backgrounds (`[ux-guidelines.csv, row 103]`).
+- **Heading Icon Tile Crutch:** Sticking a rounded-square bordered icon tile above every single section heading. Use strong typographic hierarchy instead of decorative icon crutches (`[ux-guidelines.csv, row 104]`).
+- **Bouncy / Elastic Easing:** Bouncy, elastic spring overshoot or animations >400ms that feel gimmicky. Enforce crisp 150–250ms ease-out transitions (`[ux-guidelines.csv, row 105]`).
+- **Runaway Reading Width:** Paragraphs stretching beyond 75 characters per line without max-width constraint. Constrain reading columns to 45–75ch (`[ux-guidelines.csv, row 106]`).
+- **Bolder vs. Quieter Balance:**
+  - *Too Timid (Needs to be Bolder):* Everything has identical medium font size and gray tint with no clear focal point. Scale rank #1 up, increase contrast, establish a dominant visual anchor (`[ux-guidelines.csv, row 107]`).
+  - *Over-Decorated (Needs to be Quieter):* Every widget has borders, badges, glows, and shadows. Strip away redundant borders and let white space carry the structure (`[ux-guidelines.csv, row 108]`).
 - Visual hierarchy doesn't match the declared information hierarchy — the most important element isn't the most visually prominent one, even when Noor's ranking says it should be
 - Wrong product-type style — e.g. an editorial serif like Playfair Display on a developer tool signals luxury, not technical trust
 - Spacing chaos — 7px, 13px, 22px gaps instead of a consistent 4/8/16/32 scale
@@ -259,6 +270,8 @@ Read from `~/.cursor/skills/design-reference/` when grounding critique in specif
 | `colors.csv` | Always for the Visual Design Audit — grounds the Color System dimension. Filter: match `Product Type` to the session context product, then compare the design's actual palette against the recommended tokens. |
 | `typography.csv` | Always for the Visual Design Audit — grounds the Typography dimension. Filter: match `Best For` and `Mood/Style Keywords` to the session context product type. |
 | `icons.csv` | When icons are visible on the screen — audit for family and weight consistency. Check whether all icons come from the same family (e.g., Phosphor) and share the same visual weight (e.g., all regular, not a mix of regular and bold). |
+| `motion.csv` | Always for Micro-interactions — cite Timing and Easing. Flag bounce and >400ms. |
+| `ui-libraries.csv` | Always — tokens, typography, icons, charts, a11y. Prefer `installed_ui_libraries`. One icon family (Lucide or Phosphor). Floating UI for popover collision. Tremor/Recharts for dashboards. Fontsource/`next/font` when present. |
 
 **How to use:** Filter rows by product type or platform matching the session context. Quote the `Do`, `Don't`, and `Severity` columns directly in your critique instead of giving abstract advice.
 

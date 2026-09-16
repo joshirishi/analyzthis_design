@@ -4,6 +4,27 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
+## v2.5.2 — Motion, UX, and visual-design libraries
+
+Personas cite real packages and prefer what is already in the repo:
+
+- **Catalog:** `motion.csv` (150–250ms ease-out, no bounce) and `ui-libraries.csv` (Motion, Shadcn, React Aria, Chakra, CMDK, TanStack, Tremor, Magic UI, and more).
+- **Kavi:** Reads the full `package.json` plus kit folders, writes `Tech/Installed-UI-Libraries.md`, stores `installed_ui_libraries` on the session.
+- **Zara / Arjun / Anuj / Noor / Priya:** One library per job, installed first. Mixing two full kits is a block. Marketing FX stays off daily dashboards.
+- **DesignSpec:** When motion is on, require library, import, timing, easing, and a reduced-motion fallback.
+- **Design reference:** 30 CSV files total.
+
+## v2.5.1 — Anti-AI-slop & craftsmanship rules
+
+Enriched personas and design reference data with craftsmanship principles inspired by Impeccable:
+
+- **Arjun:** Flags container nesting (`card > card > card`), untinted harsh black/gray, gray text on colored badges/headers, and cliché purple/blue AI gradients.
+- **Noor:** Strips container clutter and enforces outcome-specific CTA labels (e.g. "Create Invoice" vs "Submit").
+- **Anuj:** Audits overflow handling and complete 5-state form controls.
+- **Zara:** 150–250ms ease-out; bans bouncy/elastic animations.
+- **Kavi:** Records Durable Product Truth (audience, purpose, constraints, voice, evidence).
+- **Design reference:** 11 craftsmanship rules in `ux-guidelines.csv` (rows 100–110).
+
 ## v2.5.0 — personas earn or lose trust
 
 Marking a note now moves a score. Previously a rejection *raised* a persona's score by
@@ -85,7 +106,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.5.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.5.2 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -466,7 +487,7 @@ Ask → session digest → MoE router (1–2 experts, not 4) → persona cards (
 | **Retrieve-on-demand** | `npx analyzthis_design retrieve --file colors.csv --column "Product Type" --keywords saas` returns only matching rows, pre-formatted for citation — never the whole CSV. |
 | **Multi-file reference packs** | Each persona retrieves from 3-5 CSV files (not 1), pooled into a single ranker call. Arjun gets styles + ux-guidelines + ui-reasoning + charts; Zara gets colors + typography + styles + landing + icons. Same LLM cost as single-file, 3-5x coverage. |
 | **Best For Tags** | `styles.csv` and `typography.csv` have a `Best For Tags` column (semicolon-delimited product-type tokens) for reliable keyword filtering. Previously `Best For` was free-text and 31/84 styles were unfilterable. |
-| **CSV schema + validation** | `skills/design-reference/schema.json` defines all 28 CSV files' headers, filter columns, and cross-file joins. `npm run validate` checks integrity before publish. |
+| **CSV schema + validation** | `skills/design-reference/schema.json` defines all 30 CSV files' headers, filter columns, and cross-file joins. `npm run validate` checks integrity before publish. |
 | **Model tiers** | `structured` steps can run on a cheaper model (e.g. `gpt-4o-mini`); `critique`/`arbitrate` steps use a stronger model. Configurable per tier in `~/.analyzthis_design/config.json`. |
 | **Caching** | `lib/cache.js` caches retrieve results (invalidated automatically when the source CSV changes) and knowledge-bank slices (invalidated on `sync` / `session reset`). |
 | **Cost metrics** | Every `run` records `metrics` (llm_calls, experts_run, estimated tokens, cache_hits) into session state. |
@@ -809,7 +830,7 @@ npx analyzthis_design run-unchunked --task "..." [--lite|--full] [--experts a,b]
 npx analyzthis_design run --continue --task "..."   # resume host-mode run after /devi
 
 # CSV validation
-npx analyzthis_design validate    # validate all 28 CSV files against schema.json
+npx analyzthis_design validate    # validate all 30 CSV files against schema.json
 
 # MCP server (for any AI IDE: Cursor, Claude Desktop, Lovable, v0, Bolt, Replit)
 npx analyzthis_design mcp                          # start stdio MCP server
@@ -856,9 +877,10 @@ lib/
   install.js            Skill installation
   knowledge.js          Vault sync + web-context merge
   collect.js            Kavi — codebase scan → vault → source discovery → enrich → sync
+  ui-libraries.js       Detect motion/UX/visual kits from package.json + kit folders
   source-discovery.js   Obsidian vault / wiki / knowledge-graph discovery + manifest MD
   platforms.js          Cross-host skill paths (Cursor, Claude, Codex, Grok, Windsurf, agents)
-  session.js            Shared session-state.json (+ digest, metrics, vault_path)
+  session.js            Shared session-state.json (+ digest, metrics, vault_path, installed_ui_libraries)
   research.js           URL / query → web-context.md
   retrieve.js           Filtered, citation-ready CSV row retrieval
   cache.js              On-disk cache for retrieve/kb slices
@@ -950,14 +972,14 @@ skills/
 | **Planner never cheap** | Planner always uses frontier/host; chunk models are cost-optimized |
 | **Multi-file reference retrieval** | Each persona retrieves from 3-5 CSV files (not 1) via a shared ranker — same LLM cost, 3-5x coverage |
 | **All 16 stacks detected** | `detectStack()` covers all 16 stack CSVs (flutter, swiftui, laravel, threejs, etc.) — was 8 |
-| **CSV schema + validation** | `npm run validate` checks all 28 CSV files against `schema.json` before publish |
+| **CSV schema + validation** | `npm run validate` checks all 30 CSV files against `schema.json` before publish |
 | **Best For Tags** | styles.csv + typography.csv have normalized tag columns for reliable keyword filtering |
 
 ## What's new in v1.22
 
 | Feature | Description |
 |---------|-------------|
-| **Mood boards** | `/mood-board` collects web references + design-system patterns, tags them, and runs team deliberation |
+| **Mood boards** | Tagged URLs + team deliberation. **UI image boards:** Zara scouts 3–5 real shipped screens; Arjun/Noor/Priya/Meera jury; she re-scouts if they skip (max 3 rounds) |
 | **User-contributed references** | User can add URLs/notes to a board and rerun the critique loop |
 | **Visual direction setting** | Arjun, Meera, Priya, Zara, Noor score references via the UX Honeycomb rigor matrix |
 | **Workspace artifacts** | `moodboard/{boardId}.json` is written into the project for the user to inspect |

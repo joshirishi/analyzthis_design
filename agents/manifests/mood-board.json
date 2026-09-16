@@ -7,6 +7,7 @@
   "system_skill": "skills/mood-board/SKILL.md",
   "allowed_jobs": [
     "collect web references for visual direction",
+    "run a Zara UI-image-board scout then a jury loop",
     "tag references with style, mood, surface",
     "retrieve design-system patterns for the task",
     "orchestrate team deliberation over references",

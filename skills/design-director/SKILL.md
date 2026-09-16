@@ -108,6 +108,8 @@ Read `skills/arjun/SKILL.md` — scoped **spec review only**:
 - Typography scale consistent?
 - Spacing rhythm (`tokens.spacing`) sufficient?
 - Color classes WCAG-safe per knowledge bank?
+- Anti-slop craftsmanship checks: no nested cards, no untinted pure black/gray, no gray text on colored backgrounds, and motion timing locked to 150–250ms ease-out (`[ux-guidelines.csv, row 100-105]`, `[motion.csv, row 1]`).
+- If `motion.enabled`: library + import from installed or `ui-libraries.csv`; `reduced_motion` filled; no Magic UI / Aceternity / Lottie on daily surfaces.
 
 Update `spec_verdict`. All three pass → set `"status": "ship"`.
 

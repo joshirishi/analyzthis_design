@@ -7,6 +7,15 @@ description: Build a visual/textual mood board from web references + design-syst
 
 Use `/mood-board` when you want to explore visual directions for a screen, flow, or product and have the persona team deliberate on which references fit the user, task, and design system.
 
+There are two boards:
+
+| Kind | What it is | Who hunts |
+|---|---|---|
+| **mood** (default) | Tagged URLs and notes. You paste links. | You, plus optional search stubs |
+| **ui** | A **UI image board** — 3–5 real shipped screens as frames | **Zara scouts.** Arjun / Noor / Priya / Meera jury. She goes back out if they skip. |
+
+Do not confuse this with generating fake marketing comps. Frames must be real product UI the host can open.
+
 ## What it does
 
 1. **Collects references** from URLs you provide, configured `moodboard.urls`, and optional web search stubs.
@@ -35,6 +44,10 @@ npx analyzthis_design moodboard add --board <boardId> \
   --note "I like the white space and the trust badge placement"
 
 npx analyzthis_design moodboard list
+
+npx analyzthis_design moodboard create --task "Invoice approval, partner signs, dense" --kind ui
+npx analyzthis_design moodboard frames --board <boardId> --url https://example.com/shot.png --title "Dense invoice table" --steal "one primary action" --refuse "purple glow" --peak "signed stamp"
+npx analyzthis_design moodboard critique --board <boardId>
 ```
 
 ## v2.0 chunked execution
@@ -44,6 +57,18 @@ npx analyzthis_design moodboard list
 - Cheap/free models tag references, retrieve design-system rows, and run the deliberation loop.
 - Result is the same `board.json` artifact, but at lower average token cost.
 
+## UI image board — Zara scout, then jury
+
+When `--kind ui` (or the user says "UI board" / "image board"):
+
+1. **Create** writes `scout.brief` and `scout.status = awaiting_scout`. Zara hunts **Google Images, Dribbble, or Pinterest** (or live product pages). She must actually search and open pages — no invented URLs, no AI comps.
+2. **Frames** — Zara saves 3–5 picks. Each frame: url, title, steal, refuse, peak. Round number is stored.
+3. **Jury** — `critique` runs Arjun, Meera, Priya, Noor (Zara does not vote on her own set). KEEP / SKIP per frame. Honeycomb still applies.
+4. **Iterate** — verdict SHIP → `scout.status = done`. REVISE or BLOCK → `scout.round++`, new brief from their because-lines, `awaiting_scout` again. Max 3 scout rounds, then Raj / the designer picks.
+5. **You still sign** — `/accept yes` or no plus one sentence on the kept direction.
+
+Zara's scout rules live in `skills/zara/SKILL.md` (Scout Pass). Motion stays 150–250ms ease-out. Cinematic GSAP landings are refused for daily product UI.
+
 ## How the personas use it
 
 | Persona | Lens |
@@ -51,7 +76,7 @@ npx analyzthis_design moodboard list
 | **Arjun** | Visual system fit, contrast, hierarchy, accessibility, WCAG |
 | **Meera** | Brand/category fit, GTM risk, competitive positioning |
 | **Priya** | Technical feasibility of implementing the style/pattern |
-| **Zara** | First impression, delight moment, emotional response |
+| **Zara** | **Scout lens = Peak-End** (first 2 seconds): same job, peak feeling, one steal, one refuse. Google Images / Dribbble / Pinterest. She does not jury her own picks. |
 | **Noor** | IA clarity, progressive disclosure, surface structure |
 
 Each persona scores references with the Honeycomb rigor matrix:
@@ -108,6 +133,7 @@ In `~/.analyzthis_design/config.json`:
 
 ## Notes
 
-- Image URLs are stored as references; alt-text/captions are added during tagging.
+- Image URLs are stored as references; alt-text/captions are added during tagging. Direct image URLs on a **ui** board are copied into the board folder when fetch succeeds.
 - Web articles are fetched as plain text; image extraction from HTML is not yet implemented.
-- Router rule: `mood_board` signals route to the `mood-board` skill, not the critique chain.
+- `--auto` on a mood board still creates search stubs for the host to fill. `--kind ui` does not — Zara must bring real URLs.
+- Router rule: `mood_board` signals route to the `mood-board` skill, not the critique chain. "UI board" / "image board" are the same route.

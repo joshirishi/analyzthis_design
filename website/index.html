@@ -33,16 +33,25 @@
     .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}.btn[disabled]{cursor:not-allowed;opacity:.45;transform:none;box-shadow:none}
     :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}.section-head.center{text-align:center;margin-inline:auto}.section-head.center .lede{margin-inline:auto}
 
-    /* Navigation — brand stamp on the left, one real CTA on the right. Same tokens as .btn. */
-    .nav{position:fixed;inset:0 0 auto;z-index:100;background:#fff;border-bottom:var(--border);padding:16px 0}.nav-row{display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}.nav-links{display:flex;align-items:center;gap:22px}
-    .nav-links>a{font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.nav-links>a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+    /* Navigation — brand + MENU + one CTA. Links never sit in the bar (they wrap and become unreadable). */
+    .nav{position:fixed;inset:0 0 auto;z-index:200;background:#fff;border-bottom:var(--border);padding:16px 0}
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
+    .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}
     .nav-brand{display:inline-flex;align-items:center;flex-shrink:0}
     .nav-brand img{display:block;width:auto;height:40px;filter:drop-shadow(4px 4px 0 var(--ink));transition:transform .15s ease,filter .15s ease}
     .nav-brand:hover img{transform:translate(4px,4px);filter:drop-shadow(0 0 0 transparent)}
     .nav-brand:active img{transform:translate(2px,2px);filter:drop-shadow(2px 2px 0 var(--ink))}
-    .nav-btn{min-height:44px;padding:10px 16px;font-size:.78rem;flex-shrink:0}.nav-btn-short{display:none}
-    .menu-btn{display:none;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer}
+    .nav-btn{min-height:44px;padding:10px 16px;font-size:.78rem;flex-shrink:0;white-space:nowrap}.nav-btn-short{display:none}
+    .menu-btn{display:grid;place-items:center;margin-left:auto;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer;flex-shrink:0;transition:transform .18s ease-out,box-shadow .18s ease-out,background .18s ease-out,color .18s ease-out}
+    .menu-btn:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+    .menu-btn:active,.menu-open .menu-btn{transform:translate(4px,4px);box-shadow:none;background:var(--ink);color:#fff}
+    .nav-links{display:flex;position:fixed;inset:90px 0 0;z-index:199;flex-direction:column;align-items:stretch;gap:0;background:#f4f1e9;padding:28px max(20px,calc((100% - var(--max)) / 2)) 56px;overflow:auto;visibility:hidden;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .18s ease-out,transform .18s ease-out,visibility .18s ease-out}
+    .menu-open .nav-links{visibility:visible;opacity:1;pointer-events:auto;transform:none}
+    .nav-links .nav-kicker{margin:28px 0 6px;font:800 .68rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .nav-links .nav-kicker:first-child{margin-top:0}
+    .nav-links a{min-height:48px;display:flex;align-items:center;flex-shrink:0;border-bottom:2px solid var(--ink);font-size:1.12rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:normal}
+    .nav-links a.is-lead{min-height:56px;font-size:clamp(1.28rem,2.2vw,1.55rem);font-weight:950}
+    .nav-links a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
 
     /* Hero */
     .hero{padding:120px 0 72px;border-bottom:var(--border);position:relative}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
@@ -145,24 +154,19 @@
     .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}
     .footer small{color:var(--muted)}
 
-    /* Narrow desktops: shrink the nav links and use the short CTA label so the row never wraps. */
     @media(max-width:1100px){
       .hero-grid{grid-template-columns:1fr;gap:32px}
     }
-    @media(max-width:1080px){
-      .nav-links{gap:16px}.nav-links>a{font-size:.74rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
-    }
     @media(max-width:900px){
-      .menu-btn{display:grid;place-items:center;margin-left:auto}.nav-row{gap:12px}
-      .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
-      .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
+      .nav-row{gap:12px}
       .hero-grid,.service-grid,.intake-grid,.packet-split{grid-template-columns:1fr;gap:42px}.packet-col + .packet-col{border-left:0;border-top:2px solid var(--line)}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
       .cards{grid-template-columns:repeat(2,1fr)}.products,.doors{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:640px){
       .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:120px 0 56px}.hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}
       .nav-row{gap:8px}.menu-btn{min-width:44px;padding:0 8px;font-size:.68rem}
-      .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}
+      .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
+      .nav-links a{min-height:48px}
       .proof-row,.pain-grid,.cards,.signals,.teams,.products,.doors,.case-grid,.field-grid,.trust-grid{grid-template-columns:1fr}.teams-intro{padding:20px 18px}.proof-item,.pain,.case-copy{border-right:0;border-bottom:2px solid var(--line)}
       .contract-row{grid-template-columns:1fr}
       .proof-item:last-child,.pain:last-child{border-bottom:0}.step{grid-template-columns:52px 1fr;padding:22px 16px}.step-no{width:44px}
@@ -178,10 +182,18 @@
     <div class="wrap nav-row">
       <a class="nav-brand" href="#main" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="314" height="81"></a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
-      <div class="nav-links" id="nav-links">
-        <a href="#doors">Your path</a><a href="#products">Products</a><a href="design.html">Design team</a><a href="#method">Method</a><a href="#measure">Measure</a><a href="#examples">Firms</a><a href="#faq">FAQ</a>
-      </div>
       <a class="btn primary nav-btn" href="#intake"><span class="nav-btn-full">Map one workflow</span><span class="nav-btn-short">Map workflow</span></a>
+    </div>
+    <div class="nav-links" id="nav-links" aria-hidden="true" inert>
+      <p class="nav-kicker">Do the work</p>
+      <a class="is-lead" href="#doors">Your path</a>
+      <a class="is-lead" href="#products">Products</a>
+      <a class="is-lead" href="design.html">Design team</a>
+      <p class="nav-kicker">Also</p>
+      <a href="#method">Method</a>
+      <a href="#measure">Measure</a>
+      <a href="#examples">Firms</a>
+      <a href="#faq">FAQ</a>
     </div>
   </nav>
 
@@ -195,7 +207,7 @@
             <p class="lede">A specialist team prepares one repeat packet — books, drawings, visit notes, or POs. It arrives in the tools you already open. A partner reviews and signs. Nothing changes without approval.</p>
             <div class="hero-actions">
               <a href="#doors" class="btn primary">Find your path <span aria-hidden="true">→</span></a>
-              <p class="hero-alt">Already in Cursor, Claude, Windsurf or Lovable? <a href="#doors">The doors are next</a> · <a href="design.html#whats-new">What's new in 2.5.0</a></p>
+              <p class="hero-alt">Already in Cursor, Claude, Windsurf or Lovable? <a href="#doors">The doors are next</a> · <a href="design.html#whats-new">What's new in 2.5.2</a></p>
             </div>
             <div class="micro-proof" aria-label="How this works">
               <span>You review. You sign. We do not file, advise, or ship.</span>
@@ -322,7 +334,7 @@
           <article class="product">
             <div class="product-top">
               <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
-              <span class="product-status live">Live · v2.5.0</span>
+              <span class="product-status live">Live · v2.5.2</span>
             </div>
             <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. For designers: type /noor, then /accept and /share — no terminal flags.</p>
             <dl class="product-facts">
@@ -593,7 +605,7 @@
           <details><summary>Is this a generic chatbot setup service?</summary><p>No. The unit of design is the workflow: specialist roles, scoped knowledge, handoffs, failure behavior, quality gates, and outcome feedback. A chat interface may be one entry point, but it is not the architecture.</p></details>
           <details><summary>Does every workflow need many agents?</summary><p>No. We use the smallest useful team. A narrow process may need two roles and one gate. Extra agents add coordination cost, so every role must earn its place.</p></details>
           <details><summary>Will you replace our current tools?</summary><p>Usually not. The goal is to work inside or alongside the tools your team already trusts. Discovery includes your current software, data boundaries, and deployment constraints.</p></details>
-          <details><summary>What changed in analyzthis_design 2.5.0?</summary><p>Keeping or skipping a note now moves that persona&rsquo;s score &mdash; and moves it <em>down</em> when the advice missed. Before 2.5.0 a rejection raised it. Devi leans on the personas that earn it, and feedback works on Claude Desktop, which has no terminal. Check the board with <code>npx analyzthis_design scores</code>. 2.4.1 still stands: <code>/accept</code>, <code>/share</code>, lite MCP catalog, inferred receipt. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
+          <details><summary>What changed in analyzthis_design 2.5.2?</summary><p>Personas cite real motion and UI libraries and prefer whatever is already in your repo. Kavi records that list on collect. 2.5.1 still stands for anti-slop craftsmanship. 2.5.0 still stands for keep/skip scores. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
           <details><summary>What changed in analyzthis_design 2.4.0?</summary><p>Claude Code and Desktop spend fewer tokens per verdict. MCP defaults to a small router instead of 19 tools (use <code>mcp --catalog full</code> for the old list). Every MCP turn gets an inferred receipt — not a bill. Skills load a short front; retrieve the rest. Knowledge bank is an index, not a dump. Type <code>/receipt</code> or run <code>npx analyzthis_design receipt</code>. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
           <details><summary>Do I need Cursor or Claude?</summary><p>No. Cursor, Claude Code, Claude Desktop, Windsurf, Codex and Grok each install with one command. Lovable, v0, Bolt, Replit and ChatGPT install nothing at all &mdash; you copy the team in as a system prompt. Pick your tool on the <a href="design.html#install">design team page</a>. Beyond that, this applies only to lab products such as analyzthis_design. A custom team for a practice does not ask you to install a coding tool. We start from the software you already open.</p></details>
           <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. In chat, personas use the model already in Cursor or Claude. Automatic model picking happens only on the CLI <code>run</code> command. Your final setup depends on volume, privacy needs, latency, and required model quality. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">How models are picked</a>.</p></details>
@@ -666,7 +678,7 @@
     <div class="wrap footer-row">
       <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
       <div class="footer-links"><a href="#doors">Your path</a><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="design.html#whats-new">What's new</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
-      <small>analyzthis_design v2.5.0 · MIT</small>
+      <small>analyzthis_design v2.5.2 · MIT</small>
     </div>
   </footer>
 
@@ -677,19 +689,21 @@
     const MOCK_MODE = new URLSearchParams(window.location.search).get("form") === "mock";
 
     const menuButton = document.querySelector(".menu-btn");
-    const navLinks = document.querySelectorAll(".nav-links a");
-    menuButton.addEventListener("click", () => {
-      const open = document.body.classList.toggle("menu-open");
+    const navPanel = document.getElementById("nav-links");
+    const navLinks = navPanel.querySelectorAll("a");
+    const setMenu = (open) => {
+      document.body.classList.toggle("menu-open", open);
       menuButton.setAttribute("aria-expanded", String(open));
       menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
       menuButton.textContent = open ? "CLOSE" : "MENU";
+      navPanel.toggleAttribute("inert", !open);
+      navPanel.setAttribute("aria-hidden", String(!open));
+    };
+    menuButton.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+    navLinks.forEach(link => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setMenu(false);
     });
-    navLinks.forEach(link => link.addEventListener("click", () => {
-      document.body.classList.remove("menu-open");
-      menuButton.setAttribute("aria-expanded", "false");
-      menuButton.setAttribute("aria-label", "Open navigation");
-      menuButton.textContent = "MENU";
-    }));
 
     // Three doors: stamp the chosen path. Jobs stay hidden until Dev/PM picks them (or #jobs).
     const doorCards = document.querySelectorAll("[data-door]");

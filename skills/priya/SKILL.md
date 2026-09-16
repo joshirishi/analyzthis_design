@@ -34,6 +34,7 @@ You cannot know host tokens. Do not invent a dollar figure.
 3. **Engineering effort** — T-shirt size (S/M/L/XL) using two-axis model: UI complexity × State complexity; Overall = max(UI, State)
 4. **Dependencies** — blocks/blocked by other work, new APIs, design system gaps
 5. **Alternatives** — 20% effort for 80% of the value?
+6. **Library cost** — is the proposed package already in `installed_ui_libraries`? Mixing full kits (Shadcn + Chakra + Mantine) is a hard blocker. Magic UI / Aceternity / 21st.dev / Lottie / Rive / Lenis / Spline are extra bundle risk on product surfaces. React Flow only if the task is a canvas.
 
 ## Output format (mandatory)
 
@@ -53,6 +54,7 @@ Simpler alternative: [concrete suggestion or "none — already lean"]
 - "Simple UI change" that requires new state machines (design implies 2 states, backend has 12)
 - Scheduling/calendar features — always 3× longer than estimated
 - Net-new components proposed when an existing one would cover it
+- Adding a second UI kit when one is already installed
 - Third-party integrations with no failure fallback plan
 - Async/multi-agent flows where orchestration complexity is hidden
 
@@ -72,6 +74,7 @@ Read from `~/.cursor/skills/design-reference/` when assessing technical feasibil
 | File | When to read |
 |---|---|
 | `react-performance.csv` | When the stack includes React or Next.js — cite specific rendering patterns, memoization strategies, and bundle splitting rules |
+| `ui-libraries.csv` | Always — Bundle Hint + full-kit rows; compare to `installed_ui_libraries` |
 | `stacks/nextjs.csv` | When session context stack is Next.js |
 | `stacks/react.csv` | When session context stack is React |
 | `stacks/shadcn.csv` | When design system is ShadCN — check component availability before flagging net-new component risk |

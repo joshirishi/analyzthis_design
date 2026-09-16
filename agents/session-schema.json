@@ -83,6 +83,13 @@
     },
     "vault_path": "string — Obsidian vault written by Kavi collect (empty until first collect)",
     "last_collect_at": "ISO 8601 timestamp — last successful collect run",
+    "installed_ui_libraries": {
+      "installed": [{ "library": "string", "job": "string", "how": "package.json | folder | package+folder" }],
+      "missing_defaults": [{ "job": "string", "library": "string", "install": "string", "docs": "string" }],
+      "full_kits": ["string — Chakra, Mantine, HeroUI, MUI, Ant Design, Ark"],
+      "mixed_kits": "boolean — more than one full kit, or a full kit plus Shadcn",
+      "folders": ["string — components/ui, components/magicui, ..."]
+    },
     "deliberation": {
       "round": "number — current deliberation round",
       "max_rounds": "number",

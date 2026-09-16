@@ -70,6 +70,18 @@
       "no_column": "No",
       "evolve_persona": "priya"
     },
+    "motion.csv": {
+      "header": ["No", "Category", "Library", "Timing", "Easing", "Do", "Don't", "Code Example Good", "Code Example Bad", "Severity"],
+      "filter_column": "Category",
+      "no_column": "No",
+      "evolve_persona": "zara"
+    },
+    "ui-libraries.csv": {
+      "header": ["No", "Library", "Npm Names", "Job", "Best For Tags", "Do Not Use For", "Import Example", "Install", "Docs URL", "Persona", "Bundle Hint", "Reduced Motion", "Detection Folders"],
+      "filter_column": "Best For Tags",
+      "no_column": "No",
+      "evolve_persona": "arjun"
+    },
     "stacks/angular.csv": {
       "header": ["No", "Category", "Guideline", "Description", "Do", "Don't", "Code Good", "Code Bad", "Severity", "Docs URL"],
       "filter_column": "Category",

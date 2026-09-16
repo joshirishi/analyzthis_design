@@ -86,7 +86,24 @@
       "type": "object",
       "properties": {
         "enabled": { "type": "boolean" },
-        "notes": { "type": "string" }
+        "notes": { "type": "string" },
+        "library": { "type": "string", "description": "Package name from ui-libraries.csv or installed_ui_libraries" },
+        "import_path": { "type": "string" },
+        "timing_ms": { "type": "string", "description": "e.g. 150-250" },
+        "easing": { "type": "string", "description": "e.g. ease-out" },
+        "reduced_motion": { "type": "string", "description": "What happens when prefers-reduced-motion: reduce" },
+        "moments": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "where": { "type": "string" },
+              "type": { "type": "string" },
+              "library": { "type": "string" }
+            }
+          }
+        }
       }
     },
     "do": { "type": "array", "items": { "type": "string" } },

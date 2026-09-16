@@ -56,6 +56,7 @@ const FILES = [
   ['lib/receipt.js',          'dist/lib/receipt.js'],
   ['lib/accept.js',           'dist/lib/accept.js'],
   ['lib/share.js',            'dist/lib/share.js'],
+  ['lib/ui-libraries.js',     'dist/lib/ui-libraries.js'],
 ];
 
 const root = path.join(__dirname, '..');

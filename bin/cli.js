@@ -99,8 +99,10 @@ Usage:
 
 ── Mood board commands ─────────────────────────────────────
   moodboard create --task <text>   Build a mood board from web + DS references
-                                    [--url <url> ...] [--auto]
-  moodboard critique --board <id>  Run team deliberation over a board
+                                    [--url <url> ...] [--auto] [--kind mood|ui]
+  moodboard frames --board <id>    Add Zara scout frames to a --kind ui board
+                                    --url <url> [--title t] [--steal s] [--refuse r] [--peak p]
+  moodboard critique --board <id>  Run team deliberation (jury on ui boards)
   moodboard add --board <id>       Add a user reference and rerun critique
                                     [--url <url>] [--title <t>] [--desc <d>]
                                     [--tags a,b] [--note <text>]
@@ -210,6 +212,8 @@ Usage:
   npx analyzthis_design research --query "EY design system tokens"
 
   npx analyzthis_design moodboard create --task "B2B fintech dashboard, trustworthy, high-contrast" --auto
+  npx analyzthis_design moodboard create --task "Invoice approval, partner signs" --kind ui
+  npx analyzthis_design moodboard frames --board <id> --url https://example.com/shot.png --title "Dense table" --steal "one stamp" --refuse "purple glow"
   npx analyzthis_design moodboard critique --board <boardId>
   npx analyzthis_design moodboard add --board <boardId> --url https://dribbble.com/shots/example --title "Alt hero" --tags "landing,trust"
 
@@ -326,6 +330,10 @@ const boardVal     = getFlag('board');
 const titleVal     = getFlag('title');
 const descVal      = getFlag('desc');
 const autoFlag     = flags.includes('--auto');
+const kindVal      = getFlag('kind');
+const stealVal     = getFlag('steal');
+const refuseVal    = getFlag('refuse');
+const peakVal      = getFlag('peak');
 const budgetVal    = getFlag('budget');
 const sequentialFlag = flags.includes('--sequential');
 const maxChunksVal = getFlag('max-chunks');
@@ -675,11 +683,20 @@ switch (cmd) {
             project: projectVal,
             task: taskVal,
             urls: urls,
+            kind: kindVal || 'mood',
             discover: autoFlag || urls.length > 0,
             dryRun: dryRunFlag,
           });
-          console.log(`\n✅ Mood board created: ${result.board.board_id}`);
-          console.log(`   References: ${result.board.references.length}`);
+          console.log(`\n✅ ${result.board.kind === 'ui' ? 'UI image board' : 'Mood board'} created: ${result.board.board_id}`);
+          if (result.board.kind === 'ui') {
+            console.log(`   Scout:    Zara round ${result.board.scout.round} — ${result.board.scout.status}`);
+            console.log(`   Next:     /zara (Scout Pass), then moodboard frames --board ${result.board.board_id}`);
+            console.log('');
+            console.log(result.board.scout.brief);
+            console.log('');
+          } else {
+            console.log(`   References: ${result.board.references.length}`);
+          }
           console.log(`   Board dir:  ${result.boardDir}`);
           console.log(`   Workspace:  ${result.workspacePath}\n`);
           if (dryRunFlag) {
@@ -712,6 +729,13 @@ switch (cmd) {
           });
           console.log(`\n✅ Mood board critique complete: ${result.board.board_id}`);
           console.log(`   Verdict: ${result.board.synthesis?.verdict || 'n/a'}`);
+          if (result.board.kind === 'ui' && result.board.scout) {
+            console.log(`   Scout:   round ${result.board.scout.round} — ${result.board.scout.status}`);
+            if (result.board.scout.status === 'awaiting_scout') {
+              console.log('');
+              console.log(result.board.scout.brief);
+            }
+          }
           console.log(`   Rounds:  ${result.board.deliberation?.round || 0}`);
           console.log(`   Board:   ${result.boardDir || path.join(session.sessionDir(projectVal || session.getProjectId()), 'moodboard', boardVal)}`);
           console.log(`   Workspace: ${result.workspacePath}\n`);
@@ -724,6 +748,31 @@ switch (cmd) {
           process.exit(1);
         }
       })();
+      break;
+    }
+    if (msub === 'frames') {
+      if (!boardVal || !urlVal) {
+        console.error('\n  ✗  --board and --url are required.  Example: npx analyzthis_design moodboard frames --board <id> --url https://example.com/shot.png --title "Dense table" --steal "one stamp" --refuse "purple glow"\n');
+        process.exit(1);
+      }
+      try {
+        const result = moodboard.addFrames({
+          project: projectVal,
+          boardId: boardVal,
+          frame: {
+            url: urlVal,
+            title: titleVal || '',
+            steal: stealVal || '',
+            refuse: refuseVal || '',
+            peak: peakVal || '',
+          },
+        });
+        console.log(`\n✅ Frame added to UI board ${result.board.board_id} (${result.board.frames.length} total)`);
+        console.log(`   Scout: ${result.board.scout.status} — next: moodboard critique --board ${result.board.board_id}\n`);
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
       break;
     }
     if (msub === 'add') {
@@ -776,7 +825,7 @@ switch (cmd) {
       }
       break;
     }
-    console.error('\n  Unknown moodboard subcommand. Use: create | critique | add | list\n');
+    console.error('\n  Unknown moodboard subcommand. Use: create | frames | critique | add | list\n');
     process.exit(1);
   }
 

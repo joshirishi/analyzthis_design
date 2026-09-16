@@ -93,6 +93,7 @@ Vault: [path]
 Notes: [N written / S skipped]
 Enriched: [E]
 Sources discovered: [count]
+UI libraries: [N installed]
 Knowledge bank: [synced count] → [targets]
 Next: /persona-orchestrator or /ux-story-gate — personas read this bank first.
 ```
@@ -105,11 +106,11 @@ Next: /persona-orchestrator or /ux-story-gate — personas read this bank first.
 
 | Vault folder | Sources |
 |---|---|
-| `PRDs/` | README, docs, PRD/requirements markdown |
+| `PRDs/` | README, docs, PRD/requirements markdown — extracts **Durable Product Truth**: Target Audience, Core Purpose, Hard Constraints, Operating Context, Brand Voice, and User Evidence |
 | `Brand/` | Tailwind config, tokens, theme CSS |
 | `Pages/` | App Router / page files |
 | `Components/` | `components/`, UI TSX/JSX |
-| `Tech/` | `package.json`, configs, API routes |
+| `Tech/` | `package.json`, configs, API routes, plus **Installed-UI-Libraries.md** (detected motion/UX/visual kits) |
 | `Sources/` | Discovered vaults, wikis, knowledge graphs |
 | `Web/` | External URLs from config + PRD/README |
 | `_meta/` | Index, knowledge-sources, last-sync |
@@ -120,6 +121,6 @@ Enrichment needs `OPENAI_API_KEY`, `GEMINI_API_KEY`, `ANTHROPIC_API_KEY`, or `ZA
 
 ## Session state
 
-After collect, `session-state.json` includes `vault_path` and `last_collect_at`. Other personas should read the knowledge bank before critiquing.
+After collect, `session-state.json` includes `vault_path`, `last_collect_at`, and `installed_ui_libraries` (catalog matches from `package.json` + `components/ui` folders). Other personas must prefer installed libraries from `Tech/Installed-UI-Libraries.md` before recommending new packages.
 
 Install skills: `npx analyzthis_design --target all --force`

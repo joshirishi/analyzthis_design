@@ -106,7 +106,7 @@ npx analyzthis_design sync --target all
 | Design + spec + optional build | `/design-director` | Senior-designer handoff path |
 | Critique an existing design | `/persona-orchestrator` or `/design-critic` | Scored review → SHIP / REVISE / BLOCK |
 | Review against PRDs and stories | `/ux-story-gate` | Task map + routing before critique |
-| Set visual direction | `/mood-board` | References + design-system patterns + team deliberation |
+| Set visual direction | `/mood-board` | Mood board (tagged URLs) or UI image board (Zara scouts, jury votes) |
 | Index the repo for personas | `/kavi` | Kavi → knowledge bank |
 | Get a single-lens opinion | `/arjun`, `/meera`, `/priya`, `/zara`, `/noor`, `/anuj` | Targeted follow-up. Default is a short verdict — say expand for the full schema |
 | See inferred token spend | `/receipt` | Not a bill. Same as `npx analyzthis_design receipt` |
@@ -206,6 +206,14 @@ What happens:
 3. Design-system patterns are pulled from `skills/design-reference/*.csv`.
 4. Arjun, Meera, Priya, Zara, Noor deliberate using the UX Honeycomb matrix.
 5. A `board.json` is written to `./moodboard/` for you to inspect.
+
+**UI image board** (pictures of real software, not tagged links):
+
+```
+/mood-board UI image board for invoice approval. Partner signs. Dense table.
+```
+
+Then `/zara`. She searches and opens real product screens, picks 3–5 frames, and writes steal / refuse / peak on each. Arjun, Noor, Priya, and Meera vote. If they skip, she scouts again (max 3 rounds). She does not score her own picks.
 
 You can add your own references and rerun:
 

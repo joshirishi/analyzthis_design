@@ -76,7 +76,7 @@ npx analyzthis_design spec validate --file ./design-spec.json
 
 **Hierarchy gate:** rank #1 in `information_hierarchy` matches the visually dominant region/component (`hierarchy_rank: 1`).
 
-**Arjun visual pass:** typography scale, spacing rhythm, and contrast classes are consistent with Visual Design Audit rubric — run scoped review on the spec only (no full page code required).
+**Arjun visual pass:** typography scale, spacing rhythm, and contrast classes are consistent with Visual Design Audit rubric — run scoped review on the spec only (no full page code required). Verify anti-slop rules: no nested cards (`div.card > div.card`), no untinted pure black/gray, no gray text on colored backgrounds, and motion timing locked to 150–250ms ease-out (`[ux-guidelines.csv, row 100-105]`, `[motion.csv, row 1]`). If `motion.enabled`, require `library`, `import_path`, `timing_ms`, `easing`, `reduced_motion`. Marketing FX libraries only when notes say landing/onboarding. `components[].import_path` must match `installed_ui_libraries` or a cited `ui-libraries.csv` row.
 
 Set `spec_verdict` when done:
 

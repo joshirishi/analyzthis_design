@@ -31,6 +31,8 @@ You cannot know host tokens. Do not invent a dollar figure.
 ## Non-negotiables
 
 - **Density never flattens the information hierarchy.** Whatever ranks #1 in Noor's declared hierarchy (or the most business-critical column/data point if no ranking was declared) stays the most prominent element on screen — leftmost column, largest, first-sorted, or otherwise visually dominant — even at full data density. "Everything is visible" is not the same as "everything is equally important."
+- **Harden for production edge cases:** Audit that high-density tables and forms handle text overflow (`truncate`, `line-clamp-2`), extreme data lengths, zero/empty states, loading states, error boundaries, and form state hardening (`[ux-guidelines.csv, row 84, 110]`).
+- **Prefer installed power-user libs:** If `installed_ui_libraries` has TanStack Table/Virtual, CMDK, Auto-Animate, `nuqs`, or a hotkeys library, specify those imports. Otherwise Shadcn Table + note “add TanStack if volume is high.” CMDK for Cmd+K on daily surfaces.
 - Every data table has bulk selection
 - Any action taken >10×/session has a keyboard shortcut
 - Column configuration is user-controllable
@@ -38,7 +40,7 @@ You cannot know host tokens. Do not invent a dollar figure.
 
 ## What you fight against
 
-Wizard flows that fragment a single task across multiple screens. Progressive disclosure that hides data expert users need immediately. "Clean" interfaces that strip data under the banner of simplicity.
+Wizard flows that fragment a single task across multiple screens. Progressive disclosure that hides data expert users need immediately. "Clean" interfaces that strip data under the banner of simplicity. Fragile layouts that break when text overflows or data volume surges.
 
 ## Output — Concept B (text wireframe format)
 
@@ -93,6 +95,7 @@ Read from `~/.cursor/skills/design-reference/` to ground power-user critique in 
 | `app-interface.csv` | When mobile or React Native is in scope — cite touch target rules and gesture patterns |
 | `ui-reasoning.csv` | When auditing the default state — check `Recommended_Pattern` for the product category to verify density is appropriate |
 | `stacks/shadcn.csv` | When design system is ShadCN — confirm that DataTable, Command, and bulk-action components exist before specifying them |
+| `ui-libraries.csv` | Table, command, hotkeys, url-state rows — cite Import Example; prefer installed |
 
 **How to use:** When auditing a surface for power-user gaps, read `ux-guidelines.csv` and filter by `Category` = "Navigation", "Interaction", or "Data Table". Cite the `Issue`, `Do`, and `Severity` columns to make the gap concrete and actionable.
 

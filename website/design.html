@@ -33,12 +33,21 @@
     .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}
     :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}
 
-    .nav{position:fixed;inset:0 0 auto;z-index:100;background:#fff;border-bottom:var(--border);padding:16px 0}.nav-row{display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{display:inline-flex;align-items:center}.brand img{display:block;width:auto;height:42px}.nav-links{display:flex;align-items:center;gap:22px}
-    .nav-links>a{font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.nav-links>a:hover,.nav-links>a[aria-current="page"]{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+    .nav{position:fixed;inset:0 0 auto;z-index:200;background:#fff;border-bottom:var(--border);padding:16px 0}
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
+    .brand{display:inline-flex;align-items:center}.brand img{display:block;width:auto;height:42px}
     .nav-brand{display:inline-flex;align-items:center;flex-shrink:0}.nav-brand img{display:block;width:auto;height:40px}
-    .nav-btn{min-height:44px;padding:10px 16px;font-size:.78rem;flex-shrink:0}.nav-btn-short{display:none}
-    .menu-btn{display:none;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer}
+    .nav-btn{min-height:44px;padding:10px 16px;font-size:.78rem;flex-shrink:0;white-space:nowrap}.nav-btn-short{display:none}
+    .menu-btn{display:grid;place-items:center;margin-left:auto;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer;flex-shrink:0;transition:transform .18s ease-out,box-shadow .18s ease-out,background .18s ease-out,color .18s ease-out}
+    .menu-btn:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+    .menu-btn:active,.menu-open .menu-btn{transform:translate(4px,4px);box-shadow:none;background:var(--ink);color:#fff}
+    .nav-links{display:flex;position:fixed;inset:90px 0 0;z-index:199;flex-direction:column;align-items:stretch;gap:0;background:#f4f1e9;padding:28px max(20px,calc((100% - var(--max)) / 2)) 56px;overflow:auto;visibility:hidden;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .18s ease-out,transform .18s ease-out,visibility .18s ease-out}
+    .menu-open .nav-links{visibility:visible;opacity:1;pointer-events:auto;transform:none}
+    .nav-links .nav-kicker{margin:28px 0 6px;font:800 .68rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .nav-links .nav-kicker:first-child{margin-top:0}
+    .nav-links a{min-height:48px;display:flex;align-items:center;flex-shrink:0;border-bottom:2px solid var(--ink);font-size:1.12rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:normal}
+    .nav-links a.is-lead{min-height:56px;font-size:clamp(1.28rem,2.2vw,1.55rem);font-weight:950}
+    .nav-links a:hover,.nav-links a[aria-current="page"]{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
 
     .hero{padding:165px 0 82px;border-bottom:var(--border);position:relative}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
     .hero h1{font-size:clamp(3.2rem,7vw,6.2rem);text-transform:uppercase;margin:24px 0 26px}
@@ -152,14 +161,8 @@
     .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}
     .footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}.footer small{color:var(--muted)}
 
-    /* Narrow desktops: shrink the nav links and use the short CTA label so the row never wraps. */
-    @media(max-width:1080px){
-      .nav-links{gap:16px}.nav-links>a{font-size:.74rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
-    }
     @media(max-width:900px){
-      .menu-btn{display:grid;place-items:center;margin-left:auto}.nav-row{gap:12px}
-      .nav-links{display:none;position:fixed;inset:90px 0 0;background:var(--paper);padding:28px 20px;align-items:stretch;flex-direction:column}
-      .menu-open .nav-links{display:flex}.nav-links>a{min-height:48px;display:flex;align-items:center;border-bottom:2px solid var(--ink);font-size:1rem!important}
+      .nav-row{gap:12px}
       .job,.trust-grid,.personas,.hosts,.call-grid,.mcp-grid,.path-install{grid-template-columns:1fr}
       .job-side{border-left:0;border-top:var(--border)}
     }
@@ -168,7 +171,8 @@
       .hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}.hero-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
       .path-table table{min-width:0}.path-table th,.path-table td{padding:12px 10px}
       .nav-row{gap:8px}.menu-btn{min-width:44px;padding:0 8px;font-size:.68rem}
-      .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}
+      .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
+      .nav-links a{min-height:48px}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
     /* Tool picker — neo-brutalist to match .btn/.code-card */
@@ -193,27 +197,30 @@
     <div class="wrap nav-row">
       <a class="nav-brand" href="index.html" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="314" height="81"></a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
-      <div class="nav-links" id="nav-links">
-        <a href="index.html">Lab</a>
-        <a href="#designer-path">Designer path</a>
-        <a href="#jobs">What you can do</a>
-        <a href="#team">Team</a>
-        <a href="#whats-new">What's new</a>
-        <a href="#call">Call them</a>
-        <a href="#models">Models</a>
-        <a href="#mcp">MCP</a>
-        <a href="#run">Run it</a>
-        <a href="index.html#intake">Custom team</a>
-        <a href="index.html#faq">FAQ</a>
-      </div>
       <a class="btn primary nav-btn" href="#designer-path"><span class="nav-btn-full">Start as a designer</span><span class="nav-btn-short">Start</span></a>
+    </div>
+    <div class="nav-links" id="nav-links" aria-hidden="true" inert>
+      <p class="nav-kicker">Do the work</p>
+      <a class="is-lead" href="#designer-path">Designer path</a>
+      <a class="is-lead" href="#jobs">What you can do</a>
+      <a class="is-lead" href="#team">Team</a>
+      <a class="is-lead" href="#call">Call them</a>
+      <p class="nav-kicker">Install</p>
+      <a href="#models">Models</a>
+      <a href="#mcp">MCP</a>
+      <a href="#run">Run it</a>
+      <p class="nav-kicker">Also</p>
+      <a href="#whats-new">What's new</a>
+      <a href="index.html">Lab</a>
+      <a href="index.html#intake">Custom team</a>
+      <a href="index.html#faq">FAQ</a>
     </div>
   </nav>
 
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <span class="eyebrow"><span class="dot"></span>For designers · open source · v2.5.0</span>
+        <span class="eyebrow"><span class="dot"></span>For designers · open source · v2.5.2</span>
         <h1>Your design team. Type the <span class="accent">name.</span></h1>
         <p class="lede">Keep or skip in chat. Send a note back. No terminal flags. Named specialists wireframe, critique, and gate the work — so you get a verdict, not a polite paragraph.</p>
         <div class="hero-actions">
@@ -279,10 +286,10 @@
           <div class="code-card">
             <div class="code-head"><span>One line — any folder</span><span>Terminal</span></div>
             <pre># Cursor
-npx analyzthis_design@2.5.0 --target cursor --force
+npx analyzthis_design@2.5.2 --target cursor --force
 
 # Claude Code
-npx analyzthis_design@2.5.0 --target claude --force
+npx analyzthis_design@2.5.2 --target claude --force
 
 # Then restart the app. Type /zara even if the menu is short.</pre>
           </div>
@@ -311,7 +318,7 @@ npx analyzthis_design@2.5.0 --target claude --force
           <a href="#mood">Set visual direction</a>
           <a href="#kavi">Index project knowledge</a>
           <a href="#run">Run without API keys</a>
-          <a href="#whats-new">What's new in 2.5.0</a>
+          <a href="#whats-new">What's new in 2.5.2</a>
           <a href="#call">Call a specialist</a>
           <a href="#models">Which model runs</a>
           <a href="#mcp">Run from any MCP IDE</a>
@@ -324,11 +331,34 @@ npx analyzthis_design@2.5.0 --target claude --force
       <div class="wrap">
         <div class="section-head">
           <span class="eyebrow light">Changelog</span>
-          <h2>What's new in <span class="accent">2.5.0.</span></h2>
-          <p class="lede">Keep or skip a note and the persona's score actually moves &mdash; both ways. Works with no terminal, so Claude Desktop counts too. Re-run install with <span class="cmd">--force</span> after you update.</p>
+          <h2>What's new in <span class="accent">2.5.2.</span></h2>
+          <p class="lede">Personas now cite real motion and UI libraries, and they prefer whatever is already in your repo. Re-run install with <span class="cmd">--force</span> after you update.</p>
         </div>
         <div class="log">
           <article class="log-entry now">
+            <header>
+              <time datetime="2026-09-08">8 Sep 2026</time>
+              <h3>2.5.2 — Motion, UX, and visual-design libraries</h3>
+            </header>
+            <ul>
+              <li><strong>Cite real packages.</strong> New <span class="cmd">motion.csv</span> and <span class="cmd">ui-libraries.csv</span> cover Motion, Shadcn, React Aria, Chakra, CMDK, TanStack, Tremor, Magic UI, and more. One library per job.</li>
+              <li><strong>Kavi detects what you already use.</strong> Collect reads the full <span class="cmd">package.json</span> plus kit folders and writes <span class="cmd">Tech/Installed-UI-Libraries.md</span>. Later personas prefer that list.</li>
+              <li><strong>No kit mashups.</strong> Mixing Shadcn with Chakra or Mantine is a Priya block. Magic UI and Lottie stay off daily dashboards.</li>
+              <li><strong>DesignSpec motion is specific.</strong> If motion is on, the spec must name library, import, timing, easing, and a reduced-motion fallback.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-09-08">8 Sep 2026</time>
+              <h3>2.5.1 — Anti-AI-slop &amp; craftsmanship</h3>
+            </header>
+            <ul>
+              <li><strong>Arjun hunts generic AI look.</strong> Nested cards, untinted black/gray, gray text on colored badges, purple-to-blue gradient clichés.</li>
+              <li><strong>Noor distills.</strong> Less container clutter; CTAs say the outcome (<span class="cmd">Create Invoice</span>, not Submit).</li>
+              <li><strong>Zara times motion.</strong> 150–250ms ease-out. Bounce and elastic easing are out.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
             <header>
               <time datetime="2026-09-02">2 Sep 2026</time>
               <h3>2.5.0 — personas earn or lose trust</h3>
@@ -526,26 +556,24 @@ without a workaround?</pre>
           <article class="job" id="mood">
             <div class="job-copy">
               <h3>Set visual direction</h3>
-              <p>When the team is arguing about “feel” with no shared board. A mood board collects web references and your design-system patterns, tags them, and runs the same specialists over the references — not over a blank prompt.</p>
-              <div class="job-meta"><span>Direction</span><span>/mood-board</span></div>
+              <p>Two boards. A <strong>mood board</strong> is tagged links and a team debate. A <strong>UI image board</strong> is pictures of real shipped software: Zara goes out and finds 3–5 screens, then Arjun, Noor, Priya, and Meera vote. If they skip her picks, she goes back out with their reasons — up to three tries.</p>
+              <div class="job-meta"><span>Direction</span><span>/mood-board</span><span>/zara</span></div>
               <ol class="job-steps">
-                <li>You name the product type and the mood you want (trust, density, calm).</li>
-                <li>The team gathers references and patterns from the design-reference library.</li>
-                <li>You can add your own URLs and notes, then rerun.</li>
-                <li>Arjun, Meera, Priya, Zara, and Noor score the board.</li>
+                <li>You name the job in one line (who uses it, what the screen is for).</li>
+                <li>Mood board: tagged URLs + design-system patterns. UI board: Zara actually browses live product screens — no fake AI comps.</li>
+                <li>On a UI board she writes steal / refuse / peak on each frame. She does not score her own picks.</li>
+                <li>The jury SHIPs, or sends her out again. After three rounds, you (or Raj) pick.</li>
                 <li>A board file is written into the project so you can inspect every pick.</li>
               </ol>
             </div>
             <div class="job-side">
               <div class="code-card">
-                <div class="code-head"><span>Mood board</span><span>Chat or CLI</span></div>
-                <pre>/mood-board Build a mood board for a
-B2B fintech dashboard.
-Trustworthy, high-contrast, data-dense.
-Include 3 web references.
+                <div class="code-head"><span>UI image board</span><span>Chat</span></div>
+                <pre>/mood-board UI image board for invoice
+approval. Partner signs. Dense table.
 
-npx analyzthis_design moodboard create \
-  --task "B2B fintech dashboard" --auto</pre>
+Then /zara — she scouts real screens.
+If the rest skip, she scouts again.</pre>
               </div>
             </div>
           </article>
@@ -810,7 +838,7 @@ npx analyzthis_design install --target all --force</pre>
               <tr><td>Critique a live screen</td><td><span class="cmd">/persona-orchestrator</span></td><td>SHIP / REVISE / BLOCK + top 3 fixes</td></tr>
               <tr><td>Full four-persona review</td><td><span class="cmd">/design-critic</span></td><td>Composite score + hierarchy gate</td></tr>
               <tr><td>Check against a PRD</td><td><span class="cmd">/ux-story-gate</span></td><td>Task map, routing, optional browser verify</td></tr>
-              <tr><td>Set visual direction</td><td><span class="cmd">/mood-board</span></td><td>Tagged references + team scores</td></tr>
+              <tr><td>Set visual direction</td><td><span class="cmd">/mood-board</span></td><td>Mood board or UI image board (Zara scouts, jury votes)</td></tr>
               <tr><td>Ground the repo</td><td><span class="cmd">/kavi</span></td><td>Vault + project-local knowledge bank</td></tr>
               <tr><td>Run from any MCP IDE</td><td><span class="cmd">npx analyzthis_design mcp</span></td><td>Lite catalog: router + retrieve + session + receipt</td></tr>
               <tr><td>Keep or skip the last note</td><td><span class="cmd">/accept</span></td><td>Yes or no. Local evolution — no CLI flags</td></tr>
@@ -1070,7 +1098,7 @@ npx analyzthis_design collect --target all</pre>
         <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm</a>
         <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
       </div>
-      <small>analyzthis_design v2.5.0 · MIT</small>
+      <small>analyzthis_design v2.5.2 · MIT</small>
     </div>
   </footer>
 
@@ -1141,19 +1169,21 @@ npx analyzthis_design collect --target all</pre>
 </script>
 <script>
     const menuButton = document.querySelector(".menu-btn");
-    const navLinks = document.querySelectorAll(".nav-links a");
-    menuButton.addEventListener("click", () => {
-      const open = document.body.classList.toggle("menu-open");
+    const navPanel = document.getElementById("nav-links");
+    const navLinks = navPanel.querySelectorAll("a");
+    const setMenu = (open) => {
+      document.body.classList.toggle("menu-open", open);
       menuButton.setAttribute("aria-expanded", String(open));
       menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
       menuButton.textContent = open ? "CLOSE" : "MENU";
+      navPanel.toggleAttribute("inert", !open);
+      navPanel.setAttribute("aria-hidden", String(!open));
+    };
+    menuButton.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+    navLinks.forEach(link => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setMenu(false);
     });
-    navLinks.forEach(link => link.addEventListener("click", () => {
-      document.body.classList.remove("menu-open");
-      menuButton.setAttribute("aria-expanded", "false");
-      menuButton.setAttribute("aria-label", "Open navigation");
-      menuButton.textContent = "MENU";
-    }));
   </script>
 </body>
 </html>

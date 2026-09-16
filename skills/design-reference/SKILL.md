@@ -25,6 +25,8 @@ Shared knowledge base for all 7 design personas. Each CSV covers a specific desi
 | `landing.csv` | Landing page layout patterns — section order, CTA placement, color strategy, conversion optimization | Meera, Zara |
 | `charts.csv` | 25 chart types — when to use, when not to use, accessibility grade, library recommendation | Arjun, Zara |
 | `icons.csv` | Phosphor icon catalog — name, keywords, import code, usage context, style | Noor, Zara |
+| `motion.csv` | Motion craft rules — enter/exit, layout, hover, lists, celebration, reduced-motion, timings | Zara, Arjun |
+| `ui-libraries.csv` | Motion, UX, and visual-design packages — npm names, jobs, imports, when not to use | Zara, Arjun, Anuj, Noor, Priya |
 | `react-performance.csv` | React rendering patterns — memoization, lazy loading, virtualization, bundle splitting | Priya |
 | `stacks/nextjs.csv` | Next.js-specific patterns and component guidance | Priya |
 | `stacks/react.csv` | React-specific patterns | Priya |
@@ -52,6 +54,8 @@ Every time you cite a value from a reference file, use this format inline:
 - `[ui-reasoning.csv, row 6: "Financial Dashboard — must_have: real-time-updates, must_have: high-contrast"]`
 - `[styles.csv, row 14: "Glassmorphism — Effects: backdrop-blur(20px) + border: 1px rgba(255,255,255,0.2)"]`
 - `[stacks/shadcn.csv, row 8: "DataTable — supports column visibility toggle and row selection"]`
+- `[motion.csv, row 1: "Animate enter with 150-250ms ease-out — Severity: High"]`
+- `[ui-libraries.csv, row 23: "CMDK — Job: command — daily power-user palettes"]`
 
 **Never cite abstractly.** "Add a 44px touch target" is wrong. `[ux-guidelines.csv, row 22: "Minimum 44×44px — Severity: High"]` is correct. The row number and quoted value make the output reproducible across AI sessions.
 
@@ -74,6 +78,8 @@ All files live at: `~/.cursor/skills/design-reference/`
 ├── landing.csv
 ├── charts.csv
 ├── icons.csv
+├── motion.csv
+├── ui-libraries.csv
 ├── react-performance.csv
 └── stacks/
     ├── nextjs.csv
