@@ -1011,7 +1011,7 @@ skills/
 
 ## Marketing site
 
-The public lab site lives in `website/` and is deployed on Vercel as **analyzthis-lab** (site only — not the npm package). The home page keeps the packet story and offers three paths: designers (`design.html`), Dev/PMs (three jobs + workspace warning), and firm owners (map one workflow). The Vercel project root is `website/` with no build step — do not set Output Directory to `public`.
+The public lab site lives in `website/` and is deployed on Vercel as **analyzthis-lab** (site only — not the npm package). Home names the design team first (type `/zara`, get a verdict), shows three jobs in human words, then three paths: designers (`design.html`), Dev/PMs, and firm owners (GST packet lives later, not in the hero). The Vercel project root is `website/` with no build step — do not set Output Directory to `public`.
 
 - Live: [https://analyzthis-lab.vercel.app](https://analyzthis-lab.vercel.app)
 - Design team deep-dive: [https://analyzthis-lab.vercel.app/design](https://analyzthis-lab.vercel.app/design) (`website/design.html`)

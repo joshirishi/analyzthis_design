@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Analyzthis Lab — Work that reaches your desk ready to sign</title>
-  <meta name="description" content="A specialist team prepares one repeat packet for your practice. It arrives in the tools you already open. You review and sign. Nothing changes without approval.">
-  <meta property="og:title" content="Analyzthis Lab — Work that reaches your desk ready to sign">
-  <meta property="og:description" content="Shipped team products plus custom workflow teams. Same method. Different delivery. You still sign.">
+  <title>Analyzthis Lab — A design team in the AI you already use</title>
+  <meta name="description" content="Type /zara. Get a verdict, not a polite paragraph. The design team is open source. For designers and PMs. Custom teams for firms that do not use a coding tool.">
+  <meta property="og:title" content="Analyzthis Lab — A design team in the AI you already use">
+  <meta property="og:description" content="Named specialists live in Cursor, Claude, or a browser tool. Open source. No new app. You still decide.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#c93800">
   <style>
@@ -56,12 +56,36 @@
     /* Hero */
     .hero{padding:120px 0 72px;border-bottom:var(--border);position:relative}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
     .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:start;gap:56px;min-width:0}.hero-grid > *{min-width:0}.hero h1{font-size:clamp(2.75rem,5vw,4.5rem);text-transform:uppercase;margin:20px 0 22px}
-    .hero-actions{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:28px}
-    .hero-alt{margin:0;font-weight:800;font-size:.95rem;color:var(--muted)}
+    .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:28px}
+    .hero-alt{flex-basis:100%;margin:4px 0 0;font-weight:800;font-size:.95rem;color:var(--muted)}
     .hero-alt a{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
     .hero-alt a:hover{color:var(--ink)}
+    .hero-cmds{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+    .hero-cmds .hint{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--muted);margin-right:4px}
     .micro-proof{display:flex;flex-direction:column;gap:10px;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
     .micro-proof span:before{content:"✓";color:var(--green);font-weight:950;margin-right:7px}
+    .verdict-mark{display:inline-block;background:var(--yellow);color:var(--ink);border:2px solid var(--ink);padding:4px 8px;font:900 .72rem var(--mono);text-transform:uppercase}
+    .verdict-mark.block{background:var(--red);color:#fff}
+    .verdict-mark.ground{background:var(--cyan);color:#fff}
+    .verdict-mark.hold{background:var(--purple);color:#fff}
+    .verdict-mark.ship{background:var(--green);color:#fff}
+    .sample-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 10px}
+    .sample-job{font:800 .68rem var(--mono);text-transform:uppercase;border:2px solid var(--ink);padding:4px 8px;background:var(--orange-soft)}
+    .sample-why{margin:0 0 14px;color:var(--muted);font-size:.9rem;max-width:46ch}
+    .sample-wait{display:none;align-items:center;gap:12px;padding:20px 18px;font:800 .78rem var(--mono);text-transform:uppercase;background:var(--paper);border-bottom:2px dashed var(--line)}
+    .sample-wait-mark{width:10px;height:10px;flex-shrink:0;background:var(--orange);animation:caret-blink .7s step-end infinite}
+    .hero .blueprint.is-wait .sample-wait{display:flex}
+    .hero .blueprint.is-wait .sample-report,.hero .blueprint.is-wait .packet-ban,.hero .blueprint.is-wait .connector{display:none}
+    .sample-report .verdict-mark{animation:stamp-in .22s ease-out}
+    .fix-list{list-style:none;padding:0;margin:0}
+    .fix-list li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.92rem}
+    .hero .blueprint:not(.is-wait) .fix-list li{animation:fade-up .28s ease both}
+    .hero .blueprint:not(.is-wait) .fix-list li:nth-child(2){animation-delay:.08s}
+    .hero .blueprint:not(.is-wait) .fix-list li:nth-child(3){animation-delay:.16s}
+    .fix-list li:last-child{border:0}
+    .fix-list b{font:800 .68rem var(--mono);color:var(--orange);margin-right:8px}
+    @keyframes stamp-in{from{transform:scale(1.12)}to{transform:none}}
+    @keyframes fade-up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
     .packet-split{display:grid;grid-template-columns:1fr 1fr}
     .packet-col{padding:16px}.packet-col + .packet-col{border-left:2px solid var(--line)}
     .packet-col h3{font-size:.78rem;margin:0 0 10px}.packet-col ul{list-style:none;padding:0;margin:0}
@@ -71,14 +95,18 @@
     .packet-n{width:26px;height:26px;flex-shrink:0;display:grid;place-items:center;border:2px solid var(--ink);background:var(--orange);color:#fff;font:900 .68rem var(--mono)}
     .packet-ban{padding:14px 16px;background:#fff3f2;border-top:2px solid var(--line)}
     .packet-ban b{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--red);margin-bottom:4px}
+    .packet-ban.ok b{color:var(--green)}
     .packet-ban span{color:var(--muted);font-size:.88rem}
+    .connector a{text-decoration:underline;text-underline-offset:3px}
     .lab-line{font-size:1.05rem;max-width:46ch;margin:0 0 28px}
     .product-facts{display:grid;gap:10px;margin:0;padding:14px 0 0;border-top:2px solid var(--line)}
     .product-facts div{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:start}
     .product-facts dt{font:800 .68rem var(--mono);text-transform:uppercase;padding-top:2px}
     .product-facts dd{margin:0;color:var(--muted);font-size:.88rem}
     .method-pipe{margin-bottom:32px}
-    .blueprint{background:#fff;border:var(--border);box-shadow:var(--shadow);position:relative}.blueprint-head{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:12px 16px;font:800 .72rem var(--mono);text-transform:uppercase}
+    .blueprint{background:#fff;border:var(--border);box-shadow:var(--shadow);position:relative}
+    .hero .blueprint{min-height:0}
+    .blueprint-head{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:12px 16px;font:800 .72rem var(--mono);text-transform:uppercase}
     .blueprint-body{padding:18px}.agent-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:13px;padding:14px 0;border-bottom:2px solid var(--line)}
     .agent-row:last-child{border-bottom:0}.agent-id{width:44px;height:44px;display:grid;place-items:center;background:var(--agent);color:#fff;border:2px solid var(--ink);font-weight:950}
     .agent-row strong{display:block;text-transform:uppercase}.agent-row small{color:var(--muted)}.agent-state{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft)}
@@ -118,6 +146,12 @@
     .door[aria-current="true"] p{color:var(--orange-soft)}.door[aria-current="true"] .door-kicker{color:#fff}
     .door[aria-current="true"] .btn.primary{background:#fff;color:var(--ink)}
     .cmd{display:inline-block;font:800 .78rem var(--mono);background:var(--orange-soft);border:2px solid var(--ink);padding:2px 8px;margin:0 2px}
+    /* Hero /zara: types once, then the caret keeps blinking — like a command prompt. */
+    .cmd-live{display:inline-flex;align-items:center;min-width:calc(6ch + 13px);background:var(--yellow);box-shadow:3px 3px 0 var(--ink);vertical-align:baseline}
+    .cmd-live-text{display:inline-block;overflow:hidden;white-space:nowrap;width:0;vertical-align:bottom;animation:type-cmd 1.1s steps(var(--ch,5),end) .2s forwards}
+    .cmd-live:after{content:"";display:inline-block;width:2px;height:.85em;margin-left:3px;background:var(--ink);vertical-align:-1px;animation:caret-blink .7s step-end infinite}
+    @keyframes type-cmd{to{width:calc(var(--ch,5) * 1ch)}}
+    @keyframes caret-blink{50%{background:transparent}}
     .warn{border:var(--border);background:var(--yellow);padding:22px 24px;box-shadow:var(--shadow-sm);margin-top:22px}
     .warn b{display:block;text-transform:uppercase;margin-bottom:8px;font-size:.85rem}
     .warn p{margin:0;color:#24231f;font-size:.95rem}
@@ -173,7 +207,9 @@
       .form-step{padding:22px 16px}.field.full{grid-column:auto}.form-actions{flex-direction:column-reverse}.form-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
       .outline{-webkit-text-stroke:1.5px var(--ink)}.hero-actions .btn{width:100%}
     }
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+      .cmd-live,.cmd-live:after,.cmd-live-text,.sample-wait-mark{animation:none!important}.cmd-live-text{width:auto}
+      .sample-report .verdict-mark,.fix-list li{animation:none!important}}
   </style>
 </head>
 <body>
@@ -186,6 +222,7 @@
     </div>
     <div class="nav-links" id="nav-links" aria-hidden="true" inert>
       <p class="nav-kicker">Do the work</p>
+      <a class="is-lead" href="#jobs">What you get</a>
       <a class="is-lead" href="#doors">Your path</a>
       <a class="is-lead" href="#products">Products</a>
       <a class="is-lead" href="design.html">Design team</a>
@@ -202,115 +239,86 @@
       <div class="wrap">
         <div class="hero-grid">
           <div>
-            <span class="eyebrow"><span class="dot"></span>Analyzthis Lab · One workflow. One packet. You sign.</span>
-            <h1>Work that reaches your desk <span class="accent">ready to sign.</span></h1>
-            <p class="lede">A specialist team prepares one repeat packet — books, drawings, visit notes, or POs. It arrives in the tools you already open. A partner reviews and signs. Nothing changes without approval.</p>
+            <span class="eyebrow"><span class="dot"></span>Open source · Design team in the AI you already use</span>
+            <h1>Your design team. Type the <span class="accent">name.</span></h1>
+            <p class="lede">Named specialists live in Cursor, Claude, or a browser tool. Type <span class="cmd cmd-live"><span class="cmd-live-text" id="hero-cmd">/zara</span></span>. You get a verdict — not a polite paragraph. The design team is open source. No new app.</p>
+            <div class="hero-cmds" aria-label="What you type">
+              <span class="hint">Type</span>
+              <span class="cmd">/zara</span>
+              <span class="cmd">/accept yes</span>
+              <span class="cmd">/share</span>
+            </div>
             <div class="hero-actions">
-              <a href="#doors" class="btn primary">Find your path <span aria-hidden="true">→</span></a>
-              <p class="hero-alt">Already in Cursor, Claude, Windsurf or Lovable? <a href="#doors">The doors are next</a> · <a href="design.html#whats-new">What's new in 2.5.2</a></p>
+              <a href="#jobs" class="btn primary">See what you get <span aria-hidden="true">→</span></a>
+              <a class="btn" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">It's open source <span aria-hidden="true">↗</span></a>
+              <p class="hero-alt">Then <a href="#doors">pick who you are</a> · <a href="design.html">Full design team page</a></p>
             </div>
             <div class="micro-proof" aria-label="How this works">
-              <span>You review. You sign. We do not file, advise, or ship.</span>
-              <span>One workflow first. Smallest useful team.</span>
-              <span>We score the packet: opened, edited, minutes, ran again.</span>
+              <span>Open source. Read every file.</span>
+              <span>A verdict, not a nice paragraph.</span>
+              <span>You still decide every change.</span>
             </div>
           </div>
-          <aside class="blueprint" aria-label="Example review packet for monthly GST prep">
-            <div class="blueprint-head"><span>Tuesday morning / example</span><span>GST · monthly</span></div>
-            <div class="packet-split">
-              <div class="packet-col">
-                <h3>What we send</h3>
-                <ul>
-                  <li>Monthly GST review packet</li>
-                  <li>12 missing invoices flagged</li>
-                  <li>Ledger mismatches listed</li>
-                  <li>Partner checklist, one page</li>
-                </ul>
-              </div>
-              <div class="packet-col">
-                <h3>What you do</h3>
-                <div class="packet-step"><span class="packet-n">1</span> Open the packet</div>
-                <div class="packet-step"><span class="packet-n">2</span> Edit or accept</div>
-                <div class="packet-step"><span class="packet-n">3</span> Sign</div>
-              </div>
+          <aside class="blueprint is-wait" id="hero-sample" aria-live="polite" aria-label="Example from Zara on a login screen">
+            <div class="blueprint-head"><span id="sample-who">Example / Zara</span><span id="sample-screen">Login screen</span></div>
+            <div class="sample-wait" id="sample-wait"><span class="sample-wait-mark" aria-hidden="true"></span><span id="sample-wait-text">Looking at delight</span></div>
+            <div class="blueprint-body sample-report" id="sample-report">
+              <p class="sample-meta"><span class="verdict-mark" id="sample-verdict">Revise</span><span class="sample-job" id="sample-job">Delight</span></p>
+              <p class="sample-why" id="sample-why">Looks at one peak moment. That is why these three notes.</p>
+              <h3 style="margin-bottom:8px">What comes back</h3>
+              <ol class="fix-list">
+                <li><b>01</b> <span id="sample-f1">The primary button fights the back link</span></li>
+                <li><b>02</b> <span id="sample-f2">The error sits below the fold</span></li>
+                <li><b>03</b> <span id="sample-f3">The guest path is a dead end</span></li>
+              </ol>
             </div>
-            <div class="packet-ban"><b>Does not own</b><span>Filing · Client advice · Sign-off</span></div>
-            <div class="connector">Same pattern for drawings, visit notes, and POs</div>
-          </div>
+            <div class="packet-ban ok"><b>You still decide</b><span>Keep or skip the note. Nothing ships without you.</span></div>
+            <div class="connector" id="sample-foot">Delight. One peak moment — not a contrast checklist.</div>
+          </aside>
         </div>
       </div>
     </header>
 
     <section class="proof" aria-label="What we commit to">
       <div class="wrap proof-row">
-        <div class="proof-item"><b>1</b><span>partner review, then sign</span></div>
-        <div class="proof-item"><b>3 wks</b><span>calibration before we score</span></div>
-        <div class="proof-item"><b>4</b><span>signals tracked, no surveys</span></div>
-        <div class="proof-item"><b>0</b><span>changes without your approval</span></div>
-        <div class="proof-item"><b>MIT</b><span>open-source lab code</span></div>
+        <div class="proof-item"><b>1</b><span>named team in the AI you already use</span></div>
+        <div class="proof-item"><b>SHIP</b><span>revise or block — a verdict, not a paragraph</span></div>
+        <div class="proof-item"><b>0</b><span>silent changes. You keep or skip.</span></div>
+        <div class="proof-item"><b>3</b><span>jobs you can try without a designer</span></div>
+        <div class="proof-item"><b>MIT</b><span>the design team is open source. Read every file.</span></div>
       </div>
     </section>
 
-    <section class="section" id="doors">
+    <section class="section" id="jobs">
       <div class="wrap">
         <div class="section-head">
-          <span class="eyebrow light">Your path</span>
-          <h2>Built for designers — and the people who <span class="accent">sit next to them.</span></h2>
-          <p class="lede">Pick who you are. Designers get a first-class door. Developers and PMs get three jobs. Firm owners still map one workflow. Nothing here asks you to add a package to your app.</p>
-        </div>
-        <div class="doors">
-          <article class="door" data-door="design">
-            <span class="door-kicker">Designer</span>
-            <h3>I design screens</h3>
-            <p>Type the name. Keep or skip in chat. No terminal flags.</p>
-            <a class="btn primary" href="design.html">Open the design team <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="door" data-door="ship">
-            <span class="door-kicker">Dev / PM</span>
-            <h3>I ship product</h3>
-            <p>No designer on the team. Get a wireframe, a critique, or a check against the PRD.</p>
-            <a class="btn primary" href="#jobs">See three jobs <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="door" data-door="practice">
-            <span class="door-kicker">Firm / owner</span>
-            <h3>I run a practice</h3>
-            <p>We map one repeat workflow. Packets arrive in the tools you already open.</p>
-            <a class="btn primary" href="#intake">Map a workflow <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="jobs" hidden>
-      <div class="wrap">
-        <div class="section-head">
-          <span class="eyebrow light">Three jobs</span>
-          <h2>You do not need a <span class="accent">designer on staff.</span></h2>
-          <p class="lede">Install once from the design team page. Then type the command in Cursor, Claude or Windsurf &mdash; or paste it into a browser tool. The team stops at a human decision.</p>
+          <span class="eyebrow light">What you get</span>
+          <h2>Three jobs. <span class="accent">Human words.</span></h2>
+          <p class="lede">You do not need a designer on staff. You do not need to know the slash name yet. The team stops at a human decision.</p>
         </div>
         <div class="cards">
           <article class="card job-card">
-            <span class="card-tag">New screen</span>
-            <h3>Wireframe a screen</h3>
-            <p>Two competing sketches before anyone opens Figma or writes code.</p>
+            <span class="card-tag">Before you build</span>
+            <h3>Two sketches first</h3>
+            <p>Two competing layouts before anyone opens Figma or writes code.</p>
             <span class="cmd">/ux-ideator</span>
           </article>
           <article class="card job-card">
-            <span class="card-tag">Review</span>
-            <h3>Critique what shipped</h3>
-            <p>SHIP, REVISE, or BLOCK. Then keep or skip the note.</p>
+            <span class="card-tag">After it shipped</span>
+            <h3>A verdict on the screen</h3>
+            <p>Ship, revise, or block. Then keep or skip the note.</p>
             <span class="cmd">/zara</span> <span class="cmd">/accept</span>
           </article>
           <article class="card job-card">
-            <span class="card-tag">PRD</span>
-            <h3>Review against a story</h3>
-            <p>Can a real person finish the job, using your PRD — not vibes?</p>
+            <span class="card-tag">Against the story</span>
+            <h3>Can a person finish?</h3>
+            <p>Can a real person complete the job using your PRD — not vibes?</p>
             <span class="cmd">/ux-story-gate</span>
           </article>
         </div>
         <aside class="warn">
-          <b>Do not add this to package.json</b>
-          <p>Do not run <span class="cmd">npm install analyzthis_design</span> inside a pnpm or Yarn workspace. That crash is the workspace, not this team. Copy the <span class="cmd">npx</span> line on the design team page.</p>
+          <b>Install lives on the design page</b>
+          <p>Copy the <span class="cmd">npx</span> line there. Do not add this team to <span class="cmd">package.json</span> — that is for app libraries, not a chat team.</p>
         </aside>
         <p class="jobs-more">
           <span class="cmd">/zara</span>
@@ -319,6 +327,68 @@
           <span class="cmd">/receipt</span>
           · <a href="design.html#jobs">All jobs on the design team page</a>
         </p>
+      </div>
+    </section>
+
+    <section class="section" id="doors">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Your path</span>
+          <h2>Built for designers — and the people who <span class="accent">sit next to them.</span></h2>
+          <p class="lede">You know the product. Now pick who you are. Nothing here asks you to add a package to your app.</p>
+        </div>
+        <div class="doors">
+          <article class="door" data-door="design">
+            <span class="door-kicker">Designer</span>
+            <h3>I design screens</h3>
+            <p>Open source. Ask Zara to look at a screen. Keep or skip the note.</p>
+            <a class="btn primary" href="design.html">Open the design team <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="door" data-door="ship">
+            <span class="door-kicker">Dev / PM</span>
+            <h3>I ship product</h3>
+            <p>No designer on staff. Two sketches, a verdict, or a check against the PRD.</p>
+            <a class="btn primary" href="design.html#jobs">Start those jobs <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="door" data-door="practice">
+            <span class="door-kicker">Firm / owner</span>
+            <h3>I run a practice</h3>
+            <p>Same idea for books or visit notes. Packets arrive in the tools you already open.</p>
+            <a class="btn primary" href="#practice">See a practice packet <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Same idea for a practice</span>
+          <h2>A packet that reaches the desk <span class="accent">ready to sign.</span></h2>
+          <p class="lede">If you run a firm — not a product team — we map one repeat workflow. Books, drawings, visit notes, or POs. You still review. You still sign.</p>
+        </div>
+        <aside class="blueprint" aria-label="Example review packet for monthly GST prep">
+          <div class="blueprint-head"><span>Tuesday morning / example</span><span>GST · monthly</span></div>
+          <div class="packet-split">
+            <div class="packet-col">
+              <h3>What we send</h3>
+              <ul>
+                <li>Monthly GST review packet</li>
+                <li>12 missing invoices flagged</li>
+                <li>Ledger mismatches listed</li>
+                <li>Partner checklist, one page</li>
+              </ul>
+            </div>
+            <div class="packet-col">
+              <h3>What you do</h3>
+              <div class="packet-step"><span class="packet-n">1</span> Open the packet</div>
+              <div class="packet-step"><span class="packet-n">2</span> Edit or accept</div>
+              <div class="packet-step"><span class="packet-n">3</span> Sign</div>
+            </div>
+          </div>
+          <div class="packet-ban"><b>Does not own</b><span>Filing · Client advice · Sign-off</span></div>
+          <div class="connector">Then <a href="#intake">map one workflow</a> — or stay with the design team above.</div>
+        </aside>
       </div>
     </section>
 
@@ -334,17 +404,17 @@
           <article class="product">
             <div class="product-top">
               <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
-              <span class="product-status live">Live · v2.5.2</span>
+              <span class="product-status live">Live · open source · v2.5.2</span>
             </div>
-            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. For designers: type /noor, then /accept and /share — no terminal flags.</p>
+            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. Open source — read every file. For designers: type /noor, then /accept and /share — no terminal flags.</p>
             <dl class="product-facts">
-              <div><dt>You get</dt><dd>Commands in your IDE, verdicts, and readable source</dd></div>
+              <div><dt>You get</dt><dd>Commands in your IDE, verdicts, and the source on GitHub</dd></div>
               <div><dt>You need</dt><dd>Cursor, Claude, Windsurf &mdash; or nothing at all if you work in Lovable, v0 or Bolt</dd></div>
               <div><dt>What's new</dt><dd>/accept and /share — keep, skip, or send a correction without CLI flags</dd></div>
             </dl>
             <div class="hero-actions" style="margin-top:0;flex-direction:row;flex-wrap:wrap">
               <a class="btn primary" href="design.html#designer-path">Start as a designer</a>
-              <a class="btn" href="#jobs">Dev or PM? Three jobs</a>
+              <a class="btn" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Read the source</a>
             </div>
           </article>
           <article class="product">
@@ -705,16 +775,128 @@
       if (event.key === "Escape") setMenu(false);
     });
 
-    // Three doors: stamp the chosen path. Jobs stay hidden until Dev/PM picks them (or #jobs).
+    // Hero: type the next specialist, swap the sample card. Same login. Eight lenses.
+    const PERSONAS = [
+      { cmd: "/zara", who: "Example / Zara", job: "Delight", why: "Looks at one peak moment — not contrast. That is why these three notes.", verdict: "Revise", tone: "", foot: "Delight. One peak moment — not a contrast checklist.", fixes: ["The primary button fights the back link", "The error sits below the fold", "The guest path is a dead end"] },
+      { cmd: "/noor", who: "Example / Noor", job: "What to show first", why: "Looks at one primary action. The rest waits. That is why these three notes.", verdict: "Revise", tone: "", foot: "One primary action. The rest waits.", fixes: ["Two actions. There should be one.", "Email and phone both ask to be first", "Sign-up is louder than sign-in"] },
+      { cmd: "/anuj", who: "Example / Anuj", job: "Power users", why: "Looks at density for people who live here. That is why these three notes.", verdict: "Revise", tone: "", foot: "Density for people who live here.", fixes: ["No keyboard path to submit", "Paste into password is blocked", "SSO is buried under more options"] },
+      { cmd: "/arjun", who: "Example / Arjun", job: "Hierarchy and craft", why: "Looks at hierarchy first, then color. That is why these three notes.", verdict: "Revise", tone: "", foot: "Hierarchy first. Then color.", fixes: ["Label and field do not read as a pair", "The error is red text with no field ring", "Back is the same weight as Sign in"] },
+      { cmd: "/meera", who: "Example / Meera", job: "The business number", why: "Looks at retention and the north-star metric. That is why these three notes.", verdict: "Block", tone: "block", foot: "Pretty is not the metric.", fixes: ["Guest checkout is the north-star. This screen kills it.", "Password reset is three taps from the fold", "No reason to come back after a fail"] },
+      { cmd: "/priya", who: "Example / Priya", job: "What we can ship", why: "Looks at whether this sprint can hold it. That is why these three notes.", verdict: "Revise", tone: "", foot: "Can we build this quarter?", fixes: ["Magic-link plus SSO plus OTP is three systems", "This state machine will slip the sprint", "Ship email and password. Park the rest."] },
+      { cmd: "/kavi", who: "Example / Kavi", job: "What you already know", why: "Looks at the repo before anyone has an opinion. That is why these three notes.", verdict: "Ground", tone: "ground", foot: "She speaks before opinions form.", fixes: ["Your repo already has a login in auth/signin", "Brand tokens live in the config you already use", "Last review said: no guest dead ends"] },
+      { cmd: "/raj", who: "Example / Raj", job: "The right problem", why: "Looks at the premise — not an average of both sides. That is why these three notes.", verdict: "Hold", tone: "hold", foot: "He does not average both sides.", fixes: ["Are we solving login — or returning the guest?", "Zara and Meera disagree on the guest path", "Finish the job first. Then delight."] }
+    ];
+    const heroCmd = document.getElementById("hero-cmd");
+    const heroSample = document.getElementById("hero-sample");
+    const sampleWho = document.getElementById("sample-who");
+    const sampleVerdict = document.getElementById("sample-verdict");
+    const sampleJob = document.getElementById("sample-job");
+    const sampleWhy = document.getElementById("sample-why");
+    const sampleFoot = document.getElementById("sample-foot");
+    const sampleFixes = [document.getElementById("sample-f1"), document.getElementById("sample-f2"), document.getElementById("sample-f3")];
+    const sampleWaitText = document.getElementById("sample-wait-text");
+    let personaIndex = 0;
+    let personaTimer = 0;
+    let revealTimer = 0;
+    let typeGen = 0;
+    const TYPE_MS = 1250;
+    const quietMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const fillCard = (person) => {
+      sampleWho.textContent = person.who;
+      sampleVerdict.textContent = person.verdict;
+      sampleVerdict.className = "verdict-mark" + (person.tone ? " " + person.tone : "");
+      if (sampleJob) sampleJob.textContent = person.job;
+      if (sampleWhy) sampleWhy.textContent = person.why;
+      if (sampleWaitText) sampleWaitText.textContent = "Looking at " + person.job;
+      sampleFixes.forEach((node, i) => { if (node) node.textContent = person.fixes[i]; });
+      sampleFoot.textContent = person.foot;
+      heroSample.setAttribute("aria-label", "Example from " + person.who.replace("Example / ", "") + " — " + person.job);
+    };
+
+    const revealFixes = () => {
+      if (heroSample) heroSample.classList.remove("is-wait");
+    };
+
+    const hideFixes = () => {
+      if (heroSample) heroSample.classList.add("is-wait");
+    };
+
+    const finishType = (letters) => {
+      if (heroCmd) heroCmd.style.width = letters + "ch";
+      revealFixes();
+    };
+
+    const showPersona = (index) => {
+      const person = PERSONAS[index];
+      if (!heroCmd || !heroSample || !person) return;
+      const letters = person.cmd.length;
+      typeGen += 1;
+      const gen = typeGen;
+      hideFixes();
+      fillCard(person);
+      heroCmd.textContent = person.cmd;
+      heroCmd.style.setProperty("--ch", String(letters));
+      window.clearTimeout(revealTimer);
+      if (quietMotion) {
+        finishType(letters);
+        return;
+      }
+      heroCmd.style.width = "0";
+      heroCmd.style.animation = "none";
+      void heroCmd.offsetWidth;
+      heroCmd.style.animation = "type-cmd 1.1s steps(" + letters + ", end) 0.12s forwards";
+      revealTimer = window.setTimeout(() => {
+        if (gen !== typeGen) return;
+        finishType(letters);
+      }, TYPE_MS);
+    };
+
+    const nextPersona = () => {
+      personaIndex = (personaIndex + 1) % PERSONAS.length;
+      showPersona(personaIndex);
+    };
+
+    const stopPersonaCycle = () => {
+      if (personaTimer) window.clearInterval(personaTimer);
+      personaTimer = 0;
+    };
+
+    const startPersonaCycle = () => {
+      if (personaTimer || quietMotion) return;
+      personaTimer = window.setInterval(nextPersona, 5200);
+    };
+
+    if (heroCmd) {
+      heroCmd.style.setProperty("--ch", "5");
+      heroCmd.addEventListener("animationend", (event) => {
+        if (event.animationName !== "type-cmd") return;
+        if (!String(heroCmd.style.animation).includes("type-cmd")) return;
+        window.clearTimeout(revealTimer);
+        finishType(Number(heroCmd.style.getPropertyValue("--ch") || 5));
+      });
+      if (quietMotion) {
+        revealFixes();
+      } else {
+        revealTimer = window.setTimeout(() => finishType(5), TYPE_MS);
+        startPersonaCycle();
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) stopPersonaCycle();
+          else startPersonaCycle();
+        });
+        heroSample.addEventListener("mouseenter", stopPersonaCycle);
+        heroSample.addEventListener("mouseleave", startPersonaCycle);
+      }
+    }
+
+    // Three doors: stamp the chosen path. Jobs stay visible for every visitor.
     const doorCards = document.querySelectorAll("[data-door]");
-    const jobsBand = document.getElementById("jobs");
 
     const selectDoor = (id) => {
       doorCards.forEach((door) => {
         if (door.getAttribute("data-door") === id) door.setAttribute("aria-current", "true");
         else door.removeAttribute("aria-current");
       });
-      if (jobsBand) jobsBand.hidden = id !== "ship";
     };
 
     doorCards.forEach((door) => {
@@ -724,15 +906,8 @@
         const id = door.getAttribute("data-door");
         if (id === "design") return;
         selectDoor(id);
-        // Hiding #jobs changes page height — re-scroll after layout so #intake / #jobs still land.
-        const href = action.getAttribute("href") || "";
-        if (href.charAt(0) === "#") {
-          const target = document.getElementById(href.slice(1));
-          if (target) requestAnimationFrame(() => target.scrollIntoView());
-        }
       });
     });
-    // Unhide jobs before the browser scrolls, so #jobs is a real target.
     document.querySelectorAll('a[href="#jobs"]').forEach((link) => {
       link.addEventListener("click", () => selectDoor("ship"));
     });
