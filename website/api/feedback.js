@@ -26,6 +26,13 @@ const LIMITS = {
   problem_type: 64,
   mode: 32,
   level: 24,
+  benchmark_version: 40,
+  validator_version: 40,
+  judge_policy_version: 40,
+  prompt_hash: 80,
+  effort: 16,
+  output_format: 48,
+  model_id: 160,
 };
 
 const PERSONA_RE = /^[a-z][a-z0-9_-]{0,31}$/;
@@ -45,7 +52,7 @@ export default async function handler(req, res) {
 
   try {
     const payload = readBody(req);
-    const kind = payload.kind === "scores" ? "scores" : "corrections";
+    const kind = ["scores", "calibration"].includes(payload.kind) ? payload.kind : "corrections";
     const rows = Array.isArray(payload.rows) ? payload.rows : [];
 
     if (!rows.length) {
@@ -60,7 +67,9 @@ export default async function handler(req, res) {
     const sql = neon(url);
     const inserted = kind === "scores"
       ? await insertScores(sql, rows)
-      : await insertCorrections(sql, rows);
+      : kind === "calibration"
+        ? await insertCalibration(sql, rows)
+        : await insertCorrections(sql, rows);
 
     res.status(200).json({ ok: true, inserted });
   } catch (error) {
@@ -123,6 +132,52 @@ async function insertScores(sql, rows) {
         blocked_correctly = excluded.blocked_correctly,
         missed = excluded.missed,
         avg_rating = excluded.avg_rating,
+        updated_at = now()
+      returning id`;
+    inserted += out.length;
+  }
+  return inserted;
+}
+
+async function insertCalibration(sql, rows) {
+  let inserted = 0;
+  for (const raw of rows) {
+    const r = validateCommon(raw, { requireFeedbackId: false });
+    const benchmark = clean(raw.benchmark_version, LIMITS.benchmark_version);
+    const validator = clean(raw.validator_version, LIMITS.validator_version);
+    const judge = clean(raw.judge_policy_version, LIMITS.judge_policy_version);
+    const promptHash = clean(raw.prompt_hash, LIMITS.prompt_hash);
+    const effort = clean(raw.effort, LIMITS.effort);
+    const outputFormat = clean(raw.output_format, LIMITS.output_format);
+    const modelId = clean(raw.model_id, LIMITS.model_id);
+    if (!benchmark || !validator || !judge || !promptHash || !effort || !outputFormat || !modelId) {
+      throw bad("Calibration version, prompt, effort, format, and model fields are required.");
+    }
+    const out = await sql`
+      insert into calibration_results (
+        install_id, package_version, benchmark_version, validator_version,
+        judge_policy_version, prompt_hash, persona, effort, output_format,
+        model_id, sample_count, score_mean, score_variance, pass_rate,
+        latency_ms, availability_rate, cost_usd
+      ) values (
+        ${r.install_id}, ${r.package_version}, ${benchmark}, ${validator},
+        ${judge}, ${promptHash}, ${r.persona}, ${effort}, ${outputFormat},
+        ${modelId}, ${int(raw.sample_count, 1, 10000) ?? 1},
+        ${num(raw.score_mean, 0, 1)}, ${num(raw.score_variance, 0, 1)},
+        ${num(raw.pass_rate, 0, 1)}, ${int(raw.latency_ms, 0, 86400000)},
+        ${num(raw.availability_rate, 0, 1)}, ${num(raw.cost_usd, 0, 100000)}
+      )
+      on conflict (
+        install_id, package_version, benchmark_version, validator_version,
+        judge_policy_version, prompt_hash, persona, effort, output_format, model_id
+      ) do update set
+        sample_count = excluded.sample_count,
+        score_mean = excluded.score_mean,
+        score_variance = excluded.score_variance,
+        pass_rate = excluded.pass_rate,
+        latency_ms = excluded.latency_ms,
+        availability_rate = excluded.availability_rate,
+        cost_usd = excluded.cost_usd,
         updated_at = now()
       returning id`;
     inserted += out.length;

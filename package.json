@@ -40,7 +40,10 @@
   ],
   "scripts": {
     "build": "node scripts/obfuscate.js",
+    "test": "node scripts/test-accept.js && node scripts/test-share.js && node scripts/test-calibration-core.js && node scripts/test-chunk-quality.js && node scripts/test-calibrate.js && node scripts/test-calibration-community.js",
+    "test:dist": "npm run build && node dist/bin/cli.js calibrate --dry-run --max-usd 1",
     "validate": "node scripts/validate-csvs.js",
+    "prepack": "npm run build && npm run validate",
     "prepublishOnly": "npm run build && npm run validate",
     "postinstall": "node -e \"console.log('\\n  analyzthis_design installed. Run: npx analyzthis_design --target all\\n  Or: npx analyzthis_design welcome\\n')\""
   },

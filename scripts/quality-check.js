@@ -10,6 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const session = require('../lib/session');
 const deliberation = require('../lib/deliberation');
+const outputQuality = require('../lib/output-quality');
 
 const EXPECTED = {
   arjun: {
@@ -44,6 +45,18 @@ const VALID_VERDICTS = new Set(['CONTEST', 'ACCEPT', 'SHIP', 'REVISE', 'BLOCK'])
 function checkDeliberationJson(personaId, text, parsed, { isReviewRound = true } = {}) {
   const issues = [];
   const passes = [];
+  const shared = outputQuality.validateOutput(text, {
+    persona: personaId,
+    outputFormat: 'persona_lite',
+  });
+  for (const item of shared.issues) {
+    issues.push({
+      severity: item.hard ? 'fail' : 'warn',
+      rule: item.code,
+      msg: item.message,
+    });
+  }
+  if (shared.pass) passes.push(`format_validator:v${shared.version}`);
 
   if (parsed.parse_error === 'no_json_fence') {
     issues.push({ severity: 'fail', rule: 'deliberation_json', msg: 'Missing ```json deliberation fence — parser used fallback inference' });
@@ -143,6 +156,15 @@ function checkSession(state) {
   };
 
   const outputs = state.persona_outputs || {};
+  if (!Object.keys(outputs).length) {
+    report.summary.fail += 1;
+    report.personas._run = {
+      issues: [{ severity: 'fail', rule: 'no_outputs', msg: 'Session contains no persona outputs.' }],
+      passes: [],
+      satisfaction: null,
+      verdict: null,
+    };
+  }
   for (const [id, entry] of Object.entries(outputs)) {
     const text = entry.text || '';
     const parsed = entry.deliberation || deliberation.parseDeliberationOutput(text);

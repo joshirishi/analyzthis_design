@@ -19,6 +19,7 @@ const designSpec = require('../lib/design-spec');
 const { run: orchestratorRun } = require('../lib/orchestrator/run');
 const hostLlm = require('../lib/host-llm');
 const moodboard = require('../lib/moodboard');
+const calibrator = require('../lib/calibrate');
 
 const HELP = `
 Analyzthis_Design — 8 AI design personas with a personal knowledge bank
@@ -79,6 +80,9 @@ Usage:
 ── Efficiency / cost commands ────────────────────────────────
   metrics             Print the last run's cost metrics (--all for every project)
   cost                Print the last run's $ cost from config.pricing (--all for every project)
+  calibrate           Compare available models on the fixed persona benchmark
+                      (--max-usd 5, --max-calls 500, --runs 3, --judge, --apply)
+                      Preview only with --dry-run; share text-free results with --share
   receipt             Inferred token receipt for host (slash/MCP) turns — not a bill
   export-training     Write accepted-output JSONL pairs for LoRA prep
                       (--persona <id>, --all, --output <path>)
@@ -158,6 +162,14 @@ Usage:
   --budget   free | cheap | auto — chunk model budget (run command; default: auto)
   --sequential  Run chunks sequentially (run command; default on)
   --max-chunks  Cap number of planner chunks (run command; default 6)
+  --max-usd  Calibration hard spending limit in USD (default 5)
+  --max-calls Calibration hard model-call limit (default 500)
+  --runs     Calibration repeats per fixed task/model (default 3)
+  --delta    Non-inferiority margin on the 0-1 score scale (default 0.05)
+  --judge    Enable blind cross-family calibration judges
+  --apply    Write qualified calibration winners to the local policy
+  --resume   Resume a calibration checkpoint path
+  --share    Opt-in submission of text-free fixed-benchmark aggregates
   --unchunked   Force legacy single-pass orchestrator (run command)
   --output   Write final session-state.json to this path (run / run-unchunked command); or JSONL path (export-training)
   --persona  Persona id (session accept; export-training; feedback commands)
@@ -343,6 +355,14 @@ const fixFlag = flags.includes('--fix') || flags.includes('--no');
 const likedFlag = flags.includes('--liked');
 const becauseVal = getFlag('because');
 const sendFlag = flags.includes('--send');
+const applyFlag = flags.includes('--apply');
+const shareFlag = flags.includes('--share');
+const judgeFlag = flags.includes('--judge');
+const maxUsdVal = getFlag('max-usd');
+const maxCallsVal = getFlag('max-calls');
+const runsVal = getFlag('runs');
+const deltaVal = getFlag('delta');
+const resumeVal = getFlag('resume');
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 
@@ -1046,6 +1066,86 @@ switch (cmd) {
 
   case 'cost': {
     cost.report({ project: projectVal, all: allFlag });
+    break;
+  }
+
+  case 'calibrate': {
+    (async () => {
+      try {
+        if (shareFlag && dryRunFlag && resumeVal) {
+          const saved = JSON.parse(fs.readFileSync(path.resolve(resumeVal), 'utf8'));
+          const shared = await feedbackSubmit.submitCalibration(saved, { dryRun: true, yes: yesFlag });
+          console.log(`\n── Calibration share preview (${shared.rows.length} text-free rows) ──`);
+          console.log(JSON.stringify(shared.rows[0], null, 2));
+          console.log('');
+          return;
+        }
+
+        const options = {
+          maxUsd: maxUsdVal == null ? 5 : Number(maxUsdVal),
+          maxCalls: maxCallsVal == null ? 500 : Number(maxCallsVal),
+          runs: runsVal == null ? 3 : Number(runsVal),
+          delta: deltaVal == null ? 0.05 : Number(deltaVal),
+          judge: judgeFlag,
+          apply: applyFlag,
+          resume: resumeVal || null,
+        };
+        const preview = await calibrator.preview(options);
+        console.log('\n── Calibration preview ─────────────────────────────');
+        console.log(`  Models:          ${preview.models}`);
+        console.log(`  Fixed tasks:     ${preview.tasks}`);
+        console.log(`  Planned calls:   ${preview.estimated_calls}/${options.maxCalls}`);
+        console.log(`  Worst-case cost: $${preview.estimated_usd.toFixed(4)}/$${options.maxUsd.toFixed(2)}`);
+        if (!preview.allowed) {
+          console.error(`  Blocked by:      ${preview.reasons.join(', ')}\n`);
+          process.exitCode = 1;
+          return;
+        }
+        if (dryRunFlag) {
+          console.log('  Preview only: no model calls or policy writes.\n');
+          return;
+        }
+
+        if (!yesFlag) {
+          if (!process.stdin.isTTY) {
+            throw new Error('Non-interactive terminal. Pass --yes after reviewing the cost preview.');
+          }
+          const readline = require('readline');
+          const approved = await new Promise((resolve) => {
+            const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+            rl.question('Run this calibration? [y/N] ', (answer) => {
+              rl.close();
+              resolve(/^y(es)?$/i.test(String(answer || '').trim()));
+            });
+          });
+          if (!approved) {
+            console.log('\n  Calibration cancelled.\n');
+            return;
+          }
+        }
+
+        const result = await calibrator.calibrate(options);
+        console.log(`\n── Calibration ${result.status} ─────────────────────`);
+        console.log(`  Calls:      ${result.calls}`);
+        console.log(`  Cost:       $${Number(result.spent_usd || 0).toFixed(4)}`);
+        console.log(`  Checkpoint: ${result.checkpoint}`);
+        Object.entries(result.selections || {}).forEach(([persona, efforts]) => {
+          Object.entries(efforts).forEach(([effort, selection]) => {
+            console.log(`  ${persona}/${effort}: ${selection.winner || 'keep current'} (${selection.reason})`);
+          });
+        });
+        if (result.policy_file) console.log(`  Local policy: ${result.policy_file}`);
+
+        if (shareFlag) {
+          const shared = await feedbackSubmit.submitCalibration(result, { dryRun: false, yes: yesFlag });
+          console.log(`  Shared:      ${shared.submitted || 0} fixed-benchmark rows`);
+        }
+        console.log('');
+      } catch (error) {
+        console.error(`\n  ✗  ${error.message}\n`);
+        process.exitCode = 1;
+      }
+    })();
     break;
   }
 

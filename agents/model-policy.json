@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "description": "Maintainer-reviewed persona model winners. Empty until fixed-benchmark evidence is approved.",
+  "benchmark_version": null,
+  "validator_version": 1,
+  "judge_policy_version": null,
+  "approved_at": null,
+  "approved_by": null,
+  "evidence_summary": null,
+  "rollback": null,
+  "personas": {}
+}

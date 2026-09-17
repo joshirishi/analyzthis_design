@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "judge_version": 1,
+  "description": "Versioned public fixed benchmark. Only aggregate, text-free results may be shared.",
+  "alignment_cases": [
+    { "id": "j01", "expected": "A", "a": "Names the buried primary action and recommends moving it above the fold.", "b": "Says the screen looks modern and should use more animation." },
+    { "id": "j02", "expected": "B", "a": "Suggests changing every color without evidence.", "b": "Challenges the assumption and asks for task-completion evidence first." },
+    { "id": "j03", "expected": "A", "a": "Separates a rate-limit failure from answer quality.", "b": "Calls every failed API request a bad-quality model." },
+    { "id": "j04", "expected": "B", "a": "Adds another modal to a slow approval flow.", "b": "Keeps the primary approval visible and reduces interaction steps." },
+    { "id": "j05", "expected": "A", "a": "Uses the existing design-system token and component.", "b": "Invents a new color and component library." },
+    { "id": "j06", "expected": "B", "a": "Summarizes both sides without a decision.", "b": "Selects one option, explains the trade-off, and gives a next step." },
+    { "id": "j07", "expected": "A", "a": "Includes empty, loading, error, success, and permission states.", "b": "Reviews only the happy path." },
+    { "id": "j08", "expected": "B", "a": "Hides frequent table actions behind hover on mobile.", "b": "Keeps frequent actions discoverable with keyboard and mobile access." },
+    { "id": "j09", "expected": "A", "a": "Links the recommendation to the declared business metric.", "b": "Claims revenue impact without evidence." },
+    { "id": "j10", "expected": "B", "a": "Adds decorative motion to every status update.", "b": "Reserves restrained motion for the one important state change." }
+  ],
+  "tasks": [
+    {
+      "id": "t01",
+      "persona": "arjun",
+      "effort": "trivial",
+      "output_format": "persona_lite",
+      "prompt": "A save button says Done. Give a brief UX verdict and top 2 fixes."
+    },
+    {
+      "id": "t02",
+      "persona": "meera",
+      "effort": "trivial",
+      "output_format": "ux_audit",
+      "prompt": "Audit a settings page with eight equal-weight actions. Recommend one change."
+    },
+    {
+      "id": "t03",
+      "persona": "priya",
+      "effort": "trivial",
+      "output_format": "premise_assessment",
+      "prompt": "A team assumes more dashboard charts improve trust. Assess the premise."
+    },
+    {
+      "id": "t04",
+      "persona": "zara",
+      "effort": "trivial",
+      "output_format": "synthesis",
+      "prompt": "A checkout adds a decorative animation before payment. Give a verdict and fixes."
+    },
+    {
+      "id": "t05",
+      "persona": "arjun",
+      "effort": "standard",
+      "output_format": "ux_audit",
+      "prompt": "Audit onboarding that asks for 12 fields before showing value. Give actions."
+    },
+    {
+      "id": "t06",
+      "persona": "meera",
+      "effort": "standard",
+      "output_format": "persona_lite",
+      "prompt": "A mobile table hides row actions until hover. Give a verdict and top 2 fixes."
+    },
+    {
+      "id": "t07",
+      "persona": "priya",
+      "effort": "standard",
+      "output_format": "synthesis",
+      "prompt": "Users abandon search after empty results. Synthesize a decision and next actions."
+    },
+    {
+      "id": "t08",
+      "persona": "zara",
+      "effort": "standard",
+      "output_format": "premise_assessment",
+      "prompt": "A redesign starts from changing every visual token. Assess whether that is the right problem."
+    },
+    {
+      "id": "t09",
+      "persona": "arjun",
+      "effort": "hard",
+      "output_format": "synthesis",
+      "prompt": "Enterprise admins miss destructive permission changes. Decide SHIP, REVISE, or BLOCK and list actions."
+    },
+    {
+      "id": "t10",
+      "persona": "meera",
+      "effort": "hard",
+      "output_format": "premise_assessment",
+      "prompt": "A team blames navigation for low activation without evidence. Assess the framing and decision."
+    },
+    {
+      "id": "t11",
+      "persona": "priya",
+      "effort": "hard",
+      "output_format": "ux_audit",
+      "prompt": "Audit a billing flow where totals change after confirmation. Recommend whether to ship."
+    },
+    {
+      "id": "t12",
+      "persona": "zara",
+      "effort": "hard",
+      "output_format": "persona_lite",
+      "prompt": "A dense incident console uses motion on every status update. Give a verdict and top 2 fixes."
+    },
+    {
+      "id": "t13",
+      "persona": "noor",
+      "effort": "trivial",
+      "output_format": "persona_lite",
+      "prompt": "A profile page shows five equal actions. Give a concise hierarchy verdict and top 2 fixes."
+    },
+    {
+      "id": "t14",
+      "persona": "noor",
+      "effort": "standard",
+      "output_format": "ux_audit",
+      "prompt": "Audit a reporting page with filters, charts, exports, and help competing above the fold."
+    },
+    {
+      "id": "t15",
+      "persona": "noor",
+      "effort": "hard",
+      "output_format": "synthesis",
+      "prompt": "Resolve a complex admin screen into a clear information hierarchy and give a release verdict."
+    },
+    {
+      "id": "t16",
+      "persona": "anuj",
+      "effort": "trivial",
+      "output_format": "persona_lite",
+      "prompt": "A data table lacks keyboard access. Give a verdict and top 2 power-user fixes."
+    },
+    {
+      "id": "t17",
+      "persona": "anuj",
+      "effort": "standard",
+      "output_format": "ux_audit",
+      "prompt": "Audit a 500-row operations table for bulk actions, scanning, and error recovery."
+    },
+    {
+      "id": "t18",
+      "persona": "anuj",
+      "effort": "hard",
+      "output_format": "synthesis",
+      "prompt": "Choose a safe dense workflow for reconciling many conflicting records and give a verdict."
+    },
+    {
+      "id": "t19",
+      "persona": "raj",
+      "effort": "trivial",
+      "output_format": "premise_assessment",
+      "prompt": "The team assumes a new dashboard is needed. Assess whether the premise has enough evidence."
+    },
+    {
+      "id": "t20",
+      "persona": "raj",
+      "effort": "standard",
+      "output_format": "synthesis",
+      "prompt": "Resolve a disagreement between faster onboarding and stricter compliance checks."
+    },
+    {
+      "id": "t21",
+      "persona": "raj",
+      "effort": "hard",
+      "output_format": "synthesis",
+      "prompt": "Arbitrate conflicting business, accessibility, and engineering constraints and issue a release verdict."
+    },
+    {
+      "id": "t22",
+      "persona": "kavi",
+      "effort": "trivial",
+      "output_format": "persona_lite",
+      "prompt": "A source note has no owner or date. Give a short verdict and top 2 knowledge fixes."
+    },
+    {
+      "id": "t23",
+      "persona": "kavi",
+      "effort": "standard",
+      "output_format": "ux_audit",
+      "prompt": "Audit conflicting product notes and recommend how to preserve durable product truth."
+    },
+    {
+      "id": "t24",
+      "persona": "kavi",
+      "effort": "hard",
+      "output_format": "synthesis",
+      "prompt": "Synthesize contradictory research, design, and product sources into a governed decision."
+    }
+  ]
+}

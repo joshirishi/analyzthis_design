@@ -30,8 +30,9 @@
       "experts": ["string — persona ids"],
       "reason": "string"
     },
+    "active_run": "object | null — { id, mode, at }; feedback only accepts outputs carrying this run id",
     "persona_outputs": {
-      "<persona_id>": "object — structured output block per agents/manifests/<persona_id>.json"
+      "<persona_id>": "object — output plus run_id, attribution { provider, model, model_id, effort, policy_version, prompt_hash, validator_version }, quality, and accepted state"
     },
     "full_prompts": {
       "<persona_id>": "object — { system: string, user: string } exact prompts sent to LLM for training"
@@ -73,6 +74,8 @@
         "correction": "string — how the user corrected or what they wanted instead",
         "tags": ["string — e.g. wrong_hierarchy, invented_tokens, off_brief"],
         "original_output": "string — snapshot of persona output at feedback time",
+        "run_id": "string | null — exact run that produced the rated output",
+        "attribution": "object — provider/model/effort and policy metadata copied from the output",
         "submitted_at": "ISO 8601 | omitted — set when feedback submit succeeds",
         "context": "object — task_map_summary, problem_type, mode"
       }
@@ -148,7 +151,7 @@
       "output_tokens_est": "number — estimated output tokens across the last run",
       "cache_hits": "number — retrieve/cache hits during the last run",
       "mode": "lite | full",
-      "effort_log": [{ "persona": "string", "effort": "trivial|standard|hard", "model": "string|null", "scoped_mode": "string|null" }],
+      "effort_log": [{ "persona": "string", "effort": "trivial|standard|hard", "provider": "string|null", "model": "string|null", "model_id": "string|null", "input_tokens": "number", "output_tokens": "number", "run_id": "string", "scoped_mode": "string|null" }],
       "cost_usd": "number — estimated $ cost of the run from config.pricing (0 when pricing missing)",
       "deliberation_rounds": "number — adversarial rounds executed in last run",
       "objections_raised": "number",

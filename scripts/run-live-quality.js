@@ -101,6 +101,7 @@ async function main() {
 
   const final = await orchestratorRun({
     task: TASK,
+    unchunked: true,
     full: true,
     maxRounds: 2,
     provider: 'host',

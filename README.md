@@ -377,6 +377,25 @@ npx analyzthis_design run-unchunked --continue --task "Review invoice screen" --
 
 **Chunk model selection:** Ollama auto-discovered → free cloud (Groq/Gemini/OpenRouter free endpoints) → cheap cloud with user keys. The **planner always runs on a frontier/strong model** and never on a cheap model; if no frontier provider is available, it falls back to the host model with a warning.
 
+### Persona model calibration
+
+Model learning is scoped by persona, effort, task type, and output format. API availability failures are tracked separately from answer quality, and `/accept` records the exact run and model that produced the note. Host/Devi responses are labelled `host/unknown` because the package cannot verify the model selected inside an IDE.
+
+```bash
+# Preview the fixed benchmark, eligible models, call count, and worst-case cost
+npx analyzthis_design calibrate --max-usd 5 --max-calls 500
+
+# Apply a qualified local winner after reviewing the preview/results
+npx analyzthis_design calibrate --max-usd 5 --max-calls 500 --judge --apply
+
+# Preview the text-free community payload; private-task results are never shared
+npx analyzthis_design calibrate --share --dry-run
+```
+
+Calibration is preview-only unless `--apply` is present. It uses fixed spending and call limits, format-specific checks, and paired non-inferiority comparisons. Local winners live in `~/.analyzthis_design/calibration.json`; maintainer-reviewed global defaults ship in `agents/model-policy.json`. A changed persona prompt, validator, expired model, or failed capability check automatically invalidates an old winner.
+
+Applying a winner also requires the selected judges to match the benchmark’s 10 maintainer-labelled comparisons at least 70% of the time. Without enough aligned, independent judge evidence, results remain low-confidence and the current model policy is kept.
+
 **Provider resolution order:** explicit `--provider` → config → first available API key → **`host`** (Devi) for unchunked; chunked mode also considers Ollama and free endpoints before paid.
 
 Supported providers: `host` | `anthropic` | `openai` | `google` | `zai` | `ollama` | `groq` | `together` | `openrouter` | `deepseek`
@@ -387,19 +406,19 @@ Provider defaults live in `~/.analyzthis_design/config.json`:
 {
   "orchestrator": {
     "provider": "anthropic",
-    "model": "claude-sonnet-5",
+    "model": "claude-sonnet-4-20250514",
     "mode": "lite",
     "tiers": {
       "structured": { "provider": "openai", "model": "gpt-4o-mini" },
-      "critique":   { "provider": "anthropic", "model": "claude-sonnet-5" },
-      "arbitrate":  { "provider": "anthropic", "model": "claude-sonnet-5" }
+      "critique":   { "provider": "anthropic", "model": "claude-sonnet-4-20250514" },
+      "arbitrate":  { "provider": "anthropic", "model": "claude-sonnet-4-20250514" }
     },
     "max_tokens": { "structured": 900, "critique": 1800, "arbitrate": 1200 }
   },
   "pricing": {
     "glm-4.5-flash":     { "input_per_m": 0,    "output_per_m": 0 },
     "gemini-2.5-flash":  { "input_per_m": 0.30, "output_per_m": 2.50 },
-    "claude-sonnet-5":   { "input_per_m": 2,    "output_per_m": 10 },
+    "claude-sonnet-4-20250514": { "input_per_m": 3, "output_per_m": 15 },
     "gpt-4o":            { "input_per_m": 2.50, "output_per_m": 10 }
   },
   "research": { "provider": "https://example.com/search?q={query}" },
@@ -468,7 +487,7 @@ Classifier rules (first match wins, safety rules before savings rules):
 Default effort matrix (in `agents/chain.json`):
 - **trivial** → `host` / Devi (~600-token cap for objection rounds) — or API model when keys set
 - **standard** → `gemini-2.5-flash` or `gpt-4o-mini`, ~1200-token cap
-- **hard** → `claude-sonnet-5` or `gpt-5`, ~1800-token cap
+- **hard** → `claude-sonnet-4-20250514`, ~1800-token cap
 
 Per-persona `effort_overrides` in each manifest refine this (e.g. Arjun's `trivial` is the color-system-only scoped mode at 700 tokens; his `hard` is the full Honeycomb + Visual Audit at 1800).
 
@@ -642,7 +661,7 @@ npx analyzthis_design feedback status
 The `feedback submit` client is a plain HTTPS POST with an `apikey` header — it works with any REST endpoint that accepts anonymous inserts, not only Supabase. A reference schema (with row-level security for insert-only anon access) lives in [`supabase/migrations/001_persona_feedback.sql`](./supabase/migrations/001_persona_feedback.sql) in the repo. That folder is **not** shipped in the npm package, so installing `analyzthis_design` does not pull a Supabase-branded folder into `node_modules`.
 
 1. Stand up any HTTP endpoint that accepts anonymous JSON inserts (Supabase with RLS is one option; a small Cloudflare Worker or a self-hosted Postgres + thin API work too).
-2. If you use the reference schema, run `supabase/migrations/001_persona_feedback.sql` in your SQL editor.
+2. Run `supabase/migrations/001_persona_feedback.sql` for persona feedback and `002_calibration_results.sql` for opt-in calibration aggregates. The second migration is compatible with Neon and was production-verified on 2026-09-17.
 3. Copy the endpoint URL and anon key into `~/.analyzthis_design/config.json` under `"feedback"` (or set env vars `ANALYZTHIS_FEEDBACK_URL` + `ANALYZTHIS_FEEDBACK_ANON_KEY`).
 4. Read submissions from your endpoint's dashboard.
 
@@ -828,6 +847,10 @@ npx analyzthis_design retrieve --file <csv> --column <col> --keywords a,b [--lim
 npx analyzthis_design run --task "..." [--budget free|cheap|auto] [--sequential|--parallel] [--max-chunks N] [--dry-run]
 npx analyzthis_design run-unchunked --task "..." [--lite|--full] [--experts a,b] [--dry-run] [--deliberate|--no-deliberate]
 npx analyzthis_design run --continue --task "..."   # resume host-mode run after /devi
+
+# Persona/model calibration (fixed benchmark; preview unless --apply)
+npx analyzthis_design calibrate --max-usd 5 --max-calls 500 [--judge --apply]
+npx analyzthis_design calibrate --share --dry-run
 
 # CSV validation
 npx analyzthis_design validate    # validate all 30 CSV files against schema.json
