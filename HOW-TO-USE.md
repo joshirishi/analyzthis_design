@@ -1,482 +1,397 @@
-# How to Use Analyzthis Design — Step-by-Step Guide
+# How to Use Analyzthis Design
 
-A practical guide for Cursor, Claude Code, Codex CLI, Grok Build, Windsurf Cascade, and any Agent Skills–compatible IDE.
+This guide explains the three simplest ways to use Analyzthis Design:
 
-> **Updated for v2.0.0:** `npx analyzthis_design run` now uses **chunked execution** by default (frontier planner → free/cheap chunk models → synthesis). Each chunk retrieves from 3-5 CSV reference files + vault slices, pooled into a single ranker call. Legacy single-pass is available as `npx analyzthis_design run-unchunked`.
+1. Cursor Agent or Cursor CLI
+2. Claude Code CLI
+3. Local models through Ollama
 
----
+Analyzthis Design gives your AI eight specialist design viewpoints:
 
-## 1. What this package gives you
+- Arjun — UX and visual hierarchy
+- Meera — business, retention, and growth
+- Priya — engineering feasibility
+- Zara — delight and memorable moments
+- Noor — simple, focused interfaces
+- Anuj — dense, efficient power-user interfaces
+- Raj — product strategy and disagreement resolution
+- Kavi — project knowledge collection
 
-**8 design personas** as slash commands inside your IDE:
+## Before you begin
 
-- **Arjun** — UX + Visual Design audit (Honeycomb + hierarchy)
-- **Meera** — Business / retention / GTM lens
-- **Priya** — Feasibility / engineering effort
-- **Zara** — Delight moments
-- **Noor** — Minimalist IA / progressive disclosure
-- **Anuj** — Dense power-user IA
-- **Raj** — Product strategy / stalemate arbitrator
-- **Kavi** — Knowledge archivist
-
-Plus composite skills: `/ux-ideator`, `/design-director`, `/persona-orchestrator`, `/design-critic`, `/ux-story-gate`, `/mood-board`.
-
----
-
-## 2. One-time install (per machine)
-
-Pick your IDE and run **one** command in any terminal:
+You need Node.js 16 or newer. Check it with:
 
 ```bash
-# Cursor (default)
-npx analyzthis_design --target cursor
-
-# Claude Code
-npx analyzthis_design --target claude
-
-# Codex CLI
-npx analyzthis_design --target codex
-
-# Grok Build
-npx analyzthis_design --target grok
-
-# Windsurf Cascade
-npx analyzthis_design --target windsurf
-
-# Install to every supported IDE at once
-npx analyzthis_design --target all
+node --version
+npm --version
 ```
 
-This copies the skills into the IDE's agent-skills directory:
+Run the commands below from the project you want the personas to understand.
 
-| IDE | Where skills live | Invoke prefix |
-|---|---|---|
-| **Cursor** | `~/.cursor/skills/<skill>/SKILL.md` | `/` |
-| **Claude Code** | `~/.claude/skills/<skill>/SKILL.md` | `/` |
-| **Codex CLI** | `~/.codex/skills/<skill>/SKILL.md` | reference in `AGENTS.md` |
-| **Grok Build** | `~/.grok/skills/<skill>/SKILL.md` | `/` |
-| **Windsurf Cascade** | `~/.codeium/windsurf/skills/<skill>/SKILL.md` | `@` |
-| **Cross-agent** | `~/.agents/skills/<skill>/SKILL.md` | `/` |
+If you are testing an unpublished checkout of this repository, replace
+`npx analyzthis_design@latest` with `node /path/to/analyzthis_design/bin/cli.js`.
+The new calibration command becomes available through `npx` after its npm release.
 
-To see what is installed:
+## Recommended first-time setup
+
+Install the skills into your AI tools:
 
 ```bash
-npx analyzthis_design list --target cursor
+npx analyzthis_design@latest install --target cursor
+npx analyzthis_design@latest install --target claude
 ```
 
-To reinstall after updating the package:
+Or install for every supported tool:
 
 ```bash
-npx analyzthis_design --target all --force
+npx analyzthis_design@latest install --target all
 ```
 
----
-
-## 3. Project setup (do this once per repo)
-
-Open your project in the IDE, then in the chat/terminal:
+Then collect the current project's useful design and product context:
 
 ```bash
-npx analyzthis_design collect
+npx analyzthis_design@latest collect
 ```
 
-This runs **Kavi**:
+This creates a project-specific knowledge bank from relevant files such as product requirements, components, design tokens, and research. It does not mix one project's knowledge into another project.
 
-1. Scans your repo (PRDs, brand/tokens, pages, components, tech, research).
-2. Writes an Obsidian-compatible vault under `~/.analyzthis_design/vaults/{projectId}/`.
-3. Optionally enriches notes with an LLM.
-4. Syncs a **knowledge bank** into your IDE so every persona reads your context first.
-
-If you already have an Obsidian vault or markdown folder:
+After updating Analyzthis Design, refresh installed skills with:
 
 ```bash
-npx analyzthis_design connect --vault ~/Documents/MyVault
-npx analyzthis_design sync --target all
+npx analyzthis_design@latest install --target all --force
 ```
 
----
+## Option 1: Cursor Agent and Cursor CLI
 
-## 4. How to pick the right slash command
+### Use it in Cursor
 
-| I want to… | Run this | Why |
-|---|---|---|
-| Wireframe a new screen or flow | `/ux-ideator` or `/noor` | Full text wireframes, two competing IA concepts |
-| Quick minimalist wireframe | `/noor` | Concept A — progressive disclosure, one primary action |
-| Dense power-user wireframe | `/anuj` | Concept B — bulk actions, keyboard shortcuts, full density |
-| Design + spec + optional build | `/design-director` | Senior-designer handoff path |
-| Critique an existing design | `/persona-orchestrator` or `/design-critic` | Scored review → SHIP / REVISE / BLOCK |
-| Review against PRDs and stories | `/ux-story-gate` | Task map + routing before critique |
-| Set visual direction | `/mood-board` | Mood board (tagged URLs) or UI image board (Zara scouts, jury votes) |
-| Index the repo for personas | `/kavi` | Kavi → knowledge bank |
-| Get a single-lens opinion | `/arjun`, `/meera`, `/priya`, `/zara`, `/noor`, `/anuj` | Targeted follow-up. Default is a short verdict — say expand for the full schema |
-| See inferred token spend | `/receipt` | Not a bill. Same as `npx analyzthis_design receipt` |
+Open the project in Cursor and start an Agent chat. Enter one of these prompts:
 
-**Important:** do not use `/persona-orchestrator` or `/design-critic` when you want wireframes. They are for critique.
-
----
-
-## 5. Common workflows
-
-### 5.1 Wireframe a new screen
-
-**Cursor / Claude / Grok:**
-
-```
-/ux-ideator Design a settings page for a B2B SaaS dashboard.
-Primary user: ops manager, daily use. Stack: Next.js + shadcn.
-Produce full text wireframes for both Concept A and Concept B.
+```text
+/ux-ideator Design an invoice approval screen for finance managers.
+Use this project's components and produce two different layout concepts.
 ```
 
-**Windsurf:** replace `/` with `@`:
-
-```
-@ux-ideator Design a settings page for a B2B SaaS dashboard.
-```
-
-**Codex:** reference the skill in `AGENTS.md` or invoke by name from `~/.codex/skills/`.
-
-What happens:
-
-1. `ux-story-gate` builds a task map.
-2. MoE router selects the ideation chain.
-3. Meera → Noor + Anuj → Arjun → Zara → Priya run in groups.
-4. Personas deliberate with low satisfaction.
-5. You get two text wireframes plus a synthesis.
-
----
-
-### 5.2 Critique an existing screen
-
-```
-/persona-orchestrator Critique this login page for UX friction and hierarchy.
-Assess only — do not implement changes.
+```text
+/persona-orchestrator Review the current onboarding screen.
+Assess usability, visual hierarchy, business impact, and implementation risk.
+Do not edit code yet.
 ```
 
-What happens:
-
-1. `ux-story-gate` discovers PRDs and user stories.
-2. MoE router picks a subset of the critique chain (default: Arjun + Meera).
-3. For a full 4-persona review:
-
-   ```
-   /design-critic Full review of the invoice screen.
-   Run all personas in --full mode.
-   ```
-
-4. Personas raise objections, ask questions, and converge.
-5. Output: composite score, verdict (SHIP / REVISE / BLOCK), Top 3 fixes.
-
----
-
-### 5.3 Design + spec + build
-
-```
-/design-director Design a notifications settings page for our B2B app.
-Use our shadcn components and tokens from the knowledge bank.
-Produce a DesignSpec and implement after spec gates pass.
+```text
+/design-director Design and implement a production-ready settings page.
+Reuse our existing components and design tokens.
 ```
 
-What happens:
+Useful commands:
 
-1. Ideation → two concepts.
-2. DesignSpec is produced and validated.
-3. Spec gates (design system, hierarchy) must pass.
-4. If `mode: build_approved`, implementation begins.
+- `/ux-ideator` — create two competing interface concepts
+- `/design-director` — design, specify, and optionally implement
+- `/persona-orchestrator` — critique an existing design
+- `/design-critic` — deeper multi-persona critique
+- `/noor` — simple, focused design
+- `/anuj` — dense power-user design
+- `/arjun`, `/meera`, `/priya`, `/zara` — ask one specialist
+- `/kavi` — refresh project knowledge
+- `/accept` — keep or reject the latest persona output
 
----
-
-### 5.4 Set visual direction with a mood board
+If a command is missing, reinstall and start a new Cursor Agent session:
 
 ```bash
-npx analyzthis_design moodboard create --task "B2B fintech dashboard, trustworthy, high-contrast" --auto
-npx analyzthis_design moodboard critique --board <boardId>
+npx analyzthis_design@latest install --target cursor --force
 ```
 
-Or in chat:
+### Use it from Cursor CLI
 
-```
-/mood-board Build a mood board for a B2B fintech dashboard.
-Trustworthy, high-contrast, data-dense. Include 3 web references.
-```
-
-What happens:
-
-1. Web references and search stubs are collected.
-2. Each reference is tagged (style, mood, surface).
-3. Design-system patterns are pulled from `skills/design-reference/*.csv`.
-4. Arjun, Meera, Priya, Zara, Noor deliberate using the UX Honeycomb matrix.
-5. A `board.json` is written to `./moodboard/` for you to inspect.
-
-**UI image board** (pictures of real software, not tagged links):
-
-```
-/mood-board UI image board for invoice approval. Partner signs. Dense table.
-```
-
-Then `/zara`. She searches and opens real product screens, picks 3–5 frames, and writes steal / refuse / peak on each. Arjun, Noor, Priya, and Meera vote. If they skip, she scouts again (max 3 rounds). She does not score her own picks.
-
-You can add your own references and rerun:
+Cursor's command-line agent uses the `agent` command. Install it if needed:
 
 ```bash
-npx analyzthis_design moodboard add --board <boardId> \
-  --url https://dribbble.com/shots/example \
-  --title "Alt hero" --tags "landing,trust"
+curl https://cursor.com/install -fsS | bash
+agent update
 ```
 
----
-
-### 5.5 Run the standalone CLI orchestrator
-
-**v2.0 default — chunked execution (no API keys required):**
+Start an interactive session from your project:
 
 ```bash
-# Frontier planner + free/cheap chunk models
-npx analyzthis_design run --task "Review my invoice screen"
-
-# Prefer free models only (Ollama, Groq/Gemini/OpenRouter free endpoints)
-npx analyzthis_design run --task "Review my invoice screen" --budget free
-
-# Use your paid keys for cheap, capable models
-npx analyzthis_design run --task "Review my invoice screen" --budget cheap --provider together
-
-# Sequential is default; explicit parallel
-npx analyzthis_design run --task "..." --parallel --max-chunks 6
+cd /path/to/your/project
+agent
 ```
 
-**Legacy single-pass orchestrator (host mode, no API keys):**
+Then enter a skill prompt such as:
+
+```text
+/design-critic Review the dashboard in this repository. Assess only.
+```
+
+For a one-command, non-interactive run:
 
 ```bash
-# Start a run — it pauses and waits for the host LLM /devi
-npx analyzthis_design run-unchunked --task "Review my invoice screen" --full
-npx analyzthis_design devi status
-npx analyzthis_design run-unchunked --continue --task "Review my invoice screen" --full
-
-# Quick single-expert run
-npx analyzthis_design run-unchunked --task "Just check spacing" --experts arjun
+agent -p "/persona-orchestrator Review the checkout flow in this repository. Assess only."
 ```
 
-In host mode, the CLI writes pending prompts to:
+The slash command is part of the prompt sent to Cursor Agent. It is not a standalone shell command.
 
-```
-~/.analyzthis_design/runs/{projectId}/{runId}/pending/
-```
+## Option 2: Claude Code CLI
 
-and reads responses from:
-
-```
-~/.analyzthis_design/runs/{projectId}/{runId}/responses/
-```
-
----
-
-## 6. IDE-specific notes
-
-### Cursor
-
-- Invoke skills with `/`, e.g. `/ux-ideator`, `/persona-orchestrator`, `/mood-board`.
-- Skills live in `~/.cursor/skills/`.
-- Use `/devi` when the CLI orchestrator is waiting for a host response.
-- If a skill is missing, run `npx analyzthis_design --target cursor --force`.
-
-### Claude Code
-
-- Invoke skills with `/`, e.g. `/ux-ideator`.
-- Skills live in `~/.claude/skills/`. Legacy commands also work from `~/.claude/commands/`.
-- Use `/devi` for host LLM responses.
-
-### Codex CLI
-
-- Codex does not use `/` prefixes. Reference skill names in your project's `AGENTS.md` or invoke by name.
-- Skills live in `~/.codex/skills/`.
-- Example `AGENTS.md` line: `Skills: analyzthis_design/ux-ideator, analyzthis_design/persona-orchestrator`.
-
-### Grok Build
-
-- Invoke skills with `/`, e.g. `/ux-ideator`, `/persona-orchestrator`.
-- Skills live in `~/.grok/skills/`.
-
-### Windsurf Cascade
-
-- Invoke skills with `@`, e.g. `@ux-ideator`, `@persona-orchestrator`, `@mood-board`.
-- Skills live in `~/.codeium/windsurf/skills/`.
-
----
-
-## 7. Persona-specific follow-ups
-
-After a run, you can ask a single persona to go deeper:
-
-```
-/arjun Double-check the hierarchy on the wireframe from the last /ux-ideator run.
-/meera Is the onboarding flow likely to improve activation rate?
-/priya How much effort is the modal-vs-wizard choice?
-/zara Add one delight moment to the empty state.
-/noor Simplify the navigation to ≤3 levels.
-/anuj Add bulk actions and keyboard shortcuts for daily users.
-```
-
-Each persona reads the session state, so you do not need to repeat the task.
-
----
-
-## 8. After the run — accept, reject, evolve
-
-### Designer path (remember this)
-
-In chat, after `/zara` or any persona:
-
-```
-/accept yes
-```
-
-or
-
-```
-/accept no — too much motion on the daily table
-```
-
-No terminal flags. `/accept` writes keep or skip for **local** evolution.
-
-To send a correction to the published package:
-
-```
-/share
-```
-
-Then **yes** if the preview looks right. Redacted — no folder names, emails, or keys.
-
-### CLI (same thing, if you prefer the terminal)
+Install the skills:
 
 ```bash
-npx analyzthis_design accept --keep --persona arjun
-npx analyzthis_design accept --fix --persona arjun --because "Invented tokens — use tokens.css"
+npx analyzthis_design@latest install --target claude
 ```
 
-The older `session accept` / `feedback record` flags still work.
-
-### Make the team learn
+Start Claude Code from your project:
 
 ```bash
-npx analyzthis_design evolve --extract --dry-run   # preview
-npx analyzthis_design evolve --extract             # write patch proposals
-npx analyzthis_design evolve --apply <patchId>      # apply after review
+cd /path/to/your/project
+claude
 ```
 
-### Check evolution metrics
+Then enter:
+
+```text
+/ux-ideator Design a permissions screen for a B2B application.
+Create one simple concept and one power-user concept.
+```
+
+Or run Claude Code non-interactively:
 
 ```bash
-npx analyzthis_design evolve --metrics             # team evolution dashboard
-npx analyzthis_design evolve --ready               # check if enough data to evolve
+claude -p "/design-critic Review the account settings flow in this repository. Assess only."
 ```
 
-The dashboard shows a per-persona score (0-100) based on lessons, outcomes, and patches applied. Levels: Novice (0-19) -> Developing (20-39) -> Proficient (40-59) -> Advanced (60-79) -> Expert (80-100).
+Claude Code reads the installed skills from `~/.claude/skills/`. Analyzthis Design also writes compatible command files to `~/.claude/commands/`.
 
-After every successful run, Devi prints an evolution readiness hint automatically.
-
-### Premise challenge (v2.2)
-
-When you run a critique, the planner now evaluates whether your task framing is valid before planning chunks. If the premise is questionable (e.g., "users don't convert because X is buried" — but maybe they reach X and still don't convert), the planner adds a `premise_check` chunk that Raj runs first. All subsequent persona chunks see the premise assessment.
-
-The synthesis step also explicitly resolves disagreements — if Arjun says SHIP and Meera says REVISE, the synthesis picks a winner with a forward path instead of summarizing both sides.
-
-### Confirm whether the advice actually shipped
+If Claude cannot find a skill:
 
 ```bash
-npx analyzthis_design outcome --confirm --persona arjun --result shipped
-# or: revised, blocked_correctly, missed
+npx analyzthis_design@latest install --target claude --force
 ```
 
----
+Then start a new Claude Code session.
 
-## 9. Configuration
+## Option 3: Local models with Ollama
 
-Create `~/.analyzthis_design/config.json`:
+Ollama is a local model server. It does not load Analyzthis Design slash commands by itself. Use the Analyzthis Design CLI and tell it to call an Ollama model.
+
+### Install and prepare a model
+
+Install Ollama from [ollama.com](https://ollama.com), then pull a supported model:
+
+```bash
+ollama pull qwen2.5
+ollama list
+```
+
+On macOS, opening the Ollama application normally starts its local server. On other systems, start it with:
+
+```bash
+ollama serve
+```
+
+The default local address is `http://localhost:11434`.
+
+### Easiest fully local run
+
+Use the unchunked runner when you want one Ollama model to perform the whole review:
+
+```bash
+npx analyzthis_design@latest run-unchunked \
+  --task "Review the invoice approval screen" \
+  --provider ollama \
+  --model qwen2.5 \
+  --experts arjun,meera,priya
+```
+
+For a quicker single-persona review:
+
+```bash
+npx analyzthis_design@latest run-unchunked \
+  --task "Check visual hierarchy and spacing" \
+  --provider ollama \
+  --model qwen2.5 \
+  --experts arjun
+```
+
+### Use Ollama with the chunked runner
+
+The default `run` command first asks a planner to divide the work into smaller tasks. To keep both planning and execution local, create or update:
+
+```text
+~/.analyzthis_design/config.json
+```
+
+Use this configuration:
 
 ```json
 {
-  "orchestrator": {
-    "provider": "host",
-    "mode": "lite"
-  },
-  "collect": {
-    "web_urls": ["https://analyzthis.com"],
-    "web_queries": ["your product design inspiration"],
-    "web_limit": 10
-  },
-  "moodboard": {
-    "urls": ["https://dribbble.com/shots/example"],
-    "queries": ["fintech dashboard design"],
-    "limit": 12,
-    "workspace_dir": "./moodboard"
+  "chunk_models": {
+    "budget": "free",
+    "planner": {
+      "provider": "ollama",
+      "model": "qwen2.5"
+    }
   }
 }
 ```
 
-No API keys are required for host mode. To use cloud providers, set one of:
-
-- `ANTHROPIC_API_KEY`
-- `OPENAI_API_KEY`
-- `GEMINI_API_KEY` or `GOOGLE_API_KEY`
-- `ZAI_API_KEY` or `ZHIPU_API_KEY`
-- `GROQ_API_KEY` (free tier available)
-- `TOGETHER_API_KEY`
-- `OPENROUTER_API_KEY` (free models available)
-- `DEEPSEEK_API_KEY`
-- Local **Ollama** auto-detected at `localhost:11434` (no key needed)
-
----
-
-## 10. Troubleshooting
-
-| Problem | Fix |
-|---|---|
-| Skill not found in IDE | Reinstall: `npx analyzthis_design --target <ide> --force` |
-| Personas re-ask for context | Run `npx analyzthis_design session show` — if a session exists, do not re-derive the task map |
-| No web references fetched | Add `collect.web_urls` / `research.urls` to config, or paste URLs directly |
-| Run pauses with "Host LLM pending" | Invoke `/devi` in Cursor/Claude, or run `npx analyzthis_design devi respond --run <dir> --step <id> --file response.md` |
-| Want a cheaper run | Use `--lite` (default) instead of `--full` |
-| Want deeper critique | Use `--full` for the full design-critic chain |
-| Personas give generic advice | Add PRDs/brand/research notes and re-run `npx analyzthis_design collect` |
-| CSV data seems stale | Run `npx analyzthis_design validate` to check integrity against `schema.json` |
-
----
-
-## 11. Quick reference
+Then run:
 
 ```bash
-# Help
-npx analyzthis_design welcome
-
-# Knowledge
-npx analyzthis_design collect
-npx analyzthis_design sync --target all
-npx analyzthis_design session init
-npx analyzthis_design session show
-
-# Run (v2.0 chunked by default)
-npx analyzthis_design run --task "Review this screen" --dry-run
-npx analyzthis_design run --task "Review this screen" --budget free
-npx analyzthis_design run --continue --task "Review this screen"
-
-# Run (legacy single-pass)
-npx analyzthis_design run-unchunked --task "Review this screen" --full
-
-# Validate CSV reference data
-npx analyzthis_design validate
-
-# Mood board
-npx analyzthis_design moodboard create --task "..." --auto
-npx analyzthis_design moodboard critique --board <id>
-npx analyzthis_design moodboard add --board <id> --url <url> --tags a,b
-
-# Evolve
-npx analyzthis_design evolve --metrics
-npx analyzthis_design evolve --ready
-npx analyzthis_design evolve --extract --dry-run
-npx analyzthis_design evolve --apply <patchId>
-npx analyzthis_design outcome --confirm --persona arjun --result shipped
+npx analyzthis_design@latest run \
+  --task "Review the complete onboarding flow" \
+  --budget free \
+  --provider ollama \
+  --model qwen2.5
 ```
 
----
+Analyzthis Design automatically detects models returned by `ollama list`. Recommended local names include `qwen2.5`, `llama3.1`, `mistral`, `gemma3:4b`, and `phi4`. Larger models usually give better design reasoning but require more memory and run more slowly.
 
-Docs: https://github.com/joshirishi/analyzthis_design
+To use Ollama on another machine or port:
+
+```bash
+export OLLAMA_BASE_URL="http://your-host:11434"
+```
+
+For chunked runs, also merge the discovery address into `config.json`:
+
+```json
+{
+  "ollama": {
+    "base_url": "http://your-host:11434"
+  }
+}
+```
+
+### Common Ollama problems
+
+Check that the server is reachable:
+
+```bash
+curl http://localhost:11434/api/tags
+```
+
+If a model is missing:
+
+```bash
+ollama pull qwen2.5
+```
+
+If your computer runs out of memory, use a smaller model such as:
+
+```bash
+ollama pull gemma3:4b
+```
+
+## Run directly from any terminal
+
+You can use the standalone runner even when Cursor or Claude is not open:
+
+```bash
+# Preview the plan without calling a model
+npx analyzthis_design@latest run \
+  --task "Review the checkout flow" \
+  --dry-run
+
+# Use automatically discovered free or local models
+npx analyzthis_design@latest run \
+  --task "Review the checkout flow" \
+  --budget free
+
+# Use a specific cloud model provider
+export ANTHROPIC_API_KEY="your-key"
+npx analyzthis_design@latest run-unchunked \
+  --task "Review the checkout flow" \
+  --provider anthropic
+```
+
+Never place API keys in source files or commit them to Git.
+
+## Calibrate models for each persona
+
+Calibration compares the models available on your computer against a fixed benchmark. It learns which model performs best for each persona and difficulty level.
+
+Always preview the cost and number of calls first:
+
+```bash
+npx analyzthis_design@latest calibrate \
+  --dry-run \
+  --max-usd 5 \
+  --max-calls 500
+```
+
+Run the benchmark after reviewing the preview:
+
+```bash
+npx analyzthis_design@latest calibrate \
+  --max-usd 5 \
+  --max-calls 500
+```
+
+Apply qualified winners only after judge alignment succeeds:
+
+```bash
+npx analyzthis_design@latest calibrate \
+  --max-usd 5 \
+  --max-calls 500 \
+  --judge \
+  --apply
+```
+
+Calibration:
+
+- never exceeds the limits you provide
+- stores progress in a checkpoint so interrupted runs can resume
+- keeps private prompts and raw outputs on your computer
+- requires independent judge evidence before changing active model choices
+- shares nothing unless you explicitly request sharing
+
+Ollama models can participate automatically when Ollama is running. A local-only pool can be benchmarked, but applying a winner may require additional independent model families for reliable judging.
+
+## Tell the system whether advice worked
+
+After a persona run, record whether you accepted its advice:
+
+```bash
+npx analyzthis_design@latest accept --keep --persona arjun
+```
+
+Or explain why it needs correction:
+
+```bash
+npx analyzthis_design@latest accept \
+  --fix \
+  --persona arjun \
+  --because "The recommendation ignored our existing design tokens"
+```
+
+Later, record the real outcome:
+
+```bash
+npx analyzthis_design@latest outcome \
+  --confirm \
+  --persona arjun \
+  --result shipped
+```
+
+Valid results are `shipped`, `revised`, `blocked_correctly`, and `missed`. These signals help the system learn without confusing an API failure with poor design advice.
+
+## Which path should you choose?
+
+- Choose Cursor when you want visual project context and code changes inside the IDE.
+- Choose Cursor CLI when you want the same agent workflow from a terminal or script.
+- Choose Claude Code when Claude is your main coding agent.
+- Choose Ollama when privacy and local execution matter more than speed or maximum model quality.
+- Choose the standalone `npx analyzthis_design run` command for automated, model-routed reviews.
+
+For your first run, start with:
+
+```bash
+npx analyzthis_design@latest collect
+npx analyzthis_design@latest run \
+  --task "Review this product's most important user flow" \
+  --dry-run
+```
+
+Then use `/ux-ideator` for new designs or `/persona-orchestrator` for critiques in Cursor or Claude.
+
+Project: [github.com/joshirishi/analyzthis_design](https://github.com/joshirishi/analyzthis_design)
