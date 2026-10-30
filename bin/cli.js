@@ -102,14 +102,22 @@ Usage:
                             full: all 19 named tools. Or ANALYZTHIS_MCP_CATALOG=full
 
 ── Mood board commands ─────────────────────────────────────
-  moodboard create --task <text>   Build a mood board from web + DS references
-                                    [--url <url> ...] [--auto] [--kind mood|ui]
-  moodboard frames --board <id>    Add Zara scout frames to a --kind ui board
-                                    --url <url> [--title t] [--steal s] [--refuse r] [--peak p]
-  moodboard critique --board <id>  Run team deliberation (jury on ui boards)
-  moodboard add --board <id>       Add a user reference and rerun critique
-                                    [--url <url>] [--title <t>] [--desc <d>]
-                                    [--tags a,b] [--note <text>]
+  moodboard create --task <text>   Start a visual mood board (Zara scouts element crops)
+                                    [--adjectives a,b,c] [--not "..."] [--sections components,typography]
+                                    [--kind mood] for the older link-and-tag board
+  moodboard brief --board <id>     Edit the brief [--adjectives] [--not] [--sections] [--yes]
+  moodboard capture-script          Print the page script that reads real colours/fonts
+                                    [--selector ".pricing-card"]
+  moodboard tile --board <id>      Add one element crop: --page <url> --image <file|url>
+                                    --element "<what>" --section <id> [--steal] [--refuse]
+                                    [--peak] [--colors #hex,..] [--fonts a,b] [--concept]
+  moodboard critique --board <id>  Team votes on each tile (advice only)
+  moodboard votes --board <id>     Save team votes from a JSON file --votes votes.json
+  moodboard show --board <id>      Open the clickable board on 127.0.0.1 [--port 4317]
+  moodboard decide --board <id>    Your choice: --tile <n> --decision keep|maybe|reject|clear
+  moodboard rescout --board <id>   Send Zara back with your note [--note "..."]
+  moodboard lock --board <id>      Lock your direction for every persona [--note "..."]
+  moodboard add --board <id>       Add a reference to a link board and rerun critique
   moodboard list                   List mood boards for this project
 
 ── Reference data (retrieve-on-demand) ───────────────────────
@@ -224,9 +232,10 @@ Usage:
   npx analyzthis_design research --query "EY design system tokens"
 
   npx analyzthis_design moodboard create --task "B2B fintech dashboard, trustworthy, high-contrast" --auto
-  npx analyzthis_design moodboard create --task "Invoice approval, partner signs" --kind ui
-  npx analyzthis_design moodboard frames --board <id> --url https://example.com/shot.png --title "Dense table" --steal "one stamp" --refuse "purple glow"
+  npx analyzthis_design moodboard create --task "Invoice approval, partner signs" --adjectives calm,precise,trusted --not "AI purple hero"
+  npx analyzthis_design moodboard tile --board <id> --page https://linear.app/pricing --image ./crop.png --element "Pricing card" --section components --steal "one quiet CTA"
   npx analyzthis_design moodboard critique --board <boardId>
+  npx analyzthis_design moodboard show --board <boardId>
   npx analyzthis_design moodboard add --board <boardId> --url https://dribbble.com/shots/example --title "Alt hero" --tags "landing,trust"
 
   npx analyzthis_design retrieve --file colors.csv --column "Product Type" --keywords saas,dashboard
@@ -363,6 +372,22 @@ const maxCallsVal = getFlag('max-calls');
 const runsVal = getFlag('runs');
 const deltaVal = getFlag('delta');
 const resumeVal = getFlag('resume');
+const sectionVal = getFlag('section');
+const sectionsVal = getFlag('sections');
+const elementVal = getFlag('element');
+const imageVal = getFlag('image');
+const tileVal = getFlag('tile');
+const decisionVal = getFlag('decision');
+const noteVal = getFlag('note');
+const portVal = getFlag('port');
+const selectorVal = getFlag('selector');
+const adjectivesVal = getFlag('adjectives');
+const notThisVal = getFlag('not');
+const colorsVal = getFlag('colors');
+const fontsVal = getFlag('fonts');
+const votesVal = getFlag('votes');
+const conceptFlag = flags.includes('--concept');
+const splitList = (raw) => (raw ? raw.split(',').map((s) => s.trim()).filter(Boolean) : undefined);
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 
@@ -688,7 +713,7 @@ switch (cmd) {
     const msub = flags.find((f) => !f.startsWith('--')) || 'create';
     if (msub === 'create') {
       if (!taskVal) {
-        console.error('\n  ✗  --task is required.  Example: npx analyzthis_design moodboard create --task "B2B fintech dashboard" --auto\n');
+        console.error('\n  ✗  --task is required.  Example: npx analyzthis_design moodboard create --task "B2B fintech dashboard" --adjectives calm,dense,trusted\n');
         process.exit(1);
       }
       (async () => {
@@ -703,14 +728,17 @@ switch (cmd) {
             project: projectVal,
             task: taskVal,
             urls: urls,
-            kind: kindVal || 'mood',
+            kind: kindVal || 'ui',
             discover: autoFlag || urls.length > 0,
             dryRun: dryRunFlag,
+            brief: { adjectives: splitList(adjectivesVal), not_this: notThisVal || '', sections: splitList(sectionsVal) },
           });
-          console.log(`\n✅ ${result.board.kind === 'ui' ? 'UI image board' : 'Mood board'} created: ${result.board.board_id}`);
+          console.log(`\n✅ ${result.board.kind === 'ui' ? 'Mood board (visual)' : 'Link mood board'} created: ${result.board.board_id}`);
           if (result.board.kind === 'ui') {
+            console.log(`   Sections: ${result.board.brief.sections.join(', ')}`);
             console.log(`   Scout:    Zara round ${result.board.scout.round} — ${result.board.scout.status}`);
-            console.log(`   Next:     /zara (Scout Pass), then moodboard frames --board ${result.board.board_id}`);
+            console.log(`   Next:     Zara crops elements, then moodboard tile --board ${result.board.board_id} --page <url> --image <file> --element "<what>" --section components`);
+            console.log(`   Then:     moodboard show --board ${result.board.board_id}  (you decide in the browser)`);
             console.log('');
             console.log(result.board.scout.brief);
             console.log('');
@@ -751,10 +779,7 @@ switch (cmd) {
           console.log(`   Verdict: ${result.board.synthesis?.verdict || 'n/a'}`);
           if (result.board.kind === 'ui' && result.board.scout) {
             console.log(`   Scout:   round ${result.board.scout.round} — ${result.board.scout.status}`);
-            if (result.board.scout.status === 'awaiting_scout') {
-              console.log('');
-              console.log(result.board.scout.brief);
-            }
+            console.log(`   Team votes are advice. You decide: moodboard show --board ${result.board.board_id}`);
           }
           console.log(`   Rounds:  ${result.board.deliberation?.round || 0}`);
           console.log(`   Board:   ${result.boardDir || path.join(session.sessionDir(projectVal || session.getProjectId()), 'moodboard', boardVal)}`);
@@ -770,29 +795,118 @@ switch (cmd) {
       })();
       break;
     }
-    if (msub === 'frames') {
-      if (!boardVal || !urlVal) {
-        console.error('\n  ✗  --board and --url are required.  Example: npx analyzthis_design moodboard frames --board <id> --url https://example.com/shot.png --title "Dense table" --steal "one stamp" --refuse "purple glow"\n');
+    if (msub === 'tile' || msub === 'frames') {
+      const pageUrl = getFlag('page') || urlVal;
+      if (!boardVal || !pageUrl) {
+        console.error('\n  ✗  --board and --page are required.  Example: npx analyzthis_design moodboard tile --board <id> --page https://linear.app/pricing --image ./crop.png --element "Pricing card" --section components --steal "one quiet CTA"\n');
         process.exit(1);
       }
       try {
-        const result = moodboard.addFrames({
+        const result = moodboard.addTiles({
           project: projectVal,
           boardId: boardVal,
-          frame: {
-            url: urlVal,
-            title: titleVal || '',
+          tile: {
+            page_url: pageUrl,
+            element: elementVal || titleVal || '',
+            section: sectionVal || 'components',
+            image_path: imageVal && !/^https?:\/\//i.test(imageVal) ? imageVal : undefined,
+            image_url: imageVal && /^https?:\/\//i.test(imageVal) ? imageVal : (msub === 'frames' ? urlVal : undefined),
+            tokens: { colors: splitList(colorsVal), fonts: splitList(fontsVal) },
             steal: stealVal || '',
             refuse: refuseVal || '',
             peak: peakVal || '',
+            concept: conceptFlag,
           },
         });
-        console.log(`\n✅ Frame added to UI board ${result.board.board_id} (${result.board.frames.length} total)`);
-        console.log(`   Scout: ${result.board.scout.status} — next: moodboard critique --board ${result.board.board_id}\n`);
+        if (result.skipped.length) {
+          console.error(`\n  ✗  Not added: ${result.skipped.map((s) => s.reason).join('; ')}\n`);
+          process.exit(1);
+        }
+        console.log(`\n✅ Tile #${result.added[0].n} added (${result.board.tiles.length} on the board)`);
+        console.log(`   Next: more tiles, then moodboard critique or moodboard show --board ${result.board.board_id}\n`);
       } catch (err) {
         console.error(`\n  ✗  ${err.message}\n`);
         process.exit(1);
       }
+      break;
+    }
+    if (msub === 'brief') {
+      try {
+        const result = moodboard.setBrief({
+          project: projectVal, boardId: boardVal,
+          adjectives: splitList(adjectivesVal), not_this: notThisVal, sections: splitList(sectionsVal),
+          confirmed_by_user: yesFlag ? true : undefined,
+        });
+        console.log(`\n✅ Brief saved: ${JSON.stringify(result.board.brief)}\n`);
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (msub === 'votes') {
+      try {
+        const raw = JSON.parse(fs.readFileSync(votesVal, 'utf8'));
+        const result = moodboard.recordPersonaVotes({ project: projectVal, boardId: boardVal, votes: raw.votes || [], verdict: raw.verdict, summary: raw.summary });
+        console.log(`\n✅ Team advice saved. ${result.ignored.length} ignored. Next: moodboard show --board ${result.board.board_id}\n`);
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}  (usage: moodboard votes --board <id> --votes votes.json)\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (msub === 'decide') {
+      try {
+        moodboard.recordUserDecision({ project: projectVal, boardId: boardVal, tile: tileVal, decision: decisionVal, note: noteVal || '' });
+        console.log(`\n✅ Tile ${tileVal}: ${decisionVal}. Your choice overrides every persona.\n`);
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}  (usage: moodboard decide --board <id> --tile 3 --decision keep|maybe|reject|clear --note "...")\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (msub === 'rescout') {
+      try {
+        const result = moodboard.requestRescout({ project: projectVal, boardId: boardVal, note: noteVal || '' });
+        console.log(`\n✅ Zara goes back out (round ${result.board.scout.round}).\n\n${result.board.scout.brief}\n`);
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (msub === 'lock') {
+      try {
+        const result = moodboard.lockDirection({ project: projectVal, boardId: boardVal, note: noteVal || '' });
+        const d = result.board.direction;
+        console.log(`\n✅ Direction locked: ${d.kept.length} kept, ${d.rejected.length} rejected. Saved to session as design_direction.`);
+        if (d.palette.length) console.log(`   Palette: ${d.palette.join(' ')}`);
+        if (d.fonts.length) console.log(`   Fonts:   ${d.fonts.join(', ')}`);
+        console.log('');
+      } catch (err) {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      }
+      break;
+    }
+    if (msub === 'show') {
+      if (!boardVal) {
+        console.error('\n  ✗  --board is required.  Example: npx analyzthis_design moodboard show --board <id>\n');
+        process.exit(1);
+      }
+      require('../lib/moodboard-view').serveBoard({ project: projectVal, boardId: boardVal, port: portVal != null ? portVal : undefined, onChange: (what, b) => {
+        console.log(`   ${new Date().toLocaleTimeString()}  ${what}  — scout: ${b.scout && b.scout.status}`);
+      } }).then((live) => {
+        console.log(`\n✅ Mood board live at ${live.url}`);
+        console.log('   Open it in the browser. Keep / maybe / reject saves instantly. Ctrl+C to stop.\n');
+      }).catch((err) => {
+        console.error(`\n  ✗  ${err.message}\n`);
+        process.exit(1);
+      });
+      break;
+    }
+    if (msub === 'capture-script') {
+      console.log(moodboard.captureScript(selectorVal || 'body', getFlag('text') || ''));
       break;
     }
     if (msub === 'add') {
@@ -845,7 +959,7 @@ switch (cmd) {
       }
       break;
     }
-    console.error('\n  Unknown moodboard subcommand. Use: create | frames | critique | add | list\n');
+    console.error('\n  Unknown moodboard subcommand. Use: create | brief | tile | critique | votes | show | decide | rescout | lock | capture-script | add | list\n');
     process.exit(1);
   }
 

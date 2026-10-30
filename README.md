@@ -871,10 +871,13 @@ npx analyzthis_design outcome --infer [--window N]
 npx analyzthis_design outcome --pending
 npx analyzthis_design outcome --confirm --persona <id> --result shipped|revised|blocked|missed
 
-# Mood board (v1.22)
-npx analyzthis_design moodboard create --task "..." [--auto] [--url <url> ...]
-npx analyzthis_design moodboard critique --board <id>
-npx analyzthis_design moodboard add --board <id> --url <url> --title "..." --tags a,b
+# Mood board — visual element collage, user decides
+npx analyzthis_design moodboard create --task "..." [--adjectives a,b,c] [--not "..."] [--sections components,typography]
+npx analyzthis_design moodboard tile --board <id> --page <url> --image <crop> --element "..." --section components
+npx analyzthis_design moodboard critique --board <id>      # team votes = advice
+npx analyzthis_design moodboard show --board <id>          # you keep / maybe / reject in the browser
+npx analyzthis_design moodboard rescout --board <id> --note "..."
+npx analyzthis_design moodboard lock --board <id>          # saves design_direction for every persona
 npx analyzthis_design moodboard list
 
 # Devi — host LLM queue (v1.20)
@@ -917,7 +920,8 @@ lib/
   reference-pack.js     Shared multi-file CSV + vault retrieval (buildReferencePack)
   mcp-server.js         MCP server — 19 tools for any MCP-compatible IDE
   system-prompt.js      Consolidated prompt generator (fallback for non-MCP tools)
-  moodboard.js          Mood-board engine: collect web/DS references, tag, deliberate
+  moodboard.js          Mood-board engine: element tiles, persona advice, user decisions, lock
+  moodboard-view.js     Visual board page + local 127.0.0.1 server for keep / maybe / reject
   dedup.js              Cross-persona redundancy detection
   lessons.js            Self-evolving lessons store (extract/retrieve/inject)
   outcome.js            Infer + confirm persona outcome labels
@@ -1002,7 +1006,7 @@ skills/
 
 | Feature | Description |
 |---------|-------------|
-| **Mood boards** | Tagged URLs + team deliberation. **UI image boards:** Zara scouts 3–5 real shipped screens; Arjun/Noor/Priya/Meera jury; she re-scouts if they skip (max 3 rounds) |
+| **Mood boards** | Zara crops 20–24 real UI elements from 6+ live sites into a sectioned visual collage with each site's real colours and fonts. Arjun/Noor/Priya/Meera vote as advice. **You** keep / maybe / reject in the browser — your choice overrides every persona, rejected tiles never return, and the locked direction is saved for all personas. `--kind mood` keeps the older tagged-URL board |
 | **User-contributed references** | User can add URLs/notes to a board and rerun the critique loop |
 | **Visual direction setting** | Arjun, Meera, Priya, Zara, Noor score references via the UX Honeycomb rigor matrix |
 | **Workspace artifacts** | `moodboard/{boardId}.json` is written into the project for the user to inspect |

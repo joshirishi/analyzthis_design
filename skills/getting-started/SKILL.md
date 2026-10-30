@@ -33,7 +33,7 @@ This runs **Kavi** — scans your repo, builds an Obsidian vault, and syncs a **
 | Review against PRDs and user stories | `/ux-story-gate` | Task map + routing before critique |
 | Index my codebase for personas | `/kavi` | Kavi → knowledge bank |
 | Run CLI orchestrator without API keys | `/devi` | Host LLM — voices personas from pending prompts |
-| Set visual direction with references + team debate | `/mood-board` | Mood board: tagged URLs. **UI image board:** Zara scouts 3–5 real screens; Arjun/Noor/Priya/Meera jury; she re-scouts if they skip |
+| Set visual direction from real sites | `/mood-board` | Zara crops 20–24 real UI elements into a visual board. The team votes as advice; you keep / maybe / reject in the browser and your choice wins |
 | Inspect the chunked execution planner | `/chunk-planner` | See how tasks are split into model-routed chunks |
 | Run legacy single-pass orchestrator | `/run-unchunked` | Skip planner overhead for quick single-expert tasks |
 | Keep or skip the last persona note | `/accept` | Yes or no (plus one sentence if no). Local evolution — no CLI flags. |
@@ -115,7 +115,7 @@ Assess only — do not implement changes.
 | `/anuj` | Power-user wireframe |
 | `/design-director` | Full producer — ideation → DesignSpec → build |
 | `/design-spec` | DesignSpec format + validation rules |
-| `/mood-board` | Visual direction — mood board (tagged URLs) or UI image board (Zara scouts real screens, jury votes) |
+| `/mood-board` | Visual direction — element collage from real sites; you decide, the team advises |
 | `/chunk-planner` | Chunked execution planner explained |
 | `/run-unchunked` | Legacy single-pass orchestrator (skip chunked planner) |
 | `/persona-orchestrator` | Agentic critique (not wireframes) |

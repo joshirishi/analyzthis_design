@@ -6,19 +6,23 @@
   "system_card": "agents/cards/mood-board.md",
   "system_skill": "skills/mood-board/SKILL.md",
   "allowed_jobs": [
-    "collect web references for visual direction",
-    "run a Zara UI-image-board scout then a jury loop",
-    "tag references with style, mood, surface",
-    "retrieve design-system patterns for the task",
-    "orchestrate team deliberation over references",
-    "write board.json artifacts",
-    "accept user-contributed references and rerun"
+    "write a brief and confirm it with the user",
+    "have Zara crop real UI elements from live sites into a sectioned collage",
+    "read real colours, fonts, radius and spacing from each source page",
+    "collect persona votes on each tile as advice",
+    "open the visual board for the user to keep / maybe / reject",
+    "send Zara back with the user's notes",
+    "lock the user's direction into the session for every persona",
+    "keep the older link-and-tag board (kind mood)"
   ],
   "forbidden_jobs": [
     "produce final wireframes or code",
     "replace the design-critic chain for screen review",
-    "auto-apply design system changes"
+    "auto-apply design system changes",
+    "record a user decision the user did not make",
+    "let a persona vote override the user's choice",
+    "add a tile without its source page"
   ],
-  "hard_gates": [],
+  "hard_gates": ["user_decides_before_lock"],
   "parallel_safe_with": []
 }

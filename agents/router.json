@@ -93,7 +93,7 @@
       "signals": ["mood board", "mood-board", "/mood-board", "visual direction", "references", "inspiration", "style direction", "design direction", "ui board", "image board", "ui image board"],
       "route_to": ["mood-board"],
       "never_route_to": ["design-critic_chain", "zara", "noor_alone"],
-      "notes": "Visual direction setting — collect references, tag them, pull DS patterns, run team deliberation. Not a screen critique."
+      "notes": "Visual direction setting — Zara crops real UI elements into a collage, the team votes as advice, the user decides in the browser and locks the direction. Not a screen critique."
     }
   ]
 }

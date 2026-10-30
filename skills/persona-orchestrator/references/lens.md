@@ -138,14 +138,14 @@ npx analyzthis_design outcome --confirm --persona arjun --result shipped
 
 **Default execution is chunked (v2.0).** `npx analyzthis_design run --task "..."` now uses a frontier planner + cheap chunk models. Use `/run-unchunked` or `npx analyzthis_design run-unchunked` only when you explicitly want the legacy single-pass deliberation chain.
 
-**Set visual direction with the team.** Use `/mood-board` when the user wants references and a team-deliberated direction:
+**Set visual direction with the user.** Use `/mood-board` when the user wants to see a direction before designing:
 
 ```bash
-npx analyzthis_design moodboard create --task "B2B fintech dashboard, trustworthy, high-contrast" --auto
-npx analyzthis_design moodboard critique --board <boardId>
+npx analyzthis_design moodboard create --task "B2B fintech dashboard" --adjectives trustworthy,dense,calm
+npx analyzthis_design moodboard show --board <boardId>
 ```
 
-References are tagged, design-system patterns are pulled, and Arjun/Meera/Priya/Zara/Noor deliberate with Honeycomb scoring until consensus.
+Zara crops real UI elements from live sites into a visual board. Arjun/Meera/Priya/Noor vote as advice; the user keeps, maybes, or rejects each tile, and their choice wins. Once locked, `design_direction` in session state outranks every persona — route around it, never against it.
 
 **Evolve the team.** Periodically (e.g., weekly), run:
 

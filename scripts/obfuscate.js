@@ -57,6 +57,7 @@ const FILES = [
   ['lib/output-quality.js',   'dist/lib/output-quality.js'],
   ['lib/calibrate.js',        'dist/lib/calibrate.js'],
   ['lib/moodboard.js',        'dist/lib/moodboard.js'],
+  ['lib/moodboard-view.js',   'dist/lib/moodboard-view.js'],
   ['lib/receipt.js',          'dist/lib/receipt.js'],
   ['lib/accept.js',           'dist/lib/accept.js'],
   ['lib/share.js',            'dist/lib/share.js'],
