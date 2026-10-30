@@ -38,6 +38,28 @@ Every tile carries: `page_url` (required), the cropped image, `section`, `elemen
 
 Only record a user decision through `decide` when the user said it in chat. Never decide for them.
 
+## Which capture path to use
+
+| Your host | Crop elements with | Show the board with |
+|---|---|---|
+| Cursor (has `cursor-ide-browser`) | The browser steps below | `action=show`, then `browser_navigate` with `newTab: true` |
+| Claude Code, OpenCode, Codex, Windsurf, Kiro, Trae, Grok, plain terminal | `moodboard crop` (below) | `moodboard show --board <id>` run in the background; give the user the printed `http://127.0.0.1:…` link |
+
+Both paths read the same real colours and fonts and save the same tiles. If `playwright-core` is missing, tell the user to run `npm install playwright-core` (Google Chrome must be installed). Never fill the board with invented images instead.
+
+## Capturing elements in any IDE (`moodboard crop`)
+
+```bash
+npx analyzthis_design moodboard crop --board <id> --page https://linear.app/pricing \
+  --selector h1 --text "Pricing" --element "Pricing headline" --section typography \
+  --steal "one quiet headline" --refuse "dark-only" --peak "calm authority"
+```
+
+- `--selector` is CSS. Add `--text` with words visible in the element; the smallest match wins, so a bare `h1` won't hit the logo.
+- One command, one tile. Repeat for each element. With MCP, `action=crop tiles=[{page_url, selector, text, element, section, steal, refuse, peak}, …]` crops several from the same page in one visit.
+- If it says "No visible element matches", the selector is wrong for that page. Try a broader selector plus `--text`, for example `--selector section --text "Start free trial"`.
+- `moodboard show` keeps running until stopped. Start it in the background (or a second terminal) so you can keep talking to the user.
+
 ## Capturing a tile in Cursor's browser
 
 Tested on live sites. Follow it exactly:
@@ -87,7 +109,7 @@ npx analyzthis_design moodboard lock --board <id> --note "light, amount-first, h
 npx analyzthis_design moodboard list
 ```
 
-MCP tool `analyzthis_mood_board` actions: `create` (default), `brief`, `capture_script`, `tiles`, `film`, `jury`, `votes`, `show`, `decide`, `rescout`, `lock`, `status`. `frames` and `verdict` still work as older names for `tiles` and `votes`.
+MCP tool `analyzthis_mood_board` actions: `create` (default), `brief`, `capture_script`, `tiles`, `crop`, `film`, `jury`, `votes`, `show`, `decide`, `rescout`, `lock`, `status`. `frames` and `verdict` still work as older names for `tiles` and `votes`.
 
 ## Files
 

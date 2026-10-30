@@ -185,7 +185,12 @@ function request(port, opts, body) {
   assert.strictEqual(bad.status, 416);
   flive.server.close();
 
-  console.log('ok  moodboard tiles / user supersedes / server / lock / films');
+  // 15. Headless crop refuses bad input before starting Chrome.
+  var capture = require('../lib/moodboard-film');
+  await assert.rejects(capture.cropTiles({ boardId: fref.boardId, crops: [{ page_url: 'javascript:alert(1)', selector: 'h1' }] }), /required/);
+  await assert.rejects(capture.cropTiles({ boardId: fref.boardId, crops: [{ page_url: 'https://linear.app' }] }), /required/);
+
+  console.log('ok  moodboard tiles / user supersedes / server / lock / films / crop');
 })().catch(function(e) {
   console.error(e);
   process.exit(1);

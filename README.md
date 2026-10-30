@@ -4,6 +4,11 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
+## v2.7.0 — Zara in every IDE, plus Kiro and Trae
+
+- **`moodboard crop`:** cut a real element (by page, CSS selector and visible text) with its real colours and fonts from any IDE or terminal — Claude Code, OpenCode, Codex, Windsurf, Kiro, Trae. Cursor can still use its built-in browser. Needs the optional `playwright-core` and Google Chrome.
+- **New install targets:** `--target kiro` (`~/.kiro/skills`), `--target trae` (`~/.trae/skills`), `--target trae-cn` (`~/.trae-cn/skills`). `--target all` now includes Kiro and Trae.
+
 ## v2.6.0 — Mood boards you decide on, now with scroll films
 
 - **Element collage:** Zara crops 20–24 real UI elements from 6+ live sites into sections (first screen, typography, colour, components, imagery, motion), each with its source page and real colours and fonts.
@@ -113,7 +118,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.6.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.7.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
@@ -149,6 +154,8 @@ npx analyzthis_design --target claude
 npx analyzthis_design --target codex
 npx analyzthis_design --target grok
 npx analyzthis_design --target windsurf
+npx analyzthis_design --target kiro       # ~/.kiro/skills
+npx analyzthis_design --target trae       # ~/.trae/skills (China edition: --target trae-cn)
 npx analyzthis_design --target all --force
 ```
 
@@ -882,6 +889,7 @@ npx analyzthis_design outcome --confirm --persona <id> --result shipped|revised|
 npx analyzthis_design moodboard create --task "..." [--adjectives a,b,c] [--not "..."] [--sections components,typography]
 npx analyzthis_design moodboard tile --board <id> --page <url> --image <crop> --element "..." --section components
 npx analyzthis_design moodboard critique --board <id>      # team votes = advice
+npx analyzthis_design moodboard crop --board <id> --page <url> --selector h1 --text "Pricing"   # element crop in any IDE
 npx analyzthis_design moodboard film --board <id> --url <url>   # scroll film as a motion tile (needs playwright-core + Chrome)
 npx analyzthis_design moodboard show --board <id>          # you keep / maybe / reject in the browser
 npx analyzthis_design moodboard rescout --board <id> --note "..."

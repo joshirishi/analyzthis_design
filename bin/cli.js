@@ -40,7 +40,7 @@ Usage:
   status     Show this project's sources and last sync time
   collect    Kavi: scan codebase → Obsidian vault → enrich → sync knowledge bank
              (--vault path, --dry-run, --no-enrich, --no-web, --no-discover,
-              --web-limit N, --target cursor|claude|codex|grok|windsurf|agents|all)
+              --web-limit N, --target cursor|claude|codex|grok|windsurf|agents|kiro|trae|trae-cn|all)
 
   Scope flags (connect/sync/disconnect/status):
   --project <id>   Explicit project id (overrides cwd-derived id)
@@ -112,6 +112,9 @@ Usage:
                                     --element "<what>" --section <id> [--steal] [--refuse]
                                     [--peak] [--colors #hex,..] [--fonts a,b] [--concept]
                                     [--video film.webm] [--stills a.png,b.png]
+  moodboard crop --board <id>      Crop one real element in any IDE: --page <url> --selector <css>
+                                    [--text "visible text"] --element "<what>" --section <id>
+                                    [--steal] [--refuse] [--peak]  Needs playwright-core + Chrome
   moodboard film --board <id>      Record real sites scrolling as motion tiles: --url <url>
                                     (repeatable) [--section motion] [--steal] [--refuse]
                                     Needs playwright-core + Google Chrome
@@ -153,7 +156,7 @@ Usage:
                               (--run path, --step 001-arjun, --file response.md)
 
 ── Options ──────────────────────────────────────────────────
-  --target   Platform: cursor | claude | codex | grok | windsurf | agents | all  (default: cursor)
+  --target   Platform: cursor | claude | codex | grok | windsurf | agents | kiro | trae | trae-cn | all  (default: cursor)
   --force    Overwrite existing skills on install
   --vault    Path to Obsidian vault or markdown folder (connect command)
   --tags     Comma-separated tags to filter by, e.g. design,brand,ux
@@ -821,6 +824,34 @@ switch (cmd) {
           if (!added.length) process.exit(1);
           console.log(`\n✅ ${added.length} film tile${added.length === 1 ? '' : 's'} added: ${added.map((t) => '#' + t.n + ' ' + t.site).join(', ')}`);
           console.log(`   Next: moodboard show --board ${boardVal}\n`);
+        } catch (err) {
+          console.error(`\n  ✗  ${err.message}\n`);
+          process.exit(1);
+        }
+      })();
+      break;
+    }
+    if (msub === 'crop') {
+      const pageUrl = getFlag('page') || urlVal;
+      if (!boardVal || !pageUrl || !selectorVal) {
+        console.error('\n  ✗  --board, --page and --selector are required.  Example: npx analyzthis_design moodboard crop --board <id> --page https://linear.app/pricing --selector h1 --text "Pricing" --element "Pricing headline" --section typography\n');
+        process.exit(1);
+      }
+      (async () => {
+        try {
+          const out = await require('../lib/moodboard-film').cropTiles({
+            project: projectVal, boardId: boardVal,
+            crops: [{ page_url: pageUrl, selector: selectorVal, text: getFlag('text'), element: elementVal || titleVal, section: sectionVal || 'components',
+              steal: stealVal, refuse: refuseVal, peak: peakVal, concept: conceptFlag }],
+          });
+          out.failed.forEach((f) => console.error(`  ✗  ${f.page_url}: ${f.reason}`));
+          (out.saved ? out.saved.skipped : []).forEach((s) => console.error(`  ✗  ${s.element}: ${s.reason}`));
+          const added = out.saved ? out.saved.added : [];
+          if (!added.length) process.exit(1);
+          const t = added[0];
+          console.log(`\n✅ Tile #${t.n} cropped from ${t.site} (${out.saved.board.tiles.length} on the board)`);
+          if (t.tokens.colors.length || t.tokens.fonts.length) console.log(`   Real tokens: ${t.tokens.colors.join(' ')} ${t.tokens.fonts.join(', ')}`);
+          console.log(`   Next: more crops, then moodboard show --board ${boardVal}\n`);
         } catch (err) {
           console.error(`\n  ✗  ${err.message}\n`);
           process.exit(1);
