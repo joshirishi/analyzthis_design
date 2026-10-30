@@ -7,7 +7,7 @@ Install once. Run structured UX critiques, multi-phase ideation, and task-ground
 ## v2.7.0 — Zara in every IDE, plus Kiro and Trae
 
 - **`moodboard crop`:** cut a real element (by page, CSS selector and visible text) with its real colours and fonts from any IDE or terminal — Claude Code, OpenCode, Codex, Windsurf, Kiro, Trae. Cursor can still use its built-in browser. Needs the optional `playwright-core` and Google Chrome.
-- **New install targets:** `--target kiro` (`~/.kiro/skills`), `--target trae` (`~/.trae/skills`), `--target trae-cn` (`~/.trae-cn/skills`). `--target all` now includes Kiro and Trae.
+- **New install targets:** `--target opencode` (`~/.config/opencode/skills`), `--target kiro` (`~/.kiro/skills`), `--target trae` (`~/.trae/skills`), `--target trae-cn` (`~/.trae-cn/skills`). `--target all` now includes OpenCode, Kiro and Trae.
 
 ## v2.6.0 — Mood boards you decide on, now with scroll films
 
@@ -154,6 +154,7 @@ npx analyzthis_design --target claude
 npx analyzthis_design --target codex
 npx analyzthis_design --target grok
 npx analyzthis_design --target windsurf
+npx analyzthis_design --target opencode   # ~/.config/opencode/skills
 npx analyzthis_design --target kiro       # ~/.kiro/skills
 npx analyzthis_design --target trae       # ~/.trae/skills (China edition: --target trae-cn)
 npx analyzthis_design --target all --force

@@ -40,7 +40,7 @@ Usage:
   status     Show this project's sources and last sync time
   collect    Kavi: scan codebase → Obsidian vault → enrich → sync knowledge bank
              (--vault path, --dry-run, --no-enrich, --no-web, --no-discover,
-              --web-limit N, --target cursor|claude|codex|grok|windsurf|agents|kiro|trae|trae-cn|all)
+              --web-limit N, --target cursor|claude|codex|grok|windsurf|agents|opencode|kiro|trae|trae-cn|all)
 
   Scope flags (connect/sync/disconnect/status):
   --project <id>   Explicit project id (overrides cwd-derived id)
@@ -156,7 +156,7 @@ Usage:
                               (--run path, --step 001-arjun, --file response.md)
 
 ── Options ──────────────────────────────────────────────────
-  --target   Platform: cursor | claude | codex | grok | windsurf | agents | kiro | trae | trae-cn | all  (default: cursor)
+  --target   Platform: cursor | claude | codex | grok | windsurf | agents | opencode | kiro | trae | trae-cn | all  (default: cursor)
   --force    Overwrite existing skills on install
   --vault    Path to Obsidian vault or markdown folder (connect command)
   --tags     Comma-separated tags to filter by, e.g. design,brand,ux
