@@ -4,6 +4,13 @@ A set of AI design personas and a task-first evaluation framework that plugs int
 
 Install once. Run structured UX critiques, multi-phase ideation, and task-grounded screen reviews — directly inside your AI chat. **No external LLM API keys required** for CLI orchestrator runs: **`/devi`** voices each persona from your host IDE (Cursor, Claude, etc.).
 
+## v2.6.0 — Mood boards you decide on, now with scroll films
+
+- **Element collage:** Zara crops 20–24 real UI elements from 6+ live sites into sections (first screen, typography, colour, components, imagery, motion), each with its source page and real colours and fonts.
+- **You decide:** `moodboard show` opens a clickable board on 127.0.0.1. Keep / maybe / reject overrides every persona; rejected tiles never come back; `lock` saves the direction every persona follows.
+- **Scroll films:** `moodboard film --board <id> --url <site>` records the real page scrolling through four depths as a looping motion tile with waypoint stills. Needs the optional `playwright-core` and Google Chrome.
+- **Install fix:** the `mood-board` skill is now copied by `npx analyzthis_design` (it was missing before).
+
 ## v2.5.2 — Motion, UX, and visual-design libraries
 
 Personas cite real packages and prefer what is already in the repo:
@@ -106,7 +113,7 @@ Pass `--global` to opt into the legacy merged behavior (read `config.sources` an
 
 Use `npx analyzthis_design run-unchunked` for the legacy single-pass orchestrator.
 
-**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.5.2 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
+**npm:** [analyzthis_design](https://www.npmjs.com/package/analyzthis_design) · **Current version:** 2.6.0 · **Step-by-step guide:** [HOW-TO-USE.md](./HOW-TO-USE.md)
 
 ---
 
