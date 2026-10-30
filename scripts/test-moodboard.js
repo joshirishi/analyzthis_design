@@ -159,7 +159,33 @@ function request(port, opts, body) {
     process.chdir(cwd);
   }
 
-  console.log('ok  moodboard tiles / user supersedes / server / lock');
+  // 14. Scroll films: real WebM is kept with its stills; a renamed text file is refused;
+  //     the board plays it and the server streams byte ranges.
+  var filmBoard = await mb.buildMoodBoard({ project: project, task: 'Studio site', workspaceDir: tmp });
+  var fref = { project: project, boardId: filmBoard.board.board_id, workspaceDir: tmp };
+  var webm = path.join(tmp, 'film.webm');
+  fs.writeFileSync(webm, Buffer.concat([Buffer.from('1a45dfa3', 'hex'), Buffer.alloc(2000, 7)]));
+  var fake = path.join(tmp, 'fake.webm');
+  fs.writeFileSync(fake, 'not a video');
+  var filmed = mb.addTiles(Object.assign({ tiles: [
+    { page_url: 'https://osmo.supply', element: 'Scroll film', section: 'motion', video_path: webm, stills: [png, png] },
+    { page_url: 'https://obys.agency', element: 'Fake film', section: 'motion', video_path: fake, stills: [png] },
+  ] }, fref));
+  assert.strictEqual(filmed.added.length, 1, 'only the real WebM is accepted');
+  assert.ok(/WebM or MP4/.test(filmed.skipped[0].reason));
+  var film = filmed.added[0];
+  assert.ok(/\.webm$/.test(film.video) && film.stills.length === 2 && film.image, 'film keeps video, stills and a poster');
+  var filmHtml = view.renderBoardHtml(mb.loadUiBoard(fref), { interactive: false });
+  assert.ok(filmHtml.indexOf('<video class="film" src="assets/' + film.id + '.webm"') !== -1);
+  var flive = await view.serveBoard({ project: project, boardId: fref.boardId, port: 0, workspaceDir: tmp });
+  var fport = flive.server.address().port;
+  var part = await request(fport, { path: '/' + film.video, headers: { host: '127.0.0.1:' + fport, range: 'bytes=0-99' } });
+  assert.strictEqual(part.status, 206);
+  var bad = await request(fport, { path: '/' + film.video, headers: { host: '127.0.0.1:' + fport, range: 'bytes=999999-' } });
+  assert.strictEqual(bad.status, 416);
+  flive.server.close();
+
+  console.log('ok  moodboard tiles / user supersedes / server / lock / films');
 })().catch(function(e) {
   console.error(e);
   process.exit(1);

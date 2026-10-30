@@ -875,6 +875,7 @@ npx analyzthis_design outcome --confirm --persona <id> --result shipped|revised|
 npx analyzthis_design moodboard create --task "..." [--adjectives a,b,c] [--not "..."] [--sections components,typography]
 npx analyzthis_design moodboard tile --board <id> --page <url> --image <crop> --element "..." --section components
 npx analyzthis_design moodboard critique --board <id>      # team votes = advice
+npx analyzthis_design moodboard film --board <id> --url <url>   # scroll film as a motion tile (needs playwright-core + Chrome)
 npx analyzthis_design moodboard show --board <id>          # you keep / maybe / reject in the browser
 npx analyzthis_design moodboard rescout --board <id> --note "..."
 npx analyzthis_design moodboard lock --board <id>          # saves design_direction for every persona
@@ -1006,7 +1007,7 @@ skills/
 
 | Feature | Description |
 |---------|-------------|
-| **Mood boards** | Zara crops 20–24 real UI elements from 6+ live sites into a sectioned visual collage with each site's real colours and fonts. Arjun/Noor/Priya/Meera vote as advice. **You** keep / maybe / reject in the browser — your choice overrides every persona, rejected tiles never return, and the locked direction is saved for all personas. `--kind mood` keeps the older tagged-URL board |
+| **Mood boards** | Zara crops 20–24 real UI elements from 6+ live sites into a sectioned visual collage with each site's real colours and fonts, plus optional scroll films (looping video + four waypoint stills) for motion feel. Arjun/Noor/Priya/Meera vote as advice. **You** keep / maybe / reject in the browser — your choice overrides every persona, rejected tiles never return, and the locked direction is saved for all personas. `--kind mood` keeps the older tagged-URL board |
 | **User-contributed references** | User can add URLs/notes to a board and rerun the critique loop |
 | **Visual direction setting** | Arjun, Meera, Priya, Zara, Noor score references via the UX Honeycomb rigor matrix |
 | **Workspace artifacts** | `moodboard/{boardId}.json` is written into the project for the user to inspect |

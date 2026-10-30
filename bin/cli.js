@@ -111,6 +111,10 @@ Usage:
   moodboard tile --board <id>      Add one element crop: --page <url> --image <file|url>
                                     --element "<what>" --section <id> [--steal] [--refuse]
                                     [--peak] [--colors #hex,..] [--fonts a,b] [--concept]
+                                    [--video film.webm] [--stills a.png,b.png]
+  moodboard film --board <id>      Record real sites scrolling as motion tiles: --url <url>
+                                    (repeatable) [--section motion] [--steal] [--refuse]
+                                    Needs playwright-core + Google Chrome
   moodboard critique --board <id>  Team votes on each tile (advice only)
   moodboard votes --board <id>     Save team votes from a JSON file --votes votes.json
   moodboard show --board <id>      Open the clickable board on 127.0.0.1 [--port 4317]
@@ -387,6 +391,8 @@ const colorsVal = getFlag('colors');
 const fontsVal = getFlag('fonts');
 const votesVal = getFlag('votes');
 const conceptFlag = flags.includes('--concept');
+const videoVal = getFlag('video');
+const stillsVal = getFlag('stills');
 const splitList = (raw) => (raw ? raw.split(',').map((s) => s.trim()).filter(Boolean) : undefined);
 
 // ─── Commands ────────────────────────────────────────────────────────────────
@@ -795,6 +801,33 @@ switch (cmd) {
       })();
       break;
     }
+    if (msub === 'film') {
+      const urls = flags.filter((f, i) => i > 0 && flags[i - 1] === '--url' && !f.startsWith('--'))
+        .concat(flags.filter((f) => f.startsWith('--url=')).map((f) => f.slice(6)));
+      if (!boardVal || !urls.length) {
+        console.error('\n  ✗  --board and --url are required.  Example: npx analyzthis_design moodboard film --board <id> --url https://osmo.supply --steal "easing taste"\n');
+        process.exit(1);
+      }
+      (async () => {
+        try {
+          console.log(`\n  🎬 Filming ${urls.length} site${urls.length === 1 ? '' : 's'} (about 15 seconds each)…`);
+          const out = await require('../lib/moodboard-film').filmTiles({
+            project: projectVal, boardId: boardVal, urls,
+            section: sectionVal, element: elementVal, steal: stealVal, refuse: refuseVal, peak: peakVal,
+          });
+          out.failed.forEach((f) => console.error(`  ✗  ${f.url}: ${f.reason}`));
+          const added = out.saved ? out.saved.added : [];
+          (out.saved ? out.saved.skipped : []).forEach((s) => console.error(`  ✗  ${s.element}: ${s.reason}`));
+          if (!added.length) process.exit(1);
+          console.log(`\n✅ ${added.length} film tile${added.length === 1 ? '' : 's'} added: ${added.map((t) => '#' + t.n + ' ' + t.site).join(', ')}`);
+          console.log(`   Next: moodboard show --board ${boardVal}\n`);
+        } catch (err) {
+          console.error(`\n  ✗  ${err.message}\n`);
+          process.exit(1);
+        }
+      })();
+      break;
+    }
     if (msub === 'tile' || msub === 'frames') {
       const pageUrl = getFlag('page') || urlVal;
       if (!boardVal || !pageUrl) {
@@ -811,6 +844,8 @@ switch (cmd) {
             section: sectionVal || 'components',
             image_path: imageVal && !/^https?:\/\//i.test(imageVal) ? imageVal : undefined,
             image_url: imageVal && /^https?:\/\//i.test(imageVal) ? imageVal : (msub === 'frames' ? urlVal : undefined),
+            video_path: videoVal,
+            stills: splitList(stillsVal),
             tokens: { colors: splitList(colorsVal), fonts: splitList(fontsVal) },
             steal: stealVal || '',
             refuse: refuseVal || '',

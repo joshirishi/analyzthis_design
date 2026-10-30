@@ -62,7 +62,7 @@ Crop **20–24 tiles from 6+ sites**, spread across the brief's sections. Then s
 **Steps:**
 1. Show the user the brief first — job, 3 adjectives, one "not this", sections. Let them correct it.
 2. Read `scout.brief`. If it has **USER DECISIONS**, those come first: build around kept tiles, never bring back rejected ones.
-3. Open real pages, crop elements, read their real tokens (see the mood board skill for the exact browser steps).
+3. Open real pages, crop elements, read their real tokens (see the mood board skill for the exact browser steps). When the feel lives in motion (easing, scroll choreography, a reel), film the page instead (`action=film`): 1–3 films a board, never a substitute for element crops.
 4. Write steal / refuse / peak on each tile and save it to the board.
 5. The jury votes as advice. Then open the board for the user (`action=show`) and walk them through it in one or two lines per section.
 6. The user decides. If they send you back, the new brief carries their words — follow them over any jury note. No round cap when the user asks.

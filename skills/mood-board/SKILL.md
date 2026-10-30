@@ -51,6 +51,23 @@ Tested on live sites. Follow it exactly:
 
 `browser_take_screenshot` with an element `ref` is unreliable for this (it fails or crops the wrong area). Use the clip method above.
 
+## Scroll films (motion and first-screen feel)
+
+A still can't show easing, scroll choreography or a reel. For those, film the page instead of cropping it:
+
+```bash
+npx analyzthis_design moodboard film --board <id> --url https://osmo.supply --url https://exoape.com \
+  --steal "easing taste" --refuse "scroll-hijack on daily UI"
+```
+
+or MCP `analyzthis_mood_board action=film board=<id> urls=[…]`.
+
+- Headless Chrome records about 15 seconds per site: the page settles, then a wheel scroll moves through four depths and a still is taken at each one. Wheel events also move sites with their own scroll engines (Lenis, Locomotive, WebGL).
+- Each film becomes a `motion` tile: a looping muted video with a poster, plus a strip of the four stills. Use `--section first_screen` for an arrival film.
+- The user judges films the same way they judge crops: keep, maybe or reject. A kept film tells everyone the motion feel they want, not a licence to copy the motion onto daily product screens.
+- Use 1–3 films per board. Film whole pages; keep cropping elements for components, typography and colour.
+- Needs `playwright-core` (`npm install playwright-core`) and Google Chrome. Without them, record the page yourself and add it with `moodboard tile --video film.webm --stills a.png,b.png`.
+
 ## Commands
 
 ```bash
@@ -70,7 +87,7 @@ npx analyzthis_design moodboard lock --board <id> --note "light, amount-first, h
 npx analyzthis_design moodboard list
 ```
 
-MCP tool `analyzthis_mood_board` actions: `create` (default), `brief`, `capture_script`, `tiles`, `jury`, `votes`, `show`, `decide`, `rescout`, `lock`, `status`. `frames` and `verdict` still work as older names for `tiles` and `votes`.
+MCP tool `analyzthis_mood_board` actions: `create` (default), `brief`, `capture_script`, `tiles`, `film`, `jury`, `votes`, `show`, `decide`, `rescout`, `lock`, `status`. `frames` and `verdict` still work as older names for `tiles` and `votes`.
 
 ## Files
 
