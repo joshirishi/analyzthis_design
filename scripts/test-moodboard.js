@@ -190,7 +190,18 @@ function request(port, opts, body) {
   await assert.rejects(capture.cropTiles({ boardId: fref.boardId, crops: [{ page_url: 'javascript:alert(1)', selector: 'h1' }] }), /required/);
   await assert.rejects(capture.cropTiles({ boardId: fref.boardId, crops: [{ page_url: 'https://linear.app' }] }), /required/);
 
-  console.log('ok  moodboard tiles / user supersedes / server / lock / films / crop');
+  // 16. MCP setup never wipes a config it cannot read, and keeps other servers.
+  var badCfg = path.join(tmp, 'bad-mcp.json');
+  fs.writeFileSync(badCfg, '{ "projects": {}, // jsonc comment');
+  assert.throws(function() { mcp.mergeMcpServer(badCfg); }, /left unchanged/);
+  assert.strictEqual(fs.readFileSync(badCfg, 'utf8'), '{ "projects": {}, // jsonc comment');
+  var goodCfg = path.join(tmp, 'good-mcp.json');
+  fs.writeFileSync(goodCfg, JSON.stringify({ projects: { a: 1 }, mcpServers: { Neon: { url: 'x' } } }));
+  mcp.mergeMcpServer(goodCfg);
+  var merged = JSON.parse(fs.readFileSync(goodCfg, 'utf8'));
+  assert.ok(merged.projects.a === 1 && merged.mcpServers.Neon && merged.mcpServers.analyzthis_design);
+
+  console.log('ok  moodboard tiles / user supersedes / server / lock / films / crop / safe mcp config');
 })().catch(function(e) {
   console.error(e);
   process.exit(1);
