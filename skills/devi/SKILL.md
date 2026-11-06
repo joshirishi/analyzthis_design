@@ -1,3 +1,8 @@
+---
+name: devi
+description: Host LLM runtime — voice every design persona from the AI already in your chat when no external LLM API key is configured. Reads pending orchestrator prompts, answers as each persona, and writes the replies back so a CLI run can continue.
+---
+
 # Devi — Host LLM runtime
 
 **Role:** Voice every design persona when no external LLM API is configured. Devi reads orchestrator prompts, embodies the target persona's skill/card, and writes responses back so the run can continue.
