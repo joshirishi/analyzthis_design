@@ -96,7 +96,7 @@ After install, type `/noor`, `/anuj`, `/arjun`, `/meera`, `/priya`, `/zara`, `/r
 - Do not `npm install` this package inside a pnpm/Yarn `workspace:*` repo — use `npx … --target` instead.
 - Slash and MCP still use the model already in your chat. CLI `run` still picks a strong planner and cheap chunks.
 
-Website changelog: [analyzthis-lab.vercel.app/design#whats-new](https://analyzthis-lab.vercel.app/design#whats-new)
+Website changelog: [labs.analyzthis.com/#whats-new](https://labs.analyzthis.com/#whats-new)
 
 ## v2.3.0 — MCP for any IDE
 
@@ -1056,10 +1056,10 @@ skills/
 
 ## Marketing site
 
-The public lab site lives in `website/` and is deployed on Vercel as **analyzthis-lab** (site only — not the npm package). Home names the design team first (type `/zara`, get a verdict), shows three jobs in human words, then three paths: designers (`design.html`), Dev/PMs, and firm owners (GST packet lives later, not in the hero). The Vercel project root is `website/` with no build step — do not set Output Directory to `public`.
+The public lab site lives in `website/` and is deployed on Vercel as **analyzthis-lab** (site only — not the npm package). Two pages. **Home (`/`, `website/index.html`) is the design team** — jobs, real output (a blurred mood board and a real REVISE critique), What's new, install picker for every supported tool, an "In the lab" card for analyzthis_product, and a one-line callout for firms. **`/clients` (`website/clients.html`) is the firm offer** — custom agentic teams, method, measurement, example firm teams, and the intake form. The Vercel project root is `website/` with no build step — do not set Output Directory to `public`. Deploy from the repo root (`vercel deploy`), not from inside `website/`.
 
-- Live: [https://analyzthis-lab.vercel.app](https://analyzthis-lab.vercel.app)
-- Design team deep-dive: [https://analyzthis-lab.vercel.app/design](https://analyzthis-lab.vercel.app/design) (`website/design.html`)
+- Live: [https://labs.analyzthis.com](https://labs.analyzthis.com) · firms: [https://labs.analyzthis.com/clients](https://labs.analyzthis.com/clients)
+- Old `/design` links (including `/design#whats-new` and `/design#install-<tool>`) permanently redirect to `/` and keep their `#section`.
 - Form test (does not write to Airtable): add `?form=mock` to the URL
 - Leads go to Airtable through `website/api/lead.js`. Each step is saved; unfinished fills are marked `partial`.
 - Booking uses Google Calendar: [https://calendar.app.google/KtKJ7hCAx1duA8m58](https://calendar.app.google/KtKJ7hCAx1duA8m58)

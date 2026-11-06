@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Analyzthis Lab — A design team in the AI you already use</title>
-  <meta name="description" content="Type /zara. Get a verdict, not a polite paragraph. The design team is open source. For designers and PMs. Custom teams for firms that do not use a coding tool.">
-  <meta property="og:title" content="Analyzthis Lab — A design team in the AI you already use">
-  <meta property="og:description" content="Named specialists live in Cursor, Claude, or a browser tool. Open source. No new app. You still decide.">
+  <title>Analyzthis Lab — Your design team. Type the name.</title>
+  <meta name="description" content="analyzthis_design: eight design specialists inside Cursor, Claude Code, OpenCode, Kiro, Trae and more. Wireframes, critiques, and mood boards you decide on. Free, MIT, on npm.">
+  <meta property="og:title" content="Analyzthis Lab — Your design team. Type the name.">
+  <meta property="og:description" content="Eight specialists. SHIP / REVISE / BLOCK verdicts. Mood boards of real crops where your choice beats every persona. Open source.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#c93800">
   <style>
@@ -21,26 +21,22 @@
     }
     *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:96px}
     body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
-    body.menu-open{overflow:hidden} a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+    body.menu-open{overflow:hidden} a{color:inherit;text-decoration:none} button{font:inherit}
     button,a{touch-action:manipulation}.skip{position:fixed;left:12px;top:-80px;z-index:200;background:var(--ink);color:#fff;padding:12px 18px}
-    .skip:focus{top:12px}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:6px 12px;font:800 .76rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+    .skip:focus{top:12px}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:6px 12px;font:800 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
     .eyebrow.light{background:#fff;color:var(--ink)}.dot{width:8px;height:8px;background:var(--orange)}
     h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1;letter-spacing:-.04em}h2{font-size:clamp(2.25rem,6vw,4.6rem);text-transform:uppercase;margin-bottom:20px}
-    h3{font-size:1.35rem;text-transform:uppercase}.accent{color:var(--orange)}.outline{-webkit-text-stroke:2px var(--ink);color:transparent}
-    .lede{max-width:700px;font-size:clamp(1.05rem,2vw,1.3rem);color:#24231f}.muted{color:var(--muted)}
-    .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:var(--border);padding:12px 22px;background:#fff;font-weight:900;text-transform:uppercase;letter-spacing:.025em;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+    h3{font-size:1.35rem;text-transform:uppercase}.accent{color:var(--orange)}
+    .lede{max-width:720px;font-size:clamp(1.05rem,2vw,1.3rem);color:#24231f}.muted{color:var(--muted)}
+    .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:var(--border);padding:12px 22px;background:#fff;font-weight:900;text-transform:uppercase;letter-spacing:.025em;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
     .btn:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
-    .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}.btn[disabled]{cursor:not-allowed;opacity:.45;transform:none;box-shadow:none}
-    :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}.section-head.center{text-align:center;margin-inline:auto}.section-head.center .lede{margin-inline:auto}
+    .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}
+    :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}
 
-    /* Navigation — brand + MENU + one CTA. Links never sit in the bar (they wrap and become unreadable). */
     .nav{position:fixed;inset:0 0 auto;z-index:200;background:#fff;border-bottom:var(--border);padding:16px 0}
     .nav-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
-    .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}
-    .nav-brand{display:inline-flex;align-items:center;flex-shrink:0}
-    .nav-brand img{display:block;width:auto;height:40px;filter:drop-shadow(4px 4px 0 var(--ink));transition:transform .15s ease,filter .15s ease}
-    .nav-brand:hover img{transform:translate(4px,4px);filter:drop-shadow(0 0 0 transparent)}
-    .nav-brand:active img{transform:translate(2px,2px);filter:drop-shadow(2px 2px 0 var(--ink))}
+    .brand{display:inline-flex;align-items:center}.brand img{display:block;width:auto;height:42px}
+    .nav-brand{display:inline-flex;align-items:center;flex-shrink:0}.nav-brand img{display:block;width:auto;height:40px}
     .nav-btn{min-height:44px;padding:10px 16px;font-size:.78rem;flex-shrink:0;white-space:nowrap}.nav-btn-short{display:none}
     .menu-btn{display:grid;place-items:center;margin-left:auto;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer;flex-shrink:0;transition:transform .18s ease-out,box-shadow .18s ease-out,background .18s ease-out,color .18s ease-out}
     .menu-btn:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
@@ -51,713 +47,1281 @@
     .nav-links .nav-kicker:first-child{margin-top:0}
     .nav-links a{min-height:48px;display:flex;align-items:center;flex-shrink:0;border-bottom:2px solid var(--ink);font-size:1.12rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:normal}
     .nav-links a.is-lead{min-height:56px;font-size:clamp(1.28rem,2.2vw,1.55rem);font-weight:950}
-    .nav-links a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+    .nav-links a:hover,.nav-links a[aria-current="page"]{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
 
-    /* Hero */
-    .hero{padding:120px 0 72px;border-bottom:var(--border);position:relative}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
-    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:start;gap:56px;min-width:0}.hero-grid > *{min-width:0}.hero h1{font-size:clamp(2.75rem,5vw,4.5rem);text-transform:uppercase;margin:20px 0 22px}
-    .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:28px}
-    .hero-alt{flex-basis:100%;margin:4px 0 0;font-weight:800;font-size:.95rem;color:var(--muted)}
-    .hero-alt a{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
-    .hero-alt a:hover{color:var(--ink)}
-    .hero-cmds{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
-    .hero-cmds .hint{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--muted);margin-right:4px}
-    .micro-proof{display:flex;flex-direction:column;gap:10px;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
+    .hero{padding:165px 0 82px;border-bottom:var(--border);position:relative}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
+    .hero h1{font-size:clamp(3.2rem,7vw,6.2rem);text-transform:uppercase;margin:24px 0 26px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+    .micro-proof{display:flex;gap:16px 26px;flex-wrap:wrap;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
     .micro-proof span:before{content:"✓";color:var(--green);font-weight:950;margin-right:7px}
-    .verdict-mark{display:inline-block;background:var(--yellow);color:var(--ink);border:2px solid var(--ink);padding:4px 8px;font:900 .72rem var(--mono);text-transform:uppercase}
-    .verdict-mark.block{background:var(--red);color:#fff}
-    .verdict-mark.ground{background:var(--cyan);color:#fff}
-    .verdict-mark.hold{background:var(--purple);color:#fff}
-    .verdict-mark.ship{background:var(--green);color:#fff}
-    .sample-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 10px}
-    .sample-job{font:800 .68rem var(--mono);text-transform:uppercase;border:2px solid var(--ink);padding:4px 8px;background:var(--orange-soft)}
-    .sample-why{margin:0 0 14px;color:var(--muted);font-size:.9rem;max-width:46ch}
-    .sample-wait{display:none;align-items:center;gap:12px;padding:20px 18px;font:800 .78rem var(--mono);text-transform:uppercase;background:var(--paper);border-bottom:2px dashed var(--line)}
-    .sample-wait-mark{width:10px;height:10px;flex-shrink:0;background:var(--orange);animation:caret-blink .7s step-end infinite}
-    .hero .blueprint.is-wait .sample-wait{display:flex}
-    .hero .blueprint.is-wait .sample-report,.hero .blueprint.is-wait .packet-ban,.hero .blueprint.is-wait .connector{display:none}
-    .sample-report .verdict-mark{animation:stamp-in .22s ease-out}
-    .fix-list{list-style:none;padding:0;margin:0}
-    .fix-list li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.92rem}
-    .hero .blueprint:not(.is-wait) .fix-list li{animation:fade-up .28s ease both}
-    .hero .blueprint:not(.is-wait) .fix-list li:nth-child(2){animation-delay:.08s}
-    .hero .blueprint:not(.is-wait) .fix-list li:nth-child(3){animation-delay:.16s}
-    .fix-list li:last-child{border:0}
-    .fix-list b{font:800 .68rem var(--mono);color:var(--orange);margin-right:8px}
-    @keyframes stamp-in{from{transform:scale(1.12)}to{transform:none}}
-    @keyframes fade-up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-    .packet-split{display:grid;grid-template-columns:1fr 1fr}
-    .packet-col{padding:16px}.packet-col + .packet-col{border-left:2px solid var(--line)}
-    .packet-col h3{font-size:.78rem;margin:0 0 10px}.packet-col ul{list-style:none;padding:0;margin:0}
-    .packet-col li{padding:7px 0;border-bottom:1px solid var(--soft);font-size:.88rem}.packet-col li:last-child{border:0}
-    .packet-step{display:flex;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--soft);font-size:.88rem}
-    .packet-step:last-child{border:0}
-    .packet-n{width:26px;height:26px;flex-shrink:0;display:grid;place-items:center;border:2px solid var(--ink);background:var(--orange);color:#fff;font:900 .68rem var(--mono)}
-    .packet-ban{padding:14px 16px;background:#fff3f2;border-top:2px solid var(--line)}
-    .packet-ban b{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--red);margin-bottom:4px}
-    .packet-ban.ok b{color:var(--green)}
-    .packet-ban span{color:var(--muted);font-size:.88rem}
-    .connector a{text-decoration:underline;text-underline-offset:3px}
-    .lab-line{font-size:1.05rem;max-width:46ch;margin:0 0 28px}
-    .product-facts{display:grid;gap:10px;margin:0;padding:14px 0 0;border-top:2px solid var(--line)}
-    .product-facts div{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:start}
-    .product-facts dt{font:800 .68rem var(--mono);text-transform:uppercase;padding-top:2px}
-    .product-facts dd{margin:0;color:var(--muted);font-size:.88rem}
-    .method-pipe{margin-bottom:32px}
-    .blueprint{background:#fff;border:var(--border);box-shadow:var(--shadow);position:relative}
-    .hero .blueprint{min-height:0}
-    .blueprint-head{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:12px 16px;font:800 .72rem var(--mono);text-transform:uppercase}
-    .blueprint-body{padding:18px}.agent-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:13px;padding:14px 0;border-bottom:2px solid var(--line)}
-    .agent-row:last-child{border-bottom:0}.agent-id{width:44px;height:44px;display:grid;place-items:center;background:var(--agent);color:#fff;border:2px solid var(--ink);font-weight:950}
-    .agent-row strong{display:block;text-transform:uppercase}.agent-row small{color:var(--muted)}.agent-state{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft)}
-    .connector{text-align:center;font:900 .75rem var(--mono);background:var(--yellow);border-top:var(--border);padding:10px;text-transform:uppercase}
+    .hero-cmds{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;align-items:center}
+    .hero-cmds .hint{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--muted);margin-right:4px}
+    .cmd.peak{background:var(--yellow);box-shadow:3px 3px 0 var(--ink)}
+    .hero-alt-links{margin-top:18px;display:flex;flex-wrap:wrap;gap:16px 22px;font:800 .72rem var(--mono);text-transform:uppercase}
+    .hero-alt-links a{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px;color:var(--muted)}
+    .hero-alt-links a:hover{color:var(--ink)}
 
-    /* Proof and pain */
-    .proof{background:var(--ink);color:#fff;border-bottom:var(--border)}.proof-row{display:grid;grid-template-columns:repeat(5,1fr)}.proof-item{padding:26px 20px;border-right:2px solid #fff}.proof-item:last-child{border:0}
-    .proof-item b{display:block;font-size:2rem;color:var(--orange);line-height:1;margin-bottom:6px}.proof-item span{font:700 .74rem var(--mono);text-transform:uppercase}
-    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--border);background:#fff}.pain{padding:30px;border-right:2px solid var(--line)}.pain:last-child{border:0}
-    .pain .num{font:900 2.8rem var(--mono);color:var(--orange)}.pain p{margin:0;color:var(--muted)}
-
-    /* Blueprint process */
-    .service-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}.sticky-copy{position:sticky;top:104px}.steps{border:var(--border);background:#fff}
-    .step{display:grid;grid-template-columns:72px 1fr;gap:18px;padding:28px;border-bottom:2px solid var(--line)}.step:last-child{border:0}.step-no{width:56px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);background:var(--step);font:900 .85rem var(--mono)}
-    .step p{margin:8px 0 0;color:var(--muted)}.step small{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
-
-    /* Case study */
-    .case{background:var(--orange);color:#fff}.case .eyebrow{background:#fff;color:#000}.case h2{max-width:900px}.case-grid{display:grid;grid-template-columns:1fr 1fr;border:var(--border);box-shadow:var(--shadow);background:#fff;color:#000}
-    .case-copy{padding:34px;border-right:var(--border)}.case-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}.case-flow{padding:22px}.case-role{display:flex;gap:12px;align-items:center;padding:13px;border-bottom:2px solid var(--line)}
-    .case-role:last-child{border:0}.case-role b{min-width:82px;text-transform:uppercase}.case-role span{color:var(--muted);font-size:.9rem}
-
-    /* Capabilities and examples */
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:var(--border);padding:26px;box-shadow:var(--shadow-sm)}
-    .card-tag{display:inline-block;padding:4px 8px;background:var(--tag,var(--orange));color:#fff;border:2px solid var(--ink);font:900 .68rem var(--mono);text-transform:uppercase;margin-bottom:22px}
-    .card p{color:var(--muted);margin-bottom:0}.teams-intro{border:var(--border);background:#fff;padding:24px 28px;margin-bottom:24px;box-shadow:var(--shadow-sm)}.teams-intro p{margin:0;color:var(--muted);max-width:72ch}
-    .teams{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.team{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column}
-    .team-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.team-label{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.team-meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 12px}.team-badge{font:800 .68rem var(--mono);padding:4px 8px;border:2px solid var(--ink);background:var(--paper);text-transform:uppercase}
-    .team-workload{color:var(--muted);font-size:.92rem;margin:0 0 4px;line-height:1.5}.team h3{margin:4px 0 0}.team ul{list-style:none;padding:0;margin:18px 0 0;border-top:2px solid var(--line);flex:1}
-    .team li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.9rem}.team li:before{content:"→";font-weight:950;color:var(--orange);margin-right:10px}.team-foot{margin-top:18px;padding-top:14px;border-top:2px dashed var(--soft);font-size:.82rem;color:var(--muted)}
-    /* Three doors — paths, not SKUs. Selected door stamps orange (Zara's one moment). */
-    .doors{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-    .door{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column;gap:14px;transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease}
-    .door h3{margin:0}.door p{color:var(--muted);margin:0;flex:1}
-    .door-kicker{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
-    .door .btn{align-self:flex-start;margin-top:6px}
-    .door[aria-current="true"]{background:var(--orange);color:#fff;transform:translate(4px,4px);box-shadow:none}
-    .door[aria-current="true"] p{color:var(--orange-soft)}.door[aria-current="true"] .door-kicker{color:#fff}
-    .door[aria-current="true"] .btn.primary{background:#fff;color:var(--ink)}
-    .cmd{display:inline-block;font:800 .78rem var(--mono);background:var(--orange-soft);border:2px solid var(--ink);padding:2px 8px;margin:0 2px}
-    /* Hero /zara: types once, then the caret keeps blinking — like a command prompt. */
-    .cmd-live{display:inline-flex;align-items:center;min-width:calc(6ch + 13px);background:var(--yellow);box-shadow:3px 3px 0 var(--ink);vertical-align:baseline}
-    .cmd-live-text{display:inline-block;overflow:hidden;white-space:nowrap;width:0;vertical-align:bottom;animation:type-cmd 1.1s steps(var(--ch,5),end) .2s forwards}
-    .cmd-live:after{content:"";display:inline-block;width:2px;height:.85em;margin-left:3px;background:var(--ink);vertical-align:-1px;animation:caret-blink .7s step-end infinite}
-    @keyframes type-cmd{to{width:calc(var(--ch,5) * 1ch)}}
-    @keyframes caret-blink{50%{background:transparent}}
-    .warn{border:var(--border);background:var(--yellow);padding:22px 24px;box-shadow:var(--shadow-sm);margin-top:22px}
+    .designer-path{background:var(--white);border-bottom:var(--border)}
+    .path-table table{min-width:520px}
+    .path-table td:first-child{white-space:normal}
+    .path-table tbody tr.rank-1{background:var(--orange-soft)}
+    .path-table tbody tr.rank-1 td{font-weight:750}
+    .path-install{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:22px}
+    .warn{border:var(--border);background:var(--yellow);padding:22px 24px;box-shadow:var(--shadow-sm)}
     .warn b{display:block;text-transform:uppercase;margin-bottom:8px;font-size:.85rem}
     .warn p{margin:0;color:#24231f;font-size:.95rem}
-    .jobs-more{margin:22px 0 0;font:800 .78rem var(--mono);text-transform:uppercase}
-    .jobs-more a{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
-    .job-card .cmd{margin-top:14px}
+    .path-more{margin:22px 0 0;font:800 .78rem var(--mono);text-transform:uppercase}
+    .path-more a{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
 
-    .products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.product{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column;gap:16px}
-    .product-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.product-code{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.product p{color:var(--muted);margin:0;flex:1}
-    .product-status{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft);text-transform:uppercase}.product-status.live{background:#dff6e8}.product-status.lab{background:#fff5be}.product-status.service{background:#dfe7ff}
-    .signals{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:28px}
-    .contract{margin-top:8px}.contract-row{display:grid;grid-template-columns:140px 1fr;gap:12px;padding:12px 0;border-bottom:2px solid var(--line)}.contract-row:last-child{border-bottom:0}.contract-row b{text-transform:uppercase;font-size:.78rem}.contract-row span{color:var(--muted);font-size:.92rem}
+    .jump{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+    .jump a{border:2px solid var(--ink);background:#fff;padding:8px 12px;font:800 .72rem var(--mono);text-transform:uppercase;box-shadow:3px 3px 0 var(--ink)}
+    .jump a:hover{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
 
-    /* Trust and FAQ */
-    .trust{background:var(--ink);color:#fff}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#fff;border:2px solid #fff}.trust-item{background:var(--ink);padding:24px}
-    .trust-item b{display:block;color:var(--orange);text-transform:uppercase;margin-bottom:8px}.trust-item p{color:#d7d3ca;font-size:.9rem;margin:0}
-    .faq{max-width:860px}.faq details{background:#fff;border:var(--border);border-bottom:0}.faq details:last-child{border-bottom:var(--border)}
-    .faq summary{cursor:pointer;list-style:none;padding:20px 56px 20px 22px;font-weight:900;text-transform:uppercase;position:relative;transition:background .15s ease}.faq summary:hover{background:var(--paper)}.faq summary:after{content:"+";position:absolute;right:22px;font-size:1.5rem;top:14px}
-    .faq details[open] summary:after{content:"−"}.faq details p{padding:0 22px 22px;color:var(--muted);margin:0;max-width:72ch}
+    .cmd{display:inline-block;font:800 .78rem var(--mono);background:var(--orange-soft);border:2px solid var(--ink);padding:2px 8px;margin:0 2px}
+    pre,code{font-family:var(--mono)}
+    pre{margin:0;padding:18px 20px;background:var(--ink);color:#fff;overflow:auto;font-size:.82rem;line-height:1.6;border-top:2px solid var(--line)}
+    .code-card{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);overflow:hidden}
+    .code-card .code-head{display:flex;justify-content:space-between;padding:10px 16px;background:var(--paper);font:800 .68rem var(--mono);text-transform:uppercase;border-bottom:2px solid var(--line)}
 
-    /* Lead form */
-    .intake{background:var(--yellow)}.intake-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start}.intake-copy{position:sticky;top:104px}
-    .form-shell{background:#fff;border:var(--border);box-shadow:var(--shadow)}.form-head{padding:18px 22px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .form-head strong{text-transform:uppercase}.progress{font:800 .72rem var(--mono)}.progress-track{height:8px;background:#c9c9c9}.progress-fill{height:100%;width:33.33%;background:var(--orange);transition:width .2s ease}
-    .form-step{padding:28px}.form-step[hidden]{display:none}.form-step h3{margin-bottom:24px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
-    label{font-size:.77rem;font-weight:900;text-transform:uppercase;letter-spacing:.035em}.required{color:var(--red)}input,select,textarea{width:100%;min-height:48px;border:2px solid var(--ink);background:#fff;padding:11px 12px;border-radius:0}
-    textarea{min-height:112px;resize:vertical}input:focus,select:focus,textarea:focus{outline:4px solid var(--orange-soft);border-color:var(--orange)}[aria-invalid="true"]{border-color:var(--red);background:#fff3f2}
-    .error{min-height:18px;color:var(--red);font-size:.75rem;font-weight:750}.check{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start}.check input{width:22px;height:22px;min-height:0;margin:2px 0 0}
-    .form-actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px}.form-note{font-size:.78rem;color:var(--muted);margin-top:16px}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
-    .form-status{padding:16px 22px;border-top:2px solid var(--ink);font-weight:800}.form-status:empty{display:none}.form-status.error-state{background:#ffe0dd;color:#7b1512}.form-status.success-state{background:#dff6e8;color:#0a542d}
-    .success-panel{padding:34px}.success-panel[hidden]{display:none}.success-mark{width:54px;height:54px;display:grid;place-items:center;background:var(--green);color:#fff;border:var(--border);font-size:1.7rem;font-weight:950;margin-bottom:20px}
-    .success-panel p{color:var(--muted)}.privacy-note{display:flex;gap:10px;align-items:flex-start;margin-top:24px;padding:14px;border:2px solid var(--ink);background:#fff}
+    .jobs{display:grid;gap:28px}
+    .job{background:#fff;border:var(--border);box-shadow:var(--shadow-sm);display:grid;grid-template-columns:1fr 1fr}
+    .job-copy{padding:32px}.job-copy h3{margin-bottom:12px}
+    .job-copy p{color:var(--muted)}
+    .job-meta{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 20px}
+    .job-meta span{font:800 .68rem var(--mono);padding:4px 8px;border:2px solid var(--ink);background:var(--paper);text-transform:uppercase}
+    .job-steps{list-style:none;padding:0;margin:0 0 18px;border-top:2px solid var(--line)}
+    .job-steps li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.92rem}
+    .job-steps li:before{content:counter(step) ".";counter-increment:step;font-weight:950;color:var(--orange);margin-right:10px}
+    .job-steps{counter-reset:step}
+    .job-side{padding:0;border-left:var(--border);background:var(--paper);display:flex;flex-direction:column}
+    .job-side .code-card{border:0;box-shadow:none;flex:1}
 
-    .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}
-    .footer small{color:var(--muted)}
+    .personas{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .persona{background:#fff;border:var(--border);padding:26px;box-shadow:var(--shadow-sm)}
+    .persona-id{width:48px;height:48px;display:grid;place-items:center;background:var(--agent);color:#fff;border:2px solid var(--ink);font-weight:950;margin-bottom:16px}
+    .persona small{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+    .persona p{color:var(--muted);margin:0}
+    /* Devi is the host runtime, not a ninth critic. Break the grid: full-width, ink substrate, reversed contrast. */
+    .persona.host{grid-column:1/-1;background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr;gap:0 28px;align-items:center;padding:30px 34px}
+    .persona.host .persona-id{background:#fff;color:var(--ink);border-color:#fff;margin-bottom:0}
+    .persona.host small{color:var(--yellow);margin-bottom:6px}
+    .persona.host h3{color:#fff}
+    .persona.host p{color:#cbc7bd;margin:0}
+    .persona.host .host-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--yellow)}
+    .persona.host .host-flow .dot{width:8px;height:8px;background:var(--orange);display:inline-block}
+    .persona.host .host-flow .arrow{color:#fff;font-weight:950}
+    @media(max-width:760px){.persona.host{grid-template-columns:1fr;gap:18px;padding:24px}}
 
-    @media(max-width:1100px){
-      .hero-grid{grid-template-columns:1fr;gap:32px}
-    }
+    .flow{border:var(--border);background:#fff;box-shadow:var(--shadow)}
+    .flow-row{display:grid;grid-template-columns:72px 1fr;gap:18px;padding:26px;border-bottom:2px solid var(--line)}
+    .flow-row:last-child{border:0}
+    .flow-no{width:56px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);background:var(--step);font:900 .85rem var(--mono)}
+    .flow-row p{margin:8px 0 0;color:var(--muted)}
+    .flow-row small{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
+
+    .hosts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .call-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:28px}
+    .call-card{background:#fff;border:var(--border);padding:26px;box-shadow:var(--shadow-sm)}
+    .call-card small{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+    .call-card h3{margin-bottom:10px}
+    .call-card p{color:var(--muted);margin:0 0 14px}
+    .call-card .cmd{margin:2px 0}
+    .call-do{font:800 .78rem var(--mono);background:var(--ink);color:#fff;padding:10px 12px;margin:0}
+    .mcp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+    .host,.mcp-tile{background:#fff;border:var(--border);padding:22px;box-shadow:var(--shadow-sm)}
+    .host b,.mcp-tile b{display:block;text-transform:uppercase;margin-bottom:6px}
+    .host p,.mcp-tile p{margin:0;color:var(--muted);font-size:.9rem}
+    .mcp-tile .mcp-count{font:950 1.8rem/1 var(--mono);color:var(--orange);margin-bottom:8px}
+
+    .table-wrap{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:640px}
+    th,td{text-align:left;padding:14px 18px;border-bottom:2px solid var(--line);vertical-align:top}
+    th{font:800 .72rem var(--mono);text-transform:uppercase;background:var(--ink);color:#fff}
+    td{font-size:.92rem} td:first-child{white-space:nowrap}
+
+    .trust{background:var(--ink);color:#fff}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#fff;border:2px solid #fff}
+    .trust-item{background:var(--ink);padding:24px}.trust-item b{display:block;color:var(--orange);text-transform:uppercase;margin-bottom:8px}
+    .trust-item p{color:#d7d3ca;font-size:.9rem;margin:0}
+
+    .cta-band{background:var(--yellow)}.cta-band .lede{margin-bottom:28px}
+
+    .log{border:var(--border);background:#fff;box-shadow:var(--shadow);overflow:hidden}
+    .log-entry{padding:28px 30px;border-bottom:2px solid var(--line)}
+    .log-entry:last-child{border-bottom:0}
+    .log-entry.now{background:var(--orange-soft)}
+    .log-entry header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:14px}
+    .log-entry time{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
+    .log-entry h3{margin:0;font-size:1.2rem}
+    .log-entry ul{margin:0;padding-left:20px;color:#24231f}
+    .log-entry li{margin:8px 0}
+    .log-entry.older{background:#fff}
+    .log-entry.older ul,.log-entry.older p{color:var(--muted)}
+    .log-entry p{margin:0;color:#24231f}
+
+    .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}
+    .footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}.footer small{color:var(--muted)}
+
     @media(max-width:900px){
       .nav-row{gap:12px}
-      .hero-grid,.service-grid,.intake-grid,.packet-split{grid-template-columns:1fr;gap:42px}.packet-col + .packet-col{border-left:0;border-top:2px solid var(--line)}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
-      .cards{grid-template-columns:repeat(2,1fr)}.products,.doors{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
+      .job,.trust-grid,.personas,.hosts,.call-grid,.mcp-grid,.path-install{grid-template-columns:1fr}
+      .job-side{border-left:0;border-top:var(--border)}
     }
     @media(max-width:640px){
-      .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:120px 0 56px}.hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}
+      .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:120px 0 56px}
+      .hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}.hero-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
+      .path-table table{min-width:0}.path-table th,.path-table td{padding:12px 10px}
       .nav-row{gap:8px}.menu-btn{min-width:44px;padding:0 8px;font-size:.68rem}
       .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
       .nav-links a{min-height:48px}
-      .proof-row,.pain-grid,.cards,.signals,.teams,.products,.doors,.case-grid,.field-grid,.trust-grid{grid-template-columns:1fr}.teams-intro{padding:20px 18px}.proof-item,.pain,.case-copy{border-right:0;border-bottom:2px solid var(--line)}
-      .contract-row{grid-template-columns:1fr}
-      .proof-item:last-child,.pain:last-child{border-bottom:0}.step{grid-template-columns:52px 1fr;padding:22px 16px}.step-no{width:44px}
-      .form-step{padding:22px 16px}.field.full{grid-column:auto}.form-actions{flex-direction:column-reverse}.form-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
-      .outline{-webkit-text-stroke:1.5px var(--ink)}.hero-actions .btn{width:100%}
     }
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
-      .cmd-live,.cmd-live:after,.cmd-live-text,.sample-wait-mark{animation:none!important}.cmd-live-text{width:auto}
-      .sample-report .verdict-mark,.fix-list li{animation:none!important}}
-  </style>
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    /* Tool picker — neo-brutalist to match .btn/.code-card */
+    .tool-picker{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+    .tool-pick{min-height:44px;border:var(--border);background:#fff;padding:9px 16px;font:900 .8rem var(--mono);text-transform:uppercase;letter-spacing:.02em;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+    .tool-pick:hover{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+    .tool-pick.is-active{background:var(--ink);color:#fff;transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+    .tool-pick:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+    .tool-card h3{font-size:1.5rem;margin:0 0 14px}
+    .tool-card .tool-then{margin:14px 0 0;max-width:66ch}
+    .tool-card .muted{margin-top:14px;max-width:66ch}
+    .copy-status{font:800 .78rem var(--mono);margin-left:10px}
+    .copy-status.ok{color:var(--green)}.copy-status.err{color:var(--red)}
+    /* No JS: show every card with its own heading rather than a blank section */
+    .no-js .tool-card[hidden]{display:block!important}
+    .no-js .tool-picker{display:none}
+    /* Job cards: the black example fills its panel instead of leaving white space under it */
+    .job-side .code-card{display:flex;flex-direction:column}.job-side .code-card pre{flex:1;margin:0}
+    /* Proof: one real board, one real verdict */
+    .proof-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:start}
+    .proof-card{margin:0;background:#fff;border:var(--border);box-shadow:var(--shadow-sm);overflow:hidden}
+    .proof-card .code-head{display:flex;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--paper);font:800 .68rem var(--mono);text-transform:uppercase;border-bottom:var(--border)}
+    .proof-shot{display:block;max-height:560px;overflow:hidden;border-bottom:var(--border)}
+    .proof-shot img{display:block;width:100%;height:auto}
+    .proof-card figcaption{padding:20px 22px;color:var(--muted);font-size:.95rem}
+    .proof-card figcaption b{display:block;color:var(--ink);margin-bottom:6px}
+    .verdict-body{padding:24px 24px 22px}
+    .verdict-screen{margin:0;font:800 .74rem var(--mono);text-transform:uppercase;color:var(--muted)}
+    .verdict-word{display:inline-block;margin:14px 0 18px;padding:6px 14px;background:var(--yellow);border:var(--border);box-shadow:var(--shadow-sm);font:950 clamp(1.8rem,4vw,2.6rem)/1 var(--mono)}
+    .verdict-fixes{margin:0;padding:0;list-style:none;border-top:2px solid var(--line)}
+    .verdict-fixes li{padding:12px 0;border-bottom:1px solid var(--soft);font-size:.95rem}
+    .verdict-fixes .who{display:inline-block;min-width:58px;margin-right:8px;font:800 .7rem var(--mono);text-transform:uppercase;color:var(--orange)}
+    .verdict-foot{margin:14px 0 0;font-size:.86rem;color:var(--muted)}
+    /* In the lab + the small firms callout */
+    .lab-card{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:#fff;border:var(--border);box-shadow:var(--shadow-sm);padding:28px 30px}
+    .lab-card h3{margin:6px 0 8px}.lab-card p{margin:0;color:var(--muted);max-width:62ch}
+    .lab-tag{font:800 .68rem var(--mono);text-transform:uppercase;padding:4px 8px;border:2px solid var(--ink);background:var(--yellow)}
+    .firms-strip{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between;padding:26px 0}
+    .firms-strip p{margin:0;max-width:64ch}.firms-strip b{font-weight:950}
+    @media (max-width:860px){.proof-grid{grid-template-columns:1fr}.lab-card{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to main content</a>
   <nav class="nav" aria-label="Main navigation">
     <div class="wrap nav-row">
-      <a class="nav-brand" href="#main" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="314" height="81"></a>
+      <a class="nav-brand" href="/" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="314" height="81"></a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
-      <a class="btn primary nav-btn" href="#intake"><span class="nav-btn-full">Map one workflow</span><span class="nav-btn-short">Map workflow</span></a>
+      <a class="btn primary nav-btn" href="#designer-path"><span class="nav-btn-full">Start as a designer</span><span class="nav-btn-short">Start</span></a>
     </div>
     <div class="nav-links" id="nav-links" aria-hidden="true" inert>
       <p class="nav-kicker">Do the work</p>
-      <a class="is-lead" href="#jobs">What you get</a>
-      <a class="is-lead" href="#doors">Your path</a>
-      <a class="is-lead" href="#products">Products</a>
-      <a class="is-lead" href="design.html">Design team</a>
+      <a class="is-lead" href="#designer-path">Designer path</a>
+      <a class="is-lead" href="#proof">See real output</a>
+      <a class="is-lead" href="#jobs">What you can do</a>
+      <a class="is-lead" href="#team">Team</a>
+      <a class="is-lead" href="#call">Call them</a>
+      <p class="nav-kicker">Install</p>
+      <a href="#models">Models</a>
+      <a href="#mcp">MCP</a>
+      <a href="#run">Run it</a>
       <p class="nav-kicker">Also</p>
-      <a href="#method">Method</a>
-      <a href="#measure">Measure</a>
-      <a href="#examples">Firms</a>
-      <a href="#faq">FAQ</a>
+      <a href="#whats-new">What's new</a>
+      <a href="#lab">In the lab</a>
+      <a href="/clients">Custom teams for firms</a>
     </div>
   </nav>
 
   <main id="main">
     <header class="hero">
       <div class="wrap">
-        <div class="hero-grid">
-          <div>
-            <span class="eyebrow"><span class="dot"></span>Open source · Design team in the AI you already use</span>
-            <h1>Your design team. Type the <span class="accent">name.</span></h1>
-            <p class="lede">Named specialists live in Cursor, Claude, or a browser tool. Type <span class="cmd cmd-live"><span class="cmd-live-text" id="hero-cmd">/zara</span></span>. You get a verdict — not a polite paragraph. The design team is open source. No new app.</p>
-            <div class="hero-cmds" aria-label="What you type">
-              <span class="hint">Type</span>
-              <span class="cmd">/zara</span>
-              <span class="cmd">/accept yes</span>
-              <span class="cmd">/share</span>
-            </div>
-            <div class="hero-actions">
-              <a href="#jobs" class="btn primary">See what you get <span aria-hidden="true">→</span></a>
-              <a class="btn" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">It's open source <span aria-hidden="true">↗</span></a>
-              <p class="hero-alt">Then <a href="#doors">pick who you are</a> · <a href="design.html">Full design team page</a></p>
-            </div>
-            <div class="micro-proof" aria-label="How this works">
-              <span>Open source. Read every file.</span>
-              <span>A verdict, not a nice paragraph.</span>
-              <span>You still decide every change.</span>
-            </div>
-          </div>
-          <aside class="blueprint is-wait" id="hero-sample" aria-live="polite" aria-label="Example from Zara on a login screen">
-            <div class="blueprint-head"><span id="sample-who">Example / Zara</span><span id="sample-screen">Login screen</span></div>
-            <div class="sample-wait" id="sample-wait"><span class="sample-wait-mark" aria-hidden="true"></span><span id="sample-wait-text">Looking at delight</span></div>
-            <div class="blueprint-body sample-report" id="sample-report">
-              <p class="sample-meta"><span class="verdict-mark" id="sample-verdict">Revise</span><span class="sample-job" id="sample-job">Delight</span></p>
-              <p class="sample-why" id="sample-why">Looks at one peak moment. That is why these three notes.</p>
-              <h3 style="margin-bottom:8px">What comes back</h3>
-              <ol class="fix-list">
-                <li><b>01</b> <span id="sample-f1">The primary button fights the back link</span></li>
-                <li><b>02</b> <span id="sample-f2">The error sits below the fold</span></li>
-                <li><b>03</b> <span id="sample-f3">The guest path is a dead end</span></li>
-              </ol>
-            </div>
-            <div class="packet-ban ok"><b>You still decide</b><span>Keep or skip the note. Nothing ships without you.</span></div>
-            <div class="connector" id="sample-foot">Delight. One peak moment — not a contrast checklist.</div>
-          </aside>
+        <span class="eyebrow"><span class="dot"></span>For designers · open source · v2.7.0</span>
+        <h1>Your design team. Type the <span class="accent">name.</span></h1>
+        <p class="lede">Keep or skip in chat. Send a note back. No terminal flags. Named specialists wireframe, critique, and gate the work — so you get a verdict, not a polite paragraph.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#designer-path">Start as a designer</a>
+          <a class="btn" href="#install">I already have a tool — set it up</a>
         </div>
+        <div class="hero-cmds" aria-label="What you type">
+          <span class="hint">Type</span>
+          <span class="cmd">/zara</span>
+          <span class="cmd peak">/accept yes</span>
+          <span class="cmd">/share</span>
+          <span class="cmd">/receipt</span>
+        </div>
+        <div class="micro-proof">
+          <span>No new app</span>
+          <span>No CLI flags after install</span>
+          <span>You still sign every change</span>
+        </div>
+        <p class="hero-alt-links">
+          <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">View on npm</a>
+          <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Read the source</a>
+        </p>
       </div>
     </header>
 
-    <section class="proof" aria-label="What we commit to">
-      <div class="wrap proof-row">
-        <div class="proof-item"><b>1</b><span>named team in the AI you already use</span></div>
-        <div class="proof-item"><b>SHIP</b><span>revise or block — a verdict, not a paragraph</span></div>
-        <div class="proof-item"><b>0</b><span>silent changes. You keep or skip.</span></div>
-        <div class="proof-item"><b>3</b><span>jobs you can try without a designer</span></div>
-        <div class="proof-item"><b>MIT</b><span>the design team is open source. Read every file.</span></div>
-      </div>
-    </section>
-
-    <section class="section" id="jobs">
+    <section class="section designer-path" id="designer-path">
       <div class="wrap">
         <div class="section-head">
-          <span class="eyebrow light">What you get</span>
-          <h2>Three jobs. <span class="accent">Human words.</span></h2>
-          <p class="lede">You do not need a designer on staff. You do not need to know the slash name yet. The team stops at a human decision.</p>
+          <span class="eyebrow light">Designer path</span>
+          <h2>Four things to type. <span class="accent">Nothing else.</span></h2>
+          <p class="lede">Install once. Then you work in chat. Yes or no. One sentence if no. The long command map stays below for when you already know the job.</p>
         </div>
-        <div class="cards">
-          <article class="card job-card">
-            <span class="card-tag">Before you build</span>
-            <h3>Two sketches first</h3>
-            <p>Two competing layouts before anyone opens Figma or writes code.</p>
-            <span class="cmd">/ux-ideator</span>
-          </article>
-          <article class="card job-card">
-            <span class="card-tag">After it shipped</span>
-            <h3>A verdict on the screen</h3>
-            <p>Ship, revise, or block. Then keep or skip the note.</p>
-            <span class="cmd">/zara</span> <span class="cmd">/accept</span>
-          </article>
-          <article class="card job-card">
-            <span class="card-tag">Against the story</span>
-            <h3>Can a person finish?</h3>
-            <p>Can a real person complete the job using your PRD — not vibes?</p>
-            <span class="cmd">/ux-story-gate</span>
-          </article>
+        <div class="table-wrap path-table">
+          <table>
+            <thead>
+              <tr><th>I want to…</th><th>Type this</th><th>What comes back</th></tr>
+            </thead>
+            <tbody>
+              <tr class="rank-1">
+                <td>Get a critique</td>
+                <td><span class="cmd">/zara</span></td>
+                <td>One delight pass — or “speed is the craft”</td>
+              </tr>
+              <tr>
+                <td>Keep or skip that note</td>
+                <td><span class="cmd peak">/accept yes</span> or <span class="cmd">/accept no</span> plus one sentence</td>
+                <td>Saved on your machine. The team can learn.</td>
+              </tr>
+              <tr>
+                <td>Send a correction to the package</td>
+                <td><span class="cmd">/share</span> then yes</td>
+                <td>Redacted preview. GitHub or the package inbox. No folder names.</td>
+              </tr>
+              <tr>
+                <td>See inferred spend</td>
+                <td><span class="cmd">/receipt</span></td>
+                <td>A number. Not a bill. Not a monthly dollar.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <aside class="warn">
-          <b>Install lives on the design page</b>
-          <p>Copy the <span class="cmd">npx</span> line there. Do not add this team to <span class="cmd">package.json</span> — that is for app libraries, not a chat team.</p>
-        </aside>
-        <p class="jobs-more">
-          <span class="cmd">/zara</span>
-          <span class="cmd">/accept</span>
-          <span class="cmd">/share</span>
-          <span class="cmd">/receipt</span>
-          · <a href="design.html#jobs">All jobs on the design team page</a>
-        </p>
-      </div>
-    </section>
+        <div class="path-install">
+          <div class="code-card">
+            <div class="code-head"><span>One line — any folder</span><span>Terminal</span></div>
+            <pre># Cursor
+npx analyzthis_design@latest --target cursor --force
 
-    <section class="section" id="doors">
-      <div class="wrap">
-        <div class="section-head">
-          <span class="eyebrow light">Your path</span>
-          <h2>Built for designers — and the people who <span class="accent">sit next to them.</span></h2>
-          <p class="lede">You know the product. Now pick who you are. Nothing here asks you to add a package to your app.</p>
-        </div>
-        <div class="doors">
-          <article class="door" data-door="design">
-            <span class="door-kicker">Designer</span>
-            <h3>I design screens</h3>
-            <p>Open source. Ask Zara to look at a screen. Keep or skip the note.</p>
-            <a class="btn primary" href="design.html">Open the design team <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="door" data-door="ship">
-            <span class="door-kicker">Dev / PM</span>
-            <h3>I ship product</h3>
-            <p>No designer on staff. Two sketches, a verdict, or a check against the PRD.</p>
-            <a class="btn primary" href="design.html#jobs">Start those jobs <span aria-hidden="true">→</span></a>
-          </article>
-          <article class="door" data-door="practice">
-            <span class="door-kicker">Firm / owner</span>
-            <h3>I run a practice</h3>
-            <p>Same idea for books or visit notes. Packets arrive in the tools you already open.</p>
-            <a class="btn primary" href="#practice">See a practice packet <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </div>
-    </section>
+# Claude Code
+npx analyzthis_design@latest --target claude --force
 
-    <section class="section" id="practice">
-      <div class="wrap">
-        <div class="section-head">
-          <span class="eyebrow light">Same idea for a practice</span>
-          <h2>A packet that reaches the desk <span class="accent">ready to sign.</span></h2>
-          <p class="lede">If you run a firm — not a product team — we map one repeat workflow. Books, drawings, visit notes, or POs. You still review. You still sign.</p>
-        </div>
-        <aside class="blueprint" aria-label="Example review packet for monthly GST prep">
-          <div class="blueprint-head"><span>Tuesday morning / example</span><span>GST · monthly</span></div>
-          <div class="packet-split">
-            <div class="packet-col">
-              <h3>What we send</h3>
-              <ul>
-                <li>Monthly GST review packet</li>
-                <li>12 missing invoices flagged</li>
-                <li>Ledger mismatches listed</li>
-                <li>Partner checklist, one page</li>
-              </ul>
-            </div>
-            <div class="packet-col">
-              <h3>What you do</h3>
-              <div class="packet-step"><span class="packet-n">1</span> Open the packet</div>
-              <div class="packet-step"><span class="packet-n">2</span> Edit or accept</div>
-              <div class="packet-step"><span class="packet-n">3</span> Sign</div>
-            </div>
+# Then restart the app. Type /zara even if the menu is short.</pre>
           </div>
-          <div class="packet-ban"><b>Does not own</b><span>Filing · Client advice · Sign-off</span></div>
-          <div class="connector">Then <a href="#intake">map one workflow</a> — or stay with the design team above.</div>
-        </aside>
+          <aside class="warn">
+            <b>Do not add this to package.json</b>
+            <p>Do not run <span class="cmd">npm install analyzthis_design</span> inside a pnpm or Yarn workspace. That crash is the workspace, not this team. The <span class="cmd">npx</span> line is enough.</p>
+          </aside>
+        </div>
+        <p class="path-more"><a href="#commands">All commands</a> · <a href="#install">Full install</a> · <a href="#wireframe">Wireframe</a> · <a href="#director">Spec and build</a> · <a href="#stories">Review against a PRD</a></p>
       </div>
     </section>
 
-    <section class="section" id="products">
+    <section class="section proof" id="proof">
       <div class="wrap">
         <div class="section-head">
-          <span class="eyebrow light">Lab products</span>
-          <h2>Each product is a <span class="accent">focused team.</span></h2>
-          <p class="lede lab-line">Analyzthis Lab = shipped team products + custom workflow teams. Same method. Different delivery.</p>
-          <p class="lede">Pick what is live, what is still in the lab, and what is a mapped service. Do not treat the three as one SKU.</p>
+          <span class="eyebrow light">Real output</span>
+          <h2>Not a demo reel. <span class="accent">Real runs.</span></h2>
+          <p class="lede">Both came straight out of the team, run on a demo invoicing app. The critique is shortened; nothing is drawn by hand.</p>
         </div>
-        <div class="products">
-          <article class="product">
-            <div class="product-top">
-              <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
-              <span class="product-status live">Live · open source · v2.5.2</span>
-            </div>
-            <p>A task-grounded design team for ideation, critique, deliberation, verification, and human-reviewed evolution. Open source — read every file. For designers: type /noor, then /accept and /share — no terminal flags.</p>
-            <dl class="product-facts">
-              <div><dt>You get</dt><dd>Commands in your IDE, verdicts, and the source on GitHub</dd></div>
-              <div><dt>You need</dt><dd>Cursor, Claude, Windsurf &mdash; or nothing at all if you work in Lovable, v0 or Bolt</dd></div>
-              <div><dt>What's new</dt><dd>/accept and /share — keep, skip, or send a correction without CLI flags</dd></div>
-            </dl>
-            <div class="hero-actions" style="margin-top:0;flex-direction:row;flex-wrap:wrap">
-              <a class="btn primary" href="design.html#designer-path">Start as a designer</a>
-              <a class="btn" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Read the source</a>
+        <div class="proof-grid">
+          <figure class="proof-card">
+            <div class="code-head"><span>/mood-board</span><span>You decide</span></div>
+            <a class="proof-shot" href="assets/moodboard-board.jpg" target="_blank" rel="noopener">
+              <img src="assets/moodboard-board.jpg" width="1920" height="1350" loading="lazy" alt="A mood board for an invoice approval table: the brief, team advice REVISE, two tiles kept and one rejected, a locked direction with the real colours and fonts, and cropped elements from Stripe and Linear.">
+            </a>
+            <figcaption>
+              <b>Zara cuts real elements. You keep or reject each one.</b>
+              Four crops from Stripe and Linear for an invoice approval table, each with the site's real colours and fonts. The team advised. The designer kept two, rejected one, overruled the team once, and locked the direction every persona now follows. Crops are blurred here because they are other companies' work.
+            </figcaption>
+          </figure>
+          <article class="proof-card verdict-card">
+            <div class="code-head"><span>/persona-orchestrator · assess only</span><span>Demo invoicing app</span></div>
+            <div class="verdict-body">
+              <p class="verdict-screen">Bank reconciliation screen · an AP clerk matching payments to invoices, every day</p>
+              <p class="verdict-word">REVISE</p>
+              <ol class="verdict-fixes">
+                <li><span class="who">Noor</span> Open on the Unassigned queue. Four tabs on load is four decisions before any work starts (Hick's Law).</li>
+                <li><span class="who">Arjun</span> Turn the header into a status bar: total, matched, unmatched. Unmatched is the number that matters.</li>
+                <li><span class="who">Priya</span> One primary action, <em>Bulk match</em>, above the table. Effort: medium. The matching engine already exists.</li>
+              </ol>
+              <p class="verdict-foot">Shortened from a real run. Before any of this, Raj asked what “done” means for one row.</p>
             </div>
           </article>
-          <article class="product">
-            <div class="product-top">
-              <div><span class="product-code">analyzthis_product</span><h3>Product workflow team</h3></div>
-              <span class="product-status lab">Lab / early access</span>
-            </div>
-            <p>Specialist roles for product discovery, PRD shaping, roadmap pressure-testing, and delivery-quality review.</p>
-            <dl class="product-facts">
-              <div><dt>You get</dt><dd>PRD and roadmap review once the roster ships</dd></div>
-              <div><dt>You need</dt><dd>A waitlist conversation — not a download today</dd></div>
-            </dl>
-            <a class="btn" href="#intake">Ask about early access</a>
-          </article>
-          <article class="product">
-            <div class="product-top">
-              <div><span class="product-code">Custom teams</span><h3>Built for your workflow</h3></div>
-              <span class="product-status service">Service</span>
-            </div>
-            <p>We map one repeat workflow and design the smallest useful team around it. Packets arrive in the tools you already open.</p>
-            <dl class="product-facts">
-              <div><dt>You get</dt><dd>A mapped roster and packets beside your current tools</dd></div>
-              <div><dt>You need</dt><dd>Discovery first. No IDE required.</dd></div>
-            </dl>
-            <a class="btn primary" href="#intake">Map one workflow <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="method">
-      <div class="wrap">
-        <div class="section-head">
-          <span class="eyebrow light">The problem</span>
-          <h2>Generic AI gives you <span class="accent">generic work.</span></h2>
-          <p class="lede">A single assistant has no durable division of responsibility, no internal challenge, and no definition of “good” that belongs to your profession.</p>
-        </div>
-        <div class="pain-grid">
-          <article class="pain"><div class="num">01</div><h3>It forgets context</h3><p>Your standards, source material, and prior decisions are repeatedly pasted—or simply lost.</p></article>
-          <article class="pain"><div class="num">02</div><h3>It agrees too easily</h3><p>One model produces and approves its own work. Weak assumptions survive because nobody is assigned to object.</p></article>
-          <article class="pain"><div class="num">03</div><h3>It never owns quality</h3><p>There is no role-based gate, outcome history, or structured learning loop tied to your definition of done.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="measure">
-      <div class="wrap">
-        <div class="section-head">
-          <span class="eyebrow light">How we measure success</span>
-          <h2>We score the <span class="accent">handoff,</span> not the chat.</h2>
-          <p class="lede">A partner, doctor, or owner was going to review the work anyway. That review is the measurement. We do not ask the firm to fill a weekly scorecard.</p>
-        </div>
-        <div class="signals">
-          <article class="card" style="--tag:var(--green)"><span class="card-tag">Opened</span><h3>Was it opened at all?</h3><p>If the packet is never opened, the team is already dead. Abandonment is the churn signal nobody tracks.</p></article>
-          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Changed</span><h3>How much did they change?</h3><p>Accepted as-is, light edit, heavy rewrite, or discarded. That is first-pass quality, and it needs no survey.</p></article>
-          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Review time</span><h3>How long did review take?</h3><p>Not how long the work took to prepare — how long the human spent. That is the number that converts to money.</p></article>
-          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Repeat</span><h3>Did it run again?</h3><p>Monthly filing, weekly submission, daily list. If cycle four still runs, it works.</p></article>
-        </div>
-        <div class="blueprint contract" aria-label="Example team contract">
-          <div class="blueprint-head"><span>Team contract / example</span><span>Signed at discovery</span></div>
-          <div class="blueprint-body">
-            <div class="contract-row"><b>Workflow</b><span>Monthly GST filing prep</span></div>
-            <div class="contract-row"><b>Owns</b><span>Books organisation, missing-doc chase, packet assembly</span></div>
-            <div class="contract-row"><b>Does not own</b><span>Filing, client advice, sign-off</span></div>
-            <div class="contract-row"><b>Good looks like</b><span>Partner signs in one review. No document found missing after review.</span></div>
-            <div class="contract-row"><b>Fails when</b><span>A missing invoice is discovered post-review, or the filing date slips</span></div>
-            <div class="contract-row"><b>Reviewed by</b><span>Partner, monthly</span></div>
-            <div class="contract-row"><b>We track</b><span>Opened / edit level / review minutes / repeat run</span></div>
-          </div>
-          <div class="connector">Weeks 1–3 are calibration. The team is tuned, not scored.</div>
-        </div>
-        <div class="teams-intro" style="margin-top:24px">
-          <p>We do not grade the team in its first weeks. Everything looks rough, the firm loses nerve, and the account dies before the loop closes. Scoring starts after calibration.</p>
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="wrap">
-        <div class="blueprint method-pipe" aria-label="How the packet is made">
-          <div class="blueprint-head"><span>How the packet is made</span><span>04 specialists</span></div>
-          <div class="blueprint-body">
-            <div class="agent-row" style="--agent:var(--purple)"><div class="agent-id">01</div><div><strong>Archivist</strong><small>Reads your knowledge and decisions</small></div><span class="agent-state">GROUND</span></div>
-            <div class="agent-row" style="--agent:var(--blue)"><div class="agent-id">02</div><div><strong>Planner</strong><small>Breaks work into accountable steps</small></div><span class="agent-state">PLAN</span></div>
-            <div class="agent-row" style="--agent:var(--red)"><div class="agent-id">03</div><div><strong>Challenger</strong><small>Finds weak assumptions before delivery</small></div><span class="agent-state">DEBATE</span></div>
-            <div class="agent-row" style="--agent:var(--green)"><div class="agent-id">04</div><div><strong>Verifier</strong><small>Checks output against your standard</small></div><span class="agent-state">GATE</span></div>
-          </div>
-          <div class="connector">Shared context → one accountable outcome</div>
+        <div class="section-head">
+          <span class="eyebrow light">Who this is for</span>
+          <h2>Built for <span class="accent">designers</span> — and the people who sit next to them.</h2>
+          <p class="lede">Designers who are understaffed. Developers and PMs who need to design. If you can open Cursor or Claude Code, you can run this team. You do not need a new app. After a critique, type <span class="cmd">/accept</span> (keep or skip) and <span class="cmd">/share</span> (send a note back). No terminal flags. Slash commands and MCP are not the same pipe — see <a href="#call" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">how to call them</a>.</p>
         </div>
-      </div>
-      <div class="wrap service-grid">
-        <div class="sticky-copy">
-          <span class="eyebrow">Our method</span>
-          <h2>The lab architecture behind <span class="accent">every product.</span></h2>
-          <p class="lede">Whether we are shipping analyzthis_design, building analyzthis_product, or designing a custom team for your workflow, the method stays the same: encode accountability around the task.</p>
-          <a href="#intake" class="btn dark">Map one workflow</a>
-        </div>
-        <div class="steps">
-          <article class="step" style="--step:var(--orange-soft)"><div class="step-no">01</div><div><small>Discover</small><h3>Map the real workflow</h3><p>We identify the repeated task, inputs, expert decisions, tools, failure points, and the outcome that matters.</p></div></article>
-          <article class="step" style="--step:#dfe7ff"><div class="step-no">02</div><div><small>Architect</small><h3>Assign specialist roles</h3><p>Each agent gets one allowed job, explicit boundaries, the right context, and a handoff contract—no vague “do everything” prompts.</p></div></article>
-          <article class="step" style="--step:#e2f5e9"><div class="step-no">03</div><div><small>Ground</small><h3>Connect your knowledge</h3><p>PRDs, SOPs, reference files, brand rules, research, and prior decisions become scoped context instead of one oversized prompt.</p></div></article>
-          <article class="step" style="--step:#ffe3e1"><div class="step-no">04</div><div><small>Challenge</small><h3>Build in disagreement</h3><p>Critical roles review claims, ask for evidence, and escalate deadlocks. Agreement must be earned, not assumed.</p></div></article>
-          <article class="step" style="--step:#fff5be"><div class="step-no">05</div><div><small>Verify</small><h3>Gate the outcome</h3><p>Your quality rules become explicit checks. The team returns a verdict, risks, and next actions—not just a polished paragraph.</p></div></article>
-          <article class="step" style="--step:#eee3fb"><div class="step-no">06</div><div><small>Evolve</small><h3>Learn with your approval</h3><p>Accepted outputs and confirmed outcomes can propose improvements. You review every change before the team evolves.</p></div></article>
-        </div>
+        <nav class="jump" aria-label="Jump to a job">
+          <a href="#designer-path">Designer path</a>
+          <a href="#wireframe">Wireframe a screen</a>
+          <a href="#director">Design, spec, build</a>
+          <a href="#critique">Critique a design</a>
+          <a href="#stories">Review against a PRD</a>
+          <a href="#mood">Set visual direction</a>
+          <a href="#kavi">Index project knowledge</a>
+          <a href="#run">Run without API keys</a>
+          <a href="#whats-new">What's new in 2.7</a>
+          <a href="#call">Call a specialist</a>
+          <a href="#models">Which model runs</a>
+          <a href="#mcp">Run from any MCP IDE</a>
+          <a href="#evolve">Improve the team</a>
+        </nav>
       </div>
     </section>
 
-    <section class="section case" id="proof">
-      <div class="wrap">
-        <span class="eyebrow">Lab product / analyzthis_design</span>
-        <h2>Our first shipped product is a <span class="outline" style="-webkit-text-stroke-color:#fff">Design Team.</span></h2>
-        <p class="lede" style="color:#fff">analyzthis_design is working proof from the lab: a design team that does the work humans usually do—ideate, critique, deliberate, verify, and improve inside existing AI tools.</p>
-        <div class="case-grid">
-          <div class="case-copy">
-            <h3>One team. Distinct accountability.</h3>
-            <p>Kavi grounds the work. Noor and Anuj propose competing information architectures. Arjun audits UX and visual quality. Meera checks business impact. Priya sizes feasibility. Zara protects delight. Raj challenges the premise or arbitrates deadlocks.</p>
-            <p><strong>Output:</strong> structured concepts, DesignSpecs, SHIP / REVISE / BLOCK verdicts, ranked fixes, a lite MCP catalog for any IDE, and a human-reviewed evolution loop.</p>
-            <div class="case-actions">
-              <a class="btn primary" href="design.html">Learn more</a>
-              <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">Inspect the source <span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-          <div class="case-flow" aria-label="Design team roles">
-            <div class="case-role"><b>Kavi</b><span>Collects project knowledge before opinions form.</span></div>
-            <div class="case-role"><b>Noor ∥ Anuj</b><span>Produce competing minimal and expert concepts.</span></div>
-            <div class="case-role"><b>Arjun</b><span>Checks task friction, accessibility, hierarchy, and design-system fit.</span></div>
-            <div class="case-role"><b>Meera ∥ Priya</b><span>Challenge business value and implementation assumptions.</span></div>
-            <div class="case-role"><b>Raj</b><span>Challenges the premise or arbitrates unresolved structural objections.</span></div>
-            <div class="case-role"><b>Devi</b><span>Lets the host AI voice each specialist without separate API keys.</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="capabilities">
-      <div class="wrap">
-        <div class="section-head center">
-          <span class="eyebrow light">Lab architecture</span>
-          <h2>More than a folder of <span class="accent">prompts.</span></h2>
-          <p class="lede">These are implemented capabilities across Analyzthis lab products. The same architecture powers shipped products and the custom teams we design for clients.</p>
-        </div>
-        <div class="cards">
-          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Knowledge</span><h3>Scoped project memory</h3><p>Collect source material into a knowledge bank, then give each role only the context relevant to its job.</p></article>
-          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Planning</span><h3>Chunked execution</h3><p>A strong planner stays strong. Chunks pick cheap local, free, or paid models. Slash commands do not — they use the model already in your chat. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">See how models are picked</a>.</p></article>
-          <article class="card" style="--tag:var(--red)"><span class="card-tag">Quality</span><h3>Adversarial review</h3><p>Agents cite specific claims, raise grounded objections, and require evidence before accepting prior work.</p></article>
-          <article class="card" style="--tag:var(--green)"><span class="card-tag">Control</span><h3>Hard quality gates</h3><p>Critical checks never downgrade. A failed standard becomes a blocker and an actionable correction.</p></article>
-          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Portability</span><h3>Works where you work</h3><p>Slash commands in Cursor, Claude, and similar tools — plus a lite MCP catalog for Lovable, v0, Bolt, Replit, and ChatGPT. Custom teams live in the tools your firm already uses.</p></article>
-          <article class="card" style="--tag:var(--cyan)"><span class="card-tag">Learning</span><h3>Human-reviewed evolution</h3><p>Accepted work and confirmed outcomes can suggest lessons, routing changes, and reference updates—never silently.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="examples">
+    <section class="section" id="whats-new">
       <div class="wrap">
         <div class="section-head">
-          <span class="eyebrow">Built for small firms</span>
-          <h2>Real teams for <span class="accent">real firms.</span></h2>
-          <p class="lede">We build for MSMEs—architectural studios, CA practices, clinics, and other small firms where the same work repeats every week and partners still review everything.</p>
+          <span class="eyebrow light">Changelog</span>
+          <h2>What's new in <span class="accent">2.7.</span></h2>
+          <p class="lede">Mood boards you decide on, with real crops and scroll films — now in every tool with a terminal, plus OpenCode, Kiro and Trae. Re-run install with <span class="cmd">--force</span> after you update.</p>
         </div>
-        <div class="teams-intro">
-          <p>These are example teams, not off-the-shelf products. Each firm gets the smallest useful roster around the work humans already do—briefs, filings, follow-ups, checklists, and client updates.</p>
+        <div class="log">
+          <article class="log-entry now">
+            <header>
+              <time datetime="2026-10-30">30 Oct 2026</time>
+              <h3>2.7.0 — Zara in every tool, plus OpenCode, Kiro and Trae</h3>
+            </header>
+            <ul>
+              <li><strong>Crop real elements anywhere.</strong> <span class="cmd">moodboard crop</span> cuts one element from a live page with its real colours and fonts — in Claude Code, OpenCode, Codex, Windsurf, Kiro, Trae, or a plain terminal. Cursor can still use its built-in browser.</li>
+              <li><strong>Three new installs.</strong> <span class="cmd">--target opencode</span>, <span class="cmd">--target kiro</span>, <span class="cmd">--target trae</span> (China edition: <span class="cmd">trae-cn</span>). <span class="cmd">--target all</span> includes them.</li>
+              <li><strong>Safer setup.</strong> Install never overwrites a tool config it cannot read, such as <span class="cmd">~/.claude.json</span>. It leaves the file alone and prints the line to add.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-10-30">30 Oct 2026</time>
+              <h3>2.6.0 — Mood boards you decide on</h3>
+            </header>
+            <ul>
+              <li><strong>A real collage.</strong> Zara cuts 20–24 elements from 6+ live sites — cards, tables, type, colour — grouped by section, each with its source page and real tokens.</li>
+              <li><strong>Your choice wins.</strong> <span class="cmd">moodboard show</span> opens a clickable board on your machine. Keep, maybe, or reject each tile. Team votes are advice. Rejected tiles never come back. Lock saves the direction every persona follows.</li>
+              <li><strong>Scroll films.</strong> <span class="cmd">moodboard film</span> records a real site scrolling through four depths, as a looping tile with stills. For motion, not components.</li>
+              <li><strong>The mood board skill now installs.</strong> Earlier versions never copied it into your tools.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-09-08">8 Sep 2026</time>
+              <h3>2.5.2 — Motion, UX, and visual-design libraries</h3>
+            </header>
+            <ul>
+              <li><strong>Cite real packages.</strong> New <span class="cmd">motion.csv</span> and <span class="cmd">ui-libraries.csv</span> cover Motion, Shadcn, React Aria, Chakra, CMDK, TanStack, Tremor, Magic UI, and more. One library per job.</li>
+              <li><strong>Kavi detects what you already use.</strong> Collect reads the full <span class="cmd">package.json</span> plus kit folders and writes <span class="cmd">Tech/Installed-UI-Libraries.md</span>. Later personas prefer that list.</li>
+              <li><strong>No kit mashups.</strong> Mixing Shadcn with Chakra or Mantine is a Priya block. Magic UI and Lottie stay off daily dashboards.</li>
+              <li><strong>DesignSpec motion is specific.</strong> If motion is on, the spec must name library, import, timing, easing, and a reduced-motion fallback.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-09-08">8 Sep 2026</time>
+              <h3>2.5.1 — Anti-AI-slop &amp; craftsmanship</h3>
+            </header>
+            <ul>
+              <li><strong>Arjun hunts generic AI look.</strong> Nested cards, untinted black/gray, gray text on colored badges, purple-to-blue gradient clichés.</li>
+              <li><strong>Noor distills.</strong> Less container clutter; CTAs say the outcome (<span class="cmd">Create Invoice</span>, not Submit).</li>
+              <li><strong>Zara times motion.</strong> 150–250ms ease-out. Bounce and elastic easing are out.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-09-02">2 Sep 2026</time>
+              <h3>2.5.0 — personas earn or lose trust</h3>
+            </header>
+            <ul>
+              <li><strong>A skip now costs the persona.</strong> Before this release it did the opposite: marking a note wrong recorded it as <span class="cmd">revised</span> and scoring counted every outcome the same, so a rejection raised the score by 15. Punishment was a reward. Fixed.</li>
+              <li><strong>Scored on rate, not total.</strong> Each persona starts at 50 and moves both ways &mdash; shipped <span class="cmd">+15</span>, revised <span class="cmd">&minus;5</span>, missed <span class="cmd">&minus;15</span>, plus your rating. Averaged per signal, so early wins never make a persona immune to later misses. Bands: At risk, Developing, Baseline, Reliable, Trusted.</li>
+              <li><strong>One bad note brands nobody.</strong> Under five signals a persona reads <span class="cmd">Baseline (insufficient evidence)</span> whatever the maths says.</li>
+              <li><strong>Devi weights the synthesis.</strong> She sees the scoreboard and leans on Trusted personas over At risk ones, and says so in one line. She never drops a persona from the run &mdash; a weak read still gets written down where you can disagree with it.</li>
+              <li><strong>Feedback works with no terminal.</strong> New <span class="cmd">analyzthis_accept</span> MCP tool in the default catalog, so Claude Desktop can keep or skip. Same core as the CLI, identical state.</li>
+              <li><strong>The persona asks.</strong> Every note ends with one line: <em>Was this right? Say yes, or no plus one sentence.</em> You answer in plain language &mdash; no slash command, no flags, and it works the same on every host.</li>
+              <li><strong>See the scoreboard.</strong> <span class="cmd">npx analyzthis_design scores</span> (or <span class="cmd">scores --persona arjun</span>) shows the signed breakdown, so you can see <em>why</em> a persona fell. Scores are derived on read &mdash; existing history re-scores itself on upgrade.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-09-01">1 Sep 2026</time>
+              <h3>2.4.1 — /accept and /share</h3>
+            </header>
+            <ul>
+              <li><strong>Keep or skip without flags.</strong> After <span class="cmd">/zara</span> (or any persona), type <span class="cmd">/accept yes</span> or <span class="cmd">/accept no</span> plus one sentence. Local evolution. Slash-only notes still count.</li>
+              <li><strong>Send a note back to the package.</strong> Type <span class="cmd">/share</span>, read the redacted preview, then <span class="cmd">/share yes</span>. No folder names, emails, or keys. GitHub issue if no HTTP inbox is set.</li>
+              <li><strong>Do not npm-install inside a workspace repo.</strong> Same as 2.3.1: use <span class="cmd">npx … --target … --force</span>. The package is not a line in the app’s package.json.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-09-01">1 Sep 2026</time>
+              <h3>2.4.0 — Claude-path efficiency</h3>
+            </header>
+            <ul>
+              <li><strong>Lite MCP catalog.</strong> Desktop and Code now see a router, retrieve, session, and receipt — not 19 tools. Old list: <span class="cmd">mcp --catalog full</span>.</li>
+              <li><strong>Receipt after every MCP turn.</strong> Inferred tokens, not a bill. Type <span class="cmd">/receipt</span> or run <span class="cmd">npx analyzthis_design receipt</span>.</li>
+              <li><strong>Slim skill fronts.</strong> Arjun and the long workflows load a short front. Retrieve the rest. Default output: verdict + top three + one evidence line. Say expand for the full schema.</li>
+              <li><strong>Knowledge is an index.</strong> Load one persona slice. Do not inject the whole bank.</li>
+              <li><strong>Tokens per verdict</strong> prints on receipt and CLI <span class="cmd">run</span>. We did not make the team speak caveman. We do not ship a proxy. Optional: wrap our MCP through Caveman shrink if you already use it.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-08-31">31 Aug 2026</time>
+              <h3>2.3.1 — Type /noor after install</h3>
+            </header>
+            <ul>
+              <li><strong>Either install command works.</strong> <span class="cmd">npx analyzthis_design --target claude</span> is the same as <span class="cmd">install --target claude</span>. The first form used to say “Unknown command.”</li>
+              <li><strong>Type the specialist name.</strong> After install, type <span class="cmd">/noor</span> <span class="cmd">/anuj</span> <span class="cmd">/arjun</span> <span class="cmd">/meera</span> <span class="cmd">/priya</span> <span class="cmd">/zara</span> <span class="cmd">/raj</span> <span class="cmd">/kavi</span> even if Claude’s menu only lists Getting Started.</li>
+              <li><strong>Project slash files land in this repo.</strong> Install writes <span class="cmd">.claude/commands</span> and <span class="cmd">.cursor/commands</span> so each persona is callable from the folder you are in.</li>
+              <li><strong>Claude MCP covers Code, not only Desktop.</strong> <span class="cmd">mcp --configure claude</span> writes Desktop, Claude Code, and this project’s MCP file when you are in a repo.</li>
+              <li><strong>Do not npm-install this package inside a workspace repo.</strong> If your folder already uses pnpm or Yarn workspaces, run the <span class="cmd">npx … --target</span> command instead. That crash is the workspace, not this team.</li>
+              <li><strong>Models did not change.</strong> Slash and MCP still use the model already in your chat. CLI <span class="cmd">run</span> still picks a strong planner and cheap chunks. See <a href="#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">which model runs</a>.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-08">August 2026</time>
+              <h3>2.3.0 — MCP for any IDE</h3>
+            </header>
+            <ul>
+              <li>19 MCP tools so the same team can run from Lovable, v0, Bolt, Replit, ChatGPT, and similar hosts.</li>
+              <li>Slash commands and MCP are different pipes. MCP never creates <span class="cmd">/noor</span>. See <a href="#call" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">how to call them</a>.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-08">August 2026</time>
+              <h3>2.2 — Project knowledge + stronger review</h3>
+            </header>
+            <ul>
+              <li>Knowledge bank is project-scoped by default. One project’s notes do not leak into another.</li>
+              <li>Premise challenge, conflict resolution, and evolution metrics on the review path.</li>
+            </ul>
+          </article>
+          <article class="log-entry older">
+            <header>
+              <time datetime="2026-07">Earlier</time>
+              <h3>2.0 — Cheap chunks by default</h3>
+            </header>
+            <p><span class="cmd">npx analyzthis_design run</span> plans on a strong model, then runs each chunk on the cheapest capable model you have. Use <span class="cmd">run-unchunked</span> for the older single-pass path.</p>
+          </article>
         </div>
-        <div class="teams">
-          <article class="team">
-            <div class="team-top"><div><span class="team-label">Architectural firm</span><h3>Drawing &amp; submission team</h3></div></div>
-            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">8–20 people</span></div>
-            <p class="team-workload">Work humans usually do: turn briefs into drawing sets, track municipal submissions, and prepare site-meeting notes.</p>
-            <ul>
-              <li>Check drawing sets against the client brief before partner review</li>
-              <li>Track municipal submission deadlines and missing sheets</li>
-              <li>Compare vendor BOQs before sign-off</li>
-              <li>Prepare site-meeting notes from field photos and mark-ups</li>
-            </ul>
-            <p class="team-foot">Partner still approves every submission.</p>
+      </div>
+    </section>
+
+    <section class="section" id="jobs">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">What you can do</span>
+          <h2>Eight jobs. One <span class="accent">installed team.</span></h2>
+          <p class="lede">Pick the job. Type the command in your AI chat. The team does the rest and stops at a human decision.</p>
+        </div>
+        <div class="jobs">
+
+          <article class="job" id="wireframe">
+            <div class="job-copy">
+              <h3>Wireframe a new screen</h3>
+              <p>When the screen does not exist yet. The team writes two competing text wireframes: a quiet, minimal one and a dense, power-user one. They argue. You pick a direction before anyone opens Figma or writes code.</p>
+              <div class="job-meta"><span>New work</span><span>/ux-ideator</span><span>/noor</span><span>/anuj</span></div>
+              <ol class="job-steps">
+                <li>You describe the user, the job, and the stack.</li>
+                <li>The team maps the task so the wireframe is not decoration.</li>
+                <li>Noor drafts the simple path. Anuj drafts the expert path.</li>
+                <li>Arjun, Meera, Zara, and Priya pressure-test both.</li>
+                <li>You get two full text wireframes plus a synthesis — not a single “nice” mock.</li>
+              </ol>
+              <p class="muted">Use <span class="cmd">/noor</span> alone for a fast minimal sketch. Use <span class="cmd">/anuj</span> alone when the user is an expert who needs density on day one.</p>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>In Cursor or Claude</span><span>Chat</span></div>
+                <pre>/ux-ideator Design a settings page for a B2B dashboard.
+Primary user: ops manager, daily use.
+Stack: Next.js + shadcn.
+Produce full text wireframes for Concept A and Concept B.</pre>
+              </div>
+            </div>
           </article>
-          <article class="team">
-            <div class="team-top"><div><span class="team-label">CA firm</span><h3>Books &amp; compliance team</h3></div></div>
-            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">5–15 people</span></div>
-            <p class="team-workload">Work humans usually do: organize client books, chase missing documents, and prepare filing packets before the partner signs.</p>
-            <ul>
-              <li>Organize client books before GST and audit work begins</li>
-              <li>Flag missing invoices and ledger mismatches early</li>
-              <li>Draft client reminder letters for pending documents</li>
-              <li>Prepare monthly partner review packets</li>
-            </ul>
-            <p class="team-foot">Partner still signs every filing.</p>
+
+          <article class="job" id="director">
+            <div class="job-copy">
+              <h3>Design, spec, then build</h3>
+              <p>When you need more than a sketch. The producer path turns ideation into a DesignSpec — layout, tokens, components, and states — then waits for gates to pass before anyone implements.</p>
+              <div class="job-meta"><span>Handoff</span><span>/design-director</span><span>/design-spec</span></div>
+              <ol class="job-steps">
+                <li>Ideation produces two concepts, same as above.</li>
+                <li>A DesignSpec is written: what goes where, which tokens, which components, which empty/error/loading states.</li>
+                <li>Hard gates check design-system fit and information hierarchy.</li>
+                <li>If a gate fails, you get a blocker and a fix — not a pretty wrong file.</li>
+                <li>Implementation starts only when you approve <span class="cmd">build</span> mode.</li>
+              </ol>
+              <p class="muted">This is the path for a senior-designer handoff. The team prepares. You still sign.</p>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>Producer path</span><span>Chat</span></div>
+                <pre>/design-director Design a notifications settings page.
+Use our shadcn components and tokens
+from the knowledge bank.
+Produce a DesignSpec. Implement only
+after spec gates pass.</pre>
+              </div>
+            </div>
           </article>
-          <article class="team">
-            <div class="team-top"><div><span class="team-label">Interior design studio</span><h3>Client delivery team</h3></div></div>
-            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">6–12 people</span></div>
-            <p class="team-workload">Work humans usually do: build material schedules, compare vendor quotes, and keep site progress aligned with the design intent.</p>
-            <ul>
-              <li>Build room-wise material schedules from mood boards</li>
-              <li>Compare vendor quotes line by line</li>
-              <li>Track site progress against the approved design</li>
-              <li>Prepare client presentation decks for approvals</li>
-            </ul>
-            <p class="team-foot">Designer still owns the final look and client relationship.</p>
+
+          <article class="job" id="critique">
+            <div class="job-copy">
+              <h3>Critique an existing design</h3>
+              <p>When the screen already exists — in code, in Figma, or as a screenshot. The team does not compliment it. They score it, object, and return SHIP, REVISE, or BLOCK with the top three fixes.</p>
+              <div class="job-meta"><span>Review</span><span>/persona-orchestrator</span><span>/design-critic</span></div>
+              <ol class="job-steps">
+                <li>Say what the user is trying to finish. Paste a URL, a file, or a frame.</li>
+                <li>A router picks the smallest useful set of specialists. Default is not “everyone.”</li>
+                <li>Ask for <span class="cmd">full</span> when you want the complete chain.</li>
+                <li>Specialists raise objections with evidence. Agreement is earned.</li>
+                <li>You get a composite score, a hierarchy check, a verdict, and ranked fixes.</li>
+              </ol>
+              <p class="muted">Do not use these commands when you want a wireframe. They review. They do not invent a new screen.</p>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>Assess only</span><span>Chat</span></div>
+                <pre>/persona-orchestrator Critique this login page
+for UX friction and hierarchy.
+Assess only — do not implement.
+
+/design-critic Full review of the invoice screen.
+Run all personas in full mode.</pre>
+              </div>
+            </div>
           </article>
-          <article class="team">
-            <div class="team-top"><div><span class="team-label">Dental clinic</span><h3>Patient care team</h3></div></div>
-            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">4–10 people</span></div>
-            <p class="team-workload">Work humans usually do: prepare visit summaries, track treatment plans, and keep insurance and follow-up paperwork moving.</p>
-            <ul>
-              <li>Prepare patient visit summaries before the doctor enters</li>
-              <li>Track treatment plans and follow-up dates</li>
-              <li>Organize insurance paperwork for billing staff</li>
-              <li>Send post-visit care instructions consistently</li>
-            </ul>
-            <p class="team-foot">Doctor still makes every clinical decision.</p>
+
+          <article class="job" id="stories">
+            <div class="job-copy">
+              <h3>Review against a PRD or user story</h3>
+              <p>When “does this look good?” is the wrong question. The story gate asks whether a real person can finish a real job, using your PRDs, Figma, and design system as ground — not vibes.</p>
+              <div class="job-meta"><span>Task-first</span><span>/ux-story-gate</span></div>
+              <ol class="job-steps">
+                <li>The team looks for PRDs, stories, and design-system files in the project.</li>
+                <li>It builds a task map: trigger, steps, decision, done.</li>
+                <li>It routes only the specialists that job needs.</li>
+                <li>Optional browser check confirms the live screen matches the claim.</li>
+                <li>Assess-only mode keeps implementation off until you ask.</li>
+              </ol>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>Story gate</span><span>Chat</span></div>
+                <pre>/ux-story-gate Review the invoice approval
+screen against the Q3 billing PRD.
+Can an AP clerk finish one invoice
+without a workaround?</pre>
+              </div>
+            </div>
           </article>
-          <article class="team">
-            <div class="team-top"><div><span class="team-label">Law chamber</span><h3>Case preparation team</h3></div></div>
-            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">3–8 people</span></div>
-            <p class="team-workload">Work humans usually do: organize case facts, track filing dates, and draft first-pass client updates for senior counsel.</p>
-            <ul>
-              <li>Organize case facts from client documents</li>
-              <li>Track filing dates and court deadlines</li>
-              <li>Draft first-pass client update emails</li>
-              <li>Prepare hearing briefs for senior counsel review</li>
-            </ul>
-            <p class="team-foot">Counsel still argues every case.</p>
+
+          <article class="job" id="mood">
+            <div class="job-copy">
+              <h3>Set visual direction</h3>
+              <p>A collage of real software, not AI comps. Zara cuts 20–24 elements — a pricing card, a table header, a type pairing — from 6+ live sites, with each site's real colours and fonts. The team advises. <strong>You decide.</strong></p>
+              <div class="job-meta"><span>Direction</span><span>/mood-board</span><span>/zara</span></div>
+              <ol class="job-steps">
+                <li>You confirm the brief: the job, three feel words, one “not this”.</li>
+                <li>Zara crops real elements into sections: first screen, type, colour, components, imagery, motion. For motion she films the page scrolling.</li>
+                <li>Arjun, Noor, Priya and Meera vote keep or skip on each tile — as advice.</li>
+                <li>A clickable board opens on your machine. Keep, maybe, or reject each tile. Your choice overrides every persona.</li>
+                <li>Send Zara back with a note, as often as you like, or lock the direction. Every persona reads it before designing.</li>
+              </ol>
+              <p class="muted"><a href="#proof">See a real board</a> · Crops and films need <span class="cmd">playwright-core</span> and Google Chrome.</p>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>Visual board</span><span>Chat</span></div>
+                <pre>/mood-board invoice approval table.
+Calm, precise, trusted.
+Not this: AI purple SaaS hero.
+
+Zara crops. The team advises.
+You keep, maybe, or reject.
+Lock it. Every persona follows.</pre>
+              </div>
+            </div>
           </article>
-          <article class="team">
-            <div class="team-top"><div><span class="team-label">Manufacturing SME</span><h3>Orders &amp; accounts team</h3></div></div>
-            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">15–40 people</span></div>
-            <p class="team-workload">Work humans usually do: match purchase orders to invoices, follow up on dispatch, and flag stock and payment issues before month-end.</p>
-            <ul>
-              <li>Match purchase orders to incoming invoices</li>
-              <li>Track dispatch and delivery follow-ups</li>
-              <li>Prepare weekly stock and reorder notes</li>
-              <li>Flag vendor payment mismatches before accounts closes</li>
-            </ul>
-            <p class="team-foot">Owner still approves payments and orders.</p>
+
+          <article class="job" id="kavi">
+            <div class="job-copy">
+              <h3>Index the project before opinions</h3>
+              <p>Kavi is not a critic. Kavi is the archivist. Run this once per repo so every later command reads your brand, PRDs, components, and past decisions — instead of inventing a generic app.</p>
+              <div class="job-meta"><span>Grounding</span><span>/kavi</span><span>collect</span></div>
+              <ol class="job-steps">
+                <li>Kavi scans the repo: pages, tokens, components, research, stack.</li>
+                <li>It writes an Obsidian-compatible vault on your machine.</li>
+                <li>Optional: an LLM enriches the notes. Without keys, the draft vault still lands.</li>
+                <li>The knowledge bank syncs into <strong>this project’s</strong> local skills folder — not a global merge that entangles other vaults.</li>
+                <li>You can connect an existing vault. Use <span class="cmd">--global</span> only when you deliberately want cross-project blending.</li>
+              </ol>
+              <p class="muted">If you skip Kavi, the team still runs — it just guesses more. Ground first.</p>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>Once per project</span><span>Terminal</span></div>
+                <pre>npx analyzthis_design collect --target all
+
+# Knowledge bank lands in this project:
+# .cursor/skills/knowledge-bank/SKILL.md
+
+npx analyzthis_design connect \
+  --vault ~/Documents/MyVault
+npx analyzthis_design sync --target cursor
+
+# Legacy cross-project merge (opt-in only):
+npx analyzthis_design sync --global --target all</pre>
+              </div>
+            </div>
           </article>
+
+          <article class="job" id="run">
+            <div class="job-copy">
+              <h3>Run the team without paying for extra keys</h3>
+              <p>The CLI can drive the same graph from the terminal. Default v2.0 mode plans on a strong model, then runs small chunks on cheap or free models — including local Ollama. If you set no keys at all, Devi asks your host IDE to voice each specialist. Slash commands do not pick a model — <a href="#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">see how models are picked</a>.</p>
+              <div class="job-meta"><span>CLI</span><span>run</span><span>/devi</span></div>
+              <ol class="job-steps">
+                <li>Start a run with a task in plain language.</li>
+                <li>A planner breaks the work into chunks. The planner stays strong on purpose.</li>
+                <li>Chunks go to local, free, or cheap models. Results merge into one verdict.</li>
+                <li>In host mode, pending prompts wait. Type <span class="cmd">/devi</span> in Cursor or Claude. Continue the run.</li>
+                <li>Telemetry remembers which models actually worked for each chunk type.</li>
+              </ol>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>v2.0 default</span><span>Terminal</span></div>
+                <pre>npx analyzthis_design run \
+  --task "Review invoice approval screen"
+
+npx analyzthis_design run \
+  --task "Review invoice screen" --budget free
+
+npx analyzthis_design run-unchunked \
+  --task "Review invoice screen" --provider host
+# then in Cursor: /devi
+npx analyzthis_design run-unchunked --continue \
+  --task "Review invoice screen" --full</pre>
+              </div>
+            </div>
+          </article>
+
+          <article class="job" id="evolve">
+            <div class="job-copy">
+              <h3>Let the team learn — with your approval</h3>
+              <p>Tell the system what landed and each persona&rsquo;s score moves &mdash; up when the advice ships, down when it needed rework or missed. Devi leans on the personas that earn it. Patches are still proposed, never applied: nothing becomes canonical until you review it. Silent self-rewrite is not allowed.</p>
+              <div class="job-meta"><span>Learning</span><span>evolve</span><span>outcome</span></div>
+              <ol class="job-steps">
+                <li>The persona asks at the end of its note. Answer in plain language &mdash; <span class="cmd">yes</span>, or <span class="cmd">no</span> plus one sentence.</li>
+                <li>Works in chat, in the terminal, and on Claude Desktop &mdash; which has neither slash commands nor a shell. Optional: <span class="cmd">/share</span> sends a redacted correction to the package.</li>
+                <li>Lessons come from rejected notes too &mdash; your correction is the most useful thing the team gets. Each is scored, de-duplicated, and tagged.</li>
+                <li>The system proposes patches. You see the diff.</li>
+                <li>You accept or reject. The team does not evolve in the dark.</li>
+                <li>Each persona&rsquo;s score moves, and Devi leans on the ones that earn it. Check the board with <span class="cmd">scores</span> &mdash; it shows why a persona fell, not just that it did.</li>
+              </ol>
+            </div>
+            <div class="job-side">
+              <div class="code-card">
+                <div class="code-head"><span>Human-reviewed</span><span>Terminal</span></div>
+                <pre>/accept yes
+/share
+npx analyzthis_design scores</pre>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="team">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">The roster</span>
+          <h2>One job each. No <span class="accent">“do everything.”</span></h2>
+          <p class="lede">Eight specialists, each with one job. For a full screen, use the orchestrator so they speak in order. Raj challenges the premise or closes a deadlock. Devi — below — is not a ninth critic; she is the host that voices them when you have no extra API keys.</p>
+        </div>
+        <div class="personas">
+          <article class="persona"><div class="persona-id" style="--agent:var(--cyan)">KV</div><small>/kavi</small><h3>Kavi</h3><p>Knowledge archivist. Scans the repo, builds a vault, fills the knowledge bank. Speaks before opinions form. Not a critic.</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--blue)">AR</div><small>/arjun</small><h3>Arjun</h3><p>UX and visual design. Hierarchy, color, type, spacing, components, accessibility, style fit, and the one interaction that is doing too much work.</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--orange)">ME</div><small>/meera</small><h3>Meera</h3><p>Business. Retention, adoption risk, whether the hierarchy matches the north-star metric. Will kill a pretty screen that does not move the number.</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--green)">PR</div><small>/priya</small><h3>Priya</h3><p>Feasibility. T-shirt effort, state-machine traps, what will slip the sprint. Protects you from a design that cannot be built this quarter.</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--purple)">ZA</div><small>/zara</small><h3>Zara</h3><p>Delight. Exactly one peak moment. Will not “fix contrast” and call it joy. Contrast goes back to Arjun and the design-system gate.</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--ink)">NO</div><small>/noor</small><h3>Noor</h3><p>Minimalist IA. Progressive disclosure, one primary action, a ranked information hierarchy that is declared out loud.</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--red)">AN</div><small>/anuj</small><h3>Anuj</h3><p>Power-user advocate. Density, bulk actions, keyboard shortcuts. Will not hide expert tools behind a wizard “for simplicity.”</p></article>
+          <article class="persona"><div class="persona-id" style="--agent:var(--yellow);color:#000">RJ</div><small>/raj</small><h3>Raj</h3><p>Arbitrator and premise challenger. Can run first to ask “are we solving the right problem?” When specialists deadlock, he resolves with five ranked product principles — never by summarizing both sides.</p></article>
+          <article class="persona host"><div class="persona-id" style="--agent:var(--ink);background:#fff;color:var(--ink)">DV</div><div><small>/devi</small><h3>Devi — the voice of the LLM you’re already using</h3><p>Not a ninth critic. Devi is the host runtime. When you have no extra API keys, the other eight personas write their prompts to a queue and Devi voices each response from the model in your Cursor, Claude, or Codex — the same model you are already chatting with. The team still runs; you just provide the voice.</p><div class="host-flow"><span>8 personas</span><span class="arrow">→</span><span class="dot"></span><span>Devi</span><span class="arrow">→</span><span>your model</span></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="call">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Call them correctly</span>
+          <h2>Slash commands and MCP are <span class="accent">not the same.</span></h2>
+          <p class="lede">The team is one package. How you call a specialist depends on which window you opened. MCP never creates <span class="cmd">/noor</span>. Claude’s slash menu may only show Getting Started even when every skill is already on disk.</p>
+        </div>
+        <div class="call-grid">
+          <article class="call-card">
+            <small>Rank 1 — Cursor</small>
+            <h3>Type the slash name</h3>
+            <p>Skills land in ~/.cursor/skills. The primary action is the command, not the MCP hammer. MCP tools are extra, with different names.</p>
+            <p class="call-do">npx analyzthis_design install --target cursor<br>then type /noor</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 1 — Claude Code</small>
+            <h3>Install, then type /noor anyway</h3>
+            <p>Files go to ~/.claude/skills and this repo’s .claude/commands. Claude’s menu may only show Getting Started — type <span class="cmd">/noor</span>. Install also wires Claude Code MCP.</p>
+            <p class="call-do">npx analyzthis_design install --target claude<br>then type /noor</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 2 — Claude Desktop</small>
+            <h3>Tools, not slashes</h3>
+            <p>Enable the analyzthis_design MCP server. Call <span class="cmd">analyzthis_noor</span>. Configure writes Desktop and Claude Code. claude.ai still needs a connected session.</p>
+            <p class="call-do">npx analyzthis_design mcp --configure claude<br>ask: use the Noor tool</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 3 — Other catalogs</small>
+            <h3>A matching name is not this team</h3>
+            <p>Your host may ship or recommend its own skills. A similar title in a marketplace, built-in list, or another plugin is a different file. This team is the one you installed into your skills folder.</p>
+            <p class="call-do">npx analyzthis_design list --target cursor<br>or --target claude — confirm the names landed</p>
+          </article>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><span>Either form installs</span><span>Terminal</span></div>
+          <pre># Both copy skills into Claude Code
+npx analyzthis_design --target claude
+npx analyzthis_design install --target claude
+
+# See what landed, then type /noor
+npx analyzthis_design list --target claude</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="models">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Which model runs</span>
+          <h2>Slash does not pick a <span class="accent">model.</span></h2>
+          <p class="lede">Personas are voices, not brands of LLM. Chat and MCP use the model already in your window. The CLI picks automatically by hardness and budget — not “Noor gets one model, Arjun another.”</p>
+        </div>
+        <div class="call-grid">
+          <article class="call-card">
+            <small>Rank 1 — Chat</small>
+            <h3>Your current IDE model</h3>
+            <p>Type <span class="cmd">/noor</span> or call an MCP tool. Same model that is already answering. Devi is that model speaking as each specialist.</p>
+            <p class="call-do">Type /noor in Cursor or Claude Code</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 1 — CLI default</small>
+            <h3>Strong planner, cheap chunks</h3>
+            <p>A frontier-class planner stays strong on purpose. Each chunk then takes the cheapest capable model you have: local first, then free, then cheap paid if you allow it.</p>
+            <p class="call-do">npx analyzthis_design run --task "Review this screen"</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 2 — No extra keys</small>
+            <h3>Force free, or use the host</h3>
+            <p>No API keys means host mode. Devi fills pending replies in your IDE. <span class="cmd">--budget free</span> keeps chunks on local and free endpoints only.</p>
+            <p class="call-do">run --budget free<br>or run-unchunked --provider host + /devi</p>
+          </article>
+          <article class="call-card">
+            <small>Rank 3 — Safety</small>
+            <h3>Gates stay strong. You can lock one.</h3>
+            <p>Design-system, hierarchy, and verify gates never run on a cheapened model. Hardness is easy / usual / hard — not a favorite LLM per persona. Override with flags or config tiers.</p>
+            <p class="call-do">--provider host --model …<br>or edit ~/.analyzthis_design/config.json</p>
+          </article>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><span>Pick a lane</span><span>Terminal</span></div>
+          <pre># Automatic: strong planner, cheapest capable chunks
+npx analyzthis_design run --task "Review the invoice screen"
+
+# Local and free endpoints only
+npx analyzthis_design run --task "Review the invoice screen" --budget free
+
+# One host model via Devi — full continue steps on #run
+npx analyzthis_design run-unchunked --task "Review the invoice screen" --provider host</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mcp">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Universal access</span>
+          <h2>Same team. MCP is a <span class="accent">tool list.</span></h2>
+          <p class="lede">Default MCP catalog is lite: router (analyzthis_design), retrieve, session, receipt. Named tools like analyzthis_noor are still there behind <span class="cmd">mcp --catalog full</span>. Cursor and Windsurf get MCP on skill install. <span class="cmd">mcp --configure claude</span> writes Desktop, Claude Code, and this repo’s .mcp.json. Lovable, v0, Bolt, Replit, and ChatGPT get a snippet.</p>
+        </div>
+        <div class="mcp-grid">
+          <article class="mcp-tile"><div class="mcp-count">4</div><b>Lite catalog</b><p>Router, retrieve, session, receipt — the default Desktop and Code list.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">8</div><b>Personas</b><p>Ask the router for Zara, Arjun, Noor, and the rest. Named tools stay behind --catalog full.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">1</div><b>Receipt</b><p>Inferred tokens after each MCP turn. Not a bill. Slash: /receipt.</p></article>
+          <article class="mcp-tile"><div class="mcp-count">0</div><b>Proxy</b><p>Runs locally via stdio. Optional: wrap through Caveman shrink if you already use it.</p></article>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><span>MCP setup</span><span>Terminal</span></div>
+          <pre># Start the local MCP server
+npx analyzthis_design mcp
+
+# Auto-config for your IDE
+npx analyzthis_design mcp --configure cursor
+npx analyzthis_design mcp --configure claude
+npx analyzthis_design mcp --configure windsurf
+
+# Copy-paste config for other MCP clients
+npx analyzthis_design mcp --configure lovable
+npx analyzthis_design mcp --configure v0
+
+# Old 19-tool list (escape hatch)
+npx analyzthis_design mcp --catalog full
+
+# Skills + MCP config for Cursor / Desktop / Windsurf
+npx analyzthis_design install --target all --force</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="commands">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Command map</span>
+          <h2>What to type when you <span class="accent">know the job.</span></h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>I want to…</th><th>Type this</th><th>What comes back</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Find the right command</td><td><span class="cmd">/getting-started</span></td><td>A first-run guide: wireframe vs critique</td></tr>
+              <tr><td>Wireframe a new screen</td><td><span class="cmd">/ux-ideator</span></td><td>Two competing text wireframes + synthesis</td></tr>
+              <tr><td>Quick minimal sketch</td><td><span class="cmd">/noor</span></td><td>Concept A — one primary action</td></tr>
+              <tr><td>Dense expert layout</td><td><span class="cmd">/anuj</span></td><td>Concept B — bulk actions, shortcuts</td></tr>
+              <tr><td>Spec and optional build</td><td><span class="cmd">/design-director</span></td><td>DesignSpec, gates, then code if you approve</td></tr>
+              <tr><td>Critique a live screen</td><td><span class="cmd">/persona-orchestrator</span></td><td>SHIP / REVISE / BLOCK + top 3 fixes</td></tr>
+              <tr><td>Full four-persona review</td><td><span class="cmd">/design-critic</span></td><td>Composite score + hierarchy gate</td></tr>
+              <tr><td>Check against a PRD</td><td><span class="cmd">/ux-story-gate</span></td><td>Task map, routing, optional browser verify</td></tr>
+              <tr><td>Set visual direction</td><td><span class="cmd">/mood-board</span></td><td>A clickable board of real crops. The team advises; you keep or reject.</td></tr>
+              <tr><td>Ground the repo</td><td><span class="cmd">/kavi</span></td><td>Vault + project-local knowledge bank</td></tr>
+              <tr><td>Run from any MCP IDE</td><td><span class="cmd">npx analyzthis_design mcp</span></td><td>Lite catalog: router + retrieve + session + receipt</td></tr>
+              <tr><td>Keep or skip the last note</td><td><span class="cmd">/accept</span></td><td>Yes or no. Local evolution — no CLI flags</td></tr>
+              <tr><td>Send a correction to the package</td><td><span class="cmd">/share</span></td><td>Preview, then yes. Redacted. GitHub or HTTP</td></tr>
+              <tr><td>See inferred token spend</td><td><span class="cmd">/receipt</span></td><td>Not a bill. Same as npx analyzthis_design receipt</td></tr>
+              <tr><td>Auto-config MCP for Cursor</td><td><span class="cmd">mcp --configure cursor</span></td><td>Writes MCP config to your IDE</td></tr>
+              <tr><td>Check if team can evolve</td><td><span class="cmd">evolve --ready</span></td><td>Readiness + per-persona scores</td></tr>
+              <tr><td>See evolution dashboard</td><td><span class="cmd">scores</span></td><td>Novice → Expert per persona</td></tr>
+              <tr><td>Legacy global knowledge sync</td><td><span class="cmd">sync --global</span></td><td>Merged cross-project bank (opt-in)</td></tr>
+              <tr><td>One specialist’s view</td><td><span class="cmd">/arjun</span> <span class="cmd">/meera</span> <span class="cmd">/priya</span> <span class="cmd">/zara</span></td><td>A single-lens follow-up, after grounding</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">How a critique run works</span>
+          <h2>Gates, not <span class="accent">vibes.</span></h2>
+          <p class="lede">A full critique is a graph, not a chat. The same graph runs from your IDE or from the CLI.</p>
+        </div>
+        <div class="flow">
+          <article class="flow-row" style="--step:#fff5be"><div class="flow-no">00</div><div><small>Premise</small><h3>Raj may question the framing</h3><p>Before planning starts, the planner can add a premise check: are we solving the right problem? Accepting the task without questioning it is forbidden.</p></div></article>
+          <article class="flow-row" style="--step:var(--orange-soft)"><div class="flow-no">01</div><div><small>Intake</small><h3>You name the task</h3><p>A Figma URL, a file, a screenshot, or a sentence. The story gate looks for PRDs and the design system before anyone opines.</p></div></article>
+          <article class="flow-row" style="--step:#dfe7ff"><div class="flow-no">02</div><div><small>Route</small><h3>The smallest useful team</h3><p>A mixture-of-experts router picks who speaks. Full chain only when you ask. Extra agents cost coordination, so they must earn a seat.</p></div></article>
+          <article class="flow-row" style="--step:#ffe3e1"><div class="flow-no">03</div><div><small>Deliberate</small><h3>Disagreement is required</h3><p>Specialists object in parallel, cite evidence, and cannot repeat themselves on a re-run. Synthesis picks a winner — not a summary of both sides.</p></div></article>
+          <article class="flow-row" style="--step:#eee3fb"><div class="flow-no">04</div><div><small>Delight + deadlock</small><h3>Zara, then Raj if needed</h3><p>Delight is one peak, not a polish pass. Raj closes structural deadlocks with ranked principles — or challenged the premise in step 00.</p></div></article>
+          <article class="flow-row" style="--step:#e2f5e9"><div class="flow-no">05</div><div><small>Gate</small><h3>SHIP / REVISE / BLOCK</h3><p>Design-system, hierarchy, and verify gates do not downgrade. A failed standard is a blocker with a correction, not a suggestion in a footnote.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Where it runs</span>
+          <h2>Same team. Different <span class="accent">hosts.</span></h2>
+          <p class="lede">Install once per machine. Skills are plain SKILL.md files. MCP is a separate tool list — it does not fill the slash menu. Only the invoke prefix changes.</p>
+        </div>
+        <div class="hosts">
+          <article class="host"><b>Cursor</b><p>Skills in ~/.cursor/skills. Type /noor. MCP is optional extra tools.</p></article>
+          <article class="host"><b>Claude Code</b><p>Skills in ~/.claude/skills. Type /noor even if only Getting Started is listed. MCP configure writes Claude Code as well as Desktop.</p></article>
+          <article class="host"><b>Codex CLI</b><p>Skills in ~/.codex/skills. Reference them from AGENTS.md.</p></article>
+          <article class="host"><b>Grok Build</b><p>Skills in ~/.grok/skills. Slash commands.</p></article>
+          <article class="host"><b>Windsurf</b><p>Skills in the Windsurf folder. MCP auto-configured. Invoke with @, not /.</p></article>
+          <article class="host"><b>OpenCode</b><p>Skills in ~/.config/opencode/skills. Ask for a skill by name.</p></article>
+          <article class="host"><b>Kiro</b><p>Skills in ~/.kiro/skills. Ask for a skill by name.</p></article>
+          <article class="host"><b>Trae</b><p>Skills in ~/.trae/skills (China edition: ~/.trae-cn/skills). Global tab in the Skills panel.</p></article>
+          <article class="host"><b>Browser tools</b><p>Lovable, v0, Bolt, Replit, ChatGPT — they cannot run a local MCP server. Paste the team in from <a href="#install-lovable">the tool picker</a>.</p></article>
+          <article class="host"><b>CLI</b><p>npx analyzthis_design run — host-agnostic, with or without keys.</p></article>
         </div>
       </div>
     </section>
 
     <section class="section trust">
       <div class="wrap">
-        <div class="section-head"><span class="eyebrow light">Control and trust</span><h2>Automation without <span class="accent">abdication.</span></h2><p class="lede" style="color:#d7d3ca">Lab products ship as plain source with consent-based evolution. Custom teams can follow the same principles.</p></div>
+        <div class="section-head">
+          <span class="eyebrow">Trust</span>
+          <h2 style="color:#fff">Open source on <span class="accent">purpose.</span></h2>
+        </div>
         <div class="trust-grid">
-          <article class="trust-item"><b>Clear boundaries</b><p>Every role has allowed jobs, forbidden jobs, and an explicit output contract.</p></article>
-          <article class="trust-item"><b>Human checkpoints</b><p>Assess-only modes and approval gates keep implementation under your control.</p></article>
-          <article class="trust-item"><b>Model choice</b><p>Use host models, local Ollama, free endpoints, or selected paid providers based on the task.</p></article>
-          <article class="trust-item"><b>Auditable system</b><p>Lab products like analyzthis_design ship readable source with no hidden auto-install behavior.</p></article>
+          <article class="trust-item"><b>MIT license</b><p>Use it, fork it, read every file. The published package is plain source — no obfuscation, no minified surprise.</p></article>
+          <article class="trust-item"><b>Consent-based install</b><p>npm install does not write into your AI folders. Skills land only when you run npx analyzthis_design install --target.</p></article>
+          <article class="trust-item"><b>You still sign</b><p>Assess-only modes and hard gates keep implementation off until you approve. The team prepares. You decide.</p></article>
+          <article class="trust-item"><b>No required API bill</b><p>Host mode uses the model you already pay for in Cursor or Claude. Local Ollama and free endpoints are first-class.</p></article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="faq">
+    <section class="section" id="install">
       <div class="wrap">
-        <div class="section-head"><span class="eyebrow light">Questions</span><h2>Before we map your <span class="accent">workflow.</span></h2></div>
-        <div class="faq">
-          <details><summary>Is Analyzthis just one product?</summary><p>No. Analyzthis is a lab. We ship focused team products such as analyzthis_design and analyzthis_product, and we also design custom teams when a workflow needs its own roster.</p></details>
-          <details><summary>Is this a generic chatbot setup service?</summary><p>No. The unit of design is the workflow: specialist roles, scoped knowledge, handoffs, failure behavior, quality gates, and outcome feedback. A chat interface may be one entry point, but it is not the architecture.</p></details>
-          <details><summary>Does every workflow need many agents?</summary><p>No. We use the smallest useful team. A narrow process may need two roles and one gate. Extra agents add coordination cost, so every role must earn its place.</p></details>
-          <details><summary>Will you replace our current tools?</summary><p>Usually not. The goal is to work inside or alongside the tools your team already trusts. Discovery includes your current software, data boundaries, and deployment constraints.</p></details>
-          <details><summary>What changed in analyzthis_design 2.5.2?</summary><p>Personas cite real motion and UI libraries and prefer whatever is already in your repo. Kavi records that list on collect. 2.5.1 still stands for anti-slop craftsmanship. 2.5.0 still stands for keep/skip scores. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
-          <details><summary>What changed in analyzthis_design 2.4.0?</summary><p>Claude Code and Desktop spend fewer tokens per verdict. MCP defaults to a small router instead of 19 tools (use <code>mcp --catalog full</code> for the old list). Every MCP turn gets an inferred receipt — not a bill. Skills load a short front; retrieve the rest. Knowledge bank is an index, not a dump. Type <code>/receipt</code> or run <code>npx analyzthis_design receipt</code>. Full list: <a href="design.html#whats-new" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">What's new</a>.</p></details>
-          <details><summary>Do I need Cursor or Claude?</summary><p>No. Cursor, Claude Code, Claude Desktop, Windsurf, Codex and Grok each install with one command. Lovable, v0, Bolt, Replit and ChatGPT install nothing at all &mdash; you copy the team in as a system prompt. Pick your tool on the <a href="design.html#install">design team page</a>. Beyond that, this applies only to lab products such as analyzthis_design. A custom team for a practice does not ask you to install a coding tool. We start from the software you already open.</p></details>
-          <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. In chat, personas use the model already in Cursor or Claude. Automatic model picking happens only on the CLI <code>run</code> command. Your final setup depends on volume, privacy needs, latency, and required model quality. <a href="design.html#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">How models are picked</a>.</p></details>
-          <details><summary>How do you keep quality under human control?</summary><p>We define assess-only stages, approval gates, explicit verdicts, and human-reviewed evolution. The system can recommend a change; you decide whether it becomes canonical.</p></details>
-          <details><summary>What happens after I submit the form?</summary><p>We review the workflow, tools, and desired outcome you describe. If the use case is a fit, the confirmation screen will invite you to book a discovery call.</p></details>
+        <div class="section-head">
+          <span class="eyebrow light">Install</span>
+          <h2>Pick your tool. <span class="accent">Get only your steps.</span></h2>
+          <p class="lede">Node.js 16 or newer for anything with a terminal &mdash; and nothing at all if you work in the browser. Every tool below has a different path; you only need yours.</p>
         </div>
-      </div>
-    </section>
+        <div class="tool-picker" role="group" aria-label="Choose your tool">
+            <button class="tool-pick is-active" type="button" data-pick="cursor" aria-pressed="true">Cursor</button>
+            <button class="tool-pick" type="button" data-pick="claude-code" aria-pressed="false">Claude Code</button>
+            <button class="tool-pick" type="button" data-pick="claude-desktop" aria-pressed="false">Claude Desktop</button>
+            <button class="tool-pick" type="button" data-pick="windsurf" aria-pressed="false">Windsurf</button>
+            <button class="tool-pick" type="button" data-pick="codex" aria-pressed="false">Codex CLI</button>
+            <button class="tool-pick" type="button" data-pick="grok" aria-pressed="false">Grok Build</button>
+            <button class="tool-pick" type="button" data-pick="opencode" aria-pressed="false">OpenCode</button>
+            <button class="tool-pick" type="button" data-pick="kiro" aria-pressed="false">Kiro</button>
+            <button class="tool-pick" type="button" data-pick="trae" aria-pressed="false">Trae</button>
+            <button class="tool-pick" type="button" data-pick="lovable" aria-pressed="false">Lovable</button>
+            <button class="tool-pick" type="button" data-pick="v0" aria-pressed="false">v0</button>
+            <button class="tool-pick" type="button" data-pick="bolt" aria-pressed="false">Bolt</button>
+            <button class="tool-pick" type="button" data-pick="replit" aria-pressed="false">Replit</button>
+            <button class="tool-pick" type="button" data-pick="chatgpt" aria-pressed="false">ChatGPT</button>
+        </div>
+        <div class="tool-cards">
+          <div class="tool-card" data-tool="cursor" hidden>
+            <h3>Cursor</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target cursor
 
-    <section class="section intake" id="intake">
-      <div class="wrap intake-grid">
-        <div class="intake-copy">
-          <span class="eyebrow">Start with the workflow</span>
-          <h2>What should your team <span class="accent" style="color:#fff">take off your plate?</span></h2>
-          <p class="lede">Tell us about one repeatable workflow. We will use the detail to prepare a focused discovery conversation—not a generic sales call.</p>
-          <div class="privacy-note"><strong>What we collect:</strong><span>Contact details and workflow answers, saved as you go—even if you leave before the last step. Form views are counted on our own server; no cookies or third-party trackers.</span></div>
-        </div>
-        <div class="form-shell">
-          <div class="form-head"><strong>Team discovery</strong><span class="progress" id="progress-label">Step 1 of 3</span></div>
-          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
-          <form id="lead-form" novalidate>
-            <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-            <section class="form-step" data-step="1" aria-labelledby="step-one-title">
-              <h3 id="step-one-title">First, who are we designing for?</h3>
-              <div class="field-grid">
-                <div class="field"><label for="fullName">Full name <span class="required">*</span></label><input id="fullName" name="fullName" type="text" autocomplete="name" maxlength="100" required><span class="error" id="fullName-error"></span></div>
-                <div class="field"><label for="email">Work email <span class="required">*</span></label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="160" required><span class="error" id="email-error"></span></div>
-                <div class="field"><label for="company">Company / organization</label><input id="company" name="company" type="text" autocomplete="organization" maxlength="120"><span class="error" id="company-error"></span></div>
-                <div class="field"><label for="role">Profession / role <span class="required">*</span></label><input id="role" name="role" type="text" autocomplete="organization-title" maxlength="120" placeholder="e.g. Architect, CA partner, clinic owner" required><span class="error" id="role-error"></span></div>
-              </div>
-              <div class="form-actions"><span></span><button class="btn primary" type="button" data-next>Continue <span aria-hidden="true">→</span></button></div>
-            </section>
-            <section class="form-step" data-step="2" aria-labelledby="step-two-title" hidden>
-              <h3 id="step-two-title">Now, map the work.</h3>
-              <div class="field-grid">
-                <div class="field full"><label for="workflow">Which repeatable workflow should move faster? <span class="required">*</span></label><textarea id="workflow" name="workflow" maxlength="1200" placeholder="Describe the trigger, inputs, decisions, and current output." required></textarea><span class="error" id="workflow-error"></span></div>
-                <div class="field full"><label for="tools">What tools and information does it use?</label><input id="tools" name="tools" type="text" maxlength="400" placeholder="e.g. Google Drive, Notion, HubSpot, internal SOPs"><span class="error" id="tools-error"></span></div>
-                <div class="field"><label for="frequency">How often does this happen? <span class="required">*</span></label><select id="frequency" name="frequency" required><option value="">Select one</option><option>Multiple times a day</option><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Ad hoc</option></select><span class="error" id="frequency-error"></span></div>
-                <div class="field"><label for="teamSize">People involved</label><select id="teamSize" name="teamSize"><option value="">Select one</option><option>Just me</option><option>2–5</option><option>6–20</option><option>21–100</option><option>100+</option></select><span class="error" id="teamSize-error"></span></div>
-                <div class="field"><label for="timeline">When would you like to start?</label><select id="timeline" name="timeline"><option value="">Select one</option><option>As soon as possible</option><option>Within 30 days</option><option>Within 3 months</option><option>Exploring for later</option></select><span class="error" id="timeline-error"></span></div>
-              </div>
-              <div class="form-actions"><button class="btn" type="button" data-back><span aria-hidden="true">←</span> Back</button><button class="btn primary" type="button" data-next>Continue <span aria-hidden="true">→</span></button></div>
-            </section>
-            <section class="form-step" data-step="3" aria-labelledby="step-three-title" hidden>
-              <h3 id="step-three-title">How will we know it worked?</h3>
-              <div class="field-grid">
-                <div class="field full"><label for="successSignal">How do you know this workflow succeeded today?</label><textarea id="successSignal" name="successSignal" maxlength="800" placeholder="e.g. Partner signed the GST packet in one review."></textarea><span class="error" id="successSignal-error"></span></div>
-                <div class="field full"><label for="failureMode">What goes wrong most often?</label><textarea id="failureMode" name="failureMode" maxlength="600" placeholder="e.g. A missing invoice turns up after the partner has already reviewed."></textarea><span class="error" id="failureMode-error"></span></div>
-                <div class="field full"><label for="outcome">What would “worth paying for” look like in 90 days? <span class="required">*</span></label><textarea id="outcome" name="outcome" maxlength="800" placeholder="e.g. Filings on time, partner review under 20 minutes, no missing docs after sign-off." required></textarea><span class="error" id="outcome-error"></span></div>
-                <div class="field full check"><input id="consent" name="consent" type="checkbox" required><div><label for="consent">I agree to be contacted about this inquiry. <span class="required">*</span></label><div class="error" id="consent-error"></div></div></div>
-              </div>
-              <div class="form-actions"><button class="btn" type="button" data-back><span aria-hidden="true">←</span> Back</button><button class="btn primary" type="submit" id="submit-lead">Send my workflow</button></div>
-              <p class="form-note">Please do not submit confidential client information, credentials, health data, financial account data, or other sensitive personal information.</p>
-            </section>
-          </form>
-          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
-          <div class="success-panel" id="success-panel" hidden>
-            <div class="success-mark" aria-hidden="true">✓</div>
-            <h3>Your workflow is in the queue.</h3>
-            <p>Thank you. The next step is a focused discovery call to map the roles, knowledge, and quality gates your team needs.</p>
-            <a class="btn primary" id="booking-link" href="#" target="_blank" rel="noopener" aria-disabled="true">Booking link coming soon</a>
-            <p class="form-note" id="booking-note">Calendar booking is not configured yet. We will contact you using the email submitted above.</p>
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+<div class="code-card" style="margin-top:14px">
+              <div class="code-head"><span>Optional &mdash; MCP tools</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure cursor</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">/noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Skills land in <code>~/.cursor/skills/</code>. Slash commands also go into the project's <code>.cursor/commands/</code>.</p>
+          </div><div class="tool-card" data-tool="claude-code" hidden>
+            <h3>Claude Code</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target claude
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+<div class="code-card" style="margin-top:14px">
+              <div class="code-head"><span>Optional &mdash; MCP tools</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure claude</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">/noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Claude's menu may only list Getting Started &mdash; type <code>/noor</code> anyway, it works.</p>
+          </div><div class="tool-card" data-tool="claude-desktop" hidden>
+            <h3>Claude Desktop</h3>
+            <p class="tool-then">Claude Desktop has <strong>no terminal and no slash commands</strong>. It reaches the team through MCP tools instead. Run this once in your Mac or Windows terminal &mdash; not in Claude:</p>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once, then restart Claude</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure claude</pre>
+            </div>
+            <p class="tool-then"><strong>Then just ask in plain language</strong> &mdash; &ldquo;have Zara look at this screen&rdquo;. Claude picks the tool. You will see five:
+              <span class="cmd">analyzthis_design</span> <span class="cmd">analyzthis_accept</span>
+              <span class="cmd">analyzthis_retrieve</span> <span class="cmd">analyzthis_session</span>
+              <span class="cmd">analyzthis_receipt</span>.</p>
+            <p class="muted"><code>/noor</code> will never work here &mdash; that is a slash command, and Desktop has none. Keep or skip still works: say the note was right or wrong and Claude records it with <code>analyzthis_accept</code>, so scores move exactly as they do in the terminal.</p>
+          </div><div class="tool-card" data-tool="windsurf" hidden>
+            <h3>Windsurf</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target windsurf
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+<div class="code-card" style="margin-top:14px">
+              <div class="code-head"><span>Optional &mdash; MCP tools</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design mcp --configure windsurf</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">@noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Windsurf Cascade uses <strong>@</strong>, not <strong>/</strong>. <code>@noor</code>, <code>@zara</code>, <code>@arjun</code>.</p>
+          </div><div class="tool-card" data-tool="codex" hidden>
+            <h3>Codex CLI</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target codex
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Codex has no slash menu. Name the skill, or reference it from <code>AGENTS.md</code>.</p>
+          </div><div class="tool-card" data-tool="opencode" hidden>
+            <h3>OpenCode</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target opencode
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, ask by name</strong> &mdash; &ldquo;use the mood-board skill&rdquo; or &ldquo;run persona-orchestrator on this screen&rdquo;.</p>
+            <p class="muted">Installs into OpenCode's own folder, which every OpenCode version reads. Zara crops and films with <span class="cmd">moodboard crop</span> and <span class="cmd">moodboard film</span>, then gives you the board link.</p>
+          </div><div class="tool-card" data-tool="kiro" hidden>
+            <h3>Kiro</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target kiro
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, ask by name</strong> &mdash; &ldquo;use the ux-ideator skill&rdquo;. Restart Kiro after install.</p>
+            <p class="muted">Skills are copied as real files into <code>~/.kiro/skills</code>. Kiro ignores symlinks, so a copy is the only kind that works.</p>
+          </div><div class="tool-card" data-tool="trae" hidden>
+            <h3>Trae</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target trae
+# China edition
+npx analyzthis_design install --target trae-cn</pre>
+            </div>
+            <p class="tool-then"><strong>Then</strong> open the Skills panel &rarr; Global, or ask by name &mdash; &ldquo;use the persona-orchestrator skill&rdquo;.</p>
+          </div><div class="tool-card" data-tool="grok" hidden>
+            <h3>Grok Build</h3>
+            <div class="code-card">
+              <div class="code-head"><span>Set up once</span><span>Terminal</span></div>
+              <pre>npx analyzthis_design install --target grok
+
+# ground the team in this project
+npx analyzthis_design collect --target all</pre>
+            </div>
+            <p class="tool-then"><strong>Then in chat, type</strong> <span class="cmd">/noor</span> &mdash; or any of
+              <span class="cmd">zara</span> <span class="cmd">arjun</span> <span class="cmd">meera</span>
+              <span class="cmd">priya</span> <span class="cmd">anuj</span> <span class="cmd">raj</span>
+              <span class="cmd">kavi</span>. Each note ends by asking if it was right; answer
+              <span class="cmd">yes</span> or <span class="cmd">no</span> plus one sentence and the score moves.</p>
+            <p class="muted">Skills land in <code>~/.grok/skills/</code>.</p>
+          </div><div class="tool-card" data-tool="lovable" hidden>
+            <h3>Lovable</h3>
+            <p class="tool-then">Lovable runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="Lovable">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Knowledge &rarr; add the prompt to your project knowledge.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="v0" hidden>
+            <h3>v0</h3>
+            <p class="tool-then">v0 runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="v0">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Project settings &rarr; System Instructions.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="bolt" hidden>
+            <h3>Bolt</h3>
+            <p class="tool-then">Bolt runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="Bolt">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Project settings &rarr; custom instructions.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="replit" hidden>
+            <h3>Replit</h3>
+            <p class="tool-then">Replit runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="Replit">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Agent instructions, or a <code>replit.md</code> at the repo root.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
+          </div><div class="tool-card" data-tool="chatgpt" hidden>
+            <h3>ChatGPT</h3>
+            <p class="tool-then">ChatGPT runs in the browser, so there is <strong>nothing to install</strong> &mdash; no npx, no MCP. Copy the team as a system prompt and paste it in.</p>
+            <p class="tool-then"><button class="btn primary copy-prompt" type="button" data-label="ChatGPT">Copy system prompt</button> <span class="copy-status" role="status" aria-live="polite"></span></p>
+            <p class="muted" style="margin-top:8px">Clipboard blocked? <a href="/system-prompt.txt" target="_blank" rel="noopener"><strong>Open the raw prompt</strong></a> and select all.</p>
+            <p class="tool-then"><strong>Paste it into:</strong> Customize ChatGPT &rarr; Instructions, or a Project's instructions.</p>
+            <p class="tool-then">Then ask for a persona by name &mdash; &ldquo;Zara, one delight moment on this screen&rdquo;.</p>
+            <p class="muted"><strong>What you do not get.</strong> There is no local state here, so no <code>/accept</code>, no lessons, and no trust scores. You get the eight personas and their output contracts &mdash; not the learning loop. For that, use a tool with a terminal.</p>
           </div>
         </div>
+        <p class="muted" style="margin-top:26px">After a package update, reinstall with <span class="cmd">npx analyzthis_design install --target all --force</span>. Reprint help with <span class="cmd">npx analyzthis_design welcome</span>. The knowledge bank is project-scoped by default &mdash; use <span class="cmd">sync --global</span> only for a deliberate cross-project merge.</p>
+      </div>
+    </section>
+
+    <section class="section" id="lab">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">In the lab</span>
+          <h2>Next from the lab: <span class="accent">a product team.</span></h2>
+          <p class="lede">The design team is the first shipped product. The same method is being built into the next one.</p>
+        </div>
+        <article class="lab-card">
+          <div>
+            <span class="lab-tag">In development</span>
+            <h3>analyzthis_product — product workflow team</h3>
+            <p>Specialist roles for product discovery, PRD shaping, roadmap pressure-testing, and delivery-quality review. Not a download yet.</p>
+          </div>
+          <a class="btn" href="/clients#intake">Ask about early access</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section cta-band">
+      <div class="wrap">
+        <span class="eyebrow">Next</span>
+        <h2>Install the <span class="accent">design team.</span></h2>
+        <p class="lede">Cursor, Claude Code, OpenCode, Codex, Windsurf, Kiro, Trae or Grok: one install line each. Working in Lovable, v0, Bolt or ChatGPT? Paste the team in.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#install">Pick your tool</a>
+          <a class="btn" href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm <span aria-hidden="true">↗</span></a>
+          <a class="btn dark" href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="firms" aria-label="Custom teams for firms">
+      <div class="wrap firms-strip">
+        <p><b>Run a firm, not a product team?</b> We also build custom agentic teams around one repeat workflow — drawings, books, visit notes, or orders. You still review. You still sign.</p>
+        <a class="btn dark" href="/clients">Custom teams for firms <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="wrap footer-row">
-      <div><a class="brand" href="#" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
-      <div class="footer-links"><a href="#doors">Your path</a><a href="#products">Products</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="design.html">Design team</a><a href="design.html#whats-new">What's new</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
-      <small>analyzthis_design v2.5.2 · MIT</small>
+      <div><a class="brand" href="/" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
+      <div class="footer-links">
+        <a href="/" aria-current="page">Design team</a>
+        <a href="#whats-new">What's new</a>
+        <a href="#lab">In the lab</a>
+        <a href="/clients">Custom teams for firms</a>
+        <a href="https://www.npmjs.com/package/analyzthis_design" target="_blank" rel="noopener">npm</a>
+        <a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <small>analyzthis_design v2.7.0 · MIT</small>
     </div>
   </footer>
 
   <script>
-    // Leads go to /api/lead, which writes to Airtable. Booking is a Google Calendar appointment page.
-    const LEAD_ENDPOINT = "/api/lead";
-    const BOOKING_URL = "https://calendar.app.google/KtKJ7hCAx1duA8m58";
-    const MOCK_MODE = new URLSearchParams(window.location.search).get("form") === "mock";
+  // Tool picker: reveal one card at a time. Progressive enhancement — without JS
+  // every card stays visible (see .no-js), so the section is never empty.
+  document.documentElement.classList.remove('no-js');
+  (function () {
+    var picks = document.querySelectorAll('.tool-pick');
+    var cards = document.querySelectorAll('.tool-card');
+    if (!picks.length || !cards.length) return;
 
+    function show(id, fromClick) {
+      cards.forEach(function (c) { c.hidden = c.getAttribute('data-tool') !== id; });
+      picks.forEach(function (b) {
+        var on = b.getAttribute('data-pick') === id;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      // Only a click changes the URL, so links like #mood are never rewritten on load.
+      if (fromClick) { try { history.replaceState(null, '', '#install-' + id); } catch (e) {} }
+    }
+
+    picks.forEach(function (b) {
+      b.addEventListener('click', function () { show(b.getAttribute('data-pick'), true); });
+    });
+
+    // Deep link: /#install-lovable (old /design#install-lovable redirects here) opens that card.
+    function openFromHash(first) {
+      var m = (location.hash || '').match(/^#install-([a-z0-9-]+)$/);
+      var deep = m && document.querySelector('.tool-card[data-tool="' + m[1] + '"]');
+      if (deep || first) show(deep ? m[1] : 'cursor');
+      if (deep) { var sec = document.getElementById('install'); if (sec) sec.scrollIntoView(); }
+    }
+    openFromHash(true);
+    window.addEventListener('hashchange', function () { openFromHash(false); });
+
+    // Copy the generated system prompt. Same text `buildPrompt` produces —
+    // regenerated by npm run build, so it cannot drift from the shipped personas.
+    var promptCache = null;
+    document.querySelectorAll('.copy-prompt').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        var status = btn.parentElement.querySelector('.copy-status');
+        status.className = 'copy-status';
+        status.textContent = 'Fetching…';
+        try {
+          if (!promptCache) {
+            var res = await fetch('/system-prompt.txt');
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            promptCache = await res.text();
+          }
+          try {
+            await navigator.clipboard.writeText(promptCache);
+          } catch (e) {
+            // Clipboard API needs a secure context and can be blocked; fall back.
+            var ta = document.createElement('textarea');
+            ta.value = promptCache;
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            var ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (!ok) throw new Error('copy blocked');
+          }
+          status.className = 'copy-status ok';
+          status.textContent = 'Copied — paste into ' + btn.getAttribute('data-label');
+        } catch (err) {
+          status.className = 'copy-status err';
+          status.textContent = 'Could not copy — open /system-prompt.txt and copy it manually';
+        }
+      });
+    });
+  })();
+</script>
+<script>
     const menuButton = document.querySelector(".menu-btn");
     const navPanel = document.getElementById("nav-links");
     const navLinks = navPanel.querySelectorAll("a");
@@ -773,301 +1337,6 @@
     navLinks.forEach(link => link.addEventListener("click", () => setMenu(false)));
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") setMenu(false);
-    });
-
-    // Hero: type the next specialist, swap the sample card. Same login. Eight lenses.
-    const PERSONAS = [
-      { cmd: "/zara", who: "Example / Zara", job: "Delight", why: "Looks at one peak moment — not contrast. That is why these three notes.", verdict: "Revise", tone: "", foot: "Delight. One peak moment — not a contrast checklist.", fixes: ["The primary button fights the back link", "The error sits below the fold", "The guest path is a dead end"] },
-      { cmd: "/noor", who: "Example / Noor", job: "What to show first", why: "Looks at one primary action. The rest waits. That is why these three notes.", verdict: "Revise", tone: "", foot: "One primary action. The rest waits.", fixes: ["Two actions. There should be one.", "Email and phone both ask to be first", "Sign-up is louder than sign-in"] },
-      { cmd: "/anuj", who: "Example / Anuj", job: "Power users", why: "Looks at density for people who live here. That is why these three notes.", verdict: "Revise", tone: "", foot: "Density for people who live here.", fixes: ["No keyboard path to submit", "Paste into password is blocked", "SSO is buried under more options"] },
-      { cmd: "/arjun", who: "Example / Arjun", job: "Hierarchy and craft", why: "Looks at hierarchy first, then color. That is why these three notes.", verdict: "Revise", tone: "", foot: "Hierarchy first. Then color.", fixes: ["Label and field do not read as a pair", "The error is red text with no field ring", "Back is the same weight as Sign in"] },
-      { cmd: "/meera", who: "Example / Meera", job: "The business number", why: "Looks at retention and the north-star metric. That is why these three notes.", verdict: "Block", tone: "block", foot: "Pretty is not the metric.", fixes: ["Guest checkout is the north-star. This screen kills it.", "Password reset is three taps from the fold", "No reason to come back after a fail"] },
-      { cmd: "/priya", who: "Example / Priya", job: "What we can ship", why: "Looks at whether this sprint can hold it. That is why these three notes.", verdict: "Revise", tone: "", foot: "Can we build this quarter?", fixes: ["Magic-link plus SSO plus OTP is three systems", "This state machine will slip the sprint", "Ship email and password. Park the rest."] },
-      { cmd: "/kavi", who: "Example / Kavi", job: "What you already know", why: "Looks at the repo before anyone has an opinion. That is why these three notes.", verdict: "Ground", tone: "ground", foot: "She speaks before opinions form.", fixes: ["Your repo already has a login in auth/signin", "Brand tokens live in the config you already use", "Last review said: no guest dead ends"] },
-      { cmd: "/raj", who: "Example / Raj", job: "The right problem", why: "Looks at the premise — not an average of both sides. That is why these three notes.", verdict: "Hold", tone: "hold", foot: "He does not average both sides.", fixes: ["Are we solving login — or returning the guest?", "Zara and Meera disagree on the guest path", "Finish the job first. Then delight."] }
-    ];
-    const heroCmd = document.getElementById("hero-cmd");
-    const heroSample = document.getElementById("hero-sample");
-    const sampleWho = document.getElementById("sample-who");
-    const sampleVerdict = document.getElementById("sample-verdict");
-    const sampleJob = document.getElementById("sample-job");
-    const sampleWhy = document.getElementById("sample-why");
-    const sampleFoot = document.getElementById("sample-foot");
-    const sampleFixes = [document.getElementById("sample-f1"), document.getElementById("sample-f2"), document.getElementById("sample-f3")];
-    const sampleWaitText = document.getElementById("sample-wait-text");
-    let personaIndex = 0;
-    let personaTimer = 0;
-    let revealTimer = 0;
-    let typeGen = 0;
-    const TYPE_MS = 1250;
-    const quietMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const fillCard = (person) => {
-      sampleWho.textContent = person.who;
-      sampleVerdict.textContent = person.verdict;
-      sampleVerdict.className = "verdict-mark" + (person.tone ? " " + person.tone : "");
-      if (sampleJob) sampleJob.textContent = person.job;
-      if (sampleWhy) sampleWhy.textContent = person.why;
-      if (sampleWaitText) sampleWaitText.textContent = "Looking at " + person.job;
-      sampleFixes.forEach((node, i) => { if (node) node.textContent = person.fixes[i]; });
-      sampleFoot.textContent = person.foot;
-      heroSample.setAttribute("aria-label", "Example from " + person.who.replace("Example / ", "") + " — " + person.job);
-    };
-
-    const revealFixes = () => {
-      if (heroSample) heroSample.classList.remove("is-wait");
-    };
-
-    const hideFixes = () => {
-      if (heroSample) heroSample.classList.add("is-wait");
-    };
-
-    const finishType = (letters) => {
-      if (heroCmd) heroCmd.style.width = letters + "ch";
-      revealFixes();
-    };
-
-    const showPersona = (index) => {
-      const person = PERSONAS[index];
-      if (!heroCmd || !heroSample || !person) return;
-      const letters = person.cmd.length;
-      typeGen += 1;
-      const gen = typeGen;
-      hideFixes();
-      fillCard(person);
-      heroCmd.textContent = person.cmd;
-      heroCmd.style.setProperty("--ch", String(letters));
-      window.clearTimeout(revealTimer);
-      if (quietMotion) {
-        finishType(letters);
-        return;
-      }
-      heroCmd.style.width = "0";
-      heroCmd.style.animation = "none";
-      void heroCmd.offsetWidth;
-      heroCmd.style.animation = "type-cmd 1.1s steps(" + letters + ", end) 0.12s forwards";
-      revealTimer = window.setTimeout(() => {
-        if (gen !== typeGen) return;
-        finishType(letters);
-      }, TYPE_MS);
-    };
-
-    const nextPersona = () => {
-      personaIndex = (personaIndex + 1) % PERSONAS.length;
-      showPersona(personaIndex);
-    };
-
-    const stopPersonaCycle = () => {
-      if (personaTimer) window.clearInterval(personaTimer);
-      personaTimer = 0;
-    };
-
-    const startPersonaCycle = () => {
-      if (personaTimer || quietMotion) return;
-      personaTimer = window.setInterval(nextPersona, 5200);
-    };
-
-    if (heroCmd) {
-      heroCmd.style.setProperty("--ch", "5");
-      heroCmd.addEventListener("animationend", (event) => {
-        if (event.animationName !== "type-cmd") return;
-        if (!String(heroCmd.style.animation).includes("type-cmd")) return;
-        window.clearTimeout(revealTimer);
-        finishType(Number(heroCmd.style.getPropertyValue("--ch") || 5));
-      });
-      if (quietMotion) {
-        revealFixes();
-      } else {
-        revealTimer = window.setTimeout(() => finishType(5), TYPE_MS);
-        startPersonaCycle();
-        document.addEventListener("visibilitychange", () => {
-          if (document.hidden) stopPersonaCycle();
-          else startPersonaCycle();
-        });
-        heroSample.addEventListener("mouseenter", stopPersonaCycle);
-        heroSample.addEventListener("mouseleave", startPersonaCycle);
-      }
-    }
-
-    // Three doors: stamp the chosen path. Jobs stay visible for every visitor.
-    const doorCards = document.querySelectorAll("[data-door]");
-
-    const selectDoor = (id) => {
-      doorCards.forEach((door) => {
-        if (door.getAttribute("data-door") === id) door.setAttribute("aria-current", "true");
-        else door.removeAttribute("aria-current");
-      });
-    };
-
-    doorCards.forEach((door) => {
-      const action = door.querySelector("a.btn");
-      if (!action) return;
-      action.addEventListener("click", () => {
-        const id = door.getAttribute("data-door");
-        if (id === "design") return;
-        selectDoor(id);
-      });
-    });
-    document.querySelectorAll('a[href="#jobs"]').forEach((link) => {
-      link.addEventListener("click", () => selectDoor("ship"));
-    });
-
-    const applyDoorHash = () => {
-      if (location.hash === "#jobs") selectDoor("ship");
-    };
-    applyDoorHash();
-    window.addEventListener("hashchange", applyDoorHash);
-
-    const form = document.getElementById("lead-form");
-    const steps = [...document.querySelectorAll(".form-step")];
-    const totalSteps = steps.length;
-    const statusBox = document.getElementById("form-status");
-    const progressLabel = document.getElementById("progress-label");
-    const progressFill = document.getElementById("progress-fill");
-    const submitButton = document.getElementById("submit-lead");
-    let activeStep = 1;
-    let savedComplete = false;
-
-    const stepFields = step => [...document.querySelector(`[data-step="${step}"]`).querySelectorAll("input, select, textarea")].filter(field => field.id !== "website");
-
-    const showStep = step => {
-      activeStep = step;
-      steps.forEach(section => { section.hidden = Number(section.dataset.step) !== step; });
-      progressLabel.textContent = `Step ${step} of ${totalSteps}`;
-      progressFill.style.width = `${(step / totalSteps) * 100}%`;
-      const heading = document.querySelector(`[data-step="${step}"] h3`);
-      heading.setAttribute("tabindex", "-1");
-      heading.focus();
-    };
-
-    const setError = (field, message) => {
-      field.setAttribute("aria-invalid", message ? "true" : "false");
-      field.setAttribute("aria-describedby", `${field.id}-error`);
-      document.getElementById(`${field.id}-error`).textContent = message;
-    };
-
-    const validateFields = fields => {
-      let valid = true;
-      fields.forEach(field => {
-        let message = "";
-        if (field.required && field.type === "checkbox" && !field.checked) message = "Please confirm before submitting.";
-        else if (field.required && !field.value.trim()) message = "This field is required.";
-        else if (field.type === "email" && field.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) message = "Enter a valid work email.";
-        else if (field.id === "workflow" && field.value.trim().length > 0 && field.value.trim().length < 20) message = "Add a little more detail so we can understand the workflow.";
-        setError(field, message);
-        if (message && valid) { field.focus(); valid = false; }
-      });
-      return valid;
-    };
-
-    form.addEventListener("click", event => {
-      if (event.target.closest("[data-next]")) {
-        if (!validateFields(stepFields(activeStep))) return;
-        // Save what they have now so a drop-off still appears in Airtable.
-        sendLead("partial", activeStep);
-        showStep(activeStep + 1);
-      }
-      if (event.target.closest("[data-back]")) showStep(Math.max(1, activeStep - 1));
-    });
-    form.querySelectorAll("input, select, textarea").forEach(field => {
-      field.addEventListener("blur", () => { if (field.id !== "website") validateFields([field]); });
-      field.addEventListener("input", () => { if (field.getAttribute("aria-invalid") === "true") validateFields([field]); });
-    });
-
-    const getTracking = () => {
-      const params = new URLSearchParams(window.location.search);
-      return {
-        source: document.referrer || "direct",
-        pageUrl: window.location.href,
-        utmSource: params.get("utm_source") || "",
-        utmMedium: params.get("utm_medium") || "",
-        utmCampaign: params.get("utm_campaign") || ""
-      };
-    };
-
-    // Count how many visitors actually reach the form. First-party, no cookies, fired once per page view.
-    const countFormView = () => {
-      if (MOCK_MODE || !("IntersectionObserver" in window) || !navigator.sendBeacon) return;
-      const watcher = new IntersectionObserver(entries => {
-        if (!entries.some(entry => entry.isIntersecting)) return;
-        watcher.disconnect();
-        const body = JSON.stringify({ event: "form_view", submittedAt: new Date().toISOString(), ...getTracking() });
-        navigator.sendBeacon(LEAD_ENDPOINT, new Blob([body], { type: "application/json" }));
-      }, { threshold: 0.3 });
-      watcher.observe(document.getElementById("intake"));
-    };
-    countFormView();
-
-    const buildPayload = (status, lastStep) => {
-      const payload = Object.fromEntries(new FormData(form).entries());
-      payload.consent = document.getElementById("consent").checked;
-      payload.submittedAt = new Date().toISOString();
-      payload.status = status;
-      payload.lastStep = String(lastStep);
-      Object.assign(payload, getTracking());
-      return payload;
-    };
-
-    // Writes to our server, which then writes to Airtable. Empty fields do not wipe earlier answers.
-    const sendLead = async (status, lastStep, useBeacon) => {
-      if (MOCK_MODE || savedComplete) return;
-      const body = JSON.stringify(buildPayload(status, lastStep));
-      if (useBeacon && navigator.sendBeacon) {
-        navigator.sendBeacon(LEAD_ENDPOINT, new Blob([body], { type: "application/json" }));
-        return;
-      }
-      const response = await fetch(LEAD_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body
-      });
-      if (status !== "complete") return;
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || "We could not save your inquiry. Please try again.");
-      }
-    };
-
-    // If they close the tab after entering a name and email, still keep the row.
-    window.addEventListener("pagehide", () => {
-      const name = document.getElementById("fullName").value.trim();
-      const email = document.getElementById("email").value.trim();
-      if (name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) sendLead("partial", activeStep, true);
-    });
-
-    form.addEventListener("submit", async event => {
-      event.preventDefault();
-      if (!validateFields(stepFields(activeStep))) return;
-      statusBox.className = "form-status";
-      statusBox.textContent = "";
-      submitButton.disabled = true;
-      submitButton.textContent = "Sending…";
-
-      try {
-        if (MOCK_MODE) await new Promise(resolve => setTimeout(resolve, 450));
-        else await sendLead("complete", totalSteps);
-        savedComplete = true;
-        form.hidden = true;
-        document.getElementById("success-panel").hidden = false;
-        progressLabel.textContent = "Complete";
-        progressFill.style.width = "100%";
-        statusBox.textContent = "Your information was submitted successfully.";
-        statusBox.classList.add("success-state");
-        const booking = document.getElementById("booking-link");
-        if (BOOKING_URL) {
-          booking.href = BOOKING_URL;
-          booking.textContent = "Book a discovery call";
-          booking.removeAttribute("aria-disabled");
-          document.getElementById("booking-note").textContent = "Pick a time on the calendar. It lands on our Google Calendar.";
-        } else {
-          booking.addEventListener("click", e => e.preventDefault());
-        }
-      } catch (error) {
-        statusBox.textContent = error.message || "We could not submit the form. Please try again.";
-        statusBox.classList.add("error-state");
-        submitButton.disabled = false;
-        submitButton.textContent = "Send my workflow";
-      }
     });
   </script>
 </body>

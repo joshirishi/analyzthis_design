@@ -5,5 +5,9 @@
   "installCommand": "npm install",
   "outputDirectory": ".",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/design", "destination": "/", "permanent": true },
+    { "source": "/design.html", "destination": "/", "permanent": true }
+  ]
 }

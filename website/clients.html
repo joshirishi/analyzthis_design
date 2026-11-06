@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analyzthis Lab — Custom agentic teams for firms</title>
+  <meta name="description" content="We map one repeat workflow — drawings, books, visit notes, or orders — and build the smallest useful agentic team around it. You still review. You still sign.">
+  <meta property="og:title" content="Analyzthis Lab — Custom agentic teams for firms">
+  <meta property="og:description" content="Specialist AI teams built around your firm's real workflow. Packets arrive in the tools you already open. You still decide.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#c93800">
+  <style>
+    :root {
+      --paper:#f4f1e9; --white:#fff; --ink:#0a0a0a; --muted:#55534d;
+      --line:#0a0a0a; --soft:#ded9cd; --orange:#c93800; --orange-soft:#ffe7da;
+      --blue:#1746ff; --green:#08783f; --yellow:#f3c92f; --purple:#7c38d8;
+      --red:#d92b26; --cyan:#00737a; --max:1180px; --border:3px solid var(--line);
+      --shadow:8px 8px 0 var(--ink); --shadow-sm:4px 4px 0 var(--ink);
+      --sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:96px}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+    body.menu-open{overflow:hidden} a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+    button,a{touch-action:manipulation}.skip{position:fixed;left:12px;top:-80px;z-index:200;background:var(--ink);color:#fff;padding:12px 18px}
+    .skip:focus{top:12px}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:6px 12px;font:800 .76rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+    .eyebrow.light{background:#fff;color:var(--ink)}.dot{width:8px;height:8px;background:var(--orange)}
+    h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1;letter-spacing:-.04em}h2{font-size:clamp(2.25rem,6vw,4.6rem);text-transform:uppercase;margin-bottom:20px}
+    h3{font-size:1.35rem;text-transform:uppercase}.accent{color:var(--orange)}.outline{-webkit-text-stroke:2px var(--ink);color:transparent}
+    .lede{max-width:700px;font-size:clamp(1.05rem,2vw,1.3rem);color:#24231f}.muted{color:var(--muted)}
+    .btn{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:var(--border);padding:12px 22px;background:#fff;font-weight:900;text-transform:uppercase;letter-spacing:.025em;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+    .btn:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+    .btn.primary{background:var(--orange);color:#fff}.btn.dark{background:var(--ink);color:#fff}.btn[disabled]{cursor:not-allowed;opacity:.45;transform:none;box-shadow:none}
+    :focus-visible{outline:4px solid var(--blue);outline-offset:3px}.section{padding:96px 0;border-bottom:var(--border)}.section-head{max-width:800px;margin-bottom:50px}.section-head.center{text-align:center;margin-inline:auto}.section-head.center .lede{margin-inline:auto}
+
+    /* Navigation — brand + MENU + one CTA. Links never sit in the bar (they wrap and become unreadable). */
+    .nav{position:fixed;inset:0 0 auto;z-index:200;background:#fff;border-bottom:var(--border);padding:16px 0}
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
+    .brand{display:inline-flex;align-items:center}.brand img,.brand svg{display:block;width:auto;height:42px}
+    .nav-brand{display:inline-flex;align-items:center;flex-shrink:0}
+    .nav-brand img{display:block;width:auto;height:40px;filter:drop-shadow(4px 4px 0 var(--ink));transition:transform .15s ease,filter .15s ease}
+    .nav-brand:hover img{transform:translate(4px,4px);filter:drop-shadow(0 0 0 transparent)}
+    .nav-brand:active img{transform:translate(2px,2px);filter:drop-shadow(2px 2px 0 var(--ink))}
+    .nav-btn{min-height:44px;padding:10px 16px;font-size:.78rem;flex-shrink:0;white-space:nowrap}.nav-btn-short{display:none}
+    .menu-btn{display:grid;place-items:center;margin-left:auto;width:auto;min-width:48px;height:48px;padding:0 13px;border:var(--border);background:#fff;box-shadow:var(--shadow-sm);font:950 .8rem var(--sans);cursor:pointer;flex-shrink:0;transition:transform .18s ease-out,box-shadow .18s ease-out,background .18s ease-out,color .18s ease-out}
+    .menu-btn:hover{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+    .menu-btn:active,.menu-open .menu-btn{transform:translate(4px,4px);box-shadow:none;background:var(--ink);color:#fff}
+    .nav-links{display:flex;position:fixed;inset:90px 0 0;z-index:199;flex-direction:column;align-items:stretch;gap:0;background:#f4f1e9;padding:28px max(20px,calc((100% - var(--max)) / 2)) 56px;overflow:auto;visibility:hidden;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .18s ease-out,transform .18s ease-out,visibility .18s ease-out}
+    .menu-open .nav-links{visibility:visible;opacity:1;pointer-events:auto;transform:none}
+    .nav-links .nav-kicker{margin:28px 0 6px;font:800 .68rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .nav-links .nav-kicker:first-child{margin-top:0}
+    .nav-links a{min-height:48px;display:flex;align-items:center;flex-shrink:0;border-bottom:2px solid var(--ink);font-size:1.12rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:normal}
+    .nav-links a.is-lead{min-height:56px;font-size:clamp(1.28rem,2.2vw,1.55rem);font-weight:950}
+    .nav-links a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+
+    /* Hero */
+    .hero{padding:120px 0 72px;border-bottom:var(--border);position:relative}.hero:before{content:"";position:absolute;inset:90px 0 auto;height:12px;background:var(--orange)}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:start;gap:56px;min-width:0}.hero-grid > *{min-width:0}.hero h1{font-size:clamp(2.75rem,5vw,4.5rem);text-transform:uppercase;margin:20px 0 22px}
+    .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:28px}
+    .hero-alt{flex-basis:100%;margin:4px 0 0;font-weight:800;font-size:.95rem;color:var(--muted)}
+    .hero-alt a{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+    .hero-alt a:hover{color:var(--ink)}
+    .hero-cmds{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+    .hero-cmds .hint{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--muted);margin-right:4px}
+    .micro-proof{display:flex;flex-direction:column;gap:10px;margin-top:28px;font:700 .78rem var(--mono);text-transform:uppercase}
+    .micro-proof span:before{content:"✓";color:var(--green);font-weight:950;margin-right:7px}
+    .verdict-mark{display:inline-block;background:var(--yellow);color:var(--ink);border:2px solid var(--ink);padding:4px 8px;font:900 .72rem var(--mono);text-transform:uppercase}
+    .verdict-mark.block{background:var(--red);color:#fff}
+    .verdict-mark.ground{background:var(--cyan);color:#fff}
+    .verdict-mark.hold{background:var(--purple);color:#fff}
+    .verdict-mark.ship{background:var(--green);color:#fff}
+    .sample-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 10px}
+    .sample-job{font:800 .68rem var(--mono);text-transform:uppercase;border:2px solid var(--ink);padding:4px 8px;background:var(--orange-soft)}
+    .sample-why{margin:0 0 14px;color:var(--muted);font-size:.9rem;max-width:46ch}
+    .sample-wait{display:none;align-items:center;gap:12px;padding:20px 18px;font:800 .78rem var(--mono);text-transform:uppercase;background:var(--paper);border-bottom:2px dashed var(--line)}
+    .sample-wait-mark{width:10px;height:10px;flex-shrink:0;background:var(--orange);animation:caret-blink .7s step-end infinite}
+    .hero .blueprint.is-wait .sample-wait{display:flex}
+    .hero .blueprint.is-wait .sample-report,.hero .blueprint.is-wait .packet-ban,.hero .blueprint.is-wait .connector{display:none}
+    .sample-report .verdict-mark{animation:stamp-in .22s ease-out}
+    .fix-list{list-style:none;padding:0;margin:0}
+    .fix-list li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.92rem}
+    .hero .blueprint:not(.is-wait) .fix-list li{animation:fade-up .28s ease both}
+    .hero .blueprint:not(.is-wait) .fix-list li:nth-child(2){animation-delay:.08s}
+    .hero .blueprint:not(.is-wait) .fix-list li:nth-child(3){animation-delay:.16s}
+    .fix-list li:last-child{border:0}
+    .fix-list b{font:800 .68rem var(--mono);color:var(--orange);margin-right:8px}
+    @keyframes stamp-in{from{transform:scale(1.12)}to{transform:none}}
+    @keyframes fade-up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .packet-split{display:grid;grid-template-columns:1fr 1fr}
+    .packet-col{padding:16px}.packet-col + .packet-col{border-left:2px solid var(--line)}
+    .packet-col h3{font-size:.78rem;margin:0 0 10px}.packet-col ul{list-style:none;padding:0;margin:0}
+    .packet-col li{padding:7px 0;border-bottom:1px solid var(--soft);font-size:.88rem}.packet-col li:last-child{border:0}
+    .packet-step{display:flex;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--soft);font-size:.88rem}
+    .packet-step:last-child{border:0}
+    .packet-n{width:26px;height:26px;flex-shrink:0;display:grid;place-items:center;border:2px solid var(--ink);background:var(--orange);color:#fff;font:900 .68rem var(--mono)}
+    .packet-ban{padding:14px 16px;background:#fff3f2;border-top:2px solid var(--line)}
+    .packet-ban b{display:block;font:800 .68rem var(--mono);text-transform:uppercase;color:var(--red);margin-bottom:4px}
+    .packet-ban.ok b{color:var(--green)}
+    .packet-ban span{color:var(--muted);font-size:.88rem}
+    .connector a{text-decoration:underline;text-underline-offset:3px}
+    .lab-line{font-size:1.05rem;max-width:46ch;margin:0 0 28px}
+    .product-facts{display:grid;gap:10px;margin:0;padding:14px 0 0;border-top:2px solid var(--line)}
+    .product-facts div{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:start}
+    .product-facts dt{font:800 .68rem var(--mono);text-transform:uppercase;padding-top:2px}
+    .product-facts dd{margin:0;color:var(--muted);font-size:.88rem}
+    .method-pipe{margin-bottom:32px}
+    .blueprint{background:#fff;border:var(--border);box-shadow:var(--shadow);position:relative}
+    .hero .blueprint{min-height:0}
+    .blueprint-head{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:12px 16px;font:800 .72rem var(--mono);text-transform:uppercase}
+    .blueprint-body{padding:18px}.agent-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:13px;padding:14px 0;border-bottom:2px solid var(--line)}
+    .agent-row:last-child{border-bottom:0}.agent-id{width:44px;height:44px;display:grid;place-items:center;background:var(--agent);color:#fff;border:2px solid var(--ink);font-weight:950}
+    .agent-row strong{display:block;text-transform:uppercase}.agent-row small{color:var(--muted)}.agent-state{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft)}
+    .connector{text-align:center;font:900 .75rem var(--mono);background:var(--yellow);border-top:var(--border);padding:10px;text-transform:uppercase}
+
+    /* Proof and pain */
+    .proof{background:var(--ink);color:#fff;border-bottom:var(--border)}.proof-row{display:grid;grid-template-columns:repeat(5,1fr)}.proof-item{padding:26px 20px;border-right:2px solid #fff}.proof-item:last-child{border:0}
+    .proof-item b{display:block;font-size:2rem;color:var(--orange);line-height:1;margin-bottom:6px}.proof-item span{font:700 .74rem var(--mono);text-transform:uppercase}
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);border:var(--border);background:#fff}.pain{padding:30px;border-right:2px solid var(--line)}.pain:last-child{border:0}
+    .pain .num{font:900 2.8rem var(--mono);color:var(--orange)}.pain p{margin:0;color:var(--muted)}
+
+    /* Blueprint process */
+    .service-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}.sticky-copy{position:sticky;top:104px}.steps{border:var(--border);background:#fff}
+    .step{display:grid;grid-template-columns:72px 1fr;gap:18px;padding:28px;border-bottom:2px solid var(--line)}.step:last-child{border:0}.step-no{width:56px;height:42px;display:grid;place-items:center;border:2px solid var(--ink);background:var(--step);font:900 .85rem var(--mono)}
+    .step p{margin:8px 0 0;color:var(--muted)}.step small{font:800 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
+
+    /* Case study */
+    .case{background:var(--orange);color:#fff}.case .eyebrow{background:#fff;color:#000}.case h2{max-width:900px}.case-grid{display:grid;grid-template-columns:1fr 1fr;border:var(--border);box-shadow:var(--shadow);background:#fff;color:#000}
+    .case-copy{padding:34px;border-right:var(--border)}.case-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}.case-flow{padding:22px}.case-role{display:flex;gap:12px;align-items:center;padding:13px;border-bottom:2px solid var(--line)}
+    .case-role:last-child{border:0}.case-role b{min-width:82px;text-transform:uppercase}.case-role span{color:var(--muted);font-size:.9rem}
+
+    /* Capabilities and examples */
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:var(--border);padding:26px;box-shadow:var(--shadow-sm)}
+    .card-tag{display:inline-block;padding:4px 8px;background:var(--tag,var(--orange));color:#fff;border:2px solid var(--ink);font:900 .68rem var(--mono);text-transform:uppercase;margin-bottom:22px}
+    .card p{color:var(--muted);margin-bottom:0}.teams-intro{border:var(--border);background:#fff;padding:24px 28px;margin-bottom:24px;box-shadow:var(--shadow-sm)}.teams-intro p{margin:0;color:var(--muted);max-width:72ch}
+    .teams{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.team{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column}
+    .team-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.team-label{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.team-meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 12px}.team-badge{font:800 .68rem var(--mono);padding:4px 8px;border:2px solid var(--ink);background:var(--paper);text-transform:uppercase}
+    .team-workload{color:var(--muted);font-size:.92rem;margin:0 0 4px;line-height:1.5}.team h3{margin:4px 0 0}.team ul{list-style:none;padding:0;margin:18px 0 0;border-top:2px solid var(--line);flex:1}
+    .team li{padding:10px 0;border-bottom:1px solid var(--soft);font-size:.9rem}.team li:before{content:"→";font-weight:950;color:var(--orange);margin-right:10px}.team-foot{margin-top:18px;padding-top:14px;border-top:2px dashed var(--soft);font-size:.82rem;color:var(--muted)}
+    /* Three doors — paths, not SKUs. Selected door stamps orange (Zara's one moment). */
+    .doors{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .door{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column;gap:14px;transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease}
+    .door h3{margin:0}.door p{color:var(--muted);margin:0;flex:1}
+    .door-kicker{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}
+    .door .btn{align-self:flex-start;margin-top:6px}
+    .door[aria-current="true"]{background:var(--orange);color:#fff;transform:translate(4px,4px);box-shadow:none}
+    .door[aria-current="true"] p{color:var(--orange-soft)}.door[aria-current="true"] .door-kicker{color:#fff}
+    .door[aria-current="true"] .btn.primary{background:#fff;color:var(--ink)}
+    .cmd{display:inline-block;font:800 .78rem var(--mono);background:var(--orange-soft);border:2px solid var(--ink);padding:2px 8px;margin:0 2px}
+    /* Hero /zara: types once, then the caret keeps blinking — like a command prompt. */
+    .cmd-live{display:inline-flex;align-items:center;min-width:calc(6ch + 13px);background:var(--yellow);box-shadow:3px 3px 0 var(--ink);vertical-align:baseline}
+    .cmd-live-text{display:inline-block;overflow:hidden;white-space:nowrap;width:0;vertical-align:bottom;animation:type-cmd 1.1s steps(var(--ch,5),end) .2s forwards}
+    .cmd-live:after{content:"";display:inline-block;width:2px;height:.85em;margin-left:3px;background:var(--ink);vertical-align:-1px;animation:caret-blink .7s step-end infinite}
+    @keyframes type-cmd{to{width:calc(var(--ch,5) * 1ch)}}
+    @keyframes caret-blink{50%{background:transparent}}
+    .warn{border:var(--border);background:var(--yellow);padding:22px 24px;box-shadow:var(--shadow-sm);margin-top:22px}
+    .warn b{display:block;text-transform:uppercase;margin-bottom:8px;font-size:.85rem}
+    .warn p{margin:0;color:#24231f;font-size:.95rem}
+    .jobs-more{margin:22px 0 0;font:800 .78rem var(--mono);text-transform:uppercase}
+    .jobs-more a{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+    .job-card .cmd{margin-top:14px}
+
+    .products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.product{border:var(--border);background:#fff;box-shadow:var(--shadow-sm);padding:28px;display:flex;flex-direction:column;gap:16px}
+    .product-top{display:flex;justify-content:space-between;gap:16px;align-items:start}.product-code{font:900 .68rem var(--mono);text-transform:uppercase;color:var(--orange)}.product p{color:var(--muted);margin:0;flex:1}
+    .product-status{font:800 .68rem var(--mono);padding:4px 7px;border:2px solid var(--ink);background:var(--orange-soft);text-transform:uppercase}.product-status.live{background:#dff6e8}.product-status.lab{background:#fff5be}.product-status.service{background:#dfe7ff}
+    .signals{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:28px}
+    .contract{margin-top:8px}.contract-row{display:grid;grid-template-columns:140px 1fr;gap:12px;padding:12px 0;border-bottom:2px solid var(--line)}.contract-row:last-child{border-bottom:0}.contract-row b{text-transform:uppercase;font-size:.78rem}.contract-row span{color:var(--muted);font-size:.92rem}
+
+    /* Trust and FAQ */
+    .trust{background:var(--ink);color:#fff}.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#fff;border:2px solid #fff}.trust-item{background:var(--ink);padding:24px}
+    .trust-item b{display:block;color:var(--orange);text-transform:uppercase;margin-bottom:8px}.trust-item p{color:#d7d3ca;font-size:.9rem;margin:0}
+    .faq{max-width:860px}.faq details{background:#fff;border:var(--border);border-bottom:0}.faq details:last-child{border-bottom:var(--border)}
+    .faq summary{cursor:pointer;list-style:none;padding:20px 56px 20px 22px;font-weight:900;text-transform:uppercase;position:relative;transition:background .15s ease}.faq summary:hover{background:var(--paper)}.faq summary:after{content:"+";position:absolute;right:22px;font-size:1.5rem;top:14px}
+    .faq details[open] summary:after{content:"−"}.faq details p{padding:0 22px 22px;color:var(--muted);margin:0;max-width:72ch}
+
+    /* Lead form */
+    .intake{background:var(--yellow)}.intake-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start}.intake-copy{position:sticky;top:104px}
+    .form-shell{background:#fff;border:var(--border);box-shadow:var(--shadow)}.form-head{padding:18px 22px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .form-head strong{text-transform:uppercase}.progress{font:800 .72rem var(--mono)}.progress-track{height:8px;background:#c9c9c9}.progress-fill{height:100%;width:33.33%;background:var(--orange);transition:width .2s ease}
+    .form-step{padding:28px}.form-step[hidden]{display:none}.form-step h3{margin-bottom:24px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
+    label{font-size:.77rem;font-weight:900;text-transform:uppercase;letter-spacing:.035em}.required{color:var(--red)}input,select,textarea{width:100%;min-height:48px;border:2px solid var(--ink);background:#fff;padding:11px 12px;border-radius:0}
+    textarea{min-height:112px;resize:vertical}input:focus,select:focus,textarea:focus{outline:4px solid var(--orange-soft);border-color:var(--orange)}[aria-invalid="true"]{border-color:var(--red);background:#fff3f2}
+    .error{min-height:18px;color:var(--red);font-size:.75rem;font-weight:750}.check{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start}.check input{width:22px;height:22px;min-height:0;margin:2px 0 0}
+    .form-actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px}.form-note{font-size:.78rem;color:var(--muted);margin-top:16px}.hp{position:absolute!important;left:-9999px!important;opacity:0!important}
+    .form-status{padding:16px 22px;border-top:2px solid var(--ink);font-weight:800}.form-status:empty{display:none}.form-status.error-state{background:#ffe0dd;color:#7b1512}.form-status.success-state{background:#dff6e8;color:#0a542d}
+    .success-panel{padding:34px}.success-panel[hidden]{display:none}.success-mark{width:54px;height:54px;display:grid;place-items:center;background:var(--green);color:#fff;border:var(--border);font-size:1.7rem;font-weight:950;margin-bottom:20px}
+    .success-panel p{color:var(--muted)}.privacy-note{display:flex;gap:10px;align-items:flex-start;margin-top:24px;padding:14px;border:2px solid var(--ink);background:#fff}
+
+    .footer{padding:36px 0;background:#fff}.footer-row{display:flex;justify-content:space-between;gap:24px;align-items:center}.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.76rem;font-weight:900;text-transform:uppercase}
+    .footer small{color:var(--muted)}
+
+    @media(max-width:1100px){
+      .hero-grid{grid-template-columns:1fr;gap:32px}
+    }
+    @media(max-width:900px){
+      .nav-row{gap:12px}
+      .hero-grid,.service-grid,.intake-grid,.packet-split{grid-template-columns:1fr;gap:42px}.packet-col + .packet-col{border-left:0;border-top:2px solid var(--line)}.sticky-copy,.intake-copy{position:static}.proof-row{grid-template-columns:repeat(3,1fr)}.proof-item:nth-child(3){border-right:0}
+      .cards{grid-template-columns:repeat(2,1fr)}.products,.doors{grid-template-columns:1fr}.trust-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:640px){
+      .wrap{width:min(100% - 28px,var(--max))}.section{padding:72px 0}.hero{padding:120px 0 56px}.hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}
+      .nav-row{gap:8px}.menu-btn{min-width:44px;padding:0 8px;font-size:.68rem}
+      .nav-brand img{height:32px}.nav-btn{padding:10px 11px;font-size:.68rem}.nav-btn-full{display:none}.nav-btn-short{display:inline}
+      .nav-links a{min-height:48px}
+      .proof-row,.pain-grid,.cards,.signals,.teams,.products,.doors,.case-grid,.field-grid,.trust-grid{grid-template-columns:1fr}.teams-intro{padding:20px 18px}.proof-item,.pain,.case-copy{border-right:0;border-bottom:2px solid var(--line)}
+      .contract-row{grid-template-columns:1fr}
+      .proof-item:last-child,.pain:last-child{border-bottom:0}.step{grid-template-columns:52px 1fr;padding:22px 16px}.step-no{width:44px}
+      .form-step{padding:22px 16px}.field.full{grid-column:auto}.form-actions{flex-direction:column-reverse}.form-actions .btn{width:100%}.footer-row{align-items:flex-start;flex-direction:column}
+      .outline{-webkit-text-stroke:1.5px var(--ink)}.hero-actions .btn{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+      .cmd-live,.cmd-live:after,.cmd-live-text,.sample-wait-mark{animation:none!important}.cmd-live-text{width:auto}
+      .sample-report .verdict-mark,.fix-list li{animation:none!important}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="wrap nav-row">
+      <a class="nav-brand" href="/" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="" width="314" height="81"></a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">MENU</button>
+      <a class="btn primary nav-btn" href="#intake"><span class="nav-btn-full">Map one workflow</span><span class="nav-btn-short">Map workflow</span></a>
+    </div>
+    <div class="nav-links" id="nav-links" aria-hidden="true" inert>
+      <a class="is-lead" href="#examples">Example teams</a>
+      <a class="is-lead" href="#method">How we build</a>
+      <a class="is-lead" href="#measure">How we measure</a>
+      <a class="is-lead" href="#intake">Map one workflow</a>
+      <p class="nav-kicker">Also</p>
+      <a href="/">Design team (open source)</a>
+      <a href="#lab">Our products</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow"><span class="dot"></span>For firms · Custom agentic teams</span>
+            <h1>A team for the work that <span class="accent">repeats.</span></h1>
+            <p class="lede">You run a firm, not a product team. We map one repeat workflow — drawings, books, visit notes, or orders — and build the smallest useful team of specialist agents around it. Packets arrive in the tools you already open. You still review. You still sign.</p>
+            <div class="hero-actions">
+              <a href="#intake" class="btn primary">Map one workflow <span aria-hidden="true">→</span></a>
+              <a class="btn" href="#examples">See example teams</a>
+              <p class="hero-alt">Looking for the free design team? <a href="/">It's on the home page</a>.</p>
+            </div>
+            <div class="micro-proof" aria-label="How this works">
+              <span>One workflow first. Not a platform.</span>
+              <span>No coding tool required.</span>
+              <span>You still decide every change.</span>
+            </div>
+          </div>
+        <aside class="blueprint" aria-label="Example review packet for monthly GST prep">
+          <div class="blueprint-head"><span>Tuesday morning / example</span><span>GST · monthly</span></div>
+          <div class="packet-split">
+            <div class="packet-col">
+              <h3>What we send</h3>
+              <ul>
+                <li>Monthly GST review packet</li>
+                <li>12 missing invoices flagged</li>
+                <li>Ledger mismatches listed</li>
+                <li>Partner checklist, one page</li>
+              </ul>
+            </div>
+            <div class="packet-col">
+              <h3>What you do</h3>
+              <div class="packet-step"><span class="packet-n">1</span> Open the packet</div>
+              <div class="packet-step"><span class="packet-n">2</span> Edit or accept</div>
+              <div class="packet-step"><span class="packet-n">3</span> Sign</div>
+            </div>
+          </div>
+          <div class="packet-ban"><b>Does not own</b><span>Filing · Client advice · Sign-off</span></div>
+          <div class="connector">An example. Yours starts from <a href="#intake">one workflow</a>.</div>
+        </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="proof" aria-label="What we commit to">
+      <div class="wrap proof-row">
+        <div class="proof-item"><b>1</b><span>repeat workflow mapped first</span></div>
+        <div class="proof-item"><b>0</b><span>new apps your staff must learn</span></div>
+        <div class="proof-item"><b>3</b><span>weeks of calibration before any score</span></div>
+        <div class="proof-item"><b>4</b><span>signals: opened, changed, review time, repeat</span></div>
+        <div class="proof-item"><b>You</b><span>still sign. Every packet.</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">The problem</span>
+          <h2>Generic AI gives you <span class="accent">generic work.</span></h2>
+          <p class="lede">A single assistant has no durable division of responsibility, no internal challenge, and no definition of “good” that belongs to your profession.</p>
+        </div>
+        <div class="pain-grid">
+          <article class="pain"><div class="num">01</div><h3>It forgets context</h3><p>Your standards, source material, and prior decisions are repeatedly pasted—or simply lost.</p></article>
+          <article class="pain"><div class="num">02</div><h3>It agrees too easily</h3><p>One model produces and approves its own work. Weak assumptions survive because nobody is assigned to object.</p></article>
+          <article class="pain"><div class="num">03</div><h3>It never owns quality</h3><p>There is no role-based gate, outcome history, or structured learning loop tied to your definition of done.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="measure">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">How we measure success</span>
+          <h2>We score the <span class="accent">handoff,</span> not the chat.</h2>
+          <p class="lede">A partner, doctor, or owner was going to review the work anyway. That review is the measurement. We do not ask the firm to fill a weekly scorecard.</p>
+        </div>
+        <div class="signals">
+          <article class="card" style="--tag:var(--green)"><span class="card-tag">Opened</span><h3>Was it opened at all?</h3><p>If the packet is never opened, the team is already dead. Abandonment is the churn signal nobody tracks.</p></article>
+          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Changed</span><h3>How much did they change?</h3><p>Accepted as-is, light edit, heavy rewrite, or discarded. That is first-pass quality, and it needs no survey.</p></article>
+          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Review time</span><h3>How long did review take?</h3><p>Not how long the work took to prepare — how long the human spent. That is the number that converts to money.</p></article>
+          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Repeat</span><h3>Did it run again?</h3><p>Monthly filing, weekly submission, daily list. If cycle four still runs, it works.</p></article>
+        </div>
+        <div class="blueprint contract" aria-label="Example team contract">
+          <div class="blueprint-head"><span>Team contract / example</span><span>Signed at discovery</span></div>
+          <div class="blueprint-body">
+            <div class="contract-row"><b>Workflow</b><span>Monthly GST filing prep</span></div>
+            <div class="contract-row"><b>Owns</b><span>Books organisation, missing-doc chase, packet assembly</span></div>
+            <div class="contract-row"><b>Does not own</b><span>Filing, client advice, sign-off</span></div>
+            <div class="contract-row"><b>Good looks like</b><span>Partner signs in one review. No document found missing after review.</span></div>
+            <div class="contract-row"><b>Fails when</b><span>A missing invoice is discovered post-review, or the filing date slips</span></div>
+            <div class="contract-row"><b>Reviewed by</b><span>Partner, monthly</span></div>
+            <div class="contract-row"><b>We track</b><span>Opened / edit level / review minutes / repeat run</span></div>
+          </div>
+          <div class="connector">Weeks 1–3 are calibration. The team is tuned, not scored.</div>
+        </div>
+        <div class="teams-intro" style="margin-top:24px">
+          <p>We do not grade the team in its first weeks. Everything looks rough, the firm loses nerve, and the account dies before the loop closes. Scoring starts after calibration.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="blueprint method-pipe" aria-label="How the packet is made">
+          <div class="blueprint-head"><span>How the packet is made</span><span>04 specialists</span></div>
+          <div class="blueprint-body">
+            <div class="agent-row" style="--agent:var(--purple)"><div class="agent-id">01</div><div><strong>Archivist</strong><small>Reads your knowledge and decisions</small></div><span class="agent-state">GROUND</span></div>
+            <div class="agent-row" style="--agent:var(--blue)"><div class="agent-id">02</div><div><strong>Planner</strong><small>Breaks work into accountable steps</small></div><span class="agent-state">PLAN</span></div>
+            <div class="agent-row" style="--agent:var(--red)"><div class="agent-id">03</div><div><strong>Challenger</strong><small>Finds weak assumptions before delivery</small></div><span class="agent-state">DEBATE</span></div>
+            <div class="agent-row" style="--agent:var(--green)"><div class="agent-id">04</div><div><strong>Verifier</strong><small>Checks output against your standard</small></div><span class="agent-state">GATE</span></div>
+          </div>
+          <div class="connector">Shared context → one accountable outcome</div>
+        </div>
+      </div>
+      <div class="wrap service-grid">
+        <div class="sticky-copy">
+          <span class="eyebrow">Our method</span>
+          <h2>The lab architecture behind <span class="accent">every product.</span></h2>
+          <p class="lede">Whether we are shipping analyzthis_design, building analyzthis_product, or designing a custom team for your workflow, the method stays the same: encode accountability around the task.</p>
+          <a href="#intake" class="btn dark">Map one workflow</a>
+        </div>
+        <div class="steps">
+          <article class="step" style="--step:var(--orange-soft)"><div class="step-no">01</div><div><small>Discover</small><h3>Map the real workflow</h3><p>We identify the repeated task, inputs, expert decisions, tools, failure points, and the outcome that matters.</p></div></article>
+          <article class="step" style="--step:#dfe7ff"><div class="step-no">02</div><div><small>Architect</small><h3>Assign specialist roles</h3><p>Each agent gets one allowed job, explicit boundaries, the right context, and a handoff contract—no vague “do everything” prompts.</p></div></article>
+          <article class="step" style="--step:#e2f5e9"><div class="step-no">03</div><div><small>Ground</small><h3>Connect your knowledge</h3><p>PRDs, SOPs, reference files, brand rules, research, and prior decisions become scoped context instead of one oversized prompt.</p></div></article>
+          <article class="step" style="--step:#ffe3e1"><div class="step-no">04</div><div><small>Challenge</small><h3>Build in disagreement</h3><p>Critical roles review claims, ask for evidence, and escalate deadlocks. Agreement must be earned, not assumed.</p></div></article>
+          <article class="step" style="--step:#fff5be"><div class="step-no">05</div><div><small>Verify</small><h3>Gate the outcome</h3><p>Your quality rules become explicit checks. The team returns a verdict, risks, and next actions—not just a polished paragraph.</p></div></article>
+          <article class="step" style="--step:#eee3fb"><div class="step-no">06</div><div><small>Evolve</small><h3>Learn with your approval</h3><p>Accepted outputs and confirmed outcomes can propose improvements. You review every change before the team evolves.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow light">Same method, already shipped</span>
+          <h2>We use it on <span class="accent">ourselves first.</span></h2>
+          <p class="lede">Every method on this page already runs in our own products. Same roles, same gates, same human sign-off.</p>
+        </div>
+        <div class="products">
+          <article class="product">
+            <div class="product-top">
+              <div><span class="product-code">analyzthis_design</span><h3>Design team</h3></div>
+              <span class="product-status live">Live · open source · v2.7.0</span>
+            </div>
+            <p>Eight specialists in Cursor, Claude Code, OpenCode, Kiro, Trae and more. Wireframes, SHIP / REVISE / BLOCK critiques, and mood boards you decide on. Free. Read every file.</p>
+            <a class="btn primary" href="/">Meet the design team <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="product">
+            <div class="product-top">
+              <div><span class="product-code">analyzthis_product</span><h3>Product workflow team</h3></div>
+              <span class="product-status lab">In development</span>
+            </div>
+            <p>Specialist roles for product discovery, PRD shaping, roadmap pressure-testing, and delivery-quality review. Not a download yet.</p>
+            <a class="btn" href="#intake">Ask about early access</a>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="capabilities">
+      <div class="wrap">
+        <div class="section-head center">
+          <span class="eyebrow light">Lab architecture</span>
+          <h2>More than a folder of <span class="accent">prompts.</span></h2>
+          <p class="lede">These are implemented capabilities across Analyzthis lab products. The same architecture powers shipped products and the custom teams we design for clients.</p>
+        </div>
+        <div class="cards">
+          <article class="card" style="--tag:var(--purple)"><span class="card-tag">Knowledge</span><h3>Scoped project memory</h3><p>Collect source material into a knowledge bank, then give each role only the context relevant to its job.</p></article>
+          <article class="card" style="--tag:var(--blue)"><span class="card-tag">Planning</span><h3>Chunked execution</h3><p>A strong planner stays strong. Chunks pick cheap local, free, or paid models. Slash commands do not — they use the model already in your chat. <a href="/#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">See how models are picked</a>.</p></article>
+          <article class="card" style="--tag:var(--red)"><span class="card-tag">Quality</span><h3>Adversarial review</h3><p>Agents cite specific claims, raise grounded objections, and require evidence before accepting prior work.</p></article>
+          <article class="card" style="--tag:var(--green)"><span class="card-tag">Control</span><h3>Hard quality gates</h3><p>Critical checks never downgrade. A failed standard becomes a blocker and an actionable correction.</p></article>
+          <article class="card" style="--tag:var(--orange)"><span class="card-tag">Portability</span><h3>Works where you work</h3><p>Slash commands in Cursor, Claude Code, OpenCode, Kiro, Trae and similar tools — plus a copy-in prompt for Lovable, v0, Bolt, Replit, and ChatGPT. Custom teams live in the tools your firm already uses.</p></article>
+          <article class="card" style="--tag:var(--cyan)"><span class="card-tag">Learning</span><h3>Human-reviewed evolution</h3><p>Accepted work and confirmed outcomes can suggest lessons, routing changes, and reference updates—never silently.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="examples">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Built for small firms</span>
+          <h2>Real teams for <span class="accent">real firms.</span></h2>
+          <p class="lede">We build for MSMEs—architectural studios, CA practices, clinics, and other small firms where the same work repeats every week and partners still review everything.</p>
+        </div>
+        <div class="teams-intro">
+          <p>These are example teams, not off-the-shelf products. Each firm gets the smallest useful roster around the work humans already do—briefs, filings, follow-ups, checklists, and client updates.</p>
+        </div>
+        <div class="teams">
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Architectural firm</span><h3>Drawing &amp; submission team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">8–20 people</span></div>
+            <p class="team-workload">Work humans usually do: turn briefs into drawing sets, track municipal submissions, and prepare site-meeting notes.</p>
+            <ul>
+              <li>Check drawing sets against the client brief before partner review</li>
+              <li>Track municipal submission deadlines and missing sheets</li>
+              <li>Compare vendor BOQs before sign-off</li>
+              <li>Prepare site-meeting notes from field photos and mark-ups</li>
+            </ul>
+            <p class="team-foot">Partner still approves every submission.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">CA firm</span><h3>Books &amp; compliance team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">5–15 people</span></div>
+            <p class="team-workload">Work humans usually do: organize client books, chase missing documents, and prepare filing packets before the partner signs.</p>
+            <ul>
+              <li>Organize client books before GST and audit work begins</li>
+              <li>Flag missing invoices and ledger mismatches early</li>
+              <li>Draft client reminder letters for pending documents</li>
+              <li>Prepare monthly partner review packets</li>
+            </ul>
+            <p class="team-foot">Partner still signs every filing.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Interior design studio</span><h3>Client delivery team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">6–12 people</span></div>
+            <p class="team-workload">Work humans usually do: build material schedules, compare vendor quotes, and keep site progress aligned with the design intent.</p>
+            <ul>
+              <li>Build room-wise material schedules from mood boards</li>
+              <li>Compare vendor quotes line by line</li>
+              <li>Track site progress against the approved design</li>
+              <li>Prepare client presentation decks for approvals</li>
+            </ul>
+            <p class="team-foot">Designer still owns the final look and client relationship.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Dental clinic</span><h3>Patient care team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">4–10 people</span></div>
+            <p class="team-workload">Work humans usually do: prepare visit summaries, track treatment plans, and keep insurance and follow-up paperwork moving.</p>
+            <ul>
+              <li>Prepare patient visit summaries before the doctor enters</li>
+              <li>Track treatment plans and follow-up dates</li>
+              <li>Organize insurance paperwork for billing staff</li>
+              <li>Send post-visit care instructions consistently</li>
+            </ul>
+            <p class="team-foot">Doctor still makes every clinical decision.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Law chamber</span><h3>Case preparation team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">3–8 people</span></div>
+            <p class="team-workload">Work humans usually do: organize case facts, track filing dates, and draft first-pass client updates for senior counsel.</p>
+            <ul>
+              <li>Organize case facts from client documents</li>
+              <li>Track filing dates and court deadlines</li>
+              <li>Draft first-pass client update emails</li>
+              <li>Prepare hearing briefs for senior counsel review</li>
+            </ul>
+            <p class="team-foot">Counsel still argues every case.</p>
+          </article>
+          <article class="team">
+            <div class="team-top"><div><span class="team-label">Manufacturing SME</span><h3>Orders &amp; accounts team</h3></div></div>
+            <div class="team-meta"><span class="team-badge">MSME</span><span class="team-badge">15–40 people</span></div>
+            <p class="team-workload">Work humans usually do: match purchase orders to invoices, follow up on dispatch, and flag stock and payment issues before month-end.</p>
+            <ul>
+              <li>Match purchase orders to incoming invoices</li>
+              <li>Track dispatch and delivery follow-ups</li>
+              <li>Prepare weekly stock and reorder notes</li>
+              <li>Flag vendor payment mismatches before accounts closes</li>
+            </ul>
+            <p class="team-foot">Owner still approves payments and orders.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section trust">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow light">Control and trust</span><h2>Automation without <span class="accent">abdication.</span></h2><p class="lede" style="color:#d7d3ca">Lab products ship as plain source with consent-based evolution. Custom teams can follow the same principles.</p></div>
+        <div class="trust-grid">
+          <article class="trust-item"><b>Clear boundaries</b><p>Every role has allowed jobs, forbidden jobs, and an explicit output contract.</p></article>
+          <article class="trust-item"><b>Human checkpoints</b><p>Assess-only modes and approval gates keep implementation under your control.</p></article>
+          <article class="trust-item"><b>Model choice</b><p>Use host models, local Ollama, free endpoints, or selected paid providers based on the task.</p></article>
+          <article class="trust-item"><b>Auditable system</b><p>Lab products like analyzthis_design ship readable source with no hidden auto-install behavior.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow light">Questions</span><h2>Before we map your <span class="accent">workflow.</span></h2></div>
+        <div class="faq">
+          <details><summary>Is Analyzthis just one product?</summary><p>No. Analyzthis is a lab. We ship focused team products such as analyzthis_design and analyzthis_product, and we also design custom teams when a workflow needs its own roster.</p></details>
+          <details><summary>Is this a generic chatbot setup service?</summary><p>No. The unit of design is the workflow: specialist roles, scoped knowledge, handoffs, failure behavior, quality gates, and outcome feedback. A chat interface may be one entry point, but it is not the architecture.</p></details>
+          <details><summary>Does every workflow need many agents?</summary><p>No. We use the smallest useful team. A narrow process may need two roles and one gate. Extra agents add coordination cost, so every role must earn its place.</p></details>
+          <details><summary>Will you replace our current tools?</summary><p>Usually not. The goal is to work inside or alongside the tools your team already trusts. Discovery includes your current software, data boundaries, and deployment constraints.</p></details>
+          <details><summary>Is the design team part of this?</summary><p>No. analyzthis_design is a separate, free, open-source product for people who design software. A custom team is built for your firm's own workflow. <a href="/" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">Meet the design team</a>.</p></details>
+          <details><summary>Do we need Cursor or Claude?</summary><p>No. A custom team for a firm does not ask you to install a coding tool. We start from the software you already open. Only our open-source design team runs inside tools such as Cursor, Claude Code, OpenCode, Kiro or Trae &mdash; <a href="/#install" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">pick yours on the home page</a>.</p></details>
+          <details><summary>Can this run without paid model APIs?</summary><p>Lab products such as analyzthis_design support a host-AI mode with no separate API keys, plus local and free-model routes. In chat, personas use the model already in Cursor or Claude. Automatic model picking happens only on the CLI <code>run</code> command. Your final setup depends on volume, privacy needs, latency, and required model quality. <a href="/#models" style="font-weight:900;text-decoration:underline;text-underline-offset:3px">How models are picked</a>.</p></details>
+          <details><summary>How do you keep quality under human control?</summary><p>We define assess-only stages, approval gates, explicit verdicts, and human-reviewed evolution. The system can recommend a change; you decide whether it becomes canonical.</p></details>
+          <details><summary>What happens after I submit the form?</summary><p>We review the workflow, tools, and desired outcome you describe. If the use case is a fit, the confirmation screen will invite you to book a discovery call.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intake" id="intake">
+      <div class="wrap intake-grid">
+        <div class="intake-copy">
+          <span class="eyebrow">Start with the workflow</span>
+          <h2>What should your team <span class="accent" style="color:#fff">take off your plate?</span></h2>
+          <p class="lede">Tell us about one repeatable workflow. We will use the detail to prepare a focused discovery conversation—not a generic sales call.</p>
+          <div class="privacy-note"><strong>What we collect:</strong><span>Contact details and workflow answers, saved as you go—even if you leave before the last step. Form views are counted on our own server; no cookies or third-party trackers.</span></div>
+        </div>
+        <div class="form-shell">
+          <div class="form-head"><strong>Team discovery</strong><span class="progress" id="progress-label">Step 1 of 3</span></div>
+          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+          <form id="lead-form" novalidate>
+            <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+            <section class="form-step" data-step="1" aria-labelledby="step-one-title">
+              <h3 id="step-one-title">First, who are we designing for?</h3>
+              <div class="field-grid">
+                <div class="field"><label for="fullName">Full name <span class="required">*</span></label><input id="fullName" name="fullName" type="text" autocomplete="name" maxlength="100" required><span class="error" id="fullName-error"></span></div>
+                <div class="field"><label for="email">Work email <span class="required">*</span></label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="160" required><span class="error" id="email-error"></span></div>
+                <div class="field"><label for="company">Company / organization</label><input id="company" name="company" type="text" autocomplete="organization" maxlength="120"><span class="error" id="company-error"></span></div>
+                <div class="field"><label for="role">Profession / role <span class="required">*</span></label><input id="role" name="role" type="text" autocomplete="organization-title" maxlength="120" placeholder="e.g. Architect, CA partner, clinic owner" required><span class="error" id="role-error"></span></div>
+              </div>
+              <div class="form-actions"><span></span><button class="btn primary" type="button" data-next>Continue <span aria-hidden="true">→</span></button></div>
+            </section>
+            <section class="form-step" data-step="2" aria-labelledby="step-two-title" hidden>
+              <h3 id="step-two-title">Now, map the work.</h3>
+              <div class="field-grid">
+                <div class="field full"><label for="workflow">Which repeatable workflow should move faster? <span class="required">*</span></label><textarea id="workflow" name="workflow" maxlength="1200" placeholder="Describe the trigger, inputs, decisions, and current output." required></textarea><span class="error" id="workflow-error"></span></div>
+                <div class="field full"><label for="tools">What tools and information does it use?</label><input id="tools" name="tools" type="text" maxlength="400" placeholder="e.g. Google Drive, Notion, HubSpot, internal SOPs"><span class="error" id="tools-error"></span></div>
+                <div class="field"><label for="frequency">How often does this happen? <span class="required">*</span></label><select id="frequency" name="frequency" required><option value="">Select one</option><option>Multiple times a day</option><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Ad hoc</option></select><span class="error" id="frequency-error"></span></div>
+                <div class="field"><label for="teamSize">People involved</label><select id="teamSize" name="teamSize"><option value="">Select one</option><option>Just me</option><option>2–5</option><option>6–20</option><option>21–100</option><option>100+</option></select><span class="error" id="teamSize-error"></span></div>
+                <div class="field"><label for="timeline">When would you like to start?</label><select id="timeline" name="timeline"><option value="">Select one</option><option>As soon as possible</option><option>Within 30 days</option><option>Within 3 months</option><option>Exploring for later</option></select><span class="error" id="timeline-error"></span></div>
+              </div>
+              <div class="form-actions"><button class="btn" type="button" data-back><span aria-hidden="true">←</span> Back</button><button class="btn primary" type="button" data-next>Continue <span aria-hidden="true">→</span></button></div>
+            </section>
+            <section class="form-step" data-step="3" aria-labelledby="step-three-title" hidden>
+              <h3 id="step-three-title">How will we know it worked?</h3>
+              <div class="field-grid">
+                <div class="field full"><label for="successSignal">How do you know this workflow succeeded today?</label><textarea id="successSignal" name="successSignal" maxlength="800" placeholder="e.g. Partner signed the GST packet in one review."></textarea><span class="error" id="successSignal-error"></span></div>
+                <div class="field full"><label for="failureMode">What goes wrong most often?</label><textarea id="failureMode" name="failureMode" maxlength="600" placeholder="e.g. A missing invoice turns up after the partner has already reviewed."></textarea><span class="error" id="failureMode-error"></span></div>
+                <div class="field full"><label for="outcome">What would “worth paying for” look like in 90 days? <span class="required">*</span></label><textarea id="outcome" name="outcome" maxlength="800" placeholder="e.g. Filings on time, partner review under 20 minutes, no missing docs after sign-off." required></textarea><span class="error" id="outcome-error"></span></div>
+                <div class="field full check"><input id="consent" name="consent" type="checkbox" required><div><label for="consent">I agree to be contacted about this inquiry. <span class="required">*</span></label><div class="error" id="consent-error"></div></div></div>
+              </div>
+              <div class="form-actions"><button class="btn" type="button" data-back><span aria-hidden="true">←</span> Back</button><button class="btn primary" type="submit" id="submit-lead">Send my workflow</button></div>
+              <p class="form-note">Please do not submit confidential client information, credentials, health data, financial account data, or other sensitive personal information.</p>
+            </section>
+          </form>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+          <div class="success-panel" id="success-panel" hidden>
+            <div class="success-mark" aria-hidden="true">✓</div>
+            <h3>Your workflow is in the queue.</h3>
+            <p>Thank you. The next step is a focused discovery call to map the roles, knowledge, and quality gates your team needs.</p>
+            <a class="btn primary" id="booking-link" href="#" target="_blank" rel="noopener" aria-disabled="true">Booking link coming soon</a>
+            <p class="form-note" id="booking-note">Calendar booking is not configured yet. We will contact you using the email submitted above.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <div><a class="brand" href="/" aria-label="Analyzthis Lab home"><img src="logo.svg" alt="AnalyzThis"></a><br><small>Analyzthis Lab · Agent systems for professional work.</small></div>
+      <div class="footer-links"><a href="/">Design team</a><a href="#examples">Example teams</a><a href="#method">Method</a><a href="#measure">Measure</a><a href="#lab">Our products</a><a href="#faq">FAQ</a><a href="#intake">Start inquiry</a><a href="https://github.com/joshirishi/analyzthis_design" target="_blank" rel="noopener">GitHub</a></div>
+      <small>Analyzthis Lab · analyzthis_design v2.7.0 · MIT</small>
+    </div>
+  </footer>
+
+  <script>
+    // Leads go to /api/lead, which writes to Airtable. Booking is a Google Calendar appointment page.
+    const LEAD_ENDPOINT = "/api/lead";
+    const BOOKING_URL = "https://calendar.app.google/KtKJ7hCAx1duA8m58";
+    const MOCK_MODE = new URLSearchParams(window.location.search).get("form") === "mock";
+
+    const menuButton = document.querySelector(".menu-btn");
+    const navPanel = document.getElementById("nav-links");
+    const navLinks = navPanel.querySelectorAll("a");
+    const setMenu = (open) => {
+      document.body.classList.toggle("menu-open", open);
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+      menuButton.textContent = open ? "CLOSE" : "MENU";
+      navPanel.toggleAttribute("inert", !open);
+      navPanel.setAttribute("aria-hidden", String(!open));
+    };
+    menuButton.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+    navLinks.forEach(link => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setMenu(false);
+    });
+
+    const form = document.getElementById("lead-form");
+    const steps = [...document.querySelectorAll(".form-step")];
+    const totalSteps = steps.length;
+    const statusBox = document.getElementById("form-status");
+    const progressLabel = document.getElementById("progress-label");
+    const progressFill = document.getElementById("progress-fill");
+    const submitButton = document.getElementById("submit-lead");
+    let activeStep = 1;
+    let savedComplete = false;
+
+    const stepFields = step => [...document.querySelector(`[data-step="${step}"]`).querySelectorAll("input, select, textarea")].filter(field => field.id !== "website");
+
+    const showStep = step => {
+      activeStep = step;
+      steps.forEach(section => { section.hidden = Number(section.dataset.step) !== step; });
+      progressLabel.textContent = `Step ${step} of ${totalSteps}`;
+      progressFill.style.width = `${(step / totalSteps) * 100}%`;
+      const heading = document.querySelector(`[data-step="${step}"] h3`);
+      heading.setAttribute("tabindex", "-1");
+      heading.focus();
+    };
+
+    const setError = (field, message) => {
+      field.setAttribute("aria-invalid", message ? "true" : "false");
+      field.setAttribute("aria-describedby", `${field.id}-error`);
+      document.getElementById(`${field.id}-error`).textContent = message;
+    };
+
+    const validateFields = fields => {
+      let valid = true;
+      fields.forEach(field => {
+        let message = "";
+        if (field.required && field.type === "checkbox" && !field.checked) message = "Please confirm before submitting.";
+        else if (field.required && !field.value.trim()) message = "This field is required.";
+        else if (field.type === "email" && field.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) message = "Enter a valid work email.";
+        else if (field.id === "workflow" && field.value.trim().length > 0 && field.value.trim().length < 20) message = "Add a little more detail so we can understand the workflow.";
+        setError(field, message);
+        if (message && valid) { field.focus(); valid = false; }
+      });
+      return valid;
+    };
+
+    form.addEventListener("click", event => {
+      if (event.target.closest("[data-next]")) {
+        if (!validateFields(stepFields(activeStep))) return;
+        // Save what they have now so a drop-off still appears in Airtable.
+        sendLead("partial", activeStep);
+        showStep(activeStep + 1);
+      }
+      if (event.target.closest("[data-back]")) showStep(Math.max(1, activeStep - 1));
+    });
+    form.querySelectorAll("input, select, textarea").forEach(field => {
+      field.addEventListener("blur", () => { if (field.id !== "website") validateFields([field]); });
+      field.addEventListener("input", () => { if (field.getAttribute("aria-invalid") === "true") validateFields([field]); });
+    });
+
+    const getTracking = () => {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        source: document.referrer || "direct",
+        pageUrl: window.location.href,
+        utmSource: params.get("utm_source") || "",
+        utmMedium: params.get("utm_medium") || "",
+        utmCampaign: params.get("utm_campaign") || ""
+      };
+    };
+
+    // Count how many visitors actually reach the form. First-party, no cookies, fired once per page view.
+    const countFormView = () => {
+      if (MOCK_MODE || !("IntersectionObserver" in window) || !navigator.sendBeacon) return;
+      const watcher = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        watcher.disconnect();
+        const body = JSON.stringify({ event: "form_view", submittedAt: new Date().toISOString(), ...getTracking() });
+        navigator.sendBeacon(LEAD_ENDPOINT, new Blob([body], { type: "application/json" }));
+      }, { threshold: 0.3 });
+      watcher.observe(document.getElementById("intake"));
+    };
+    countFormView();
+
+    const buildPayload = (status, lastStep) => {
+      const payload = Object.fromEntries(new FormData(form).entries());
+      payload.consent = document.getElementById("consent").checked;
+      payload.submittedAt = new Date().toISOString();
+      payload.status = status;
+      payload.lastStep = String(lastStep);
+      Object.assign(payload, getTracking());
+      return payload;
+    };
+
+    // Writes to our server, which then writes to Airtable. Empty fields do not wipe earlier answers.
+    const sendLead = async (status, lastStep, useBeacon) => {
+      if (MOCK_MODE || savedComplete) return;
+      const body = JSON.stringify(buildPayload(status, lastStep));
+      if (useBeacon && navigator.sendBeacon) {
+        navigator.sendBeacon(LEAD_ENDPOINT, new Blob([body], { type: "application/json" }));
+        return;
+      }
+      const response = await fetch(LEAD_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body
+      });
+      if (status !== "complete") return;
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "We could not save your inquiry. Please try again.");
+      }
+    };
+
+    // If they close the tab after entering a name and email, still keep the row.
+    window.addEventListener("pagehide", () => {
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      if (name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) sendLead("partial", activeStep, true);
+    });
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!validateFields(stepFields(activeStep))) return;
+      statusBox.className = "form-status";
+      statusBox.textContent = "";
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending…";
+
+      try {
+        if (MOCK_MODE) await new Promise(resolve => setTimeout(resolve, 450));
+        else await sendLead("complete", totalSteps);
+        savedComplete = true;
+        form.hidden = true;
+        document.getElementById("success-panel").hidden = false;
+        progressLabel.textContent = "Complete";
+        progressFill.style.width = "100%";
+        statusBox.textContent = "Your information was submitted successfully.";
+        statusBox.classList.add("success-state");
+        const booking = document.getElementById("booking-link");
+        if (BOOKING_URL) {
+          booking.href = BOOKING_URL;
+          booking.textContent = "Book a discovery call";
+          booking.removeAttribute("aria-disabled");
+          document.getElementById("booking-note").textContent = "Pick a time on the calendar. It lands on our Google Calendar.";
+        } else {
+          booking.addEventListener("click", e => e.preventDefault());
+        }
+      } catch (error) {
+        statusBox.textContent = error.message || "We could not submit the form. Please try again.";
+        statusBox.classList.add("error-state");
+        submitButton.disabled = false;
+        submitButton.textContent = "Send my workflow";
+      }
+    });
+  </script>
+</body>
+</html>
